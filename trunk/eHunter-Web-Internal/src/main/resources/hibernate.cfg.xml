@@ -4,12 +4,5 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.query.factory_class">
-            org.hibernate.hql.classic.ClassicQueryTranslatorFactory
-		</property>
-		
-		<mapping class="com.pccw.springframework.repository.OfficeUser"></mapping>
-		<mapping class="com.pccw.springframework.repository.EmailMessage"></mapping>
-		<mapping class="com.pccw.springframework.repository.OfficeRole"></mapping>
 	</session-factory>
 </hibernate-configuration>
