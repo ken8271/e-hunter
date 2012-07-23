@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="no">
+	
+	<bean id="keyFactory" class="org.hdiv.cipher.KeyFactory">
+		<property name="algorithm">
+			<value>AES</value>
+		</property>
+		<property name="keySize">
+			<value>128</value>
+		</property>		
+		<property name="prngAlgorithm">
+			<value>IBMSecureRandom</value>
+		</property>
+		<property name="provider">
+			<value>IBMJCE</value>
+		</property>
+	</bean>
+	
+	<!--LOGGER -->
+	<bean id="userData" class="org.hdiv.logs.UserData" scope="prototype" />
+	<bean id="logger" class="org.hdiv.logs.Logger" scope="prototype">
+		<property name="userData">
+			<ref bean="userData" />
+		</property>
+	</bean>
+
+	<bean id="cache" class="org.hdiv.session.StateCache" scope="prototype" init-method="init">
+		<property name="maxSize">
+			<value>200</value>
+		</property>
+	</bean>
+	
+	<bean id="encoding" class="org.hdiv.util.EncodingUtil" scope="prototype" init-method="init" />
+
+	<!--CONTEXT BEANS -->
+	<bean id="sessionHDIV" class="org.hdiv.session.SessionHDIV" scope="prototype" init-method="init">
+		<property name="cipherName">
+			<value>cipher</value>
+		</property>
+		<property name="requestName">
+			<value>stateId</value>
+		</property>
+		<property name="cacheName">
+			<ref bean="cacheName" />
+		</property>
+		<property name="keyName">
+			<ref bean="keyName" />
+		</property>
+	</bean>
+
+	<bean id="application" class="org.hdiv.application.ApplicationHDIV" />
+    
+	<!-- CIPHER BEANS -->
+	<bean id="cipher" class="org.hdiv.cipher.CipherHTTP" init-method="init">
+		<property name="transformation">
+			<value>AES/CBC/PKCS5Padding</value>
+		</property>
+	</bean>
+
+	<bean id="results" class="org.hdiv.dataValidator.ValidationResult" scope="prototype" />
+
+	<bean id="stateUtil" class="org.hdiv.state.StateUtil" scope="prototype" init-method="init">
+		<property name="encodingUtil"><ref bean="encoding" /></property>
+		<property name="strategy"><ref bean="strategy" /></property>
+	</bean>
+
+	<bean id="validatorHelper" class="org.hdiv.filter.ValidatorHelperRequest" scope="prototype">
+		<property name="logger"><ref bean="logger" /></property>
+		<property name="stateUtil"><ref bean="stateUtil" /></property>
+	</bean>
+
+	<bean id="dataComposerMemory"  class="org.hdiv.dataComposer.DataComposerMemory" scope="prototype" init-method="init">
+		<property name="application"><ref bean="application"/></property>
+		<property name="confidentiality"><ref bean="confidentiality" /></property>
+	</bean>
+
+	<bean id="dataComposerCipher" class="org.hdiv.dataComposer.DataComposerCipher" scope="prototype" init-method="init">
+		<property name="application"><ref bean="application" /></property>
+		<property name="encodingUtil"><ref bean="encoding" /></property>
+		<property name="allowedLength"><value>4000</value></property>
+		<property name="confidentiality"><ref bean="confidentiality" /></property>
+	</bean>
+	
+	<bean id="dataComposerHash"  class="org.hdiv.dataComposer.DataComposerHash" scope="prototype" init-method="init">
+		<property name="application"><ref bean="application"/></property>
+		<property name="encodingUtil"><ref bean="encoding" /></property>
+		<property name="allowedLength"><value>4000</value></property>		
+		<property name="confidentiality"><ref bean="confidentiality" /></property>		
+	</bean>	
+
+	<bean id="dataValidator" class="org.hdiv.dataValidator.DataValidator" scope="prototype">
+		<property name="validationResult">
+			<ref bean="results" />
+		</property>
+		<property name="confidentiality"><ref bean="confidentiality" /></property>
+	</bean>
+
+	<bean id="hdivParameter" class="java.lang.String">
+         <constructor-arg>
+               <value>_HDIV_STATE_</value>
+          </constructor-arg>  
+    </bean>
+
+	<bean id="cacheName" class="java.lang.String">
+         <constructor-arg>
+               <value>cache</value>
+          </constructor-arg>  
+    </bean>    
+
+	<bean id="keyName" class="java.lang.String">
+         <constructor-arg>
+               <value>key</value>
+          </constructor-arg>
+    </bean>  
+    
+    <bean id="multipartResolver" class="org.hdiv.web.multipart.HDIVMultipartResolver">	
+	    <property name="maxUploadSize" value="100000"/>
+	</bean>
+	
+	<bean id="multipartConfig" class="org.hdiv.config.multipart.SpringMVCMultipartConfig">
+    	<property name="multipartResolver"><ref bean="multipartResolver" /></property>
+    </bean>
+</beans>
+

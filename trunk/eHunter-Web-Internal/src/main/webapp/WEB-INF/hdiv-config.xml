@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="no">
+
+
+    <!--  CONFIDENTIALITY  -->
+   	<bean id="confidentiality" class="java.lang.Boolean">
+         <constructor-arg>
+               <value>false</value>
+          </constructor-arg>
+    </bean>
+
+    <!--  COOKIES INTEGRITY  -->
+   	<bean id="avoidCookiesIntegrity" class="java.lang.Boolean">
+         <constructor-arg>
+               <value>false</value>
+          </constructor-arg>
+    </bean>
+
+    <!--  COOKIES CONFIDENTIALITY  -->    
+   	<bean id="avoidCookiesConfidentiality" class="java.lang.Boolean">
+         <constructor-arg>
+               <value>false</value>
+          </constructor-arg>
+    </bean>     
+
+    <!--  STRATEGY  -->
+   	<bean id="strategy" class="java.lang.String">
+         <constructor-arg>
+               <value>memory</value>
+          </constructor-arg>
+    </bean>
+    
+    <!--  RANDOM NAME FOR HDIV PARAMETER -->
+   	<bean id="randomName" class="java.lang.Boolean">
+         <constructor-arg>
+               <value>false</value>
+          </constructor-arg>
+    </bean>
+
+	<!--  HDIV Configuration Bean  -->
+	<bean id="config" class="org.hdiv.config.HDIVConfig">
+	
+		<property name="userStartParameters">			
+			<list></list>
+		</property>
+		
+		<property name="userStartPages">
+			<list>
+				<value>/index.do</value>
+				<value>/login.do</value>
+				<value>/logout.do</value>
+			</list>			
+		</property>
+
+		<property name="errorPage">
+			<value>/commons/403.jsp</value>
+		</property>
+		
+		<property name="confidentiality">
+			<ref bean="confidentiality" />
+		</property>
+		
+		<property name="paramsWithoutValidation">
+			<map>
+				<entry key="/.*.do">
+					<list>
+						<value>url</value>
+						<value>.*_mr_</value>
+					</list>
+				</entry>
+				<entry key="/.*/.*.do">
+					<list>
+						<value>url</value>
+						<value>maxRows</value>
+						<value>_.*_tr_</value>
+						<value>_.*_p_</value>
+						<value>_.*_mr_</value>
+						<value>_.*_s_.*_.*</value>
+						<value>pageIndex</value>
+						<value>jmesaDto.currSelect</value>
+						<value>jmesaDto.select</value>
+						<value>actionFlag</value>
+					</list>
+				</entry>
+			</map>
+		</property>		
+		
+		<property name="validations">
+			<ref bean="editableParemetersValidations" />
+		</property>
+		
+		<property name="cookiesIntegrity">
+			<ref bean="avoidCookiesIntegrity" />
+		</property>
+		
+		<property name="cookiesConfidentiality">
+			<ref bean="avoidCookiesConfidentiality" />
+		</property>	
+			
+		<property name="protectedExtensions">			
+			<list>
+				<value>.*.jsp</value>		
+				<value>.*.do</value>								
+			</list>
+		</property>							
+	</bean>
+    
+</beans>
+
