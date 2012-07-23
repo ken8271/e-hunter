@@ -1,0 +1,18 @@
+label.error {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif"; 
+	font-weight: normal; 
+	color:#CC0000;
+	/*background: transparent url(images/unchecked.gif) no-repeat scroll 0 0;
+	padding-left: 18px;*/
+}
+
+label.checked {
+	background: transparent url(images/icon/checked.gif) no-repeat scroll 0 0;
+}
+input.error {
+	border: 1px solid #CC0000;
+	background-color:#FFFFDD;
+}
+
+
+
