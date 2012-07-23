@@ -23,9 +23,6 @@
 							 authentication-failure-url="/login.do?login_error=1" 
 							 always-use-default-target="true"/>
 		<security:logout logout-success-url="/login.do" invalidate-session="true"/>
-		<security:intercept-url pattern="/message/**" access="ROLE_USER,ROLE_ADMIN"/>
-		<security:intercept-url pattern="/index.do" access="ROLE_USER,ROLE_ADMIN"/>
-		<security:intercept-url pattern="/authentication/**" access="ROLE_ADMIN"/>
 	</security:http>
 	
 	<security:authentication-manager>
