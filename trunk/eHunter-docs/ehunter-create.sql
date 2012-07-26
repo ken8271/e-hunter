@@ -75,7 +75,7 @@ CREATE TABLE T_CUST_CO (
   OFCL_SITE varchar(50) COMMENT '官方网站',
   CO_TEL_EXCHG varchar(12) COMMENT '公司总机',
   CO_TY varchar(2) COMMENT '公司性质',
-  CO_SZ int COMMENT '公司规模',
+  CO_SZ varchar(3) COMMENT '公司规模',
   GP_FLAG varchar(1) COMMENT '是否集团客户',
   SYS_REF_GP varchar(9) COMMENT '集团编号',
   CR_BY varchar(10) COMMENT '创建人',
@@ -159,7 +159,7 @@ CREATE TABLE T_TLNT_BS_INF (
   HM_ADDR varchar(300) COMMENT '家庭地址',
   HGST_DGRE varchar(3) COMMENT '最高学历',
   SELF_EVAL varchar(300) COMMENT '自我评价',
-  TLNT_SRC int COMMENT '人才来源',
+  TLNT_SRC varchar(3) COMMENT '人才来源',
   CR_BY varchar(10) COMMENT '创建人',
   CR_DTTM date COMMENT '创建时间',
   LST_UPD_BY varchar(10) COMMENT '最近更新人',
@@ -194,7 +194,7 @@ CREATE TABLE T_TLNT_JOB_EXP (
   LEV_DTTM date COMMENT '离职时间',
   CO_NM varchar(50) COMMENT '公司名称',
   CO_TY varchar(2) COMMENT '企业性质',
-  CO_SCOP int COMMENT '企业规模',
+  CO_SCOP varchar(3) COMMENT '企业规模',
   IND_TY varchar(3) COMMENT '行业类别',
   DEPT_NM varchar(50) COMMENT '部门名称',
   POST_TY varchar(3) COMMENT '职位类别',
@@ -590,7 +590,7 @@ CREATE TABLE T_CO_TY (
 
 ##T_CO_SZ
 CREATE TABLE T_CO_SZ (
-  CO_SZ_ID int NOT NULL COMMENT '企业规模编号',
+  CO_SZ_ID varchar(3) COMMENT '企业规模编号',
   DISP_NM varchar(30) NOT NULL COMMENT '显示名称',
   CD_DESC varchar(100) COMMENT '代号描述',
   DISP_SEQ_NBR int COMMENT '显示顺序',
@@ -684,7 +684,7 @@ CREATE TABLE T_DGRE (
 
 ##T_TLNT_SRC
 CREATE TABLE T_TLNT_SRC (
-  SRC_ID int NOT NULL AUTO_INCREMENT COMMENT '人才来源编号',
+  SRC_ID varchar(3) COMMENT '人才来源编号',
   DISP_NM varchar(50) NOT NULL COMMENT '显示名称',
   OFCL_SITE varchar(50) COMMENT '官方网站',
   DISP_SEQ_NBR int COMMENT '显示顺序',
@@ -834,7 +834,7 @@ CREATE TABLE T_ANUL_WELF (
 
 ##T_CD_TBL_LST
 CREATE TABLE T_CD_TBL_LST (
-  CD_TBL_ID int AUTO_INCREMENT COMMENT 'Code Table ID',
+  CD_TBL_ID varchar(5) NOT NULL COMMENT 'Code Table ID',
   CD_TBL_NM varchar(50) COMMENT 'Code Table Name',
   CD_TBL_DESC varchar(100) COMMENT 'Description Of Code Table',
   CD_TBL_MAP varchar(50) NOT NULL COMMENT 'Map of code table and db table',
