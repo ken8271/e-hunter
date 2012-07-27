@@ -285,7 +285,7 @@ CREATE TABLE T_TLNT_PRJ_EXP (
 CREATE TABLE T_TLNT_CERT (
   SYS_REF_TLNT varchar(9) NOT NULL COMMENT '人才编号',
   CERT_SEQ_NBR int(2) NOT NULL COMMENT '证书序号',
-  CERT_TY varchar(3) COMMENT '证书类型',
+  CERT_NM varchar(50) COMMENT '证书名称',
   GAIN_DTTM date COMMENT '获得时间',
   SCORE varchar(4) COMMENT '分数',
   CR_BY varchar(10) COMMENT '创建人',
