@@ -1,4 +1,4 @@
-package com.pccw.ehunter.domain.common;
+package com.pccw.ehunter.domain;
 
 import java.util.Date;
 
