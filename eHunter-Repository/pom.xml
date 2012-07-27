@@ -12,10 +12,13 @@
 	<version>0.0.1</version>
 
 	<dependencies>
-		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
 		</dependency>
 	</dependencies>
 </project>
