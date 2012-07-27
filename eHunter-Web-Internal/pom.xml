@@ -245,5 +245,30 @@
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-jstl-taglibs-1.1.2</artifactId>
 		</dependency>
+
+		<!-- Module Dependency -->
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Repository</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Service-Common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Service-Internal</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Utility</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
 </project>

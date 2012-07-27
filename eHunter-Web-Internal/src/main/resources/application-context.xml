@@ -17,7 +17,7 @@
 	
 	<context:annotation-config />
 	
-	<context:component-scan base-package="com.pccw"></context:component-scan>
+	<context:component-scan base-package="com.pccw.ehunter"></context:component-scan>
 	
 	<!-- Data Source Properties-->
 	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />

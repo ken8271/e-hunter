@@ -3,6 +3,6 @@
 	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory>
-	</session-factory>
+<mapping class="com.pccw.ehunter.domain.internal.InternalRole"></mapping>
+<mapping class="com.pccw.ehunter.domain.internal.InternalUser"></mapping>
 </hibernate-configuration>
