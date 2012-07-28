@@ -38,6 +38,29 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Session Timeout Filter -->
+	<filter>
+		<filter-name>sessionTimeoutFilter</filter-name>
+		<filter-class>com.pccw.springframework.filter.SessionTimeoutFilter</filter-class>
+		<init-param>
+			<param-name>byPassUrl</param-name>
+			<param-value>/login.do,/logout.do,/index.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>checkUserObject</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionAttributeToCheck</param-name>
+			<param-value>ehunter_in_session</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>sessionTimeoutFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
 	<!-- Spring Security Filter -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

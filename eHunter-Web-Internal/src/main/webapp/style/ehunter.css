@@ -1,0 +1,160 @@
+/*---- menu start -------*/
+.arrowlistmenu{
+width: 168px; /*width of accordion menu*/
+}
+
+.arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
+font: bold 14px Arial;
+color: white;
+background: black url(/ehunter/images/icon/titlebar.png) repeat-x center left;
+margin-bottom: 10px; /*bottom spacing between header and rest of content*/
+text-transform: uppercase;
+padding: 4px 0 4px 10px; /*header text is indented 10px*/
+cursor: hand;
+cursor: pointer;
+}
+
+.arrowlistmenu .openheader{ /*CSS class to apply to expandable header when it's expanded*/
+background-image: url(/ehunter/images/icon/titlebar-active.png);
+}
+
+.arrowlistmenu ul{ /*CSS for UL of each sub menu*/
+list-style-type: none;
+margin: 0;
+padding: 0;
+margin-bottom: 8px; /*bottom spacing between each UL and rest of content*/
+}
+
+.arrowlistmenu ul li{
+padding-bottom: 2px; /*bottom spacing between menu items*/
+}
+
+.arrowlistmenu ul li a{
+color: #A70303;
+background: url(/ehunter/images/icon/arrowbullet.png) no-repeat center left; /*custom bullet list image*/
+display: block;
+padding: 2px 0;
+padding-left: 19px; /*link text is indented 19px*/
+text-decoration: none;
+font-weight: bold;
+border-bottom: 1px solid #dadada;
+font-size: 90%;
+}
+
+.arrowlistmenu ul li a:visited{
+color: #A70303;
+}
+
+.arrowlistmenu ul li a:hover{ /*hover state CSS*/
+color: #A70303;
+background-color: #F3F3F3;
+}
+/*---- menu end ---------*/
+
+/*------grey box start-------*/
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity =80);
+}
+
+.white_content {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	width: 600px;
+	height: 200px;
+	padding: 16px;
+	border: 5px solid #EEEEEE;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+/*------grey box end--------*/
+
+/*------note start----*/
+.mandatoryField {
+	color: red;
+	font-weight: bold;
+}
+
+.note {
+	padding: 4px;
+	background: #FCF5E6;
+	font-family: "Arial";
+	/*font-size: 12px; */
+	color: #000000
+}
+
+.succmsg{
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: 120%;
+	font-weight: bold;
+	color: #CC0000;
+	text-decoration: none;
+	line-height: 16px;
+}
+/*------note end-----*/
+
+/*-----error container start-----*/
+#errorContainer {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	font-weight: normal;
+	color: #CC0000;
+	border: 1px solid #CC0000;
+	width: 99%;
+	padding: 2px;
+	background-color: #FFFFEE;
+}
+
+#errorContainer LI {
+	margin-left: 25px;
+	LIST-STYLE-TYPE: disc;
+	LINE-HEIGHT: 1.0em;
+	font-size: 100%;
+	font-color: #CC0000;
+}
+
+.errorContainer {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	font-weight: normal;
+	color: #CC0000;
+	border: 1px solid #CC0000;
+	width: 99%;
+	padding: 2px;
+	background-color: #FFFFEE;
+}
+
+.errorContainer LI {
+	margin-left: 25px;
+	LIST-STYLE-TYPE: disc;
+	LINE-HEIGHT: 1.0em;
+	font-size: 110%;
+	font-color: #CC0000;
+}
+
+#mvcErrorContainer {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	font-weight: normal;
+	color: #CC0000;
+	border: 1px solid #CC0000;
+	width: 99%;
+	padding: 2px;
+	background-color: #FFFFEE;
+}
+
+#mvcErrorContainer LI {
+	margin-left: 25px;
+	LIST-STYLE-TYPE: disc;
+	LINE-HEIGHT: 1.0em;
+}
+/*-----error container end-------*/
