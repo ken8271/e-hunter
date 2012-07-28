@@ -23,7 +23,7 @@ public class HibernateInternalUserDAO implements InternalUserDAO{
 
 	@Override
 	public InternalUser getInternalUserByLoginId(final String loginId) {
-		InternalUser usr = hibernateTemplate.execute(new HibernateCallback<InternalUser>() {
+		InternalUser usr = (InternalUser) hibernateTemplate.execute(new HibernateCallback() {
 			@Override
 			public InternalUser doInHibernate(Session session)
 					throws HibernateException, SQLException {
