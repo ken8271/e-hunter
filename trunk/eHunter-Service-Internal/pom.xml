@@ -5,10 +5,12 @@
 		<artifactId>eHunter-Configuration</artifactId>
 		<groupId>com.pccw</groupId>
 		<version>0.0.1</version>
+		<relativePath>../eHunter-Configuration/pom.xml</relativePath>
 	</parent>
 	<groupId>com.pccw</groupId>
 	<artifactId>eHunter-Service-Internal</artifactId>
 	<version>0.0.1</version>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<!-- Hibernate -->
@@ -101,6 +103,12 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 
+		<!-- modules depedency -->
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Utility</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>com.pccw</groupId>
 			<artifactId>eHunter-Repository</artifactId>
