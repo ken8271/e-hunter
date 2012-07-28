@@ -12,6 +12,23 @@
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
+	<build>
+		<outputDirectory>target/classes</outputDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 		<!-- Hibernate -->
 		<dependency>
