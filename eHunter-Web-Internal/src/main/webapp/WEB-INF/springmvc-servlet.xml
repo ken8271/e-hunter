@@ -23,7 +23,6 @@
 	<!-- Handler Mapping -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0"></property>
-		<property name="interceptors" ref="localeChangeInterceptor"></property>
 	</bean>
 	
 	<!-- View Resovler -->

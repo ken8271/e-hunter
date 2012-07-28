@@ -10,7 +10,13 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value></param-value>
+		<param-value>
+		/WEB-INF/classes/application-context.xml,
+  		/WEB-INF/springmvc-servlet.xml,
+  		/WEB-INF/hdiv-applicationContext.xml,
+  		/WEB-INF/hdiv-config.xml,
+  		/WEB-INF/hdiv-validations.xml
+		</param-value>
 	</context-param>
 
 	<!-- Encoding Filter -->
