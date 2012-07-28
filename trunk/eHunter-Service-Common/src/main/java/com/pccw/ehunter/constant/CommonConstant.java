@@ -9,4 +9,6 @@ public class CommonConstant {
 	public static final String USER_ACCOUNT_INACTIVE = "IN";
 
 	public static final String ANOYMOUS_INTERNAL_USER = "ANONY";
+	
+	public static final boolean ENABLE_HDIV = true;
 }

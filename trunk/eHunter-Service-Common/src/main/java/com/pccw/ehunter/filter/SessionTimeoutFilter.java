@@ -14,7 +14,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.pccw.ehunter.exception.SessionTimeoutException;
-import com.pccw.ehunter.utility.StringUtil;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class SessionTimeoutFilter extends OncePerRequestFilter {
 
@@ -68,8 +68,8 @@ public class SessionTimeoutFilter extends OncePerRequestFilter {
 		
 		String url = request.getRequestURL().toString();
 		
-		if(!StringUtil.isEmpty(url)){
-			byPassUrls = StringUtil.tokenize(url, StringUtil.COMMA);
+		if(!StringUtils.isEmpty(url)){
+			byPassUrls = StringUtils.tokenize(url, StringUtils.COMMA);
 			for(String str : byPassUrls){
 				if(url.indexOf(str.trim()) != -1){
 					isByPassUrl = true;
@@ -113,7 +113,7 @@ public class SessionTimeoutFilter extends OncePerRequestFilter {
 		try {
 			if(request.getSession(false) != null){
 				Object o = request.getSession(false).getAttribute(this.sessionAttributeToCheck);
-				if(!StringUtil.isEmpty(sessionAttributeToCheck)){
+				if(!StringUtils.isEmpty(sessionAttributeToCheck)){
 					if(o == null){
 						logger.warn("Since null object found in session attribute, current session is invalid!");
 						return false;
