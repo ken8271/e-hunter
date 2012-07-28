@@ -3,6 +3,10 @@
 	<name>eHunter-Web-Internal</name>
 	<comment></comment>
 	<projects>
+		<project>eHunter-Repository</project>
+		<project>eHunter-Service-Common</project>
+		<project>eHunter-Service-Internal</project>
+		<project>eHunter-Utility</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

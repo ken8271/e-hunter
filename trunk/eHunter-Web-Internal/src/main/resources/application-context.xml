@@ -44,8 +44,7 @@
 	</bean>
 
 	<!-- Hibernate SessionFactory -->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<!-- datasource -->
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- hibernate annotation -->
