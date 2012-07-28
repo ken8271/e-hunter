@@ -30,24 +30,40 @@
 	</build>
 
 	<dependencies>
+		<!-- modules depedency -->
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Repository</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Service-Common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 		</dependency>
+		
 		<!-- Hibernate Annotation -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>ejb3-persistence</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
@@ -118,23 +134,6 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-		</dependency>
-
-		<!-- modules depedency -->
-		<dependency>
-			<groupId>com.pccw</groupId>
-			<artifactId>eHunter-Utility</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.pccw</groupId>
-			<artifactId>eHunter-Repository</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.pccw</groupId>
-			<artifactId>eHunter-Service-Common</artifactId>
-			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
