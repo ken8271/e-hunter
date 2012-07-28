@@ -13,4 +13,10 @@ public class IndexController extends BaseController{
 	public ModelAndView login(HttpServletRequest request){
 		return new ModelAndView("login");
 	}
+	
+	@RequestMapping(value="/index.do")
+	public ModelAndView index(HttpServletRequest request){
+		request.getSession(false).setAttribute("ehunter_in_session", "ehunter_in_session");
+		return new ModelAndView("index");
+	}
 }
