@@ -15,9 +15,6 @@
         <dependent-module archiveName="eHunter-Service-Internal-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/eHunter-Service-Internal/eHunter-Service-Internal">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="eHunter-Utility-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/eHunter-Utility/eHunter-Utility">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="eHunter-Web-Internal"/>
         <property name="java-output-path" value="/eHunter-Web-Internal/src/main/webapp/WEB-INF/classes"/>
     </wb-module>
