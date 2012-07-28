@@ -2,13 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>eHunter-Configuration</artifactId>
 		<groupId>com.pccw</groupId>
+		<artifactId>eHunter-Configuration</artifactId>
 		<version>0.0.1</version>
+		<relativePath>../eHunter-Configuration/pom.xml</relativePath>
 	</parent>
 	<groupId>com.pccw</groupId>
 	<artifactId>eHunter-Service-Common</artifactId>
 	<version>0.0.1</version>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<!-- Hibernate -->
@@ -118,12 +120,18 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
+
 		<!-- module dependency -->
 		<dependency>
-		<groupId>com.pccw</groupId>
-		<artifactId>eHunter-Utility</artifactId>
-		<version>0.0.1</version>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Utility</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>eHunter-Repository</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
