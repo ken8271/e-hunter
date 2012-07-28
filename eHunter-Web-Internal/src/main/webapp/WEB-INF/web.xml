@@ -41,7 +41,7 @@
 	<!-- Session Timeout Filter -->
 	<filter>
 		<filter-name>sessionTimeoutFilter</filter-name>
-		<filter-class>com.pccw.springframework.filter.SessionTimeoutFilter</filter-class>
+		<filter-class>com.pccw.ehunter.filter.SessionTimeoutFilter</filter-class>
 		<init-param>
 			<param-name>byPassUrl</param-name>
 			<param-value>/login.do,/logout.do,/index.do</param-value>
