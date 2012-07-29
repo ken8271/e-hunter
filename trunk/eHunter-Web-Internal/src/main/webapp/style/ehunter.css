@@ -1,3 +1,280 @@
+/*----- common start-----*/
+INPUT {
+	FONT-FAMILY: Arial, Helvetica, sans-serif , 宋体;
+}
+
+SELECT {
+	FONT-FAMILY: Arial, Helvetica, sans-serif , 宋体;
+}
+
+#pageAll {
+	TEXT-ALIGN: left;
+	width: 100%;
+}
+
+#pageTop {
+	FLOAT: left;
+	WIDTH: 100%
+}
+
+#pageMain {
+	CLEAR: BOTH;
+	FLOAT: left;
+	HEIGHT: auto;
+	RIGHT-MARGIN: 0px;
+	MIN-WIDTH: 960px;
+	width: 100%;
+}
+
+.buttonArea {
+	width: 99%;
+	float: left;
+}
+
+.buttonmenubox_L {
+	text-align: Left;
+	background-color: #efefef;
+	margin-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	vertical-align: middle;
+	display: block;
+	width: 100%;
+	clear: both;
+}
+
+.buttonmenubox_R {
+	text-align: right;
+	background-color: #efefef;
+	margin-right: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	display: block;
+	width: 100%;
+	clear: both;
+	vertical-align: bottom;
+}
+
+
+A .:Visited {
+	text-decoration: none;
+}
+
+A .:link {
+	text-decoration: none;
+}
+
+/* A.:hover {text-decunderlineion: underline;color: #ED8E00;} */
+A .:hover {
+	text-decoration: none;
+	color: #ED8E00;
+}  /* new edit 29jun2007 */
+A.headerlink:Visited {
+	background-color: #233F6E;
+	height: 10px;
+	padding: 0 33 0 33px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.headerlink:link {
+	padding: 0 33 0 33px;
+	background-color: #233F6E;
+	height: 10px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.headerlink:hover {
+	padding: 0 33 0 33px;
+	background-color: #FF6500;
+	height: 10px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.errorheaderlink:Visited {
+	padding: 0 21 0 20px;
+	background-color: #233F6E;
+	height: 10px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.errorheaderlink:link {
+	padding: 0 21 0 20px;
+	background-color: #233F6E;
+	height: 10px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.errorheaderlink:hover {
+	padding: 0 21 0 20px;
+	background-color: #FF6500;
+	height: 10px;
+	padding-top: 0px;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px; */
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+A.button:Visited,A.button:link {
+	background-color: #666666;
+	padding: 5px 10px 5px 10px;
+	font-family: "Arial", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 14px;*/
+	font-weight: bold;
+	line-height: 30px;
+	height: 30px;
+	color: #FFFFFF;
+	text-decoration: none;
+	Margin-left: 4px;
+}
+
+A.button:hover {
+	background-color: #FF6500;
+}
+
+A.buttondefault:Visited,A.buttondefault:link {
+	background-color: #CC3300;
+	padding: 5px 10px 5px 10px;
+	font-family: "Arial", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 14px;*/
+	line-height: 30px;
+	height: 30px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+	Margin-left: 4px;
+}
+
+A.buttondefault:hover {
+	background-color: #FF6500;
+}
+
+A.buttonexit:Visited,A.buttonexit:link {
+	background-color: #233F6E;
+	width: 59px;
+	height: 19px;
+	padding: 0 0 0 0px;
+	font-family: "Arial", "Helvetica", "sans-serif" , "宋体";
+	/*font-size: 15px;*/
+	font-weight: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+	display: block;
+}
+
+A.buttonexit:hover {
+	background-color: #FF6600;
+}
+
+A.normallink {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallink:Visited {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallink:link {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallink:hover {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: normal;
+	color: #FF6500;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallinkbold {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: bold;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallinkbold:Visited {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: bold;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallinkbold:link {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: bold;
+	color: #000000;
+	text-decoration: underline;
+	line-height: 18px;
+}
+
+A.normallinkbold:hover {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	/*font-size: 13px; */
+	font-weight: normal;
+	color: #FF6500;
+	text-decoration: underline;
+	line-height: 18px;
+}
+.boxHolder1 {
+	FLOAT: left;
+	WIDTH: 100%;
+	MARGIN-RIGHT: -2px
+}
+
+.boxHolder2 {
+	MARGIN-RIGHT: 2px
+}
+/*----- common end -----*/
+
 /*---- menu start -------*/
 .arrowlistmenu{
 width: 168px; /*width of accordion menu*/
@@ -90,13 +367,13 @@ background-color: #F3F3F3;
 .note {
 	padding: 4px;
 	background: #FCF5E6;
-	font-family: "Arial";
+	font-family: "Arial","FZYaoTi";
 	/*font-size: 12px; */
 	color: #000000
 }
 
 .succmsg{
-	font-family: "Arial", "Helvetica", "sans-serif";
+	font-family: "Arial", "Helvetica", "sans-serif" , "宋体";
 	font-size: 120%;
 	font-weight: bold;
 	color: #CC0000;
