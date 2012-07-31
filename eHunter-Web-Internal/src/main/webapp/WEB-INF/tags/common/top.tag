@@ -4,14 +4,7 @@
 <div class="boxHolder2">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
-			<td width="100%" background="${ctx}/images/default/top_banner_bg.gif"><img src="${ctx}/images/default/logo.png" border="0" /></td>
-		</tr>
-	</table>
-	<table width="100%" border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<td width="100%">
-			   <img height="6" border="0" width="100%" src="${ctx}/images/default/green_bar.gif">
-			</td>
+			<td width="100%" background="${ctx}/images/default/page_bg.gif"><img src="${ctx}/images/default/logo.gif" border="0" /></td>
 		</tr>
 	</table>
 </div>
