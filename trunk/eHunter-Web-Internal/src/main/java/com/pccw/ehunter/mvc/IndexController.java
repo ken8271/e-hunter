@@ -19,4 +19,15 @@ public class IndexController extends BaseController{
 		request.getSession(false).setAttribute("ehunter_in_session", "ehunter_in_session");
 		return new ModelAndView("index");
 	}
+	
+	@RequestMapping(value="/logout.do")
+	public ModelAndView logout(HttpServletRequest request){
+		logger.debug(">>>>> logout");
+		ModelAndView mv = new ModelAndView("login");
+		String key = request.getParameter("key");
+		if("session_t_o".equals(key)){
+			mv.addObject("error_code_not_from_security", "EHT-E-0001");
+		}
+		return mv;
+	}
 }

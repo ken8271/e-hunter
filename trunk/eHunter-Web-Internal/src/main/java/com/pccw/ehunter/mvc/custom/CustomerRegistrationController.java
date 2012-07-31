@@ -15,7 +15,7 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/initAddCustomer.do")
 	public ModelAndView initAddCustom(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("customer/customerCreate");
-		mv.addObject("customerDto",new CustomerDTO());
+		mv.addObject("customerDto", new CustomerDTO());
 		return mv;
 	}
 }
