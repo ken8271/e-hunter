@@ -5,6 +5,8 @@
 <meta http-equiv="Cache-Control" content="no-store"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
+<link rel="stylesheet" type="text/css" href="${ctx}/style/layout.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/style/default.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/ehunter.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jmesa.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jquery.validate.css" />
