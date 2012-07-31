@@ -29,7 +29,8 @@
 				</div>
 				<div style="padding: 5px; display: block"></div>
 			</div>
-			<div id="pageMain">
+			<div style="padding: 150px; display: block" ></div>
+			<div id="pageMain" align="center">
 				<table border="0" width="380" cellspacing="2" cellpadding="2" align="center">
 					<tr>
 						<td colspan="3">
@@ -69,14 +70,14 @@
 						<td align="left">
 						<input type="password" autocomplete="off" size="20" maxlength="8" name="j_password" id="j_password" value="${param.j_password}" />
 						</td>
-						<td><span class="mandatoryField">*</span></td>
+						<td align="left"><span class="mandatoryField">*</span></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td>
 							<div align="left">
-								<input id="submitButton" type="submit" value="登录" />&nbsp; 
-								<input type="reset" value="重置" onclick="clear();">
+								<input id="submitButton" type="submit" value=" 登录 " />&nbsp; 
+								<input type="reset" value=" 重置  " onclick="clear();">
 							</div>
 						</td>
 						<td>&nbsp;</td>
