@@ -87,7 +87,40 @@ div.emptyBlock {
 	clear: both;
 	padding: 5px 0px 5px 0px;
 }
+
+.normalTextField {
+	font-family: verdana, arial, helvetica, sans-serif;
+	height: 16px;
+}
+.normalTextAreaField {
+	font-family: verdana, arial, helvetica, sans-serif;
+	width:99%;
+}
+
+.loginInfo {
+	background-color: #cccccc;
+	padding:2px;
+}
 /*----- common end -----*/
+
+/*--- page title ----*/
+.pageTitle{
+	color:red;
+	font-weight:bold;
+	text-align:center;
+	font-size:14px;
+	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
+
+}
+
+/*--- function menu bar -----*/
+.functionMenuBar{
+	background-color: #eeeecc;
+	font-weight:bold;
+	font-size:12px;
+	text-align:right;
+	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
+}
 
 /*---- menu start -------*/
 .arrowlistmenu{
@@ -250,3 +283,34 @@ background-color: #F3F3F3;
 	LINE-HEIGHT: 1.0em;
 }
 /*-----error container end-------*/
+
+/*--- standard form input start -----*/
+.standardTableForm table{
+	border: 0px solid #CCCCCC;
+
+}
+.standardTableForm td{
+	border-top: 0px solid #CCCCCC;
+	border-left: 0px solid #CCCCCC;
+	padding: 2px;
+	font-size: 11px;
+}
+.standardInputText{
+	width: 99%;
+}
+
+.labelColumn{
+	font-family: Arial, Helvetica, sans-serif, MingLiU_HKSCS, Ming(for ISO10646), PMingLiu;
+	color:#666666;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: left;
+	background-color:#EEEEEE;
+	color:#00688B
+}
+
+.normalTextField{
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	height: 16px;
+}
+/*--- standard form input end -----*/
