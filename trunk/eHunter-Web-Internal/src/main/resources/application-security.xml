@@ -24,6 +24,7 @@
 							 always-use-default-target="true"/>
 		<security:logout logout-success-url="/login.do" invalidate-session="true"/>
 		<security:intercept-url pattern="/index.do" access="ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/customer/*" access="ROLE_USER,ROLE_ADMIN"/>
 	</security:http>
 	
 	<security:authentication-manager>
