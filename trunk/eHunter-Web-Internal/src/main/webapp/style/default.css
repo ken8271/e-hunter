@@ -1,0 +1,118 @@
+html,body {
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	padding: 0px;
+	border: none;
+}
+
+td {
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+}
+
+p {
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+}
+
+div {
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+}
+
+h1 {
+	font-size: 24px;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+}
+
+a:link {
+	font-size: 12px;
+	background: none transparent scroll repeat 0% 0%;
+	color: #000000;
+	font-family: verdana, helvetica;
+	text-decoration: underline
+}
+
+a:active {
+	font-size: 12px;
+	background: none transparent scroll repeat 0% 0%;
+	color: #666666;
+	font-family: verdana, helvetica;
+	text-decoration: underline
+}
+
+a:visited {
+	font-size: 12px;
+	background: none transparent scroll repeat 0% 0%;
+	color: #000000;
+	font-family: verdana, helvetica;
+	text-decoration: underline
+}
+
+a:hover {
+	font-size: 12px;
+	background: none transparent scroll repeat 0% 0%;
+	color: activecaption;
+	font-family: verdana, helvetica;
+	text-decoration: underline
+}
+
+li {
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+}
+
+fieldset {
+	background-color: #FFFFCC;
+	border: 1px solid #CCCFFF;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+legend {
+	background-color: #FFFFCC;
+	color: #666;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
+	padding: 0px;
+}
+
+textarea {
+	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
+	font-size: 1em;
+	color: #333333;
+}
+
+select {
+	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
+	font-size: 1em;
+	line-height: 1.46em;
+	border: 1px solid #4B729E;
+	color: #333333;
+}
+
+select option {
+	padding-left: 2px;
+}
+
+input {
+	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
+	font-size: 1em;
+}
+
+img {
+	border: 0;
+}
+
+pre {
+	font-size: .9em;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	background-color: #F4F4F4;
+	width: 850px;
+}
