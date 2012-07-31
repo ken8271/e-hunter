@@ -73,6 +73,7 @@
 				<entry key="/.*.do">
 					<list>
 						<value>url</value>
+						<value>key</value>
 						<value>.*_mr_</value>
 					</list>
 				</entry>

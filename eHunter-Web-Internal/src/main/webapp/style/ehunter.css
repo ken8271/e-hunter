@@ -59,15 +59,16 @@
 }
 
 .systemName {
-	clear:both;
-	font-weight:bold;
-	color:#071a54;
-	font-size:24px;
+	clear: both;
+	font-weight: bold;
+	color: #071a54;
+	font-size: 24px;
 	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
 }
 
 .mainBody {
-	background:url(/ehunter/images/default/page_bg.gif) center top no-repeat;;
+	background: url(/ehunter/images/default/page_bg.gif) center top
+		no-repeat;;
 	border-color: black;
 	border-width: 0 0 0 0;
 	border-style: solid;
@@ -75,7 +76,7 @@
 }
 
 .rightText {
-	color:#071a54;
+	color: #071a54;
 	font-weight: bold;
 	font-size: 12px;
 	text-align: right;
@@ -92,87 +93,95 @@ div.emptyBlock {
 	font-family: verdana, arial, helvetica, sans-serif;
 	height: 16px;
 }
+
 .normalTextAreaField {
 	font-family: verdana, arial, helvetica, sans-serif;
-	width:99%;
+	width: 99%;
 }
 
 .loginInfo {
-	background-color: #cccccc;
-	padding:2px;
+	padding: 2px;
+	color: #ffffff;
+	font-weight: 600;
 }
 /*----- common end -----*/
 
 /*--- page title ----*/
-.pageTitle{
-	color:red;
-	font-weight:bold;
-	text-align:center;
-	font-size:14px;
-	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
-
+.pageTitle {
+	color: #A70303;
+	font-weight: bold;
+	text-align: center;
+	font-size: 90%;
+	background-color: #eeeecc;
+	text-align: left;
+	display: block;
+	padding: 2px 0;
+	padding-left: 2px;
+	text-decoration: none;
+	border-bottom: 1px solid #dadada;	
 }
 
 /*--- function menu bar -----*/
-.functionMenuBar{
-	background-color: #eeeecc;
-	font-weight:bold;
-	font-size:12px;
-	text-align:right;
+.functionMenuBar {
+	background-color: #EFEFEF;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: right;
 	font-family: Tahoma, Trebuchet MS, Arial, Verdana, sans-serif;
 }
 
 /*---- menu start -------*/
-.arrowlistmenu{
-width: 168px; /*width of accordion menu*/
-margin-left:5px;
+.arrowlistmenu {
+	width: 168px; /*width of accordion menu*/
+	margin-left: 5px;
 }
 
-.arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
-font: bold 14px Arial;
-color: white;
-background: black url(/ehunter/images/icon/titlebar.png) repeat-x center left;
-margin-bottom: 10px; /*bottom spacing between header and rest of content*/
-text-transform: uppercase;
-padding: 4px 0 4px 10px; /*header text is indented 10px*/
-cursor: hand;
-cursor: pointer;
+.arrowlistmenu .menuheader {
+	/*CSS class for menu headers in general (expanding or not!)*/
+	font: bold 14px Arial;
+	color: white;
+	background: black url(/ehunter/images/icon/titlebar-active.gif) repeat-x
+		center left;
+	margin-bottom: 10px;
+	/*bottom spacing between header and rest of content*/
+	text-transform: uppercase;
+	padding: 4px 0 4px 10px; /*header text is indented 10px*/
+	cursor: hand;
+	cursor: pointer;
 }
 
-.arrowlistmenu .openheader{ /*CSS class to apply to expandable header when it's expanded*/
-background-image: url(/ehunter/images/icon/titlebar-active.png);
+.arrowlistmenu ul { /*CSS for UL of each sub menu*/
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 8px;
+	/*bottom spacing between each UL and rest of content*/
 }
 
-.arrowlistmenu ul{ /*CSS for UL of each sub menu*/
-list-style-type: none;
-margin: 0;
-padding: 0;
-margin-bottom: 8px; /*bottom spacing between each UL and rest of content*/
+.arrowlistmenu ul li {
+	padding-bottom: 2px; /*bottom spacing between menu items*/
 }
 
-.arrowlistmenu ul li{
-padding-bottom: 2px; /*bottom spacing between menu items*/
+.arrowlistmenu ul li a {
+	color: #A70303;
+	background: url(/ehunter/images/icon/arrowbullet.png) no-repeat center
+		left; /*custom bullet list image*/
+	display: block;
+	padding: 2px 0;
+	padding-left: 19px; /*link text is indented 19px*/
+	text-decoration: none;
+	font-weight: bold;
+	border-bottom: 1px solid #dadada;
+	font-size: 90%;
 }
 
-.arrowlistmenu ul li a{
-color: #A70303;
-background: url(/ehunter/images/icon/arrowbullet.png) no-repeat center left; /*custom bullet list image*/
-display: block;
-padding: 2px 0;
-padding-left: 19px; /*link text is indented 19px*/
-text-decoration: none;
-font-weight: bold;
-border-bottom: 1px solid #dadada;
-font-size: 90%;
+.arrowlistmenu ul li a:visited {
+	color: #A70303;
 }
 
-.arrowlistmenu ul li a:visited{
-color: #A70303;
-}
-
-.arrowlistmenu ul li a:hover{ /*hover state CSS*/
-color: #A70303;
-background-color: #F3F3F3;
+.arrowlistmenu ul li a:hover { /*hover state CSS*/
+	color: #A70303;
+	background-color: #F3F3F3;
 }
 /*---- menu end ---------*/
 
@@ -188,7 +197,7 @@ background-color: #F3F3F3;
 	z-index: 1001;
 	-moz-opacity: 0.8;
 	opacity: .80;
-	filter: alpha(opacity =80);
+	filter: alpha(opacity = 80);
 }
 
 .white_content {
@@ -215,13 +224,13 @@ background-color: #F3F3F3;
 .note {
 	padding: 4px;
 	background: #FCF5E6;
-	font-family: "Arial","FZYaoTi";
+	font-family: "Arial", "FZYaoTi";
 	/*font-size: 12px; */
 	color: #000000
 }
 
-.succmsg{
-	font-family: "Arial", "Helvetica", "sans-serif" , "宋体";
+.succmsg {
+	font-family: "Arial", "Helvetica", "sans-serif", "宋体";
 	font-size: 120%;
 	font-weight: bold;
 	color: #CC0000;
@@ -285,31 +294,33 @@ background-color: #F3F3F3;
 /*-----error container end-------*/
 
 /*--- standard form input start -----*/
-.standardTableForm table{
+.standardTableForm table {
 	border: 0px solid #CCCCCC;
-
 }
-.standardTableForm td{
+
+.standardTableForm td {
 	border-top: 0px solid #CCCCCC;
 	border-left: 0px solid #CCCCCC;
 	padding: 2px;
 	font-size: 11px;
 }
-.standardInputText{
+
+.standardInputText {
 	width: 99%;
 }
 
-.labelColumn{
-	font-family: Arial, Helvetica, sans-serif, MingLiU_HKSCS, Ming(for ISO10646), PMingLiu;
-	color:#666666;
+.labelColumn {
+	font-family: Arial, Helvetica, sans-serif, MingLiU_HKSCS,
+		Ming(for ISO10646), PMingLiu;
+	color: #666666;
 	font-weight: bold;
 	font-size: 12px;
 	text-align: left;
-	background-color:#EEEEEE;
-	color:#00688B
+	background-color: #EEEEEE;
+	color: #00688B
 }
 
-.normalTextField{
+.normalTextField {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
 	height: 16px;
 }
