@@ -68,8 +68,8 @@ public class SessionTimeoutFilter extends OncePerRequestFilter {
 		
 		String url = request.getRequestURL().toString();
 		
-		if(!StringUtils.isEmpty(url)){
-			byPassUrls = StringUtils.tokenize(url, StringUtils.COMMA);
+		if(!StringUtils.isEmpty(byPassUrl)){
+			byPassUrls = StringUtils.tokenize(byPassUrl, StringUtils.COMMA);
 			for(String str : byPassUrls){
 				if(url.indexOf(str.trim()) != -1){
 					isByPassUrl = true;
