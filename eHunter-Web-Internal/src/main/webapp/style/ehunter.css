@@ -1,12 +1,4 @@
 /*----- common start-----*/
-INPUT {
-	FONT-FAMILY: Arial, Helvetica, sans-serif , 宋体;
-}
-
-SELECT {
-	FONT-FAMILY: Arial, Helvetica, sans-serif , 宋体;
-}
-
 #pageAll {
 	TEXT-ALIGN: left;
 	width: 100%;
@@ -63,7 +55,7 @@ SELECT {
 }
 
 .boxHolder2 {
-	MARGIN-RIGHT: 2px
+	MARGIN: 5px
 }
 
 .systemName {
@@ -100,6 +92,7 @@ div.emptyBlock {
 /*---- menu start -------*/
 .arrowlistmenu{
 width: 168px; /*width of accordion menu*/
+margin-left:5px;
 }
 
 .arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
