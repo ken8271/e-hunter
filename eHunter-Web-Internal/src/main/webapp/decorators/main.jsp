@@ -22,12 +22,7 @@
 					</td>
 					<td valign="top" width="10">&nbsp;</td>
 					<td valign="top" align="left">
-					   <div id="" style="">
-							<div style="width:99%">
-						   		<common:userInfoBar/>
-						      	<sitemesh-decorator:body></sitemesh-decorator:body>
-					      	</div>
-					   	</div>
+					   <sitemesh-decorator:body></sitemesh-decorator:body>
 					</td>
 				</tr>
 			</table>
