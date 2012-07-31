@@ -53,9 +53,10 @@
 		
 		<property name="userStartPages">
 			<list>
-				<value>/index.do</value>
 				<value>/login.do</value>
+				<value>/index.do</value>
 				<value>/logout.do</value>
+				<value>/customer/initAddCustomer.do</value>
 			</list>			
 		</property>
 
