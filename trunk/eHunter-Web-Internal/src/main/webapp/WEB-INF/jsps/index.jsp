@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>E-HUNTER SYSTEM/[HT0001]</title>
+<title>e-Hunter System/[HT0001]</title>
 </head>
 <body>
 </body>
