@@ -15,6 +15,7 @@ public class CustomerDTO extends BaseDTO {
 	private String groupIndicator;
 	
 	private CustomerResponsePersonDTO custRespPerson;
+	private CustomerGroupDTO custGroup;
 
 	public String getSystemCustRefNum() {
 		return systemCustRefNum;
@@ -102,5 +103,13 @@ public class CustomerDTO extends BaseDTO {
 
 	public void setCustRespPerson(CustomerResponsePersonDTO custRespPerson) {
 		this.custRespPerson = custRespPerson;
+	}
+
+	public CustomerGroupDTO getCustGroup() {
+		return custGroup;
+	}
+
+	public void setCustGroup(CustomerGroupDTO custGroup) {
+		this.custGroup = custGroup;
 	}
 }
