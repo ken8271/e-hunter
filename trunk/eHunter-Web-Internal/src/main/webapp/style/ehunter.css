@@ -304,6 +304,10 @@ div.emptyBlock {
 
 }
 
+.standardTableForm tr{
+	height:35;
+}
+
 .standardTableForm td{
 	border-top: 0px solid #CCCCCC;
 	border-left: 0px solid #CCCCCC;
@@ -333,9 +337,13 @@ div.emptyBlock {
 	height: 23px;
 }
 
+.standardButton {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	font-size: 15px;
+}
+
 .labelColumn {
-	font-family: Arial, Helvetica, sans-serif, MingLiU_HKSCS,
-		Ming(for ISO10646), PMingLiu;
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
 	color: #666666;
 	font-weight: bold;
 	font-size: 12px;

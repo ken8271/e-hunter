@@ -6,13 +6,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-CUST-0001]</title>
+<script type="text/javascript">
+function changeCustType(){
+	var custType = document.getElementById("custType");
+	if(custType != null){
+		var selectedIndex = custType.selectedIndex;
+		if(selectedIndex == 1){
+			$('#systemGroupRefNum').attr('disabled' , true);
+			$('#groupFullName').attr('disabled' , false);
+			$('#groupShortName').attr('disabled' , false);
+		}
+	}
+
+}
+</script>
 </head>
 <body>
 	<form:form commandName="customerDto"
 		action="${ctx}/customer/saveCustCoInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">第一步：客户公司资料填写</td>
+				<td class="pageTitle">客户公司资料填写</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="customerDto"></common:errorTable></td>
@@ -24,9 +38,9 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input type="submit" value="提交" />&nbsp;
-							   <input type="button" value="重置">&nbsp;
-							   <input type="button" value="结束">
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
+							   <input class="standardButton" type="reset" value="重置">&nbsp;
+							   <input class="standardButton" type="button" value="结束">
 							</td>
 						</tr>
 					</table>
@@ -46,12 +60,38 @@
 				<tbody>
 				    <customer:standardTableRow />
 					<tr>
-						<td class="labelColumn">Company / Organization<br> Name
+						<td class="labelColumn">客户类型：<span class="mandatoryField">*</span></td>
+						<td>
+						   <select id="custType" class="standardSelect" onchange="changeCustType();">
+						      <option>--- 请选择  ---</option>
+						      <option>集团客户</option>
+						      <option>非集团客户（集团旗下子公司）</option>
+						      <option>非集团客户（独立公司）</option>
+						   </select>
 						</td>
-						<td colspan="5">&nbsp;</td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 				</tbody>
 			</table>
+			<div style="height:5px"></div>
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+				<tbody>
+				    <customer:standardTableRow />
+					<tr >
+						<td class="labelColumn">集团编号：</td>
+						<td><form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssClass="standardInputText" disabled="true"></form:input></td>
+						<td colspan="2"></td>
+					</tr>
+					<tr >
+						<td class="labelColumn">集团名称：</td>
+						<td><form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" disabled="true"></form:input></td>
+						<td class="labelColumn">集团简称：</td>
+						<td>
+						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" disabled="true"/> 
+					    </td>
+					</tr>
+				</tbody>
+			</table>			
 		</div>
 		<table width="100%">
 			<tr>
@@ -63,28 +103,28 @@
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <customer:standardTableRow />
-					<tr height="35">
-						<td class="labelColumn" >客户公司名称：<span class="mandatoryField">*</span></td>
+					<tr >
+						<td class="labelColumn" >公司名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2"><form:input path="fullName" cssClass="standardInputText"></form:input></td>
-						<td colspan="3">
+						<td>&nbsp;</td>
 					</tr>
-					<tr height="35">
-						<td class="labelColumn">客户公司简称：<span class="mandatoryField">*</span></td>
+					<tr >
+						<td class="labelColumn">公司简称：<span class="mandatoryField">*</span></td>
 						<td colspan="2"><form:input path="shortName" cssClass="standardInputText"></form:input></td>
-						<td colspan="3">
+					    <td>&nbsp;</td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">官方网址：</td>
-						<td colspan="2"><form:input path="offcialSite" cssClass="standardInputText"></form:input></td>
+						<td><form:input path="offcialSite" cssClass="standardInputText"></form:input></td>
 						<td class="labelColumn">公司总机：</td>
-						<td colspan="2">
+						<td>
 						   <form:input path="telExchange.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
 					       <form:input path="telExchange.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8"/>
 					    </td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">公司性质：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
+						<td>
 						   <form:select path="type" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SE" label="国有企业"></form:option>
@@ -99,7 +139,7 @@
 						   </form:select>
 						</td>
 					    <td class="labelColumn">公司规模：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
+						<td>
 						   <form:select path="size" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="001" label="1-49人"></form:option>
@@ -113,9 +153,9 @@
 						   </form:select>
 						</td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">客户等级：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
+						<td>
 						   <form:select path="grade" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="IR" label="有需求有意向"></form:option>
@@ -125,7 +165,7 @@
 						   </form:select>
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
+						<td>
 						   <form:select path="status" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SGN" label="已签约客户"></form:option>
@@ -147,44 +187,43 @@
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <customer:standardTableRow />
-				    <tr height="35">
+				    <tr >
 						<td class="labelColumn">姓名：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="custRespPerson.name" cssClass="standardInputText"></form:input></td>
-						<td colspan="3">
+						<td colspan="3"><form:input path="custRespPerson.name" cssClass="standardInputText"></form:input></td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">职位类型：<span class="mandatoryField">*</span></td>
-						<td colspan="2" >
+						<td>
 						   <select  class="standardSelect"><option value="">--- 请选择 ---</option></select>
 						</td>
-						<td colspan="3">
+						<td>
 						   <form:select path="custRespPerson.positionType" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
 						</td>
 						<td >&nbsp;</td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">职位名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2"><form:input path="custRespPerson.positionName" cssClass="standardInputText"></form:input></td>
-						<td colspan="3">
+						<td>&nbsp;</td>
 					</tr>
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input></td>
+						<td><form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input></td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="custRespPerson.email" cssClass="standardInputText"></form:input></td>
+						<td><form:input path="custRespPerson.email" cssClass="standardInputText"></form:input></td>
 					</tr>	
-					<tr height="35">
+					<tr >
 						<td class="labelColumn">状态：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
+						<td>
 						   <form:select path="custRespPerson.status" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="IS" label="在职"></form:option>
 						      <form:option value="OS" label="已离职"></form:option>
 						   </form:select>
 						</td>
-						<td colspan="3">
+						<td colspan="2">
 					</tr>				
 				</tbody>
 			</table>
@@ -196,9 +235,9 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input type="submit" value="提交" />&nbsp;
-							   <input type="button" value="重置">&nbsp;
-							   <input type="button" value="结束">
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
+							   <input class="standardButton" type="reset" value="重置">&nbsp;
+							   <input class="standardButton" type="button" value="结束">
 							</td>
 						</tr>
 					</table>
