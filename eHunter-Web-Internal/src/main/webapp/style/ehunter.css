@@ -294,19 +294,43 @@ div.emptyBlock {
 /*-----error container end-------*/
 
 /*--- standard form input start -----*/
-.standardTableForm table {
-	border: 0px solid #CCCCCC;
+.standardTableForm {
+	border: 1px solid #CCCCCC;
+	border-bottom: 0px;
+	word-wrap: break-word; 
+	word-break: break-all;
+	table-layout:fixed;
+	text-align: justify;
+
 }
 
-.standardTableForm td {
+.standardTableForm td{
 	border-top: 0px solid #CCCCCC;
 	border-left: 0px solid #CCCCCC;
+	border-right: 0px solid #CCCCCC;
+	margin: 0;
 	padding: 2px;
+	padding-left:0px;
+	padding-right:0px;
 	font-size: 11px;
 }
 
 .standardInputText {
 	width: 99%;
+	height: 23px;
+}
+
+.standardInputTextNoWidth {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	height: 23px;
+	margin: 0;
+	padding:0px;
+}
+
+.standardSelect{
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	width: 97%;
+	height: 23px;
 }
 
 .labelColumn {
@@ -323,5 +347,13 @@ div.emptyBlock {
 .normalTextField {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
 	height: 16px;
+}
+
+.contentTableBody1 {
+		margin: 0;
+		padding: 0px;
+		border: 0px;
+		spacing:0px;
+		width: 100%;
 }
 /*--- standard form input end -----*/
