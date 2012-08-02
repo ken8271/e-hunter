@@ -4,7 +4,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 public class CustomerCompany extends BaseEntity {
 
-	private String sysRefCust;
+	private String systemCustRefNum;
 	private String shortName;
 	private String fullName;
 	private String grade;
@@ -14,13 +14,13 @@ public class CustomerCompany extends BaseEntity {
 	private String type;
 	private String size;
 	private String groupIndicator;
-
-	public String getSysRefCust() {
-		return sysRefCust;
+	
+	public String getSystemCustRefNum() {
+		return systemCustRefNum;
 	}
 
-	public void setSysRefCust(String sysRefCust) {
-		this.sysRefCust = sysRefCust;
+	public void setSystemCustRefNum(String systemCustRefNum) {
+		this.systemCustRefNum = systemCustRefNum;
 	}
 
 	public String getShortName() {

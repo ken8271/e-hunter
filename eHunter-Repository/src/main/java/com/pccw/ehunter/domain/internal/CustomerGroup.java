@@ -4,16 +4,16 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 public class CustomerGroup extends BaseEntity {
 
-	private String sysRefGroup;
+	private String systemGroupRefNum;
 	private String shortName;
 	private String fullName;
 
-	public String getSysRefGroup() {
-		return sysRefGroup;
+	public String getSystemGroupRefNum() {
+		return systemGroupRefNum;
 	}
 
-	public void setSysRefGroup(String sysRefGroup) {
-		this.sysRefGroup = sysRefGroup;
+	public void setSystemGroupRefNum(String systemGroupRefNum) {
+		this.systemGroupRefNum = systemGroupRefNum;
 	}
 
 	public String getShortName() {

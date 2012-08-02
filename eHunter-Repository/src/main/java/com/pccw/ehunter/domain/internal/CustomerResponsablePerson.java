@@ -4,7 +4,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 public class CustomerResponsablePerson extends BaseEntity {
 
-	private String sysRefRp;
+	private String systemRespRefNum;
 	private String name;
 	private String positionType;
 	private String positionName;
@@ -12,12 +12,12 @@ public class CustomerResponsablePerson extends BaseEntity {
 	private String email;
 	private String status;
 
-	public String getSysRefRp() {
-		return sysRefRp;
+	public String getSystemRespRefNum() {
+		return systemRespRefNum;
 	}
 
-	public void setSysRefRp(String sysRefRp) {
-		this.sysRefRp = sysRefRp;
+	public void setSystemRespRefNum(String systemRespRefNum) {
+		this.systemRespRefNum = systemRespRefNum;
 	}
 
 	public String getName() {
