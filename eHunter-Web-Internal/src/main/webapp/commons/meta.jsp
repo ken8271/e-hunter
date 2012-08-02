@@ -23,3 +23,10 @@
 <script type="text/javascript" src="${ctx}/script/greybox/AJS.js"></script>
 <script type="text/javascript" src="${ctx}/script/greybox/AJS_fx.js"></script>
 <script type="text/javascript" src="${ctx}/script/greybox/gb_scripts.js"></script>
+
+<!-- 解决JQuery与其他JS冲突 -->
+<script type="text/javascript">
+if ($ != jQuery) {
+    $ = jQuery.noConflict();
+}
+</script>
