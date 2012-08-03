@@ -7,5 +7,7 @@
 		<mapping class="com.pccw.ehunter.domain.internal.InternalRole"></mapping>
 		<mapping class="com.pccw.ehunter.domain.internal.InternalUser"></mapping>
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerGroup"></mapping>
+		<mapping class="com.pccw.ehunter.domain.common.PositionType"></mapping>
+		<mapping class="com.pccw.ehunter.domain.common.PositionSubType"></mapping>
 	</session-factory>
 </hibernate-configuration>

@@ -89,7 +89,14 @@
 						<value>jmesaDto.currSelect</value>
 						<value>jmesaDto.select</value>
 						<value>actionFlag</value>
+						<value>_id</value>
 					</list>
+				</entry>
+				
+				<entry key="/customer/loadPositions.do">
+				    <list>
+				        <value>code</value>
+				    </list>
 				</entry>
 			</map>
 		</property>		

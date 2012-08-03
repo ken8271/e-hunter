@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-CUST-0001]</title>
+<hdiv-c:url value="/customer/loadCustomerGroup.do" var="loadGroupUrl"></hdiv-c:url>
+<hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
 function changeCustType(){
 	var custType = document.getElementById("custType");
@@ -15,7 +17,11 @@ function changeCustType(){
 			$('#systemGroupRefNum').attr('disabled' , true);
 			$('#groupFullName').attr('disabled' , false);
 			$('#groupShortName').attr('disabled' , false);
+			$('#systemGroupRefNum').val('');
+			$('#groupFullName').val('');
+			$('#groupShortName').val('');
 			$('#group').hide();
+			$('#group').val('');
 		}else if (selectedIndex == 2){
 			$('#systemGroupRefNum').attr('disabled' , true);
 			$('#groupFullName').attr('disabled' , true);
@@ -25,10 +31,71 @@ function changeCustType(){
 			$('#systemGroupRefNum').attr('disabled' , true);
 			$('#groupFullName').attr('disabled' , true);
 			$('#groupShortName').attr('disabled' , true);
+			$('#systemGroupRefNum').val('');
+			$('#groupFullName').val('');
+			$('#groupShortName').val('');
 			$('#group').hide();
+			$('#group').val('');
 		}
 	}
 
+}
+
+function clearSelector(selector){
+	while(selector.childNodes.length>0){
+		selector.removeChild(selector.childNodes[0]);
+	}
+}
+
+function loadGroupInfo(){
+	var group = document.getElementById("group");
+	if(group != null && group.selectedIndex != 0){
+		var _id = group.options[group.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadGroupUrl}',
+			dataType:'xml',
+			data:{'_id':_id},
+			success:function(xml){
+				var groupId =  $(xml).find('id').text();
+				var groupFullName =  $(xml).find('fullName').text();
+				var groupShortName = $(xml).find('shortName').text();
+				
+				$('#systemGroupRefNum').val(groupId);
+				$('#groupFullName').val(groupFullName);
+				$('#groupShortName').val(groupShortName);
+			},
+			error:function(){
+				alert('系统错误');
+			}
+		});
+	}
+}
+
+function loadPositions(){
+	var postSelector = document.getElementById("postSelector");
+	if(postSelector != null && postSelector.selectedIndex != 0){
+		var code = postSelector.options[postSelector.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadPositions}',
+			dataType:'text',
+			data:{'code':code},
+			success:function(xml){
+				var subSelector = document.getElementById("subPostSelector");
+				clearSelector(subSelector);
+				subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
+				$(xml).find('position').each(function(i , element){
+					var label = $(this).find("label").text();
+					var val = $(this).children("value").text();
+					subSelector.options[subSelector.length] = new Option(label, val);
+				});
+			},
+			error:function(){
+				alert('系统错误');
+			}
+		});
+	}
 }
 </script>
 </head>
@@ -213,10 +280,15 @@ function changeCustType(){
 					<tr >
 						<td class="labelColumn">职位类型：<span class="mandatoryField">*</span></td>
 						<td>
-						   <select  class="standardSelect"><option value="">--- 请选择 ---</option></select>
+						   <select  class="standardSelect" id="postSelector" onchange="loadPositions();">
+						   <option value="">--- 请选择 ---</option>
+						   <c:forEach items="${listOfPositionType}" var="postType">
+						      <option value="${postType.value }">${postType.label }</option>
+						   </c:forEach>
+						   </select>
 						</td>
 						<td>
-						   <form:select path="custRespPerson.positionType" cssClass="standardSelect">
+						   <form:select id="subPostSelector" path="custRespPerson.positionType" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
 						</td>
