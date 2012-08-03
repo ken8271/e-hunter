@@ -15,6 +15,17 @@ function changeCustType(){
 			$('#systemGroupRefNum').attr('disabled' , true);
 			$('#groupFullName').attr('disabled' , false);
 			$('#groupShortName').attr('disabled' , false);
+			$('#group').hide();
+		}else if (selectedIndex == 2){
+			$('#systemGroupRefNum').attr('disabled' , true);
+			$('#groupFullName').attr('disabled' , true);
+			$('#groupShortName').attr('disabled' , true);
+			$('#group').show();
+		}else {
+			$('#systemGroupRefNum').attr('disabled' , true);
+			$('#groupFullName').attr('disabled' , true);
+			$('#groupShortName').attr('disabled' , true);
+			$('#group').hide();
 		}
 	}
 
@@ -69,7 +80,15 @@ function changeCustType(){
 						      <option>非集团客户（独立公司）</option>
 						   </select>
 						</td>
-						<td colspan="2">&nbsp;</td>
+						<td>
+						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none">
+						      <option>--- 请选择 ---</option>
+						      <c:forEach items="${listOfGroups}" var="group">
+						         <option value="${group.value }">${group.label}</option>
+						      </c:forEach>
+						   </select>
+						</td>
+						<td>&nbsp;</td>
 					</tr>
 				</tbody>
 			</table>
