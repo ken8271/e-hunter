@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pccw.ehunter.convertor.CustomerCompanyConvertor;
 import com.pccw.ehunter.convertor.CustomerGroupConvertor;
+import com.pccw.ehunter.convertor.CustomerResponsablePersonConvertor;
 import com.pccw.ehunter.dao.CustomerRegistrationDAO;
+import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 
@@ -33,5 +36,12 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	@Override
 	public int getCountOfGroupsByFullName(String fullName) {
 		return custRegtDao.countGroupsByFullName(fullName);
+	}
+
+	@Override
+	public void completeCustRegistration(CustomerDTO customerDto) {
+		custRegtDao.saveCustomerCompany(CustomerCompanyConvertor.toPo(customerDto));
+		custRegtDao.saveCustomerGroup(CustomerGroupConvertor.toPo(customerDto.getCustGroup()));
+		custRegtDao.saveCustomerResponsablePerson(CustomerResponsablePersonConvertor.toPo(customerDto.getCustRespPerson()));
 	}
 }

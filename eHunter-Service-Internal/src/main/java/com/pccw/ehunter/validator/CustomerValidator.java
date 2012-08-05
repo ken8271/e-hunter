@@ -33,15 +33,15 @@ public class CustomerValidator extends AbstractValidator{
 		if(StringUtils.isEmpty(custIndicator)){
 			errors.rejectValue("groupIndicator", "EHT-E-0002", new String[]{"客户类型"}, "");
 		}else if(CustomerIndicator.CUSTOMER_GROUP.equals(custIndicator)){
-			validateRequired(errors, "custGroup.fullName", groupDto.getFullName(), "集团名称");
-			validateRequired(errors, "custGroup.shortName", groupDto.getShortName(), "集团简称");	
+//			validateRequired(errors, "custGroup.fullName", groupDto.getFullName(), "集团名称");
+//			validateRequired(errors, "custGroup.shortName", groupDto.getShortName(), "集团简称");	
 			
 			if(!StringUtils.isEmpty(groupDto.getFullName()) &&  custRegtService.getCountOfGroupsByFullName(groupDto.getFullName())>0){
 				errors.rejectValue("custGroup.fullName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
 			}
 		}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(custIndicator)){
-			validateRequired(errors, "custGroup.fullName", groupDto.getFullName(), "集团名称");
-			validateRequired(errors, "custGroup.shortName", groupDto.getShortName(), "集团简称");
+//			validateRequired(errors, "custGroup.fullName", groupDto.getFullName(), "集团名称");
+//			validateRequired(errors, "custGroup.shortName", groupDto.getShortName(), "集团简称");
 		}
 		
 		validateRequired(errors, "fullName", customerDto.getFullName(), "公司名称");
