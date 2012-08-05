@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
@@ -50,7 +51,6 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/initAddCustomer.do")
 	public ModelAndView initAddCustom(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/fillCustomerInfo.do", true));
-		
 		initCustomer(request);
 		return mv;
 	}
@@ -151,11 +151,15 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/saveCustCoInfo.do")
 	public ModelAndView saveCustCoInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto, BindingResult errors){
 		ModelAndView mv = null;
+		logger.debug("------------>"+customerDto.getCustGroup().getSystemGroupRefNum());
 		customerValidator.validate(customerDto, errors);
-//		if(errors.hasErrors()){
-//			mv = new ModelAndView("customer/customerCreate");
-//			return mv;
-//		}
+		if(errors.hasErrors()){
+			mv = new ModelAndView("customer/customerCreate");
+			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+			mv.addObject(SessionAttributeConstant.LIST_OF_GROUPS, CustomerGroupConvertor.toSelectOptions(custRegtService.loadCustGroups()));
+			mv.addObject(SessionAttributeConstant.LIST_OF_POSITION_TYPE, positionCommonService.loadPositionTypes());
+			return mv;
+		}
 		
 		mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
 		return mv;
@@ -169,7 +173,9 @@ public class CustomerRegistrationController extends BaseController{
 	}
 	
 	@RequestMapping(value="/customer/submitCustomer.do")
-	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto , SessionStatus status){
+		custRegtService.completeCustRegistration(customerDto);
+		status.setComplete();
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
 	

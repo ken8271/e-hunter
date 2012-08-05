@@ -9,105 +9,113 @@
 <hdiv-c:url value="/customer/loadCustomerGroup.do" var="loadGroupUrl"></hdiv-c:url>
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
-function changeCustType(){
-	var custType = document.getElementById("custType");
-	if(custType != null){
-		var selectedIndex = custType.selectedIndex;
-		if(selectedIndex == 1){
-			$('#systemGroupRefNum').attr('disabled' , true);
-			$('#groupFullName').attr('disabled' , false);
-			$('#groupShortName').attr('disabled' , false);
-			$('#systemGroupRefNum').val('');
-			$('#groupFullName').val('');
-			$('#groupShortName').val('');
-			$('#group').hide();
-			$('#group').val('');
-		}else if (selectedIndex == 2){
-			$('#systemGroupRefNum').attr('disabled' , true);
-			$('#groupFullName').attr('disabled' , true);
-			$('#groupShortName').attr('disabled' , true);
-			$('#group').show();
-		}else {
-			$('#systemGroupRefNum').attr('disabled' , true);
-			$('#groupFullName').attr('disabled' , true);
-			$('#groupShortName').attr('disabled' , true);
-			$('#systemGroupRefNum').val('');
-			$('#groupFullName').val('');
-			$('#groupShortName').val('');
-			$('#group').hide();
-			$('#group').val('');
+	$(document).ready(function(){
+		changeCustType();
+		$('#systemGroupRefNum').val("${customerDto.custGroup.systemGroupRefNum}");
+		$('#groupFullName').val("${customerDto.custGroup.fullName}");
+		$('#groupShortName').val("${customerDto.custGroup.shortName}");
+	});
+
+	function changeCustType(){
+		var custType = document.getElementById("custType");
+		if(custType != null){
+			var selectedIndex = custType.selectedIndex;
+			if(selectedIndex == 1){
+				$('#systemGroupRefNum').attr('readonly' , true);
+				$('#groupFullName').attr('readonly' , false);
+				$('#groupShortName').attr('readonly' , false);
+				$('#systemGroupRefNum').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#group').hide();
+				$('#group').val('');
+			}else if (selectedIndex == 2){
+				$('#systemGroupRefNum').attr('readonly' , true);
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
+				$('#group').show();
+			}else {
+				$('#systemGroupRefNum').attr('readonly' , true);
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
+				$('#systemGroupRefNum').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#group').hide();
+				$('#group').val('');
+			}
+		}
+	
+	}
+
+	function clearSelector(selector){
+		while(selector.childNodes.length>0){
+			selector.removeChild(selector.childNodes[0]);
 		}
 	}
-
-}
-
-function clearSelector(selector){
-	while(selector.childNodes.length>0){
-		selector.removeChild(selector.childNodes[0]);
+	
+	function loadGroupInfo(){
+		var group = document.getElementById("group");
+		if(group != null && group.selectedIndex != 0){
+			$().progressDialog.showDialog("");
+			var _id = group.options[group.selectedIndex].value;
+			$.ajax({
+				type:'post',
+				url:'${loadGroupUrl}',
+				dataType:'xml',
+				data:{'_id':_id},
+				success:function(xml){
+					var groupId =  $(xml).find('id').text();
+					var groupFullName =  $(xml).find('fullName').text();
+					var groupShortName = $(xml).find('shortName').text();
+					
+					$('#systemGroupRefNum').val(groupId);
+					$('#groupFullName').val(groupFullName);
+					$('#groupShortName').val(groupShortName);
+					
+					$().progressDialog.hideDialog("");
+				},
+				error:function(){
+					$().progressDialog.hideDialog("");
+					alert('系统错误');
+				}
+			});
+		}else{
+			$('#systemGroupRefNum').val("");
+			$('#groupFullName').val("");
+			$('#groupShortName').val("");
+		}
+		
 	}
-}
-
-function loadGroupInfo(){
-	var group = document.getElementById("group");
-	if(group != null && group.selectedIndex != 0){
-		$().progressDialog.showDialog("");
-		var _id = group.options[group.selectedIndex].value;
-		$.ajax({
-			type:'post',
-			url:'${loadGroupUrl}',
-			dataType:'xml',
-			data:{'_id':_id},
-			success:function(xml){
-				var groupId =  $(xml).find('id').text();
-				var groupFullName =  $(xml).find('fullName').text();
-				var groupShortName = $(xml).find('shortName').text();
-				
-				$('#systemGroupRefNum').val(groupId);
-				$('#groupFullName').val(groupFullName);
-				$('#groupShortName').val(groupShortName);
-				
-				$().progressDialog.hideDialog("");
-			},
-			error:function(){
-				$().progressDialog.hideDialog("");
-				alert('系统错误');
-			}
-		});
-	}else {
-		$('#systemGroupRefNum').val('');
-		$('#groupFullName').val('');
-		$('#groupShortName').val('');
+	
+	function loadPositions(){
+		var postSelector = document.getElementById("postSelector");
+		if(postSelector != null && postSelector.selectedIndex != 0){
+			$().progressDialog.showDialog("");
+			var code = postSelector.options[postSelector.selectedIndex].value;
+			$.ajax({
+				type:'post',
+				url:'${loadPositions}',
+				dataType:'text',
+				data:{'code':code},
+				success:function(xml){
+					$().progressDialog.hideDialog("");
+					var subSelector = document.getElementById("subPostSelector");
+					clearSelector(subSelector);
+					subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
+					$(xml).find('position').each(function(i , element){
+						var label = $(this).find("label").text();
+						var val = ''||$(this).children("value").text()||'';
+						subSelector.options[subSelector.length] = new Option(label, val);
+					});
+				},
+				error:function(){
+					$().progressDialog.hideDialog("");
+					alert('系统错误');
+				}
+			});
+		}
 	}
-}
-
-function loadPositions(){
-	var postSelector = document.getElementById("postSelector");
-	if(postSelector != null && postSelector.selectedIndex != 0){
-		$().progressDialog.showDialog("");
-		var code = postSelector.options[postSelector.selectedIndex].value;
-		$.ajax({
-			type:'post',
-			url:'${loadPositions}',
-			dataType:'text',
-			data:{'code':code},
-			success:function(xml){
-				$().progressDialog.hideDialog("");
-				var subSelector = document.getElementById("subPostSelector");
-				clearSelector(subSelector);
-				subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
-				$(xml).find('position').each(function(i , element){
-					var label = $(this).find("label").text();
-					var val = ''||$(this).children("value").text()||'';
-					subSelector.options[subSelector.length] = new Option(label, val);
-				});
-			},
-			error:function(){
-				$().progressDialog.hideDialog("");
-				alert('系统错误');
-			}
-		});
-	}
-}
 </script>
 </head>
 <body>
@@ -155,14 +163,21 @@ function loadPositions(){
 						      <form:option value="group" label="集团客户"></form:option>
 						      <form:option value="subsidiary" label="非集团客户（集团旗下子公司）"></form:option>
 						      <form:option value="independent" label="非集团客户（独立公司）"></form:option>
-						   </form:select>
+						   </form:select><common:errorSign path="groupIndicator"></common:errorSign>
 						</td>
 						<td>
 						   &nbsp;
 						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none">
 						      <option>--- 请选择 ---</option>
 						      <c:forEach items="${listOfGroups}" var="group">
-						         <option value="${group.value }">${group.label}</option>
+						        <c:choose>
+						          <c:when test="${group.value == customerDto.custGroup.systemGroupRefNum}">
+						            <option value="${group.value }" selected="selected">${group.label}</option>
+						          </c:when>
+						          <c:otherwise>
+						            <option value="${group.value }" >${group.label}</option>
+						          </c:otherwise>
+						        </c:choose>
 						      </c:forEach>
 						   </select>
 						</td>
@@ -176,18 +191,18 @@ function loadPositions(){
 				    <customer:standardTableRow />
 					<tr >
 						<td class="labelColumn">集团编号：</td>
-						<td><form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssClass="standardInputText" disabled="true"></form:input></td>
+						<td><form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssClass="standardInputText" readonly="true"></form:input></td>
 						<td colspan="2"></td>
 					</tr>
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td>
-						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" disabled="true"></form:input>
+						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" readonly="true"></form:input>
 						<common:errorSign id="custGroup.fullName" path="custGroup.fullName"></common:errorSign>
 						</td>
 						<td class="labelColumn">集团简称：</td>
 						<td>
-						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" disabled="true"/> 
+						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" readonly="true"/> 
 						   <common:errorSign id="custGroup.shortName" path="custGroup.shortName"></common:errorSign>
 					    </td>
 					</tr>
