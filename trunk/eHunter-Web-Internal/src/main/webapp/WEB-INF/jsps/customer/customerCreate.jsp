@@ -50,6 +50,7 @@ function clearSelector(selector){
 function loadGroupInfo(){
 	var group = document.getElementById("group");
 	if(group != null && group.selectedIndex != 0){
+		$().progressDialog.showDialog("");
 		var _id = group.options[group.selectedIndex].value;
 		$.ajax({
 			type:'post',
@@ -64,17 +65,25 @@ function loadGroupInfo(){
 				$('#systemGroupRefNum').val(groupId);
 				$('#groupFullName').val(groupFullName);
 				$('#groupShortName').val(groupShortName);
+				
+				$().progressDialog.hideDialog("");
 			},
 			error:function(){
+				$().progressDialog.hideDialog("");
 				alert('系统错误');
 			}
 		});
+	}else {
+		$('#systemGroupRefNum').val('');
+		$('#groupFullName').val('');
+		$('#groupShortName').val('');
 	}
 }
 
 function loadPositions(){
 	var postSelector = document.getElementById("postSelector");
 	if(postSelector != null && postSelector.selectedIndex != 0){
+		$().progressDialog.showDialog("");
 		var code = postSelector.options[postSelector.selectedIndex].value;
 		$.ajax({
 			type:'post',
@@ -82,16 +91,18 @@ function loadPositions(){
 			dataType:'text',
 			data:{'code':code},
 			success:function(xml){
+				$().progressDialog.hideDialog("");
 				var subSelector = document.getElementById("subPostSelector");
 				clearSelector(subSelector);
 				subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 				$(xml).find('position').each(function(i , element){
 					var label = $(this).find("label").text();
-					var val = $(this).children("value").text();
+					var val = ''||$(this).children("value").text()||'';
 					subSelector.options[subSelector.length] = new Option(label, val);
 				});
 			},
 			error:function(){
+				$().progressDialog.hideDialog("");
 				alert('系统错误');
 			}
 		});
@@ -100,8 +111,7 @@ function loadPositions(){
 </script>
 </head>
 <body>
-	<form:form commandName="customerDto"
-		action="${ctx}/customer/saveCustCoInfo.do" method="post">
+	<form:form commandName="customerDto" action="${ctx}/customer/saveCustCoInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司资料填写</td>
@@ -140,14 +150,15 @@ function loadPositions(){
 					<tr>
 						<td class="labelColumn">客户类型：<span class="mandatoryField">*</span></td>
 						<td>
-						   <select id="custType" class="standardSelect" onchange="changeCustType();">
-						      <option>--- 请选择  ---</option>
-						      <option>集团客户</option>
-						      <option>非集团客户（集团旗下子公司）</option>
-						      <option>非集团客户（独立公司）</option>
-						   </select>
+						   <form:select id="custType" cssClass="standardSelect" onchange="changeCustType();" path="groupIndicator">
+						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <form:option value="group" label="集团客户"></form:option>
+						      <form:option value="subsidiary" label="非集团客户（集团旗下子公司）"></form:option>
+						      <form:option value="independent" label="非集团客户（独立公司）"></form:option>
+						   </form:select>
 						</td>
 						<td>
+						   &nbsp;
 						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none">
 						      <option>--- 请选择 ---</option>
 						      <c:forEach items="${listOfGroups}" var="group">
@@ -170,10 +181,14 @@ function loadPositions(){
 					</tr>
 					<tr >
 						<td class="labelColumn">集团名称：</td>
-						<td><form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" disabled="true"></form:input></td>
+						<td>
+						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" disabled="true"></form:input>
+						<common:errorSign id="custGroup.fullName" path="custGroup.fullName"></common:errorSign>
+						</td>
 						<td class="labelColumn">集团简称：</td>
 						<td>
 						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" disabled="true"/> 
+						   <common:errorSign id="custGroup.shortName" path="custGroup.shortName"></common:errorSign>
 					    </td>
 					</tr>
 				</tbody>
@@ -191,17 +206,26 @@ function loadPositions(){
 				    <customer:standardTableRow />
 					<tr >
 						<td class="labelColumn" >公司名称：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="fullName" cssClass="standardInputText"></form:input></td>
+						<td colspan="2">
+						<form:input path="fullName" cssClass="standardInputText"></form:input>
+						<common:errorSign id="fullName" path="fullName"></common:errorSign>
+						</td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">公司简称：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="shortName" cssClass="standardInputText"></form:input></td>
+						<td colspan="2">
+						<form:input path="shortName" cssClass="standardInputText"></form:input>
+						<common:errorSign id="shortName" path="shortName"></common:errorSign>
+						</td>
 					    <td>&nbsp;</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">官方网址：</td>
-						<td><form:input path="offcialSite" cssClass="standardInputText"></form:input></td>
+						<td>
+						<form:input path="offcialSite" cssClass="standardInputText"></form:input>
+						<common:errorSign id="offcialSite" path="offcialSite"></common:errorSign>
+						</td>
 						<td class="labelColumn">公司总机：</td>
 						<td>
 						   <form:input path="telExchange.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
@@ -223,6 +247,7 @@ function loadPositions(){
 						      <form:option value="PI" label="事业单位"></form:option>
 						      <form:option value="OT" label="其他"></form:option>
 						   </form:select>
+						   <common:errorSign id="type" path="type"></common:errorSign>
 						</td>
 					    <td class="labelColumn">公司规模：<span class="mandatoryField">*</span></td>
 						<td>
@@ -237,6 +262,7 @@ function loadPositions(){
 						      <form:option value="007" label="5000-10000人"></form:option>
 						      <form:option value="008" label="10000人以上"></form:option>
 						   </form:select>
+						   <common:errorSign id="size" path="size"></common:errorSign>
 						</td>
 					</tr>
 					<tr >
@@ -249,6 +275,7 @@ function loadPositions(){
 						      <form:option value="NR" label="无需求有意向"></form:option>
 						      <form:option value="NN" label="无需求无意向"></form:option>
 						   </form:select>
+						   <common:errorSign id="grade" path="grade"></common:errorSign>
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
 						<td>
@@ -258,6 +285,7 @@ function loadPositions(){
 						      <form:option value="PTL" label="潜力客户"></form:option>
 						      <form:option value="OTH" label="其它"></form:option>
 						   </form:select>
+						   <common:errorSign id="status" path="status"></common:errorSign>
 						</td>
 					</tr>
 				</tbody>
@@ -275,7 +303,10 @@ function loadPositions(){
 				    <customer:standardTableRow />
 				    <tr >
 						<td class="labelColumn">姓名：<span class="mandatoryField">*</span></td>
-						<td colspan="3"><form:input path="custRespPerson.name" cssClass="standardInputText"></form:input></td>
+						<td colspan="3">
+						<form:input path="custRespPerson.name" cssClass="standardInputText"></form:input>
+						<common:errorSign id="custRespPerson.name" path="custRespPerson.name"></common:errorSign>
+						</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">职位类型：<span class="mandatoryField">*</span></td>
@@ -291,19 +322,29 @@ function loadPositions(){
 						   <form:select id="subPostSelector" path="custRespPerson.positionType" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
+						   <common:errorSign id="custRespPerson.positionType" path="custRespPerson.positionType"></common:errorSign>
 						</td>
 						<td >&nbsp;</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">职位名称：<span class="mandatoryField">*</span></td>
-						<td colspan="2"><form:input path="custRespPerson.positionName" cssClass="standardInputText"></form:input></td>
+						<td colspan="2">
+						<form:input path="custRespPerson.positionName" cssClass="standardInputText"></form:input>
+						<common:errorSign id="custRespPerson.positionName" path="custRespPerson.positionName"></common:errorSign>
+						</td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
-						<td><form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input></td>
+						<td>
+						<form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input>
+						<common:errorSign id="custRespPerson.telephone.phoneNumber" path="custRespPerson.telephone.phoneNumber"></common:errorSign>
+						</td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
-						<td><form:input path="custRespPerson.email" cssClass="standardInputText"></form:input></td>
+						<td>
+						<form:input path="custRespPerson.email" cssClass="standardInputText"></form:input>
+						<common:errorSign id="custRespPerson.email" path="custRespPerson.email"></common:errorSign>
+						</td>
 					</tr>	
 					<tr >
 						<td class="labelColumn">状态：<span class="mandatoryField">*</span></td>
@@ -313,6 +354,7 @@ function loadPositions(){
 						      <form:option value="IS" label="在职"></form:option>
 						      <form:option value="OS" label="已离职"></form:option>
 						   </form:select>
+						   <common:errorSign id="custRespPerson.status" path="custRespPerson.status"></common:errorSign>
 						</td>
 						<td colspan="2">
 					</tr>				

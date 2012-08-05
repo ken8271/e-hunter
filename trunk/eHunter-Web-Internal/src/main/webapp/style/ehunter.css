@@ -320,7 +320,7 @@ div.emptyBlock {
 }
 
 .standardInputText {
-	width: 99%;
+	width: 90%;
 	height: 23px;
 }
 
@@ -333,7 +333,7 @@ div.emptyBlock {
 
 .standardSelect{
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
-	width: 97%;
+	width: 90%;
 	height: 23px;
 }
 

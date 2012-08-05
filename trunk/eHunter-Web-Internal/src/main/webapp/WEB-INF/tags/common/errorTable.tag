@@ -10,7 +10,7 @@
       <br clear="all">
       <ul>
          <c:forEach var="errmsg" items="${errors.allErrors }">
-            <li>${errmsg.defaultMessage }</li>
+            <li><spring:message code="${errmsg.code}" text="${errmsg.defaultMessage }" arguments="${errmsg.arguments}"></spring:message></li>
          </c:forEach>
       </ul>
    </div>
