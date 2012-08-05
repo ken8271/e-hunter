@@ -1,6 +1,8 @@
 package com.pccw.ehunter.utility;
 
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
 	public static final String EMPTY_STRING = "";
@@ -45,5 +47,42 @@ public class StringUtils {
 			}
 		}
 		return strs;
+	}
+	
+	public static boolean isAllDigit(String s) {
+		if (s == null || s.equals(EMPTY_STRING)) {
+			return false;
+		} else {
+			for (int i = 0; i < s.length(); i++) {
+				char c = s.charAt(i);
+				if (!Character.isDigit(c)) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	
+	public static boolean isAllAlphanumeric(String s) {
+		
+		if (s == null || s.equals(EMPTY_STRING)) {
+			return false;
+		} 
+		
+		Pattern pattern = Pattern.compile("^[a-zA-Z0-9]*");
+
+		Matcher matcher = pattern.matcher(s);
+		
+		if(matcher.matches()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public static boolean isMatched(String input, String regex){
+		Pattern p = Pattern.compile(regex);
+	    Matcher m = p.matcher(input);
+		return m.find();
 	}
 }
