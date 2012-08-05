@@ -13,11 +13,12 @@ import com.pccw.ehunter.dto.CustomerGroupDTO;
 public class CustomerGroupConvertor {
 	
 	public static CustomerGroupDTO toDto(CustomerGroup po){
-		CustomerGroupDTO dto = new CustomerGroupDTO();
 		
 		if(null == po){
-			return dto;
+			return null;
 		}
+		
+		CustomerGroupDTO dto = new CustomerGroupDTO();
 		
 		BeanUtils.copyProperties(po, dto);
 		
@@ -25,11 +26,11 @@ public class CustomerGroupConvertor {
 	}
 	
 	public static CustomerGroup toPo(CustomerGroupDTO dto){
-		CustomerGroup po = new CustomerGroup();
-		
 		if(null == dto){
-			return po;
+			return null;
 		}
+		
+		CustomerGroup po = new CustomerGroup();
 		
 		BeanUtils.copyProperties(dto, po);
 		
@@ -44,7 +45,10 @@ public class CustomerGroupConvertor {
 		}
 		
 		for(CustomerGroup po : pos){
-			dtos.add(toDto(po));
+			CustomerGroupDTO dto = toDto(po);
+			if(null != dto){				
+				dtos.add(dto);
+			}
 		}
 		
 		return dtos;
@@ -58,7 +62,10 @@ public class CustomerGroupConvertor {
 		}
 		
 		for(CustomerGroupDTO dto : dtos){
-			pos.add(toPo(dto));
+			CustomerGroup po = toPo(dto);
+			if(null != po){				
+				pos.add(po);
+			}
 		}
 		
 		return pos;
