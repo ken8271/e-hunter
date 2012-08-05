@@ -4,7 +4,7 @@
 			<h3 class="menuheader expandable">客户管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx}/customer/initAddCustomer.do">新增客户</a></li>
-			<li><a href="#">客户查询</a></li>
+			<li><a href="${ctx}/customer/initCustomersSearch.do">客户查询</a></li>
 			<li><a href="#">客户联系记录</a></li>
 			</ul>
 			

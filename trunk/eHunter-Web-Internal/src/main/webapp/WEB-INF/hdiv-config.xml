@@ -57,6 +57,7 @@
 				<value>/index.do</value>
 				<value>/logout.do</value>
 				<value>/customer/initAddCustomer.do</value>
+				<value>/customer/initCustomersSearch.do</value>
 			</list>			
 		</property>
 
