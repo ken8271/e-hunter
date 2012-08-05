@@ -29,4 +29,9 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	public List<CustomerGroupDTO> loadCustGroups() {
 		return CustomerGroupConvertor.toDtos(custRegtDao.loadCustGroups());
 	}
+
+	@Override
+	public int getCountOfGroupsByFullName(String fullName) {
+		return custRegtDao.countGroupsByFullName(fullName);
+	}
 }

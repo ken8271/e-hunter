@@ -7,4 +7,5 @@ import com.pccw.ehunter.dto.CustomerGroupDTO;
 public interface CustomerRegistrationService {
 	public CustomerGroupDTO loadCustGroupByID(String systemGroupRefNum);
 	public List<CustomerGroupDTO> loadCustGroups();
+	public int getCountOfGroupsByFullName(String fullName);
 }

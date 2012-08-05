@@ -1,5 +1,6 @@
 package com.pccw.ehunter.dao.impl;
 
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -55,6 +56,28 @@ public class HibernateCustomerRegistrationDAO implements CustomerRegistrationDAO
 			}
 		});
 		return cg;
+	}
+
+	@Override
+	public int countGroupsByFullName(final String fullName) {
+		BigInteger count = (BigInteger)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT COUNT(*) ");
+				buffer.append(" FROM T_CUST_GP ");
+				buffer.append(" WHERE GP_NM = :fullName ");
+				buffer.append(" AND LST_TX_ACTN <> 'D' ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				query.setString("fullName", fullName);
+				
+				return (BigInteger)query.uniqueResult();
+			}
+		});
+		return count.intValue();
 	}
 
 }
