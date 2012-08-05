@@ -1,7 +1,14 @@
 package com.pccw.ehunter.domain.internal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.pccw.ehunter.domain.BaseEntity;
 
+@Entity
+@Table(name="T_CUST_RP")
 public class CustomerResponsablePerson extends BaseEntity {
 
 	private String systemRespRefNum;
@@ -12,6 +19,8 @@ public class CustomerResponsablePerson extends BaseEntity {
 	private String email;
 	private String status;
 
+	@Id
+	@Column(name="SYS_REF_RP")
 	public String getSystemRespRefNum() {
 		return systemRespRefNum;
 	}
@@ -20,6 +29,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.systemRespRefNum = systemRespRefNum;
 	}
 
+	@Column(name="RP_NM")
 	public String getName() {
 		return name;
 	}
@@ -28,6 +38,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.name = name;
 	}
 
+	@Column(name="RP_POST_TY")
 	public String getPositionType() {
 		return positionType;
 	}
@@ -36,6 +47,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.positionType = positionType;
 	}
 
+	@Column(name="RP_POST")
 	public String getPositionName() {
 		return positionName;
 	}
@@ -44,6 +56,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.positionName = positionName;
 	}
 
+	@Column(name="RP_TEL")
 	public String getTelephone() {
 		return telephone;
 	}
@@ -52,6 +65,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.telephone = telephone;
 	}
 
+	@Column(name="RP_EMAIL")
 	public String getEmail() {
 		return email;
 	}
@@ -60,6 +74,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 		this.email = email;
 	}
 
+	@Column(name="RP_STAT")
 	public String getStatus() {
 		return status;
 	}
