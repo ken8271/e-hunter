@@ -15,6 +15,8 @@ import org.dom4j.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,10 +30,12 @@ import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.service.PositionCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
+import com.pccw.ehunter.validator.CustomerValidator;
 
 @Controller
 @SessionAttributes({SessionAttributeConstant.CUSTOMER_DTO,
-	                SessionAttributeConstant.LIST_OF_GROUPS})
+	                SessionAttributeConstant.LIST_OF_GROUPS,
+	                SessionAttributeConstant.LIST_OF_POSITION_TYPE})
 public class CustomerRegistrationController extends BaseController{
 		
 	@Autowired
@@ -40,6 +44,9 @@ public class CustomerRegistrationController extends BaseController{
 	@Autowired
 	private PositionCommonService positionCommonService;
 	
+	@Autowired
+	private CustomerValidator customerValidator;
+
 	@RequestMapping(value="/customer/initAddCustomer.do")
 	public ModelAndView initAddCustom(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/fillCustomerInfo.do", true));
@@ -140,4 +147,35 @@ public class CustomerRegistrationController extends BaseController{
 		
 		return null;
 	}
+	
+	@RequestMapping(value="/customer/saveCustCoInfo.do")
+	public ModelAndView saveCustCoInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto, BindingResult errors){
+		ModelAndView mv = null;
+		customerValidator.validate(customerDto, errors);
+//		if(errors.hasErrors()){
+//			mv = new ModelAndView("customer/customerCreate");
+//			return mv;
+//		}
+		
+		mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
+		return mv;
+	}
+	
+	@RequestMapping(value="/customer/verify.do")
+	public ModelAndView verify(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("customer/verifyInfo");
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, request.getSession(false).getAttribute(SessionAttributeConstant.CUSTOMER_DTO));
+		return mv;
+	}
+	
+	@RequestMapping(value="/customer/submitCustomer.do")
+	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
+	}
+	
+	@RequestMapping(value="/customer/completeCustRegistration.do")
+	public ModelAndView completeCustRegistration(HttpServletRequest request){
+		return new ModelAndView("customer/customerConfirmation");
+	}
 }
+

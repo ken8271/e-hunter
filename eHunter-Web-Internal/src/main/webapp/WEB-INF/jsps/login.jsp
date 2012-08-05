@@ -60,7 +60,7 @@
 					<tr>
 						<td width="35%" class="rightText">登录名(User ID) ：</td>
 						<td width="50%" align="left">
-						   <input type="text" size="20" maxlength="20" value="${param.j_username}" id="j_username" name="j_username"
+						   <input class="standardInputText" type="text" size="20" maxlength="20" value="${param.j_username}" id="j_username" name="j_username"
 							value='<c:if test="${not empty param.login_error}">${SPRING_SECURITY_LAST_USERNAME_KEY}</c:if>' />
 						</td>
 						<td width="15%"><span class="mandatoryField">*</span></td>
@@ -68,7 +68,7 @@
 					<tr>
 						<td class="rightText">密码(Password) ：</td>
 						<td align="left">
-						<input type="password" autocomplete="off" size="20" maxlength="8" name="j_password" id="j_password" value="${param.j_password}" />
+						<input class="standardInputText" type="password" autocomplete="off" size="20" maxlength="8" name="j_password" id="j_password" value="${param.j_password}" />
 						</td>
 						<td align="left"><span class="mandatoryField">*</span></td>
 					</tr>

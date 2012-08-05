@@ -1,0 +1,175 @@
+.verifyTable td {
+	padding: 5px;
+}
+
+.titleEn36 {
+	font-size: 36.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn12 {
+	font-size: 12.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn11 {
+	font-size: 11.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn10 {
+	font-size: 10.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn9 {
+	font-size: 9.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn8 {
+	font-size: 8.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.titleEn7 {
+	font-size: 7.0pt;
+	font-weight: bold;
+	font-family: Arial;
+	text-align: center;
+}
+
+.textEn12 {
+	font-size: 12.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn11 {
+	font-size: 11.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn10 {
+	font-size: 10.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn9 {
+	font-size: 9.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn8 {
+	font-size: 8.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn7 {
+	font-size: 7.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.textEn6 {
+	font-size: 6.0pt;
+	font-family: Arial;
+	color: windowtext;
+}
+
+.titleCh12 {
+	font-size: 12.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.titleCh11 {
+	font-size: 11.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.titleCh10 {
+	font-size: 10.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.titleCh9 {
+	font-size: 9.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.titleCh8 {
+	font-size: 8.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.titleCh7 {
+	font-size: 7.0pt;
+	font-weight: bold;
+	text-align: center;
+	font-family: 新細明體;
+}
+
+.textCh12 {
+	font-size: 12.0pt;
+	font-family: 新細明體;
+}
+
+.textCh11 {
+	font-size: 11.0pt;
+	font-family: 新細明體;
+}
+
+.textCh10 {
+	font-size: 10.0pt;
+	font-family: 新細明體;
+}
+
+.textCh9 {
+	font-size: 9.0pt;
+	font-family: 新細明體;
+}
+
+.textCh8 {
+	font-size: 8.0pt;
+	font-family: 新細明體;
+}
+
+.textCh87 {
+	font-size: 7.0pt;
+	font-family: 新細明體;
+}
+
+.textCh6 {
+	font-size: 6.0pt;
+	font-family: 新細明體;
+}
+
+td {
+	word-break:break-all;
+}
