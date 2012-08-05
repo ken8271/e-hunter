@@ -1,34 +1,72 @@
 package com.pccw.ehunter.convertor;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
 
 public class CustomerResponsablePersonConvertor {
 	
-	public static CustomerResponsablePerson toPo(CustomerResponsePersonDTO dto){
-		CustomerResponsablePerson po = new CustomerResponsablePerson();
+	public static CustomerResponsePersonDTO toDto(CustomerResponsablePerson po){
 		
-		if(null == dto){
-			return po;
+		if(null == po){
+			return null;
 		}
+		
+		CustomerResponsePersonDTO dto = new CustomerResponsePersonDTO();
+		
+		BeanUtils.copyProperties(po, dto);
+		
+		return dto;
+	}
+	
+	public static CustomerResponsablePerson toPo(CustomerResponsePersonDTO dto){
+		if(null == dto){
+			return null;
+		}
+		
+		CustomerResponsablePerson po = new CustomerResponsablePerson();
 		
 		BeanUtils.copyProperties(dto, po);
 		
 		return po;
 	}
 	
-	public static CustomerResponsePersonDTO toDto(CustomerResponsablePerson po){
-		CustomerResponsePersonDTO dto = new CustomerResponsePersonDTO();
+	public static List<CustomerResponsePersonDTO> toDtos(List<CustomerResponsablePerson> pos){
+		List<CustomerResponsePersonDTO> dtos = new ArrayList<CustomerResponsePersonDTO>();
 		
-		if(null == po){
-			return dto;
+		if(CollectionUtils.isEmpty(pos)){
+			return dtos;
 		}
 		
-		BeanUtils.copyProperties(po, dto);
+		for(CustomerResponsablePerson po : pos){
+			CustomerResponsePersonDTO dto = toDto(po);
+			if(null != dto){				
+				dtos.add(dto);
+			}
+		}
 		
-		return dto;
+		return dtos;
+	}
+	
+	public static List<CustomerResponsablePerson> toPos(List<CustomerResponsePersonDTO> dtos){
+		List<CustomerResponsablePerson> pos = new ArrayList<CustomerResponsablePerson>();
+		
+		if(CollectionUtils.isEmpty(dtos)){
+			return pos;
+		}
+		
+		for(CustomerResponsePersonDTO dto : dtos){
+			CustomerResponsablePerson po = toPo(dto);
+			if(null != po){
+				pos.add(po);
+			}
+		}
+		
+		return pos;
 	}
 }
