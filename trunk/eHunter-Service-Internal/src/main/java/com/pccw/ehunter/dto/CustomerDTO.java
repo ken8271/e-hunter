@@ -14,8 +14,8 @@ public class CustomerDTO extends BaseDTO {
 	private String size;
 	private String groupIndicator;
 	
-	private CustomerResponsePersonDTO custRespPerson;
 	private CustomerGroupDTO custGroup;
+	private CustomerResponsePersonDTO custRespPerson;
 
 	public String getSystemCustRefNum() {
 		return systemCustRefNum;
