@@ -13,7 +13,9 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pccw.ehunter.dao.CustomerRegistrationDAO;
+import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.domain.internal.CustomerGroup;
+import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 
 @Component("custRegtDao")
 public class HibernateCustomerRegistrationDAO implements CustomerRegistrationDAO{
@@ -78,6 +80,21 @@ public class HibernateCustomerRegistrationDAO implements CustomerRegistrationDAO
 			}
 		});
 		return count.intValue();
+	}
+
+	@Override
+	public void saveCustomerCompany(CustomerCompany customerCompany) {
+		this.hibernateTemplate.save(customerCompany);
+	}
+
+	@Override
+	public void saveCustomerGroup(CustomerGroup customerGroup) {
+		this.hibernateTemplate.save(customerGroup);
+	}
+
+	@Override
+	public void saveCustomerResponsablePerson(CustomerResponsablePerson customerResponsablePerson) {
+		this.hibernateTemplate.save(customerResponsablePerson);		
 	}
 
 }
