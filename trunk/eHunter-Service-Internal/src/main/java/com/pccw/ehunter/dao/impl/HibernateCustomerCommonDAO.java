@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pccw.ehunter.dao.CustomerCommonDAO;
+import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -31,7 +32,7 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT COUNT(cc.SYS_REF_CUST) ");
-				buffer.append(" FROM T_CUST_CO cc , T_CUST_GP cg ");
+				buffer.append(" FROM T_CUST_CO cc , T_CUST_GP cg , T_CUST_GRDE gd , T_CUST_STAT cs ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFiter(pagedCriteria));
 				
@@ -53,7 +54,7 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT cc.SYS_REF_CUST , cc.CUST_NM , cc.CUST_SHRT_NM , gd.DISP_NM , cs.DISP_NM ");
+				buffer.append(" SELECT cc.SYS_REF_CUST , cc.CO_NM , cc.CO_SHRT_NM , gd.DISP_NM as GD_DISP_NM , cs.DISP_NM as STAT_DISP_NM ");
 				buffer.append(" FROM T_CUST_CO cc , T_CUST_GP cg , T_CUST_GRDE gd , T_CUST_STAT cs ");
 				buffer.append(" WHERE 1=1 ");
 				buffer.append(getSQLFiter(pagedCriteria));
@@ -76,18 +77,20 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 	
 	private StringBuffer getSQLFiter(CustomerPagedCriteria pagedCriteria) {
 		StringBuffer filter = new StringBuffer();
+		filter.append(" AND cc.CUST_GRDE = gd.GEDE_CD ");
+		filter.append(" AND cc.CUST_STAT = cs.STAT_CD ");
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemCustRefNum())){
-			filter.append(" AND cc.SYS_REF_CUST LIKE '%'||:sysCustRefNum||'%' ");
+			filter.append(" AND UPPER(cc.SYS_REF_CUST) LIKE CONCAT('%',UPPER(:sysCustRefNum),'%') ");
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getGroupName())){
 			filter.append(" AND cc.SYS_REF_GP = cg.SYS_REF_GP ");
-			filter.append(" AND (cg.GP_NM LIKE '%'||:groupName||'%' OR cg.GP_SHRT_NM LIKE '%'||:groupName||'%') ");
+			filter.append(" AND (UPPER(cg.GP_NM) LIKE CONCAT('%',UPPER(:groupName),'%') OR UPPER(cg.GP_SHRT_NM) LIKE CONCAT('%', UPPER(:groupName) ,'%')) ");
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getName())){
-			filter.append(" AND (cc.CO_NM LIKE '%'||:custName||'%' OR cc.CO_SHRT_NM LIKE '%'||:custName||'%') ");
+			filter.append(" AND (UPPER(cc.CO_NM) LIKE CONCAT('%',UPPER(:custName),'%') OR UPPER(cc.CO_SHRT_NM) LIKE CONCAT('%',UPPER(:custName),'%')) ");
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getType())){
@@ -99,12 +102,10 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getGrade())){
-			filter.append(" AND cc.CUST_GRDE = gd.GEDE_CD ");
 			filter.append(" AND cc.CUST_GRDE = :grade ");
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getStatus())){
-			filter.append(" AND cc.CUST_STAT = cs.STAT_CD ");
 			filter.append(" AND cc.CUST_STAT = :status ");
 		}
 		
@@ -139,6 +140,19 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		if(!StringUtils.isEmpty(pagedCriteria.getStatus())){
 			query.setString("status", pagedCriteria.getStatus());
 		}
+	}
+
+	@Override
+	public CustomerCompany getCustomerByID(final String systemCustRefNum) {
+		CustomerCompany cust = (CustomerCompany)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				return null;
+			}
+		});
+		return null;
 	}
 
 }
