@@ -124,7 +124,7 @@ public class CustomerCompany extends BaseEntity {
 		this.groupIndicator = groupIndicator;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name="SYS_REF_GP")
 	public CustomerGroup getGroup() {
 		return group;
@@ -134,7 +134,7 @@ public class CustomerCompany extends BaseEntity {
 		this.group = group;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name="SYS_REF_RP")
 	public List<CustomerResponsablePerson> getCustRespPersons() {
 		return custRespPersons;
