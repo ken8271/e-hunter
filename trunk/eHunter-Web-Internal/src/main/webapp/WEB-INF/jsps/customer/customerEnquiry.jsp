@@ -3,6 +3,19 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>e-Hunter System/[EH-CUST-0101]</title>
+<script type="text/javascript">
+function resetForm(){
+	$("#systemCustRefNum").val('');
+	$("#groupName").val('');
+	$("#name").val('');
+	$("#type").val('');
+	$("#size").val('');
+	$("#grade").val('');
+	$("#status").val('');
+}
+</script>
 </head>
 <body>
 <form:form commandName="enquireDto" action="${ctx}/customer/customersSearch.do">
@@ -17,6 +30,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="查询" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+								<input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -110,6 +124,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="查询" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							    <input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -117,6 +132,8 @@
 				</td>
 			</tr>
 		</table>
+		<div class="emptyBlock"></div>
+		<div>${listOfCustomers }</div>
 </form:form>
 </body>
 </html>
