@@ -11,5 +11,6 @@
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerCompany"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.PositionType"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.PositionSubType"></mapping>
+		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>
 	</session-factory>
 </hibernate-configuration>
