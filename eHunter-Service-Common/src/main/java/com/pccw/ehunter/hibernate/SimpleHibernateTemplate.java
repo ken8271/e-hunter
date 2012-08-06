@@ -1,4 +1,4 @@
-package com.pccw.ehunter.dao.impl;
+package com.pccw.ehunter.hibernate;
 
 import java.io.Serializable;
 import java.util.List;
