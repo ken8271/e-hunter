@@ -3,14 +3,18 @@ package com.pccw.ehunter.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.convertor.CustomerConvertor;
 import com.pccw.ehunter.dao.CustomerCommonDAO;
+import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
+import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -20,6 +24,13 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 	
 	@Autowired
 	private CustomerCommonDAO customerDao;
+	
+	private SimpleHibernateTemplate<CustomerCompany, String> customerSimpleDao;
+
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		customerSimpleDao = new SimpleHibernateTemplate<CustomerCompany, String>(sessionFactory, CustomerCompany.class);
+	}
 
 	@Override
 	@Transactional(readOnly=true)
@@ -49,6 +60,12 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 		}
 		
 		return customers;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public CustomerDTO getCustomerByID(String id) {
+		return CustomerConvertor.toDto(customerSimpleDao.get(id));
 	}
 
 }
