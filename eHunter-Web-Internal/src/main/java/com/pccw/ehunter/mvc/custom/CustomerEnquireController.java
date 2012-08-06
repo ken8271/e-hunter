@@ -21,11 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
+import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
+import com.pccw.ehunter.dto.ProjectDTO;
+import com.pccw.ehunter.dto.ProjectEnquireDTO;
+import com.pccw.ehunter.dto.ProjectPagedCriteria;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
+import com.pccw.ehunter.service.ProjectCommonService;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.utility.URLUtils;
 
@@ -35,6 +40,9 @@ public class CustomerEnquireController extends BaseController{
 	
 	@Autowired
 	private CustomerCommonService custCommonService;
+	
+	@Autowired
+	private ProjectCommonService projectCommonService;
 	
 	@RequestMapping(value="/customer/initCustomersSearch.do")
 	public ModelAndView initCustomersSearch(HttpServletRequest reuqest){
@@ -153,6 +161,88 @@ public class CustomerEnquireController extends BaseController{
 			}
 		});
 		row.addColumn(status);
+		
+		return table;
+	}
+	
+	@RequestMapping(value="/customer/viewCustomerDetail.do")
+	public ModelAndView viewCustomerDetail(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("customer/viewCustomerDetail");
+		
+		String id = request.getParameter("_id");
+		CustomerDTO customerDto = custCommonService.getCustomerByID(id);
+		mv.addObject("customerDto", customerDto);
+		
+		ProjectEnquireDTO enquireDto = new ProjectEnquireDTO();
+		enquireDto.setSystemCustRefNum(id);
+		
+		handleProjectsSearch(request , enquireDto , mv);
+		return mv;
+	}
+
+	private void handleProjectsSearch(HttpServletRequest request,final ProjectEnquireDTO enquireDto, ModelAndView mv) {
+		TableModel model = new TableModel("_jmesa_projects", request);
+		model.autoFilterAndSort(false);
+		model.setStateAttr("restore");
+		
+		model.setItems(new PageItems() {
+			
+			@Override
+			public int getTotalRows(Limit limit) {
+				return projectCommonService.getProjectsCountByCriteria(ProjectConvertor.toPagedCriteria(enquireDto));
+			}
+			
+			@Override
+			public Collection<?> getItems(Limit limit) {
+				ProjectPagedCriteria pagedCriteria = ProjectConvertor.toPagedCriteria(enquireDto);
+				
+				int rowStart = limit.getRowSelect().getRowStart();
+				int rowEnd = limit.getRowSelect().getRowEnd();
+				
+				pagedCriteria.getPageFilter().setRowStart(rowStart);
+				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
+				
+				return projectCommonService.getProjectsByCriteria(pagedCriteria);
+			}
+		});
+		
+		model.setTable(getProjectHtmlTable(request));
+		
+		mv.addObject(SessionAttributeConstant.LIST_OF_RPOJECTS, model.render());
+	}
+
+	private Table getProjectHtmlTable(final HttpServletRequest request) {
+		Table table = new HtmlTable().width("99%");
+		
+		HtmlRow row = new HtmlRow();
+		row.setFilterable(false);
+		row.setSortable(false);
+		table.setRow(row);
+		
+		HtmlColumn projectId = new HtmlColumn("systemProjectRefNum");
+		projectId.setTitle("项目编号");
+		projectId.setWidth("30%");
+		projectId.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String properties, int rowCount) {
+				ProjectDTO dto = (ProjectDTO)item;
+				
+				StringBuffer builder = new StringBuffer();
+				builder.append("<a href=\"");
+				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/viewProjectDetail.do?_id=" + dto.getSystemProjectRefNum()));
+				builder.append("\" >");
+				builder.append(dto.getSystemProjectRefNum());
+				builder.append("</a>");
+				return null;
+			}
+		});
+		row.addColumn(projectId);
+		
+		HtmlColumn projectName = new HtmlColumn("projectName");
+		projectName.setTitle("项目名称");
+		projectName.setWidth("70%");
+		row.addColumn(projectName);
 		
 		return table;
 	}
