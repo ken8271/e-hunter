@@ -11,25 +11,40 @@ import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
+import com.pccw.ehunter.dto.TelephoneDTO;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class CustomerConvertor {
+	
+	public static final String HYPHEN = "-";
 	
 	public static CustomerDTO toDto(CustomerCompany po){
 		if(null == po){
 			return null;
 		}
 		
-		CustomerDTO customerDto = new CustomerDTO();
+		CustomerDTO dto = new CustomerDTO();
 		
-		BeanUtils.copyProperties(po, customerDto);
+		BeanUtils.copyProperties(po, dto);
 		
-		customerDto.setCustGroup(CustomerGroupConvertor.toDto(po.getGroup()));
-		
-		if(CollectionUtils.isEmpty(po.getCustRespPersons())){
-			customerDto.setCustRespPerson(CustomerResponsablePersonConvertor.toDto(po.getCustRespPersons().get(0)));
+		TelephoneDTO tel = new TelephoneDTO();
+		if(StringUtils.isEmpty(po.getTelExchange()) || po.getTelExchange().indexOf(HYPHEN) == -1){
+			tel.setRegionCode("");
+			tel.setPhoneNumber("");
+		}else {
+			String[] numbers = po.getTelExchange().split(HYPHEN);
+			tel.setRegionCode(numbers[0]);
+			tel.setPhoneNumber(numbers[1]);
 		}
 		
-		return customerDto;
+		dto.setTelExchangeDto(tel);
+		dto.setCustGroup(CustomerGroupConvertor.toDto(po.getGroup()));
+		
+		if(!CollectionUtils.isEmpty(po.getCustRespPersons())){
+			dto.setCustRespPerson(CustomerResponsablePersonConvertor.toDto(po.getCustRespPersons().get(0)));
+		}
+		
+		return dto;
 	}
 	
 	public static CustomerCompany toPo(CustomerDTO dto){
@@ -38,6 +53,10 @@ public class CustomerConvertor {
 		}
 		
 		CustomerCompany po = new CustomerCompany();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		po.setTelExchange(dto.getTelExchangeDto().toString());
 		po.setGroup(CustomerGroupConvertor.toPo(dto.getCustGroup()));
 		
 		List<CustomerResponsablePerson> rps = new ArrayList<CustomerResponsablePerson>();

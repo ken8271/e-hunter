@@ -58,11 +58,11 @@ public class CustomerValidator extends AbstractValidator{
 		validateRequired(errors, "custRespPerson.name", rpDto.getName(), "联系人姓名");
 		validateRequired(errors, "custRespPerson.positionType", rpDto.getPositionType(), "联系人职位类型");
 		validateRequired(errors, "custRespPerson.positionName", rpDto.getPositionName(), "联系人职位");
-		validateRequired(errors, "custRespPerson.telephone.phoneNumber", rpDto.getTelephone().getPhoneNumber(), "联系人手机");
+		validateRequired(errors, "custRespPerson.telephoneDto.phoneNumber", rpDto.getTelephoneDto().getPhoneNumber(), "联系人手机");
 		validateRequired(errors, "custRespPerson.email", rpDto.getEmail(), "联系人邮箱");
 		validateRequired(errors, "custRespPerson.status", rpDto.getStatus(), "联系人状态");
 		
-		validateOnlyNumberic(rpDto, errors, "custRespPerson.telephone.phoneNumber", "联系人手机");
+		validateOnlyNumberic(rpDto, errors, "custRespPerson.telephoneDto.phoneNumber", "联系人手机");
 	}
 
 }

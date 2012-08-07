@@ -7,7 +7,7 @@ public class CustomerResponsePersonDTO extends BaseDTO {
 	private String name;
 	private String positionType;
 	private String positionName;
-	private MobilePhone telephone;
+	private MobilePhoneDTO telephoneDto;
 	private String email;
 	private String status;
 
@@ -43,12 +43,12 @@ public class CustomerResponsePersonDTO extends BaseDTO {
 		this.positionName = positionName;
 	}
 
-	public MobilePhone getTelephone() {
-		return telephone;
+	public MobilePhoneDTO getTelephoneDto() {
+		return telephoneDto;
 	}
 
-	public void setTelephone(MobilePhone telephone) {
-		this.telephone = telephone;
+	public void setTelephoneDto(MobilePhoneDTO telephoneDto) {
+		this.telephoneDto = telephoneDto;
 	}
 
 	public String getEmail() {
