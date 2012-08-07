@@ -9,6 +9,8 @@
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerGroup"></mapping>
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerResponsablePerson"></mapping>
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerCompany"></mapping>
+		<mapping class="com.pccw.ehunter.domain.internal.Project"/>
+		<mapping class="com.pccw.ehunter.domain.internal.ProjectPosition"/>
 		<mapping class="com.pccw.ehunter.domain.common.PositionType"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.PositionSubType"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>

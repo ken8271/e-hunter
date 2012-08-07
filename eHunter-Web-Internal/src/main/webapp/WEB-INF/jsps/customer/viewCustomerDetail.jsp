@@ -8,6 +8,7 @@
 </head>
 <body>
 <hdiv-c:url value="/customer/editCustomer.do" var="editCustomerUrl"></hdiv-c:url>
+<form:form commandName="customerDto">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司详细资料</td>
@@ -96,7 +97,7 @@
 						</td>
 						<td class="labelColumn">公司总机：</td>
 						<td>
-						   <form:input path="telExchange.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
+						   <form:input path="telExchangeDto.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
 					    </td>
 					</tr>
 					<tr >
@@ -198,7 +199,7 @@
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input>
+						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText"></form:input>
 						</td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
 						<td>
@@ -236,5 +237,6 @@
 				</td>
 			</tr>
 		</table>
+		</form:form>
 </body>
 </html>
