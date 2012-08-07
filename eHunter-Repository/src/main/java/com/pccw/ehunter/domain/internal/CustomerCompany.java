@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
-@Table(name="T_CUST_CO")
+@Table(name = "T_CUST_CO")
 public class CustomerCompany extends BaseEntity {
 
 	private String systemCustRefNum;
@@ -28,13 +28,13 @@ public class CustomerCompany extends BaseEntity {
 	private String type;
 	private String size;
 	private String groupIndicator;
-	
+
 	private CustomerGroup group;
 	private List<CustomerResponsablePerson> custRespPersons;
-	private Project projects;
-	
+	private List<Project> projects;
+
 	@Id
-	@Column(name="SYS_REF_CUST")
+	@Column(name = "SYS_REF_CUST")
 	public String getSystemCustRefNum() {
 		return systemCustRefNum;
 	}
@@ -43,7 +43,7 @@ public class CustomerCompany extends BaseEntity {
 		this.systemCustRefNum = systemCustRefNum;
 	}
 
-	@Column(name="CO_SHRT_NM")
+	@Column(name = "CO_SHRT_NM")
 	public String getShortName() {
 		return shortName;
 	}
@@ -52,7 +52,7 @@ public class CustomerCompany extends BaseEntity {
 		this.shortName = shortName;
 	}
 
-	@Column(name="CO_NM")
+	@Column(name = "CO_NM")
 	public String getFullName() {
 		return fullName;
 	}
@@ -61,7 +61,7 @@ public class CustomerCompany extends BaseEntity {
 		this.fullName = fullName;
 	}
 
-	@Column(name="CUST_GRDE")
+	@Column(name = "CUST_GRDE")
 	public String getGrade() {
 		return grade;
 	}
@@ -70,7 +70,7 @@ public class CustomerCompany extends BaseEntity {
 		this.grade = grade;
 	}
 
-	@Column(name="CUST_STAT")
+	@Column(name = "CUST_STAT")
 	public String getStatus() {
 		return status;
 	}
@@ -79,7 +79,7 @@ public class CustomerCompany extends BaseEntity {
 		this.status = status;
 	}
 
-	@Column(name="OFCL_SITE")
+	@Column(name = "OFCL_SITE")
 	public String getOffcialSite() {
 		return offcialSite;
 	}
@@ -88,25 +88,27 @@ public class CustomerCompany extends BaseEntity {
 		this.offcialSite = offcialSite;
 	}
 
-	@Column(name="CO_TEL_EXCHG")
+	@Column(name = "CO_TEL_EXCHG")
 	public String getTelExchange() {
 		return telExchange;
 	}
-
+	
 	public void setTelExchange(String telExchange) {
 		this.telExchange = telExchange;
 	}
 
-	@Column(name="CO_TY")
+
+	@Column(name = "CO_TY")
 	public String getType() {
 		return type;
 	}
+
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	@Column(name="CO_SZ")
+	@Column(name = "CO_SZ")
 	public String getSize() {
 		return size;
 	}
@@ -115,7 +117,7 @@ public class CustomerCompany extends BaseEntity {
 		this.size = size;
 	}
 
-	@Column(name="GP_FLAG")
+	@Column(name = "GP_FLAG")
 	public String getGroupIndicator() {
 		return groupIndicator;
 	}
@@ -124,8 +126,8 @@ public class CustomerCompany extends BaseEntity {
 		this.groupIndicator = groupIndicator;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name="SYS_REF_GP")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "SYS_REF_GP")
 	public CustomerGroup getGroup() {
 		return group;
 	}
@@ -134,22 +136,24 @@ public class CustomerCompany extends BaseEntity {
 		this.group = group;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name="SYS_REF_RP")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="SYS_REF_CUST")
 	public List<CustomerResponsablePerson> getCustRespPersons() {
 		return custRespPersons;
 	}
 
-	public void setCustRespPersons(List<CustomerResponsablePerson> custRespPersons) {
+	public void setCustRespPersons(
+			List<CustomerResponsablePerson> custRespPersons) {
 		this.custRespPersons = custRespPersons;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
-	public Project getProjects() {
+	@OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL ,mappedBy="customer")
+	public List<Project> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(Project projects) {
+	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
+
 }

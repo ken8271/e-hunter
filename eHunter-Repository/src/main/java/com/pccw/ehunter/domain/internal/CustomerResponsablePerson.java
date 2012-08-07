@@ -60,7 +60,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 	public String getTelephone() {
 		return telephone;
 	}
-
+	
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
@@ -69,6 +69,7 @@ public class CustomerResponsablePerson extends BaseEntity {
 	public String getEmail() {
 		return email;
 	}
+
 
 	public void setEmail(String email) {
 		this.email = email;
