@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -32,6 +31,7 @@ public class CustomerCompany extends BaseEntity {
 	
 	private CustomerGroup group;
 	private List<CustomerResponsablePerson> custRespPersons;
+	private Project projects;
 	
 	@Id
 	@Column(name="SYS_REF_CUST")
@@ -124,7 +124,7 @@ public class CustomerCompany extends BaseEntity {
 		this.groupIndicator = groupIndicator;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="SYS_REF_GP")
 	public CustomerGroup getGroup() {
 		return group;
@@ -134,7 +134,7 @@ public class CustomerCompany extends BaseEntity {
 		this.group = group;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="SYS_REF_RP")
 	public List<CustomerResponsablePerson> getCustRespPersons() {
 		return custRespPersons;
@@ -142,5 +142,14 @@ public class CustomerCompany extends BaseEntity {
 
 	public void setCustRespPersons(List<CustomerResponsablePerson> custRespPersons) {
 		this.custRespPersons = custRespPersons;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
+	public Project getProjects() {
+		return projects;
+	}
+
+	public void setProjects(Project projects) {
+		this.projects = projects;
 	}
 }
