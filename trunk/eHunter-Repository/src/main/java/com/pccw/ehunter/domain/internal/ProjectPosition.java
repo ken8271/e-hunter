@@ -1,10 +1,19 @@
 package com.pccw.ehunter.domain.internal;
 
 import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.pccw.ehunter.domain.BaseEntity;
 
+@Entity
+@Table(name="T_PRJ_POST_DESC")
 public class ProjectPosition extends BaseEntity {
 	private String systemPositionRefNum;
 	private String postionType;
@@ -25,53 +34,10 @@ public class ProjectPosition extends BaseEntity {
 	private String offerRequiredDesc;
 	private String remark;
 	
-	private List<PositionAnnualLeaveWelfare> annualLeaveWelfares;
-	private List<PositionSocityWelfare> socityWelfares;
-	private List<PositionSalaryCompose> salaryComposes;
-	private List<PositionKeyWord> keyWords;
-	private List<PositionLanguageRequired> languageRequired;
+	private Project project;
 
-	public List<PositionAnnualLeaveWelfare> getAnnualLeaveWelfares() {
-		return annualLeaveWelfares;
-	}
-
-	public void setAnnualLeaveWelfares(
-			List<PositionAnnualLeaveWelfare> annualLeaveWelfares) {
-		this.annualLeaveWelfares = annualLeaveWelfares;
-	}
-
-	public List<PositionSocityWelfare> getSocityWelfares() {
-		return socityWelfares;
-	}
-
-	public void setSocityWelfares(List<PositionSocityWelfare> socityWelfares) {
-		this.socityWelfares = socityWelfares;
-	}
-
-	public List<PositionSalaryCompose> getSalaryComposes() {
-		return salaryComposes;
-	}
-
-	public void setSalaryComposes(List<PositionSalaryCompose> salaryComposes) {
-		this.salaryComposes = salaryComposes;
-	}
-
-	public List<PositionKeyWord> getKeyWords() {
-		return keyWords;
-	}
-
-	public void setKeyWords(List<PositionKeyWord> keyWords) {
-		this.keyWords = keyWords;
-	}
-
-	public List<PositionLanguageRequired> getLanguageRequired() {
-		return languageRequired;
-	}
-
-	public void setLanguageRequired(List<PositionLanguageRequired> languageRequired) {
-		this.languageRequired = languageRequired;
-	}
-
+	@Id
+	@Column(name="SYS_REF_POST")
 	public String getSystemPositionRefNum() {
 		return systemPositionRefNum;
 	}
@@ -80,6 +46,7 @@ public class ProjectPosition extends BaseEntity {
 		this.systemPositionRefNum = systemPositionRefNum;
 	}
 
+	@Column(name="POST_TY")
 	public String getPostionType() {
 		return postionType;
 	}
@@ -88,6 +55,7 @@ public class ProjectPosition extends BaseEntity {
 		this.postionType = postionType;
 	}
 
+	@Column(name="POST_NM")
 	public String getPostionName() {
 		return postionName;
 	}
@@ -96,6 +64,7 @@ public class ProjectPosition extends BaseEntity {
 		this.postionName = postionName;
 	}
 
+	@Column(name="POST_DEPT")
 	public String getPostionDeparment() {
 		return postionDeparment;
 	}
@@ -104,6 +73,7 @@ public class ProjectPosition extends BaseEntity {
 		this.postionDeparment = postionDeparment;
 	}
 
+	@Column(name="PEPT_TO")
 	public String getReportTo() {
 		return reportTo;
 	}
@@ -112,6 +82,7 @@ public class ProjectPosition extends BaseEntity {
 		this.reportTo = reportTo;
 	}
 
+	@Column(name="UDLNG_NBR")
 	public int getUnderlingNumber() {
 		return underlingNumber;
 	}
@@ -120,6 +91,7 @@ public class ProjectPosition extends BaseEntity {
 		this.underlingNumber = underlingNumber;
 	}
 
+	@Column(name="EXPR_DT")
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
@@ -128,6 +100,7 @@ public class ProjectPosition extends BaseEntity {
 		this.expiryDate = expiryDate;
 	}
 
+	@Column(name="YRLY_SALRY")
 	public int getYearlySalary() {
 		return yearlySalary;
 	}
@@ -136,6 +109,7 @@ public class ProjectPosition extends BaseEntity {
 		this.yearlySalary = yearlySalary;
 	}
 
+	@Column(name="DUTY_DESC")
 	public String getDutyDescription() {
 		return dutyDescription;
 	}
@@ -144,6 +118,7 @@ public class ProjectPosition extends BaseEntity {
 		this.dutyDescription = dutyDescription;
 	}
 
+	@Column(name="AGE_REQ_FR")
 	public int getAgeFrom() {
 		return ageFrom;
 	}
@@ -152,6 +127,7 @@ public class ProjectPosition extends BaseEntity {
 		this.ageFrom = ageFrom;
 	}
 
+	@Column(name="AGE_REQ_TO")
 	public int getAgeTo() {
 		return ageTo;
 	}
@@ -160,6 +136,7 @@ public class ProjectPosition extends BaseEntity {
 		this.ageTo = ageTo;
 	}
 
+	@Column(name="SEX_REQ")
 	public String getGenderRequired() {
 		return genderRequired;
 	}
@@ -168,6 +145,7 @@ public class ProjectPosition extends BaseEntity {
 		this.genderRequired = genderRequired;
 	}
 
+	@Column(name="SUBJ_REQ")
 	public String getSubjectRequired() {
 		return subjectRequired;
 	}
@@ -176,6 +154,7 @@ public class ProjectPosition extends BaseEntity {
 		this.subjectRequired = subjectRequired;
 	}
 
+	@Column(name="JOB_EXP_REQ")
 	public String getJobExperienceRequired() {
 		return jobExperienceRequired;
 	}
@@ -184,6 +163,7 @@ public class ProjectPosition extends BaseEntity {
 		this.jobExperienceRequired = jobExperienceRequired;
 	}
 
+	@Column(name="EDU_REQ")
 	public String getEducationRequired() {
 		return educationRequired;
 	}
@@ -192,6 +172,7 @@ public class ProjectPosition extends BaseEntity {
 		this.educationRequired = educationRequired;
 	}
 
+	@Column(name="FULL_TM_EDU_FLG")
 	public String getFullTimeEducationRequired() {
 		return fullTimeEducationRequired;
 	}
@@ -200,6 +181,7 @@ public class ProjectPosition extends BaseEntity {
 		this.fullTimeEducationRequired = fullTimeEducationRequired;
 	}
 
+	@Column(name="OFER_REQ_DESC")
 	public String getOfferRequiredDesc() {
 		return offerRequiredDesc;
 	}
@@ -208,6 +190,7 @@ public class ProjectPosition extends BaseEntity {
 		this.offerRequiredDesc = offerRequiredDesc;
 	}
 
+	@Column(name="REMK")
 	public String getRemark() {
 		return remark;
 	}
@@ -216,4 +199,13 @@ public class ProjectPosition extends BaseEntity {
 		this.remark = remark;
 	}
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="SYS_REF_PRJ")
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 }
