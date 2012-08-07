@@ -5,35 +5,20 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
 import com.pccw.ehunter.constant.TransactionIndicator;
 import com.pccw.ehunter.domain.BaseEntity;
 
-/**
- * Hibernate的范型基类.
- * 
- * 可以在service类中直接创建使用.也可以继承出DAO子类,在多个Service类中共享DAO操作.
- * 参考Spring2.5自带的Petlinc例子,取消了HibernateTemplate.
- * 通过Hibernate的sessionFactory.getCurrentSession()获得session,直接使用Hibernate原生API.
- * 
- * @param <T>
- *            DAO操作的对象类型
- * @param <PK>
- *            主键类型
- * 
- * @author Beck
- */
-@SuppressWarnings( "unchecked" )
-public class SimpleHibernateTemplate<T, PK extends Serializable> {
+@SuppressWarnings("unchecked")
+public class SimpleHibernateTemplate<T, PK extends Serializable> extends HibernateDaoSupport{
 
 	protected Logger logger = LoggerFactory.getLogger( getClass() );
 
@@ -44,14 +29,7 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> {
 	public SimpleHibernateTemplate (SessionFactory sessionFactory, Class<T> entityClass) {
 		this.sessionFactory = sessionFactory;
 		this.entityClass = entityClass;
-	}
-
-	public Session getSession ( ) {
-		return sessionFactory.getCurrentSession( );
-	}
-
-	public SessionFactory getSessionFactory ( ) {
-		return sessionFactory;
+		super.setSessionFactory(sessionFactory);
 	}
 
 	public void save (T entity) {
@@ -65,7 +43,6 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> {
 
 	public void update (T entity) {
 		Assert.notNull( entity );
-		
 		getSession().merge( entity );
 		logger.debug( "update entity: {}", entity );
 	}
@@ -85,7 +62,7 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> {
 		logger.debug( "delete entity: {}", entity );
 	}
 	
-	public void markAsDeleted (T entity) {
+	public void markDeleted (T entity) {
 		Assert.notNull( entity );
 		if(entity instanceof BaseEntity){
 			((BaseEntity)entity).setLastTransactionIndicator(TransactionIndicator.DELETE);
@@ -102,40 +79,11 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> {
 	public List<T> findAll ( ) {
 		return findByCriteria( );
 	}
-	
-	public List<T> findAllUndeleted() {
-		if( BaseEntity.class.isAssignableFrom(entityClass) ){
-			Criterion criteria = Restrictions.ne("lastTransactionIndicator", "D");
-			return createCriteria( criteria).list( );
-		}else{
-			return createCriteria().list( );
-		}
-	}
-	
-	public List<T> findAllUndeleted(Order o) {
-		if( BaseEntity.class.isAssignableFrom(entityClass) ){
-			Criteria criteria = getSession().createCriteria( entityClass );
-			criteria.add(Restrictions.ne("lastTransactionIndicator", "D")).addOrder(o);
-			return criteria.list();
-		}else{
-			return createCriteria().list( );
-		}
-	}
-	
-	public List<T> findAllUndeletedAndActv(Order o) {
-		if( BaseEntity.class.isAssignableFrom(entityClass) ){
-			Criteria criteria = getSession().createCriteria( entityClass );
-			criteria.add(Restrictions.ne("lastTransactionIndicator", "D")).add(Restrictions.eq("activeFlag", "Y"))
-				.addOrder(o);
-			return criteria.list();
-		}else{
-			return createCriteria().list( );
-		}
-	}
 
 	/**
 	 * 按id获取对象.
 	 */
+	
 	public T get (final PK id) {
 		return (T) getSession().get( entityClass, id );
 	}
