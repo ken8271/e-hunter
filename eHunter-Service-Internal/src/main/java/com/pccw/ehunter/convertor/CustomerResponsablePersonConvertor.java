@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
+import com.pccw.ehunter.dto.MobilePhoneDTO;
 
 public class CustomerResponsablePersonConvertor {
 	
@@ -21,6 +22,9 @@ public class CustomerResponsablePersonConvertor {
 		
 		BeanUtils.copyProperties(po, dto);
 		
+		MobilePhoneDTO mobile = new MobilePhoneDTO();
+		mobile.setPhoneNumber(po.getTelephone());
+		
 		return dto;
 	}
 	
@@ -32,6 +36,8 @@ public class CustomerResponsablePersonConvertor {
 		CustomerResponsablePerson po = new CustomerResponsablePerson();
 		
 		BeanUtils.copyProperties(dto, po);
+		
+		po.setTelephone(dto.getTelephoneDto().toString());
 		
 		return po;
 	}

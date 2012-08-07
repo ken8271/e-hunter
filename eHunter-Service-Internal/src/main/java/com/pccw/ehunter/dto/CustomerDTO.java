@@ -9,7 +9,7 @@ public class CustomerDTO extends BaseDTO {
 	private String grade;
 	private String status;
 	private String offcialSite;
-	private Telephone telExchange;
+	private TelephoneDTO telExchangeDto;
 	private String type;
 	private String size;
 	private String groupIndicator;
@@ -65,12 +65,12 @@ public class CustomerDTO extends BaseDTO {
 		this.offcialSite = offcialSite;
 	}
 
-	public Telephone getTelExchange() {
-		return telExchange;
+	public TelephoneDTO getTelExchangeDto() {
+		return telExchangeDto;
 	}
 
-	public void setTelExchange(Telephone telExchange) {
-		this.telExchange = telExchange;
+	public void setTelExchangeDto(TelephoneDTO telExchangeDto) {
+		this.telExchangeDto = telExchangeDto;
 	}
 
 	public String getType() {
