@@ -44,8 +44,8 @@
 		<c:if test="${customerDto.groupIndicator == 'group' || customer.groupIndicator == 'subsidiary'}">
 		<table width="100%">
 			<tr>
-				<td width=44><font face="Arial" size="2"><b>第一部分：</b></font></td>
-				<td width="703"><font face="Arial" size="2"><b>集团资料</b></font></td>
+				<td width="10%"><font face="Arial" size="2"><b>第一部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>集团资料</b></font></td>
 			</tr>
 		</table>
 		<div class="contentTableBody">
@@ -68,8 +68,8 @@
 		</c:if>
 		<table width="100%">
 			<tr>
-				<td width=44><font face="Arial" size="2"><b>第二部分</b></font></td>
-				<td width="703"><font face="Arial" size="2"><b>客户公司资料</b></font></td>
+				<td width="10%"><font face="Arial" size="2"><b>第二部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>客户公司资料</b></font></td>
 			</tr>
 		</table>
 		<div class="contentTableBody">
@@ -158,8 +158,8 @@
 		<div class="emptyBlock"></div>	
 		<table width="100%">
 			<tr>
-				<td width=44><font face="Arial" size="2"><b>第三部分：</b></font></td>
-				<td width="703"><font face="Arial" size="2"><b>客户联系人资料</b></font></td>
+				<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>客户联系人资料</b></font></td>
 			</tr>
 		</table>
 		<div class="contentTableBody">
