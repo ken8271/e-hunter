@@ -85,4 +85,21 @@ public class StringUtils {
 	    Matcher m = p.matcher(input);
 		return m.find();
 	}
+	
+	public static String addLeadingZero(String s, int padding) {
+		return addLeadingCharacter(s, '0', padding);
+	}
+	
+	public static String addLeadingCharacter(String s, char c, int padding) {
+		if (s != null) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < padding; i++) {
+				sb.append(c);
+			}
+			sb.append(s);
+			return sb.toString();
+		} else {
+			return null;
+		}
+	}
 }
