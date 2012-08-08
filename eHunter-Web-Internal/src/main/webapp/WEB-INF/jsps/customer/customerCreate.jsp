@@ -243,8 +243,8 @@
 						</td>
 						<td class="labelColumn">公司总机：</td>
 						<td>
-						   <form:input path="telExchange.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
-					       <form:input path="telExchange.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8"/>
+						   <form:input path="telExchangeDto.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
+					       <form:input path="telExchangeDto.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8"/>
 					    </td>
 					</tr>
 					<tr >
@@ -352,8 +352,8 @@
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.telephone.phoneNumber" cssClass="standardInputText"></form:input>
-						<common:errorSign id="custRespPerson.telephone.phoneNumber" path="custRespPerson.telephone.phoneNumber"></common:errorSign>
+						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText"></form:input>
+						<common:errorSign id="custRespPerson.telephoneDto.phoneNumber" path="custRespPerson.telephoneDto.phoneNumber"></common:errorSign>
 						</td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
 						<td>
