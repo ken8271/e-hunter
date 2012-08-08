@@ -12,19 +12,19 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pccw.ehunter.constant.TransactionIndicator;
-import com.pccw.ehunter.dao.SequenceNumberDAO;
+import com.pccw.ehunter.dao.IDGeneratorDAO;
 import com.pccw.ehunter.domain.common.Sequence;
 import com.pccw.ehunter.utility.SecurityUtils;
 
-@Component("seqNumDao")
-public class HibernateSequenceNumberDAO implements SequenceNumberDAO{
+@Component("idGeneratorDao")
+public class HibernateIDGeneratorDAO implements IDGeneratorDAO{
 	
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public long getNextValue(final String key , final LockMode lockmode) {
+	public synchronized Long getNextValue(final String key , final LockMode lockmode) {
 		Object o = hibernateTemplate.execute(new HibernateCallback() {
 			@Override
 			public Object doInHibernate(Session session)
@@ -45,8 +45,8 @@ public class HibernateSequenceNumberDAO implements SequenceNumberDAO{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public long getCurrValue(final String key , final LockMode lockmode) {
-		Long value = hibernateTemplate.execute(new HibernateCallback() {
+	public synchronized Long getCurrValue(final String key , final LockMode lockmode) {
+		Long value = (Long)hibernateTemplate.execute(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)
@@ -60,6 +60,26 @@ public class HibernateSequenceNumberDAO implements SequenceNumberDAO{
 			}
 		});
 		return value;
+	}
+
+	@Override
+	public synchronized Long getNextValue(String key) {
+		return this.getNextValue(key, LockMode.UPGRADE);
+	}
+
+	@Override
+	public Long getNextValueNoWait(String key) {
+		return this.getNextValue(key, LockMode.UPGRADE_NOWAIT);
+	}
+
+	@Override
+	public synchronized Long getCurrValue(String key) {
+		return this.getCurrValue(key, LockMode.UPGRADE);
+	}
+
+	@Override
+	public Long getCurrValueNoWait(String key) {
+		return this.getCurrValue(key, LockMode.UPGRADE_NOWAIT);
 	}
 
 }
