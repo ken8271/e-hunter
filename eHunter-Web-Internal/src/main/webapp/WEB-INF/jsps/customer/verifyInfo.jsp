@@ -47,27 +47,21 @@
 		<br />
 		<br />
 		<div>
-			<span class="titleCh10">&nbsp;第一部分 : </span> <span class="titleCh10">客户集团资料</span>
+			<span class="titleCh10">&nbsp;第一部分：</span> <span class="titleCh10">客户集团资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="1" width="99%" cellpadding="5px">
-		    <customer:standardTableRow></customer:standardTableRow>
+		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" width="99%" cellpadding="5px">
 			<tr>
-				<td><span class="textCh8">集团编号</span></td>
-				<td colspan="3"><span class="showCh"><c:out value="${customerDto.custGroup.systemGroupRefNum}" escapeXml="true" /></span></td>
-			</tr>
-			<tr>
-				<td><span class="textCh8">集团名称</span></td>
-				<td><span class="showCh"><c:out value="${customerDto.custGroup.fullName }" escapeXml="true" /></span></td>
-				<td><span class="textCh8">集团简称</span></td>
-				<td><span class="showCh"><c:out value="${customerDto.custGroup.shortName}" escapeXml="true" /></span></td>
+				<td width="17%"><span class="textCh8">集团名称</span></td>
+				<td width="36%"><span class="showCh"><c:out value="${customerDto.custGroup.fullName}" escapeXml="true" /> </span></td>
+				<td width="17%"><span class="textCh8">集团简称</span><br /></td>
+				<td width="30%"><span class="showCh"><c:out value="${customerDto.custGroup.shortName}" escapeXml="true" /></span></td>
 			</tr>
 		</table>
 		<br />
 		<div>
 			<span class="titleCh10">&nbsp;第二部分：</span> <span class="titleCh10">客户公司资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="1" width="99%" cellpadding="5px">
-		    <customer:standardTableRow></customer:standardTableRow>
+		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" width="99%" cellpadding="5px">
 			<tr>
 				<td><span class="textCh8">公司名称</span></td>
 				<td><span class="showCh"><c:out value="${customerDto.fullName}" escapeXml="true" /></span></td>
@@ -81,27 +75,63 @@
 				<td><span class="showCh"><c:out value="${customerDto.telExchangeDto.regionCode}" escapeXml="true" />&nbsp;&nbsp;-&nbsp;<c:out value="${customerDto.telExchangeDto.phoneNumber }" escapeXml="true"></c:out> </span></td>
 			</tr>
 			<tr>
-				<td><span class="textCh8">公司性质</span></td>
-				<td><span class="showCh"><c:out value="${cutomerDto.custGroup.fullName}" escapeXml="true" /> </span></td>
+				<td><span class="textCh8">公司性质</span><br /></td>
+				<td>  
+				<span class="showCh">
+				<c:if test="${customerDto.type == 'SE'}">国有企业</c:if>
+				<c:if test="${customerDto.type == 'EF'}">外商独资/外企办事处</c:if>
+				<c:if test="${customerDto.type == 'JV'}">中外合营(合资/合作)</c:if>
+				<c:if test="${customerDto.type == 'IE'}">私营/名营企业</c:if>
+				<c:if test="${customerDto.type == 'NA'}">政府机关/非盈利机构</c:if>
+				<c:if test="${customerDto.type == 'JE'}">股份制企业</c:if>
+				<c:if test="${customerDto.type == 'QC'}">上市公司</c:if>
+				<c:if test="${customerDto.type == 'PI'}">事业单位</c:if>
+				<c:if test="${customerDto.type == 'OT'}">其他</c:if>
+				</span>
+				</td>
 				<td><span class="textCh8">公司规模</span></td>
-				<td><span class="showCh"><c:out value="${customerDto.fullName}" escapeXml="true" /></span></td>
+				<td>
+				<span class="showCh">
+				<c:if test="${customerDto.size == '001' }">1-49人</c:if>
+				<c:if test="${customerDto.size == '002' }">50-99人</c:if>
+				<c:if test="${customerDto.size == '003' }">100-499人</c:if>
+				<c:if test="${customerDto.size == '004' }">500-999人</c:if>
+				<c:if test="${customerDto.size == '005' }">1000-2000人</c:if>
+				<c:if test="${customerDto.size == '006' }">2000-5000人</c:if>
+				<c:if test="${customerDto.size == '007' }">5000-10000人</c:if>
+				<c:if test="${customerDto.size == '008' }">10000人以上</c:if>
+				</span>
+				</td>
 			</tr>
 			<tr>
 				<td><span class="textCh8">客户等级</span></td>
-				<td><span class="showCh">已签约客户 /<STRIKE> 潜力客户 </STRIKE>/ 其他</span></td>
+				<td>
+				<span class="showCh">
+				<c:if test="${customerDto.grade == 'IR' }">有需求有意向</c:if>
+				<c:if test="${customerDto.grade == 'NI' }">有需求无意向</c:if>
+				<c:if test="${customerDto.grade == 'NR' }">无需求有意向</c:if>
+				<c:if test="${customerDto.grade == 'NN' }">无需求无意向</c:if>
+				</span>
+				</td>
 				<td><span class="textCh8">客户状态</span></td>
-				<td><span class="showCh"><c:out value="${customerDto.fullName}" escapeXml="true" /></span></td>
+				<td>
+				<span class="showCh">
+				<c:if test="${customerDto.status == 'SGN' }">已签约客户</c:if>
+				<c:if test="${customerDto.status == 'PTL' }">潜力客户</c:if>
+				<c:if test="${customerDto.status == 'OTH' }">其他</c:if>
+				</span>
+				</td>
 			</tr>
 		</table>
 		<br />
 		<div>
 			<span class="titleCh10">&nbsp;第三部分：</span><span class="titleCh10">客户联系人资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="1" cellSpacing="0" width="99%" cellpadding="5px">
+		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" cellSpacing="0" width="99%" cellpadding="5px">
 			<tr>
 				<td align="center" colspan="2" width="15%"><span class="textCh8">姓名</span><br /> <br /></td>
-				<td align="center" width="35%"><span class="textCh8">职位类型/职位<br /></span><br /> <br /></td>
-				<td align="center" width="10%"><span class="textCh8">手机</span><br /><br /></td>
+				<td align="center" width="30%"><span class="textCh8">职位类型/职位</span><br /> <br /></td>
+				<td align="center" width="15%"><span class="textCh8">手机</span><br /><br /></td>
 				<td align="center" width="25%"><span class="textCh8">邮箱</span><br /><br /></td>
 				<td align="center" width="15%"><span class="textCh8">状态</span><br /><br /></td>
 			</tr>
@@ -111,17 +141,17 @@
 				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.positionName }"></c:out></span></td>
 				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.telephoneDto.phoneNumber }"></c:out></span></td>
 				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.email }"></c:out></span></td>
-				<td><span class="textCn8">
-				<c:choose>
-				   <c:when test="${customerDto.custRespPerson.status == 'OS' }"><STRIKE>在职 </STRIKE></c:when>
-				   <c:otherwise>在职</c:otherwise>
-				</c:choose>
-				&nbsp;/&nbsp;
-				<c:choose>
-				   <c:when test="${customerDto.custRespPerson.status == 'IS' }"><STRIKE>已离职 </STRIKE></c:when>
-				   <c:otherwise>已离职</c:otherwise>
-				</c:choose>
-				</span>
+				<td>
+					<table frame="void">
+						<tr>
+							<td><customer:checkSign comparisonValue="IS" actualValue="${customerDto.custRespPerson.status}" ></customer:checkSign> </td>
+							<td><span class="showCh">在职</span></td>
+						</tr>
+						<tr>
+							<td><customer:checkSign comparisonValue="OS" actualValue="${customerDto.custRespPerson.status}"></customer:checkSign> </td>
+							<td><span class="showCh">已离职</span></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
