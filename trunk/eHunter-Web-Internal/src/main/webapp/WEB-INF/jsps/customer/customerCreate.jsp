@@ -96,7 +96,7 @@
 			$.ajax({
 				type:'post',
 				url:'${loadPositions}',
-				dataType:'text',
+				dataType:'xml',
 				data:{'code':code},
 				success:function(xml){
 					$().progressDialog.hideDialog("");
@@ -105,7 +105,7 @@
 					subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 					$(xml).find('position').each(function(i , element){
 						var label = $(this).find("label").text();
-						var val = ''||$(this).children("value").text()||'';
+						var val = 'T'+$(this).children("value").text()+'';
 						subSelector.options[subSelector.length] = new Option(label, val);
 					});
 				},
@@ -160,9 +160,9 @@
 						<td>
 						   <form:select id="custType" cssClass="standardSelect" onchange="changeCustType();" path="groupIndicator">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
-						      <form:option value="group" label="集团客户"></form:option>
-						      <form:option value="subsidiary" label="非集团客户（集团旗下子公司）"></form:option>
-						      <form:option value="independent" label="非集团客户（独立公司）"></form:option>
+						      <form:option value="GRP" label="集团客户"></form:option>
+						      <form:option value="SUB" label="非集团客户（集团旗下子公司）"></form:option>
+						      <form:option value="IND" label="非集团客户（独立公司）"></form:option>
 						   </form:select><common:errorSign path="groupIndicator"></common:errorSign>
 						</td>
 						<td>

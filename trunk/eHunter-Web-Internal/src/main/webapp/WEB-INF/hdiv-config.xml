@@ -99,6 +99,12 @@
 				        <value>code</value>
 				    </list>
 				</entry>
+				
+				<entry key="/customer/saveCustCoInfo.do">
+				    <list>
+				        <value>custRespPerson.positionType</value>
+				    </list>
+				</entry>
 			</map>
 		</property>		
 		
