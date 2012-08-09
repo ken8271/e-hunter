@@ -8,5 +8,5 @@ import com.pccw.ehunter.dto.CustomerPagedCriteria;
 public interface CustomerCommonService {
 	public int getCustomersCountByCriteria(CustomerPagedCriteria pagedCriteria);
 	public List<CustomerDTO> getCustomersByCriteria(CustomerPagedCriteria pagedCriteria);
-	public CustomerDTO getCustomerByID(String id);
+	public CustomerDTO getCustomerByID(String customerId);
 }
