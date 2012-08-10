@@ -19,4 +19,8 @@ public class CommonConstant {
 	
 	public static final String STATUS_IN_SERVICE_DESC = "在职";
 	public static final String STATUS_OUT_SERVICE_DESC = "离职";
+	
+	public static final String PREFIX_CUSTOMER_ID = "C";
+	public static final String PREFIX_TALENT_ID = "T";
+	public static final String PREFIX_PROJECT_ID = "P";
 }
