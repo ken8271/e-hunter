@@ -105,7 +105,7 @@
 					subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 					$(xml).find('position').each(function(i , element){
 						var label = $(this).find("label").text();
-						var val = 'T'+$(this).children("value").text()+'';
+						var val = ''+$(this).children("value").text()+'';
 						subSelector.options[subSelector.length] = new Option(label, val);
 					});
 				},
@@ -189,11 +189,6 @@
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <customer:standardTableRow />
-					<tr >
-						<td class="labelColumn">集团编号：</td>
-						<td><form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssClass="standardInputText" readonly="true"></form:input></td>
-						<td colspan="2"></td>
-					</tr>
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td>
