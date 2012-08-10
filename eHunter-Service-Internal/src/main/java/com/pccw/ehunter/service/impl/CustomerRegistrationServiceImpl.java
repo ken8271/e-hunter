@@ -66,15 +66,16 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	@Override
 	@Transactional
 	public void completeCustRegistration(CustomerDTO customerDto) {
-//		custRegtDao.saveCustomerCompany(CustomerConvertor.toPo(customerDto));
-//		custRegtDao.saveCustomerGroup(CustomerGroupConvertor.toPo(customerDto.getCustGroup()));
-//		custRegtDao.saveCustomerResponsablePerson(CustomerResponsablePersonConvertor.toPo(customerDto.getCustRespPerson()));
 		
 		if(customerDto != null){
 			customerDto.setSystemCustRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_SEQUENCE_KEY, CommonConstant.PREFIX_CUSTOMER_ID , 6));
 			
 			if(customerDto.getCustGroup() != null && CustomerIndicator.CUSTOMER_GROUP.equals(customerDto.getGroupIndicator())){
 				customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+			}else {
+				if(customerDto.getCustGroup() != null){
+					customerDto.getCustGroup().setSystemGroupRefNum(null);
+				}
 			}
 			
 			if(customerDto.getCustRespPerson() != null){
