@@ -81,6 +81,9 @@ public class StringUtils {
 	}
 	
 	public static boolean isMatched(String input, String regex){
+		if(isEmpty(input)){
+			return false;
+		}
 		Pattern p = Pattern.compile(regex);
 	    Matcher m = p.matcher(input);
 		return m.find();

@@ -1,6 +1,5 @@
 package com.pccw.ehunter.validator;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -14,75 +13,60 @@ public abstract class AbstractValidator implements Validator{
 		}
 	}
 	
-	public void validateStringLength(Object dto, Errors errors, String fieldName, String fieldLabel, int maxLength){
-		String property = null;
-		try {
-			property = BeanUtils.getProperty(dto, fieldName);
-		} catch (Exception e) {
-			
-		}
-		
-		if(property==null||"".equals(property.trim())){
-			return;
+	public void validateStringLength(Errors errors, String fieldName,String fieldValue , String fieldLabel, int maxLength){
+		if(StringUtils.isEmpty(fieldValue)){
+			return ;
 		}
 		//check chs and replace with **
 		String chsRegex = "[\u4e00-\u9fa5]";
-		if(StringUtils.isMatched(property, chsRegex)){
-			property = property.replaceAll(chsRegex, "**");
+		if(StringUtils.isMatched(fieldValue, chsRegex)){
+			fieldValue = fieldValue.replaceAll(chsRegex, "**");
 		}
-		if(property.trim().length()>maxLength){
+		if(fieldValue.trim().length()>maxLength){
 			errors.rejectValue(fieldName,"EHT-E-0003", new String[]{fieldLabel, "" + maxLength},fieldLabel+" out of the max length(" + maxLength + ") [EHT-E-0003]"); 
 		}
 	}
 	
-	public void validateOnlyNumberic(Object dto, Errors errors, String fieldName, String fieldLabel){
-		String property = null;
-		try {
-			property = BeanUtils.getProperty(dto, fieldName);
-		} catch (Exception e) {
-			
+	public void validateOnlyNumberic(Errors errors, String fieldName, String fieldValue , String fieldLabel){
+		if(StringUtils.isEmpty(fieldValue)){
+			return ;
 		}
-		
-		if(property==null||"".equals(property)){
-			return;
-		}
-		if(!StringUtils.isAllDigit(property)){
+		if(!StringUtils.isAllDigit(fieldValue)){
 			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
 		}
 	}
 	
-	public void validateOnlyAlphanumeric(Object dto, Errors errors, String fieldName, String fieldLabel){
-		String property = null;
-		try {
-			property = BeanUtils.getProperty(dto, fieldName);
-		} catch (Exception e) {
-			
+	public void validateOnlyAlphanumeric(Errors errors, String fieldName, String fieldValue , String fieldLabel){
+		if(StringUtils.isEmpty(fieldValue)){
+			return ;
 		}
 		
-		if(property==null||"".equals(property)){
-			return;
-		}
-		if(!StringUtils.isAllAlphanumeric(property)){
+		if(!StringUtils.isAllAlphanumeric(fieldValue)){
 			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
 		}
 	}
 	
-	public void validateSpecialCharacter(Object dto, Errors errors, String fieldName, String fieldLabel){
-		String property = null;
-		
-		try {
-			property = BeanUtils.getProperty(dto, fieldName);
-		} catch (Exception e) {
-		}
-		
-		if(property == null || "".equals(property.trim())){
+	public void validateSpecialCharacter(Errors errors, String fieldName,String fieldValue , String fieldLabel){
+		if(StringUtils.isEmpty(fieldValue)){
 			return ;
 		}
 		
 		String regex = "\\pP|\\pS";
 		
-		if(StringUtils.isMatched(property, regex)){
+		if(StringUtils.isMatched(fieldValue, regex)){
 			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
 		}
 	} 
+	
+	public void validateEmail(Errors errors , String fieldName , String fieldValue , String fieldLabel){
+		if(StringUtils.isEmpty(fieldValue)){
+			return ;
+		}
+		
+		String regex = "^(\\w+((-\\w+)|(\\.\\w+))*)\\+\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+		
+		if(StringUtils.isMatched(fieldValue, regex)){
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
+		}
+	}
 }
