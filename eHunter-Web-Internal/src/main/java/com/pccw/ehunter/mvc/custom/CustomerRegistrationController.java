@@ -34,7 +34,7 @@ import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.validator.CustomerValidator;
 
 @Controller
-@SessionAttributes({SessionAttributeConstant.CUSTOMER_DTO,
+@SessionAttributes(value = {SessionAttributeConstant.CUSTOMER_DTO,
 	                SessionAttributeConstant.LIST_OF_GROUPS,
 	                SessionAttributeConstant.LIST_OF_POSITION_TYPE})
 public class CustomerRegistrationController extends BaseController{
@@ -50,9 +50,7 @@ public class CustomerRegistrationController extends BaseController{
 
 	@RequestMapping(value="/customer/initAddCustomer.do")
 	public ModelAndView initAddCustom(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/fillCustomerInfo.do", true));
-		initCustomer(request);
-		return mv;
+		return new ModelAndView(new RedirectViewExt("/customer/fillCustomerInfo.do", true));
 	}
 	
 	private void initCustomer(HttpServletRequest request) {
@@ -65,6 +63,7 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/fillCustomerInfo.do")
 	public ModelAndView fillCustomerInfo(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("customer/customerCreate");
+		initCustomer(request);
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, request.getSession(false).getAttribute(SessionAttributeConstant.CUSTOMER_DTO));
 		return mv;
 	}
@@ -151,7 +150,6 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/saveCustCoInfo.do")
 	public ModelAndView saveCustCoInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto, BindingResult errors){
 		ModelAndView mv = null;
-		logger.debug("------------>"+customerDto.getCustGroup().getSystemGroupRefNum());
 		customerValidator.validate(customerDto, errors);
 		if(errors.hasErrors()){
 			mv = new ModelAndView("customer/customerCreate");
@@ -174,8 +172,8 @@ public class CustomerRegistrationController extends BaseController{
 	
 	@RequestMapping(value="/customer/submitCustomer.do")
 	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto , SessionStatus status){
+		logger.info("---->>>> " + customerDto.getCustGroup().getFullName());
 		custRegtService.completeCustRegistration(customerDto);
-		status.setComplete();
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
 	
