@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import com.pccw.ehunter.domain.internal.CustomerGroup;
 import com.pccw.ehunter.dto.BaseLabelValueDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class CustomerGroupConvertor {
 	
@@ -26,7 +27,7 @@ public class CustomerGroupConvertor {
 	}
 	
 	public static CustomerGroup toPo(CustomerGroupDTO dto){
-		if(null == dto){
+		if(null == dto || StringUtils.isEmpty(dto.getSystemGroupRefNum())){
 			return null;
 		}
 		
