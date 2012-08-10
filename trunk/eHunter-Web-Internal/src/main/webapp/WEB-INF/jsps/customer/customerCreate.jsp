@@ -11,7 +11,10 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		changeCustType();
-		$('#systemGroupRefNum').val("${customerDto.custGroup.systemGroupRefNum}");
+		
+		if('SUB' == '${customerDto.groupIndicator}'){			
+		   $('#group').val('${customerDto.custGroup.systemGroupRefNum}');
+		}
 		$('#groupFullName').val("${customerDto.custGroup.fullName}");
 		$('#groupShortName').val("${customerDto.custGroup.shortName}");
 	});
@@ -21,28 +24,30 @@
 		if(custType != null){
 			var selectedIndex = custType.selectedIndex;
 			if(selectedIndex == 1){
-				$('#systemGroupRefNum').attr('readonly' , true);
+				//group
+				$('#group').hide();
+				$('#group').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#systemGroupRefNum').val('');
 				$('#groupFullName').attr('readonly' , false);
 				$('#groupShortName').attr('readonly' , false);
-				$('#systemGroupRefNum').val('');
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#group').hide();
-				$('#group').val('');
 			}else if (selectedIndex == 2){
-				$('#systemGroupRefNum').attr('readonly' , true);
-				$('#groupFullName').attr('readonly' , true);
-				$('#groupShortName').attr('readonly' , true);
+				//sub
 				$('#group').show();
-			}else {
-				$('#systemGroupRefNum').attr('readonly' , true);
-				$('#groupFullName').attr('readonly' , true);
-				$('#groupShortName').attr('readonly' , true);
-				$('#systemGroupRefNum').val('');
 				$('#groupFullName').val('');
 				$('#groupShortName').val('');
+				$('#group').val('');
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
+			}else {
 				$('#group').hide();
 				$('#group').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#systemGroupRefNum').val('');
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
 			}
 		}
 	
@@ -116,6 +121,19 @@
 			});
 		}
 	}
+	
+	function submitRegtForm(){
+		var custType = document.getElementById("custType");
+		if(custType != null){
+			var selectedIndex = custType.selectedIndex;
+			if(selectedIndex == 2){
+				var group = document.getElementById("group");
+				if(group != null && group.selectedIndex == 0){
+					//$('#systemGroupRefNum').val('');
+				}
+			}
+		}
+	}
 </script>
 </head>
 <body>
@@ -144,14 +162,7 @@
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table width="100%">
-			<tr>
-				<td width=44><font face="Arial" size="2"><b>Part I</b></font></td>
-				<td width="703"><font face="Arial" size="2"><b>集团资料</b></font></td>
-			</tr>
-		</table>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0"
+		<table class="standardTableForm" border="1" cellspacing="0"
 				cellpadding="0" width="100%">
 				<tbody>
 				    <customer:standardTableRow />
@@ -181,23 +192,35 @@
 						      </c:forEach>
 						   </select>
 						</td>
-						<td>&nbsp;</td>
+						<td>						   
+						<form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssStyle="display:none" />
+						<common:errorSign path="custGroup.systemGroupRefNum" id="custGroup.systemGroupRefNum">
+						</common:errorSign>
+						</td>
 					</tr>
 				</tbody>
 			</table>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width=44><font face="Arial" size="2"><b>Part I</b></font></td>
+				<td width="703"><font face="Arial" size="2"><b>集团资料</b></font></td>
+			</tr>
+		</table>
+		<div class="contentTableBody">
 			<div style="height:5px"></div>
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
 				    <customer:standardTableRow />
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td>
-						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" readonly="true"></form:input>
+						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" ></form:input>
 						<common:errorSign id="custGroup.fullName" path="custGroup.fullName"></common:errorSign>
 						</td>
 						<td class="labelColumn">集团简称：</td>
 						<td>
-						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" readonly="true"/> 
+						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" /> 
 						   <common:errorSign id="custGroup.shortName" path="custGroup.shortName"></common:errorSign>
 					    </td>
 					</tr>
@@ -240,6 +263,7 @@
 						<td>
 						   <form:input path="telExchangeDto.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
 					       <form:input path="telExchangeDto.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8"/>
+					        <common:errorSign id="telExchangeDto.phoneNumber" path="telExchangeDto.phoneNumber"></common:errorSign>
 					    </td>
 					</tr>
 					<tr >
@@ -347,12 +371,12 @@
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText"></form:input>
+						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText" maxlength="11"></form:input>
 						<common:errorSign id="custRespPerson.telephoneDto.phoneNumber" path="custRespPerson.telephoneDto.phoneNumber"></common:errorSign>
 						</td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.email" cssClass="standardInputText"></form:input>
+						<form:input path="custRespPerson.email" cssClass="standardInputText" maxlength="50"></form:input>
 						<common:errorSign id="custRespPerson.email" path="custRespPerson.email"></common:errorSign>
 						</td>
 					</tr>	

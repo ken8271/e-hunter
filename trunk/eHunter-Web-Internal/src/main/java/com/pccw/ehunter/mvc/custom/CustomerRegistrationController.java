@@ -172,7 +172,6 @@ public class CustomerRegistrationController extends BaseController{
 	
 	@RequestMapping(value="/customer/submitCustomer.do")
 	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto , SessionStatus status){
-		logger.info("---->>>> " + customerDto.getCustGroup().getFullName());
 		custRegtService.completeCustRegistration(customerDto);
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
