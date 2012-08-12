@@ -1,5 +1,6 @@
 package com.pccw.ehunter.validator;
 
+import org.apache.commons.validator.EmailValidator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -63,9 +64,12 @@ public abstract class AbstractValidator implements Validator{
 			return ;
 		}
 		
-		String regex = "^(\\w+((-\\w+)|(\\.\\w+))*)\\+\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-		
-		if(StringUtils.isMatched(fieldValue, regex)){
+//		String regex = "^(\\w+((-\\w+)|(\\.\\w+))*)\\+\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+//		
+//		if(!StringUtils.isMatched(fieldValue, regex)){
+//			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
+//		}
+		if(!EmailValidator.getInstance().isValid(fieldValue)){
 			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
 		}
 	}
