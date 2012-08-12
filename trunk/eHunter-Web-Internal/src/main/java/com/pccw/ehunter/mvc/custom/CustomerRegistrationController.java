@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
@@ -171,14 +170,16 @@ public class CustomerRegistrationController extends BaseController{
 	}
 	
 	@RequestMapping(value="/customer/submitCustomer.do")
-	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto , SessionStatus status){
+	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
 		custRegtService.completeCustRegistration(customerDto);
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
 	
 	@RequestMapping(value="/customer/completeCustRegistration.do")
-	public ModelAndView completeCustRegistration(HttpServletRequest request){
-		return new ModelAndView("customer/customerConfirmation");
+	public ModelAndView completeCustRegistration(HttpServletRequest request ,@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		ModelAndView mv = new ModelAndView("customer/customerConfirmation");
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+		return mv;
 	}
 }
 
