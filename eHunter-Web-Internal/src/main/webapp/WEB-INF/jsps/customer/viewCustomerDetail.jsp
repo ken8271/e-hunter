@@ -31,7 +31,7 @@
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
 			<tbody>
-				<customer:standardTableRow />
+				<common:standardTableRow />
 				<tr >
 				   <td class="labelColumn">客户编号：</td>
 				   <td><c:out value="${customerDto.systemCustRefNum }" escapeXml="true"></c:out></td>
@@ -50,7 +50,7 @@
 		<div class="contentTableBody">
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td><c:out value="${customerDto.custGroup.fullName }" escapeXml="true"></c:out></td>
@@ -78,7 +78,7 @@
 		<div class="contentTableBody">
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn" >公司名称：</td>
 						<td colspan="2"><c:out value="${customerDto.fullName}" escapeXml="true"></c:out> </td>
@@ -130,7 +130,7 @@
 		<div class="contentTableBody">
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 				    <tr >
 						<td class="labelColumn">姓名：</td>
 						<td colspan="3"><c:out value="${customerDto.custRespPerson.name }" escapeXml="true"></c:out></td>

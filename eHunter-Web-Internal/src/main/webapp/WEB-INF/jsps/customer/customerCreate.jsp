@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/commons/taglibs.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
-<%@ taglib tagdir="/WEB-INF/tags/customer" prefix="customer"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -162,10 +161,9 @@
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table class="standardTableForm" border="1" cellspacing="0"
-				cellpadding="0" width="100%">
+		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr>
 						<td class="labelColumn">客户类型：<span class="mandatoryField">*</span></td>
 						<td>
@@ -211,7 +209,7 @@
 			<div style="height:5px"></div>
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td>
@@ -236,7 +234,7 @@
 		<div class="contentTableBody">
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn" >公司名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
@@ -334,7 +332,7 @@
 		<div class="contentTableBody">
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 				    <tr >
 						<td class="labelColumn">姓名：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
