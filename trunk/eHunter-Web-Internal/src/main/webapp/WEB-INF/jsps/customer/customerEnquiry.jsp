@@ -41,7 +41,7 @@ function resetForm(){
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 			<tbody>
-				<customer:standardTableRow />
+				<common:standardTableRow />
 				<tr >
 				   <td class="labelColumn">客户编号：</td>
 				   <td><form:input path="systemCustRefNum" cssClass="standardInputText"></form:input></td>
@@ -52,7 +52,7 @@ function resetForm(){
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
-				    <customer:standardTableRow />
+				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn">集团名称/简称：</td>
 						<td>
