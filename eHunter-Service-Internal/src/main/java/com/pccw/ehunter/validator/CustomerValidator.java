@@ -50,8 +50,8 @@ public class CustomerValidator extends AbstractValidator{
 		validateStringLength(errors, "fullName", customerDto.getFullName() , "公司名称", 50);
 		
 		validateStringLength(errors, "shortName", customerDto.getShortName() , "公司简称", 20);
-		
-		validateOnlyAlphanumeric(errors, "offcialSite", customerDto.getOffcialSite() , "官方网址");
+
+		validateStringLength(errors, "offcialSite", customerDto.getOffcialSite(), "官方网址", 50);
 		
 		validateOnlyNumberic(errors, "telExchangeDto.regionCode", customerDto.getTelExchangeDto().getRegionCode() ,"公司总机");
 		validateOnlyNumberic(errors, "telExchangeDto.phoneNumber", customerDto.getTelExchangeDto().getPhoneNumber() , "公司总机");

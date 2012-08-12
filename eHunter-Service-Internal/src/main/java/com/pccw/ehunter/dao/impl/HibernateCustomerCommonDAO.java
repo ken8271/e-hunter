@@ -78,13 +78,13 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		StringBuffer filter = new StringBuffer();
 		filter.append(" AND cc.CUST_GRDE = gd.GEDE_CD ");
 		filter.append(" AND cc.CUST_STAT = cs.STAT_CD ");
+		filter.append(" AND cc.SYS_REF_GP = cg.SYS_REF_GP ");
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemCustRefNum())){
 			filter.append(" AND UPPER(cc.SYS_REF_CUST) LIKE CONCAT('%',UPPER(:sysCustRefNum),'%') ");
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getGroupName())){
-			filter.append(" AND cc.SYS_REF_GP = cg.SYS_REF_GP ");
 			filter.append(" AND (UPPER(cg.GP_NM) LIKE CONCAT('%',UPPER(:groupName),'%') OR UPPER(cg.GP_SHRT_NM) LIKE CONCAT('%', UPPER(:groupName) ,'%')) ");
 		}
 		
