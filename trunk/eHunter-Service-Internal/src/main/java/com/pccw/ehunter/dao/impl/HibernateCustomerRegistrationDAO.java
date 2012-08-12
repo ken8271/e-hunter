@@ -97,4 +97,34 @@ public class HibernateCustomerRegistrationDAO implements CustomerRegistrationDAO
 		this.hibernateTemplate.save(customerResponsablePerson);		
 	}
 
+	@Override
+	public void updateCustomerByProperty(final String property , final String value , final String id) {
+		hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append(" UPDATE T_CUST_CO ");
+				
+				if("SYS_REF_GP".equals(property)){
+					buffer.append(" SET SYS_REF_GP = :groupId ");
+				}
+				
+				buffer.append(" WHERE SYS_REF_CUST = :id ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("groupId", value);
+				query.setString("id", id);
+				
+				query.executeUpdate();
+				return null;
+			}
+		});
+	}
+	
+	
+
 }

@@ -28,6 +28,7 @@ import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.utility.BaseEntityUtility;
 import com.pccw.ehunter.utility.DateUtils;
+import com.pccw.ehunter.utility.StringUtils;
 
 @Service("custRegtService")
 @Transactional
@@ -67,14 +68,16 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	@Transactional
 	public void completeCustRegistration(CustomerDTO customerDto) {
 		
+		String systemGroupRefNum = null;
 		if(customerDto != null){
 			customerDto.setSystemCustRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_SEQUENCE_KEY, CommonConstant.PREFIX_CUSTOMER_ID , 6));
-			
-			if(customerDto.getCustGroup() != null && CustomerIndicator.CUSTOMER_GROUP.equals(customerDto.getGroupIndicator())){
-				customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
-			}else {
-				if(customerDto.getCustGroup() != null){
-					customerDto.getCustGroup().setSystemGroupRefNum(null);
+
+			if(customerDto.getCustGroup() != null ){
+				if(CustomerIndicator.CUSTOMER_GROUP.equals(customerDto.getGroupIndicator())){
+					customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));					
+				}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(customerDto.getGroupIndicator())){
+					systemGroupRefNum = customerDto.getCustGroup().getSystemGroupRefNum();
+					customerDto.getCustGroup().setSystemGroupRefNum(null);		
 				}
 			}
 			
@@ -99,7 +102,10 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 			}
 		}
 		
-//		simpleCustRegtDao.save(po);
 		custRegtDao.saveCustomerCompany(po);
+		
+		if(!StringUtils.isEmpty(systemGroupRefNum)){
+			custRegtDao.updateCustomerByProperty("SYS_REF_GP", systemGroupRefNum, customerDto.getSystemCustRefNum());
+		}
 	}
 }

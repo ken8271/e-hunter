@@ -9,4 +9,7 @@ public class SessionAttributeConstant {
 	public static final String LIST_OF_CUSTOMERS = "listOfCustomers";
 	
 	public static final String LIST_OF_RPOJECTS = "listOfCustomerProjects";
+	
+	public static final String TALENT_DTO = "talentDto";
+	public static final String LIST_OF_TALENT_SRC = "listOfTalentSrc";
 }
