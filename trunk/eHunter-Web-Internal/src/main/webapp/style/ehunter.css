@@ -364,4 +364,33 @@ div.emptyBlock {
 		spacing:0px;
 		width: 100%;
 }
+
+.contentTableButton {
+		background-color: #666666;
+		padding: 5px 10px 5px 10px;
+		font-family: "PMingLiu";
+		font-weight: bold;
+		line-height:30px;
+		height:30px;
+		color: #FFFFFF;
+		text-decoration: none;
+		Margin-left: 4px;
+}
+
+A.button:Visited,A.button:link {
+	background-color: #666666;
+	padding: 5px 10px 5px 10px;
+	font-family: "PMingLiu";
+	font-weight: bold;
+	line-height:30px;
+	height:30px;
+	color: #FFFFFF;
+	text-decoration: none;
+	Margin-left: 4px;
+}
+
+A.button:hover {
+	background-color: #FF6500;
+}
 /*--- standard form input end -----*/
+

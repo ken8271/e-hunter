@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.StaticCodeConstant;
+import com.pccw.ehunter.dto.EducationExperienceDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.helper.StaticCodeOperator;
 import com.pccw.ehunter.mvc.BaseController;
@@ -68,5 +69,19 @@ public class TalentRegistrationController extends BaseController{
 			return mv;
 		}
 		return mv;
+	}
+	
+	@RequestMapping("/talent/fillEducationExperience.do")
+	public ModelAndView fillEducationExperience(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+		initEducationExperience(request);
+		
+		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, request.getSession(false).getAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO));
+		return mv;
+	}
+
+	private void initEducationExperience(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		session.setAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
 	}
 }
