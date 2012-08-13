@@ -7,7 +7,7 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 </head>
 <body>
-	<form:form commandName="talentDto" action="${ctx}/customer/saveTalentBaseInfo.do" method="post">
+	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentBaseInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才基本资料填写</td>
@@ -105,6 +105,32 @@
 						<common:errorSign id="nativePlace" path="nativePlace"></common:errorSign>
 					    </td>
 					</tr>
+				    <tr >
+						<td class="labelColumn">曾居地：</td>
+						<td>
+						   <form:input path="onceLivePlace" cssClass="standardInputText"  /> 
+					       <common:errorSign id="onceLivePlace" path="onceLivePlace"></common:errorSign>
+						</td>
+						<td class="labelColumn">现居地：</td>
+						<td>
+						   <form:input path="nowLivePlace" cssClass="standardInputText" /> 
+					       <common:errorSign id="nowLivePlace" path="nowLivePlace"></common:errorSign>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">最高学历：<span class="mandatoryField">*</span></td>
+						<td>
+						   <form:select path="highestDegree"  cssClass="standardSelect">
+						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfDegree }" var="dgre">
+						         <form:option value="${dgre.value }" label="${dgre.label }"></form:option>
+						      </c:forEach>
+						   </form:select>
+						   <common:errorSign path="highestDegree"></common:errorSign>
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
 				</tbody>
 			</table>			
 		</div>
@@ -136,9 +162,9 @@
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
 					    <td>
-							<form:input path="mobilePhoneDto1.phoneNumber" cssClass="standardInputText" maxlength="12"/>
+							<form:input path="mobilePhoneDto1.phoneNumber" cssClass="standardInputText" maxlength="11"/>
 							<common:errorSign id="mobilePhoneDto1.phoneNumber" path="mobilePhoneDto1.phoneNumber"></common:errorSign><br>
-							<form:input path="mobilePhoneDto2.phoneNumber" cssClass="standardInputText" maxlength="12"/>
+							<form:input path="mobilePhoneDto2.phoneNumber" cssClass="standardInputText" maxlength="11"/>
 							<common:errorSign id="mobilePhoneDto2.phoneNumber" path="mobilePhoneDto2.phoneNumber"></common:errorSign><br>
 					    </td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
@@ -150,7 +176,7 @@
 					<tr >
 						<td class="labelColumn">家庭地址：</td>
 						<td colspan="3">
-						   <form:input path="homeAddress" cssClass="standardInputText" maxlength="50" /> 
+						   <form:input path="homeAddress" cssClass="standardInputText" /> 
 					       <common:errorSign id="homeAddress" path="homeAddress"></common:errorSign>
 						</td>
 					</tr>
