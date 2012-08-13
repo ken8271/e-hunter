@@ -7,6 +7,7 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 </head>
 <body>
+    <hdiv-c:url value="/talent/fillEducationExperience.do" var="eduExpUrl"></hdiv-c:url>
 	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentBaseInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
@@ -181,6 +182,69 @@
 						</td>
 					</tr>
 				</tbody>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>人才教育经历</b></font></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="${eduExpUrl}" style="white-space:nowrap;">输入教育经历</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="10%"><font face="Arial" size="2"><b>第四部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>人才工作经历</b></font></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;">输入工作经历</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="10%"><font face="Arial" size="2"><b>第五部分：</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>人才项目经验</b></font></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;">输入项目经验</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
 			</table>
 		</div>
 		<div class="emptyBlock"></div>
