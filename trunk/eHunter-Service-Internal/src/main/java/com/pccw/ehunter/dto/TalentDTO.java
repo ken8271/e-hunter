@@ -1,5 +1,6 @@
 package com.pccw.ehunter.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TalentDTO extends BaseDTO {
@@ -24,7 +25,7 @@ public class TalentDTO extends BaseDTO {
 	
 	private String talentSrc;
 	
-	private List<EducationExperienceDTO> eduExpDtos;
+	private List<EducationExperienceDTO> eduExpDtos = new ArrayList<EducationExperienceDTO>();
 
 	public String getTalentSrc() {
 		return talentSrc;
