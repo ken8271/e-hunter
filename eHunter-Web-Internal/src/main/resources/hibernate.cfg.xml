@@ -17,5 +17,6 @@
 		<mapping class="com.pccw.ehunter.domain.common.Degree"/>
 		<mapping class="com.pccw.ehunter.domain.common.Subject"/>
 		<mapping class="com.pccw.ehunter.domain.common.SubjectType"/>
+		<mapping class="com.pccw.ehunter.domain.common.TalentSource"/>
 	</session-factory>
 </hibernate-configuration>
