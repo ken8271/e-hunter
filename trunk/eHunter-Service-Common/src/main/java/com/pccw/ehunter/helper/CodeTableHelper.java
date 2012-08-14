@@ -15,8 +15,10 @@ import org.springframework.web.util.WebUtils;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.SubjectTypeDTO;
+import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.SubjectTypeService;
+import com.pccw.ehunter.service.TalentSourceService;
 
 @Component("codeTableHelper")
 public class CodeTableHelper {
@@ -28,6 +30,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private DegreeService degreeService;
+	
+	@Autowired
+	private TalentSourceService talentSourceService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectTypeDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -59,6 +64,22 @@ public class CodeTableHelper {
 		}
 		
 		return dgres;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TalentSourceDTO> getAllTalentSources(HttpServletRequest request){
+		List<TalentSourceDTO> srcs = (List<TalentSourceDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_TALENT_SOURCE);
+		if(CollectionUtils.isEmpty(srcs)){
+			srcs = talentSourceService.getAllTalentSources();
+			if(CollectionUtils.isEmpty(srcs)){
+				srcs = new ArrayList<TalentSourceDTO>();
+			}
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_TALENT_SOURCE, srcs);
+		}else{
+			logger.debug("retrieved from cache.");
+		}
+		
+		return srcs;
 	}
 	
 }
