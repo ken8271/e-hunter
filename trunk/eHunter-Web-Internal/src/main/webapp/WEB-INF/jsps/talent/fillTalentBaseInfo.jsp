@@ -5,10 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
+<script type="text/javascript">
+function submitForm(actionFlagStr){
+	var actionFlag = document.getElementById('actionFlag');
+	if(actionFlag != 'undefined' && actionFlagStr != ""){
+		actionFlag.value = actionFlagStr;
+	}
+	document.forms[0].submit();
+}
+</script>
 </head>
 <body>
     <hdiv-c:url value="/talent/fillEducationExperience.do" var="eduExpUrl"></hdiv-c:url>
-	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentBaseInfo.do" method="post">
+	<form:form commandName="talentDto" action="${ctx}/talent/addTalentActions.do" method="post">
+	    <div style="display: none">
+	       <input type="hidden" id="actionFlag" name="actionFlag" />
+	    </div>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才基本资料填写</td>
@@ -23,7 +35,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="button" value="保存" onclick="submitForm('')"/>&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -43,7 +55,7 @@
 						   <form:select path="talentSrc"  cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <c:forEach items="${listOfTalentSrc }" var="src">
-						         <form:option value="${src.value }" label="${src.label }"></form:option>
+						         <form:option value="${src.sourceId }" label="${src.displayName }"></form:option>
 						      </c:forEach>
 						   </form:select>
 						   <common:errorSign path="talentSrc"></common:errorSign>
@@ -198,7 +210,7 @@
 			      <td width="100%" align="right">
 			        <div id="buttonArea">
 						<div class="buttonmenubox_R">
-							<a class="button" href="${eduExpUrl}" style="white-space:nowrap;">输入教育经历</a>
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('6')">输入教育经历</a>
 						</div>
 					</div>
 			      </td>
@@ -254,7 +266,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="button" value="保存" onclick="submitForm('5')"/>&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>

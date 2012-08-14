@@ -106,6 +106,12 @@
 				        <value>custRespPerson.positionType</value>
 				    </list>
 				</entry>
+				
+				<entry key="/talent/addEducationExperience.do">
+				    <list>
+				        <value>major</value>
+				    </list>
+				</entry>
 			</map>
 		</property>		
 		

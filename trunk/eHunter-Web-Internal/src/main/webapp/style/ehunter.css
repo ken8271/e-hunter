@@ -422,5 +422,12 @@ A.button:hover {
 	word-break: break-all; 
 	word-wrap : break-word;
 }
+
+.contentTableRow { 
+	background: #FFFFFF;
+	font-family: "PMingLiu"; 
+	color: #000000;
+	width: 100%
+}
 /*--- standard form input end -----*/
 

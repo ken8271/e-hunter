@@ -24,7 +24,7 @@ function loadSubjects(){
 				major.options[major.length] = new Option("--- 请选择 ---", "");
 				$(xml).find('subject').each(function(i , element){
 					var label = $(this).find("label").text();
-					var val = $(this).children("value").text();
+					var val = ''+$(this).children("value").text()+'';
 					major.options[major.length] = new Option(label, val);
 				});
 				$('#major').attr('disabled',false);
@@ -48,10 +48,22 @@ function clearSelector(selector){
 		selector.removeChild(selector.childNodes[0]);
 	}
 }
+
+function complete(actionFlagStr){
+	var actionFlag = document.getElementById('actionFlag');
+	if(actionFlag != 'undefined' && actionFlagStr != ""){
+		actionFlag.value = actionFlagStr;
+	}
+	var form = document.getElementById('eduExpForm');
+	form.submit();
+}
 </script>
 </head>
 <body>
-	<form:form commandName="eduExpDto" action="${ctx}/talent/addEducationExperience.do" method="post">
+	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/addEducationExperience.do" method="post">
+	    <div style="display: none">
+	       <input type="hidden" id="actionFlag" name="actionFlag"/>
+	    </div>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才教育经历填写</td>
@@ -135,7 +147,7 @@ function clearSelector(selector){
 							<td>
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;">添加</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('6')">添加</a>
 							      <a class="button" href="#" style="white-space:nowrap;">清除</a>
 							   </div>
 							</div>
@@ -147,16 +159,35 @@ function clearSelector(selector){
 		</table>
 	</form:form>
 	<div class="emptyBlock"></div>
-	<form:form>
+	<form:form id="eduExpsForm" commandName="talentDto" action="/talent/deleteEducationExperience.do">
 		<table class="contentTableBody2" cellspacing="1">
-				<tr class="contentTableTitle">
-					<td width="10%" align="center">全选</td>
-					<td width="20%">时间</td>
-					<td width="10%">学校</td>
-					<td width="30%">专业</td>
-					<td width="20%">学位</td>
-					<td width="10%" align="center">操作</td>
-				</tr>
+		   <tr class="contentTableTitle">
+		      <td width="10%" align="center">全选</td>
+		      <td width="20%">时间</td>
+		      <td width="10%">学校</td>
+		      <td width="30%">专业</td>
+		      <td width="20%">学位</td>
+		      <td width="10%" align="center">操作</td>
+		   </tr>
+		   <c:if test="${not empty talentDto.eduExpDtos }">
+		      <c:forEach items="${talentDto.eduExpDtos }" var="eduExp">
+		         <tr class="contentTableRow">
+		            <td><input type="checkbox" /></td>
+		            <td>
+		            <c:out value="${eduExp.fromDateDto.year }" escapeXml="true"/>年
+		            <c:out value="${eduExp.fromDateDto.month }" escapeXml="true"/>月
+		            <c:out value="${eduExp.fromDateDto.day }" escapeXml="true"/>日 &nbsp;-&nbsp;
+		            <c:out value="${eduExp.toDateDto.year }" escapeXml="true"/>年
+		            <c:out value="${eduExp.toDateDto.month }" escapeXml="true"/>月
+		            <c:out value="${eduExp.toDateDto.day }" escapeXml="true"/>日
+		            </td>
+		            <td><c:out value="${eduExp.school }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${eduExp.major }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${eduExp.degree }" escapeXml="true"></c:out></td>
+		            <td> <a class="button" href="#" style="white-space:nowrap;">编辑</a></td>
+		         </tr>
+		      </c:forEach>
+		   </c:if>
 		</table>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -167,7 +198,7 @@ function clearSelector(selector){
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
 							      <a class="button" href="#" style="white-space:nowrap;">删除</a>
-							      <a class="button" href="#" style="white-space:nowrap;">保存</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="completeInput();">保存</a>
 							      <a class="button" href="#" style="white-space:nowrap;">返回</a>
 							   </div>
 							</div>
