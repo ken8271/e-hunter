@@ -43,4 +43,29 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		return srcs;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> getSubjectsByType(final String typeCode) {
+		List<Object> subjs = (List<Object>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT SUBJ_CD , DISP_NM ");
+				buffer.append(" FROM T_SUBJ ");
+				buffer.append(" WHERE SUBJ_TY = :typeCode ");
+				buffer.append(" AND ACTV_FLG = 'Y' ");
+				buffer.append(" AND LST_TX_ACTN <> 'D' ");
+				buffer.append("ORDER BY DISP_SEQ_NBR ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				query.setString("typeCode", typeCode);
+				
+				return query.list();
+			}
+		});
+		return subjs;
+	}
+
 }

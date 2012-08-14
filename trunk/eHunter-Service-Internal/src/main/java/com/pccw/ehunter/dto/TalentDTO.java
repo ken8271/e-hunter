@@ -1,5 +1,7 @@
 package com.pccw.ehunter.dto;
 
+import java.util.List;
+
 public class TalentDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +23,8 @@ public class TalentDTO extends BaseDTO {
 	private String homeAddress;
 	
 	private String talentSrc;
+	
+	private List<EducationExperienceDTO> eduExpDtos;
 
 	public String getTalentSrc() {
 		return talentSrc;
@@ -148,6 +152,14 @@ public class TalentDTO extends BaseDTO {
 
 	public void setHomeAddress(String homeAddress) {
 		this.homeAddress = homeAddress;
+	}
+
+	public List<EducationExperienceDTO> getEduExpDtos() {
+		return eduExpDtos;
+	}
+
+	public void setEduExpDtos(List<EducationExperienceDTO> eduExpDtos) {
+		this.eduExpDtos = eduExpDtos;
 	}
 
 }
