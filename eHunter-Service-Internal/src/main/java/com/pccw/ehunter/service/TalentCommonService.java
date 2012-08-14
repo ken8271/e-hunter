@@ -6,4 +6,5 @@ import com.pccw.ehunter.dto.BaseLabelValueDTO;
 
 public interface TalentCommonService {
 	public List<BaseLabelValueDTO> loadTalentSource();
+	public List<BaseLabelValueDTO> loadSubjectsByType(String typeCode);
 }

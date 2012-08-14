@@ -41,4 +41,24 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 		return srcs;
 	}
 
+	@Override
+	public List<BaseLabelValueDTO> loadSubjectsByType(String typeCode) {
+		List<BaseLabelValueDTO> subjs = new ArrayList<BaseLabelValueDTO>();
+		List<Object> list = talentCommonDao.getSubjectsByType(typeCode);
+		
+		if(CollectionUtils.isEmpty(list)){
+			return subjs;
+		}
+		
+		for(Object o : list){
+			Object[] objs = (Object[])o;
+			BaseLabelValueDTO lv = new BaseLabelValueDTO();
+			lv.setValue(StringUtils.isEmpty((String)objs[0]) ? "" : (String)objs[0]);
+			lv.setLabel(StringUtils.isEmpty((String)objs[1]) ? "" : (String)objs[1]);
+			subjs.add(lv);
+		}
+		
+		return subjs;
+	}
+
 }
