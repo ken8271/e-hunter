@@ -124,6 +124,15 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> extends Hiberna
 	public Long findLong (String hql, Object... values) {
 		return (Long) findUnique( hql, values );
 	}
+	
+	public List<T> findAllUndeleted() {
+		if( BaseEntity.class.isAssignableFrom(entityClass) ){
+			Criterion criteria = Restrictions.ne("lastTransactionIndicator", "D");
+			return createCriteria( criteria).list( );
+		}else{
+			return createCriteria().list( );
+		}
+	}
 
 	/**
 	 * 按Criterion查询对象列表.
