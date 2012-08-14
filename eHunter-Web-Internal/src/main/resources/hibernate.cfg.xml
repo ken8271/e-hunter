@@ -14,5 +14,8 @@
 		<mapping class="com.pccw.ehunter.domain.common.PositionType"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.PositionSubType"></mapping>
 		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>
+		<mapping class="com.pccw.ehunter.domain.common.Degree"/>
+		<mapping class="com.pccw.ehunter.domain.common.Subject"/>
+		<mapping class="com.pccw.ehunter.domain.common.SubjectType"/>
 	</session-factory>
 </hibernate-configuration>

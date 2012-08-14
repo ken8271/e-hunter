@@ -124,7 +124,7 @@
 						   <form:select path="highestDegree"  cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <c:forEach items="${listOfDegree }" var="dgre">
-						         <form:option value="${dgre.value }" label="${dgre.label }"></form:option>
+						         <form:option value="${dgre.degreeCode }" label="${dgre.displayName }"></form:option>
 						      </c:forEach>
 						   </form:select>
 						   <common:errorSign path="highestDegree"></common:errorSign>
