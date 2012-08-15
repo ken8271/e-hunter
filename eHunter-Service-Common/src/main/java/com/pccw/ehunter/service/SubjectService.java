@@ -6,4 +6,5 @@ import com.pccw.ehunter.dto.SubjectDTO;
 
 public interface SubjectService {
 	public List<SubjectDTO> getSubjectsByType(String typeCode);
+	public SubjectDTO getSubjectByCode(String code);
 }
