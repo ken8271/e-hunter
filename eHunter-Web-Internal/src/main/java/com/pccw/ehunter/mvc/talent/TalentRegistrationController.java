@@ -22,33 +22,35 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
-import com.pccw.ehunter.dto.BaseLabelValueDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectTypeDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
-import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
+import com.pccw.ehunter.validator.EducationExperienceValidator;
 import com.pccw.ehunter.validator.TalentBaseInfoValidator;
 
 @Controller
-@SessionAttributes({SessionAttributeConstant.TALENT_DTO})
+@SessionAttributes({SessionAttributeConstant.TALENT_DTO,
+	                SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO})
 public class TalentRegistrationController extends BaseController{
-	
-	@Autowired
-	private TalentCommonService talentCommonService;
 	
 	@Autowired
 	private TalentBaseInfoValidator talentBaseInfoValidator;
 
 	@Autowired
 	private CodeTableHelper codeTableHelper;
+	
+	@Autowired
+	private EducationExperienceValidator eduExpValidator;
 	
 	@RequestMapping("/talent/initAddTalent.do")
 	public ModelAndView initAddTalent(HttpServletRequest request){
@@ -132,10 +134,24 @@ public class TalentRegistrationController extends BaseController{
 		mv.addObject(WebConstant.LIST_OF_DEGREE, degrees);
 	}
 	
-	@RequestMapping("/talent/addEducationExperience.do")
-	public ModelAndView addEducationExperience(HttpServletRequest request , 
+	@RequestMapping("/talent/addEduExpActions.do")
+	public ModelAndView addEduExpActions(HttpServletRequest request , 
 			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
 			@ModelAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/addEduExp.do", true));
+		
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		mv.addObject(ActionFlag.ACTION_FLAG, actionFlag);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/addEduExp.do")
+	public ModelAndView addEducationExperience(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
+			@ModelAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto,
+			BindingResult errors){
+		ModelAndView mv = null;
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
 		
 		if(!StringUtils.isEmpty(actionFlag)){
@@ -144,13 +160,79 @@ public class TalentRegistrationController extends BaseController{
 			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
 		}
 		
-		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+		if(ActionFlag.COMPLETE.equals(actionFlag)){
+			boolean isNothingInput = true;
+			if(eduExpDto.getFromDateDto() != null){
+				if(!StringUtils.isEmpty(eduExpDto.getFromDateDto().getYear())
+						|| !StringUtils.isEmpty(eduExpDto.getFromDateDto().getMonth())
+						|| !StringUtils.isEmpty(eduExpDto.getFromDateDto().getDay())){
+					isNothingInput = false;
+				}
+			}
+			
+			if(eduExpDto.getToDateDto() != null){
+				if(!StringUtils.isEmpty(eduExpDto.getToDateDto().getYear())
+						|| !StringUtils.isEmpty(eduExpDto.getToDateDto().getMonth())
+						|| !StringUtils.isEmpty(eduExpDto.getToDateDto().getDay())){
+					isNothingInput = false;
+				}
+			}
+			
+			if(!StringUtils.isEmpty(eduExpDto.getSchool())){
+				isNothingInput = false;
+			}
+			
+			if(!StringUtils.isEmpty(eduExpDto.getMajor())){
+				isNothingInput = false;
+			}
+			
+			if(isNothingInput){
+				mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEduExp.do", true));
+				mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+				return mv;
+			}
+		}
+		
+		eduExpValidator.validate(eduExpDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("talent/fillEduExp");
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+			mv.addObject("clearField", CommonConstant.NO);
+			return mv;
+		}
+		
+		if(ActionFlag.COMPLETE.equals(actionFlag)){
+			mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEduExp.do", true));
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			return mv;
+		}
+		
+		mv = new ModelAndView("talent/fillEduExp");
+		
+		SubjectDTO subject = codeTableHelper.getSubjectByCode(eduExpDto.getMajor());
+		eduExpDto.setMajorDto(subject);
+		
+		DegreeDTO degree = codeTableHelper.getDegreeByCode(request, eduExpDto.getDegree());
+		eduExpDto.setDegreeDto(degree);
 		
 		List<EducationExperienceDTO> eduExps = talentDto.getEduExpDtos();
 		eduExps.add(eduExpDto);
 		
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO);
+		eduExpDto = new EducationExperienceDTO();
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+		mv.addObject("clearField", CommonConstant.YES);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/completeAddEduExp.do")
+	public ModelAndView completeAddEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/fillTalentBaseInfo");
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
 		return mv;
 	}
 	
@@ -163,16 +245,16 @@ public class TalentRegistrationController extends BaseController{
 			response.setContentType("text/xml;charset=UTF-8");
 			
 			String typeCode = request.getParameter("_id");
-			List<BaseLabelValueDTO> lvs = talentCommonService.loadSubjectsByType(typeCode);
+			List<SubjectDTO> subjects = codeTableHelper.getSubjectsByType(typeCode);
 			
 			Document doc = DocumentHelper.createDocument();
 			Element root = doc.addElement("xml");
 			
-			if(!CollectionUtils.isEmpty(lvs)){
-				for(BaseLabelValueDTO lv : lvs){
+			if(!CollectionUtils.isEmpty(subjects)){
+				for(SubjectDTO dto : subjects){
 					Element post = root.addElement("subject");
-					post.addElement("label").setText(lv.getLabel());
-					post.addElement("value").setText(lv.getValue());
+					post.addElement("label").setText(dto.getDisplayName());
+					post.addElement("value").setText(dto.getSubjectCode());
 				}
 			}
 			
