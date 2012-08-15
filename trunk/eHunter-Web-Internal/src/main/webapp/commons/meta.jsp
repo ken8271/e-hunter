@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/style/ehunter.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jmesa.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jquery.validate.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/script/jscalendar/calendar-blue.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/script/greybox/gb_styles.css" />
 <script type="text/javascript">
    var GB_ROOT_DIR = "${ctx}/script/greybox/";
@@ -24,6 +25,9 @@
 <script type="text/javascript" src="${ctx}/script/progressbar/jquery.processing.plugin.js"></script>
 <script type="text/javascript" src="${ctx}/script/jmesa.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery.jmesa.js"></script>
+<script type="text/javascript" src="${ctx}/script/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="${ctx}/script/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${ctx}/script/jscalendar/calendar-setup.js"></script>
 <script type="text/javascript" src="${ctx}/script/greybox/AJS.js"></script>
 <script type="text/javascript" src="${ctx}/script/greybox/AJS_fx.js"></script>
 <script type="text/javascript" src="${ctx}/script/greybox/gb_scripts.js"></script>

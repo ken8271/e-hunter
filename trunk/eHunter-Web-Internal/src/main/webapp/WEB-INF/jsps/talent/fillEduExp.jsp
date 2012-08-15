@@ -7,6 +7,25 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/talent/loadSubjects.do" var="loadSubjectsUrl"></hdiv-c:url>
 <script type="text/javascript">
+$().ready(function(){
+	if('${clearField}' == 'Y'){
+		clearInputFields();
+	}
+});
+
+function clearInputFields(){
+	document.getElementById('fromDateDto.year').value='';
+	document.getElementById('fromDateDto.month').value='';
+	document.getElementById('fromDateDto.day').value='';
+	document.getElementById('toDateDto.year').value='';
+	document.getElementById('toDateDto.month').value='';
+	document.getElementById('toDateDto.day').value='';
+	$("#school").val('');
+	$("#majorSelector").val('');
+	$("#major").val();
+	$("#degree").val('');
+}
+
 function loadSubjects(){
 	var majorSelector = document.getElementById("majorSelector");
 	if(majorSelector != null && majorSelector.selectedIndex != 0){
@@ -60,11 +79,11 @@ function complete(actionFlagStr){
 </script>
 </head>
 <body>
-	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/addEducationExperience.do" method="post">
+	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/addEduExpActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
 	    </div>
-		<table border="0" width="100%">
+		<table border="0" width="99%">
 			<tr>
 				<td class="pageTitle">人才教育经历填写</td>
 			</tr>
@@ -75,22 +94,18 @@ function complete(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<div class="contentTableBody">
 			<div style="height:5px"></div>
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%" >
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
 						<td class="labelColumn">时间：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="fromDateDto.year" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>&nbsp;-&nbsp; 
-						<form:input path="fromDateDto.month" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;-&nbsp; 
-						<form:input path="fromDateDto.day" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>
+						<common:inputDate dateYY="fromDateDto.year" dateMON="fromDateDto.month" dateDD="fromDateDto.day" ></common:inputDate>
 						<common:errorSign id="fromDateDto.day" path="fromDateDto.day"></common:errorSign>
 						</td>
 						<td class="labelColumn">至：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="toDateDto.year" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>&nbsp;-&nbsp; 
-						<form:input path="toDateDto.month" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;-&nbsp; 
-						<form:input path="toDateDto.day" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>
+						<common:inputDate dateYY="toDateDto.year" dateMON="toDateDto.month" dateDD="toDateDto.day" ></common:inputDate>
 						<common:errorSign id="toDateDto.day" path="toDateDto.day"></common:errorSign>
 					    </td>
 					</tr>
@@ -139,7 +154,7 @@ function complete(actionFlagStr){
 			</table>			
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
+		<table id="bg2" border="0" width="99%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -147,8 +162,8 @@ function complete(actionFlagStr){
 							<td>
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('6')">添加</a>
-							      <a class="button" href="#" style="white-space:nowrap;">清除</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('7')">添加</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="clearInputFields();">清除</a>
 							   </div>
 							</div>
 							</td>
@@ -160,19 +175,19 @@ function complete(actionFlagStr){
 	</form:form>
 	<div class="emptyBlock"></div>
 	<form:form id="eduExpsForm" commandName="talentDto" action="/talent/deleteEducationExperience.do">
-		<table class="contentTableBody2" cellspacing="1">
+		<table class="contentTableBody2" cellspacing="1" width="99%">
 		   <tr class="contentTableTitle">
-		      <td width="10%" align="center">全选</td>
-		      <td width="20%">时间</td>
+		      <td width="5%" align="center">全选</td>
+		      <td width="25%">时间</td>
 		      <td width="10%">学校</td>
 		      <td width="30%">专业</td>
 		      <td width="20%">学位</td>
 		      <td width="10%" align="center">操作</td>
 		   </tr>
 		   <c:if test="${not empty talentDto.eduExpDtos }">
-		      <c:forEach items="${talentDto.eduExpDtos }" var="eduExp">
+		      <c:forEach items="${talentDto.eduExpDtos }" var="eduExp" varStatus="status">
 		         <tr class="contentTableRow">
-		            <td><input type="checkbox" /></td>
+		            <td><input type="checkbox" />&nbsp;${status.index+1 }</td>
 		            <td>
 		            <c:out value="${eduExp.fromDateDto.year }" escapeXml="true"/>年
 		            <c:out value="${eduExp.fromDateDto.month }" escapeXml="true"/>月
@@ -182,14 +197,23 @@ function complete(actionFlagStr){
 		            <c:out value="${eduExp.toDateDto.day }" escapeXml="true"/>日
 		            </td>
 		            <td><c:out value="${eduExp.school }" escapeXml="true"></c:out></td>
-		            <td><c:out value="${eduExp.major }" escapeXml="true"></c:out></td>
-		            <td><c:out value="${eduExp.degree }" escapeXml="true"></c:out></td>
-		            <td> <a class="button" href="#" style="white-space:nowrap;">编辑</a></td>
+		            <td>
+		            <c:if test="${eduExp.majorDto != null }">
+		               <c:out value="${eduExp.majorDto.displayName }" escapeXml="true"></c:out>
+		            </c:if>
+		            </td>
+		            <td>
+		            <c:if test="${eduExp.degreeDto != null }">
+		               <c:out value="${eduExp.degreeDto.displayName }" escapeXml="true"></c:out>
+		            </c:if>
+		            </td>
+		            <td align="center"> <a class="button" href="#" style="white-space:nowrap;">编辑</a></td>
 		         </tr>
 		      </c:forEach>
 		   </c:if>
 		</table>
-		<table id="bg2" border="0" width="100%">
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="99%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -198,8 +222,7 @@ function complete(actionFlagStr){
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
 							      <a class="button" href="#" style="white-space:nowrap;">删除</a>
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="completeInput();">保存</a>
-							      <a class="button" href="#" style="white-space:nowrap;">返回</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('6');">保存</a>
 							   </div>
 							</div>
 							</td>
