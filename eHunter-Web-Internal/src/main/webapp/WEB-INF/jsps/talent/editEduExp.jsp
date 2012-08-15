@@ -7,25 +7,6 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/talent/loadSubjects.do" var="loadSubjectsUrl"></hdiv-c:url>
 <script type="text/javascript">
-$().ready(function(){
-	if('${clearField}' == 'Y'){
-		clearInputFields();
-	}
-});
-
-function clearInputFields(){
-	document.getElementById('fromDateDto.year').value='';
-	document.getElementById('fromDateDto.month').value='';
-	document.getElementById('fromDateDto.day').value='';
-	document.getElementById('toDateDto.year').value='';
-	document.getElementById('toDateDto.month').value='';
-	document.getElementById('toDateDto.day').value='';
-	$("#school").val('');
-	$("#majorSelector").val('');
-	$("#major").val();
-	$("#degree").val('');
-}
-
 function loadSubjects(){
 	var majorSelector = document.getElementById("majorSelector");
 	if(majorSelector != null && majorSelector.selectedIndex != 0){
@@ -68,47 +49,39 @@ function clearSelector(selector){
 	}
 }
 
-function complete(actionFlagStr){
-	var actionFlag = document.getElementById('actionFlag');
-	if(actionFlag != 'undefined' && actionFlagStr != ""){
-		actionFlag.value = actionFlagStr;
-	}
+function submitForm(){
 	var form = document.getElementById('eduExpForm');
 	form.submit();
-}
-
-function submitDelete(listName){
-	var isSubmit = false;
-	
-	for( var i = 0; i < document.getElementsByName(listName).length ; i++){ 		
-		if(document.getElementsByName(listName).item(i).checked == true){
-			isSubmit = true;
-			break;
-		} 				
-	}	
-
-	if(isSubmit == true){
-		if(confirm("确认删除被选择的记录？") == true){
-			var form = document.getElementById('eduExpsForm');
-	        form.submit();
-		}
-	}else{
-		alert('请至少选择一项进行删除！');
-	}
 }
 </script>
 </head>
 <body>
-	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/addEduExpActions.do" method="post">
-	    <div style="display: none">
-	       <input type="hidden" id="actionFlag" name="actionFlag"/>
-	    </div>
+	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/completeEditEduExp.do" method="post">
 		<table border="0" width="99%">
 			<tr>
 				<td class="pageTitle">人才教育经历填写</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="eduExpDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="99%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							<div id="buttonArea">
+							   <div class="buttonmenubox_R">
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitForm();">确认</a>
+							      <a class="button" href="#" style="white-space:nowrap;">返回</a>
+							   </div>
+							</div>
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -182,8 +155,8 @@ function submitDelete(listName){
 							<td>
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('7')">添加</a>
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="clearInputFields();">清除</a>
+							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitForm();">确认</a>
+							      <a class="button" href="#" style="white-space:nowrap;" >返回</a>
 							   </div>
 							</div>
 							</td>
@@ -194,66 +167,5 @@ function submitDelete(listName){
 		</table>
 	</form:form>
 	<div class="emptyBlock"></div>
-	<form:form id="eduExpsForm" commandName="talentDto" action="${ctx }/talent/deleteEducationExperience.do">
-		<table class="contentTableBody2" cellspacing="1" width="99%">
-		   <tr class="contentTableTitle">
-		      <td width="5%" align="center">全选</td>
-		      <td width="25%">时间</td>
-		      <td width="10%">学校</td>
-		      <td width="30%">专业</td>
-		      <td width="20%">学位</td>
-		      <td width="10%" align="center">操作</td>
-		   </tr>
-		   <c:if test="${not empty talentDto.eduExpDtos }">
-		      <c:forEach items="${talentDto.eduExpDtos }" var="eduExp" varStatus="status">
-		         <tr class="contentTableRow">
-		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
-		            <td>
-		            <c:out value="${eduExp.fromDateDto.year }" escapeXml="true"/>年
-		            <c:out value="${eduExp.fromDateDto.month }" escapeXml="true"/>月
-		            <c:out value="${eduExp.fromDateDto.day }" escapeXml="true"/>日 &nbsp;-&nbsp;
-		            <c:out value="${eduExp.toDateDto.year }" escapeXml="true"/>年
-		            <c:out value="${eduExp.toDateDto.month }" escapeXml="true"/>月
-		            <c:out value="${eduExp.toDateDto.day }" escapeXml="true"/>日
-		            </td>
-		            <td><c:out value="${eduExp.school }" escapeXml="true"></c:out></td>
-		            <td>
-		            <c:if test="${eduExp.majorDto != null }">
-		               <c:out value="${eduExp.majorDto.displayName }" escapeXml="true"></c:out>
-		            </c:if>
-		            </td>
-		            <td>
-		            <c:if test="${eduExp.degreeDto != null }">
-		               <c:out value="${eduExp.degreeDto.displayName }" escapeXml="true"></c:out>
-		            </c:if>
-		            </td>
-		            <td align="center"> 
-		            <hdiv-c:url value="/talent/preEditEduExp.do?_id=${status.index }" var="editEduExpUrl"></hdiv-c:url>
-		            <a class="button" href="${editEduExpUrl }" style="white-space:nowrap;" >编辑</a>
-		            </td>
-		         </tr>
-		      </c:forEach>
-		   </c:if>
-		</table>
-		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							<div id="buttonArea">
-							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitDelete('expsList')">删除</a>
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('6');">保存</a>
-							   </div>
-							</div>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form:form>
 </body>
 </html>

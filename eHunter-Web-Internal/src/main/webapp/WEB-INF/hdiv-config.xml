@@ -112,6 +112,18 @@
 				        <value>major</value>
 				    </list>
 				</entry>
+				
+				<entry key="/talent/completeEditEduExp.do">
+				    <list>
+				        <value>major</value>
+				    </list>
+				</entry>
+				
+				<entry key="/talent/deleteEducationExperience.do">
+				    <list>
+				        <value>expsList</value>
+				    </list>
+				</entry>
 			</map>
 		</property>		
 		
