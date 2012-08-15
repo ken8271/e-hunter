@@ -39,4 +39,9 @@ public class SubjectServiceImpl implements SubjectService{
 		}
 		return dtos;
 	}
+
+	@Override
+	public SubjectDTO getSubjectByCode(String code) {
+		return SubjectConvertor.toDto(dao.findUniqueByProperty("subjectCode", code));
+	}
 }

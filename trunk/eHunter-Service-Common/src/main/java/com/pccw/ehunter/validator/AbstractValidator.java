@@ -1,9 +1,14 @@
 package com.pccw.ehunter.validator;
 
+import java.util.Date;
+
 import org.apache.commons.validator.EmailValidator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.pccw.ehunter.dto.SimpleDateDTO;
+import com.pccw.ehunter.dto.SimpleDateTimeDTO;
+import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.StringUtils;
 
 public abstract class AbstractValidator implements Validator{
@@ -63,14 +68,66 @@ public abstract class AbstractValidator implements Validator{
 		if(StringUtils.isEmpty(fieldValue)){
 			return ;
 		}
-		
-//		String regex = "^(\\w+((-\\w+)|(\\.\\w+))*)\\+\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-//		
-//		if(!StringUtils.isMatched(fieldValue, regex)){
-//			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
-//		}
+
 		if(!EmailValidator.getInstance().isValid(fieldValue)){
 			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
 		}
 	}
+	
+	public void validateDate(Errors errors, String YY,String MON,String DD,String fieldName, String fieldLabel) {
+		if(StringUtils.isEmpty(YY) && StringUtils.isEmpty(MON) && StringUtils.isEmpty(DD)){
+			return;
+		}
+		
+		if(YY.trim().length()!=4){
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+			return;
+		}
+		try {
+			Date parseDate = DateUtils.parseDate(YY,MON,DD);
+			Integer.parseInt(DD);
+			if (parseDate==null){
+				errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+			}
+		} catch (Exception e) {
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+		} 
+		
+	}
+	
+	public void validateDate(Errors errors,  String filedName , SimpleDateDTO dto , String fieldLabel) {
+		if(dto == null){
+			return ;
+		}
+		
+		validateDate(errors, dto.getYear() , dto.getMonth() , dto.getDay() , filedName , fieldLabel);
+	}
+
+	public void validateDateTime(Errors errors,
+			String YY,String MON,String DD,String HH,String MM, String fieldName, String fieldLabel) {
+		if(StringUtils.isEmpty(YY)&&StringUtils.isEmpty(MON)&&StringUtils.isEmpty(DD)&&StringUtils.isEmpty(HH)&&StringUtils.isEmpty(MM)){
+			return;
+		}
+		if(YY.trim().length()!=4){
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+			return;
+		}
+		try {
+			Date parseDate = DateUtils.parseDate(YY,MON,DD,HH,MM,"00");
+			if (parseDate==null){
+				errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+			}
+		} catch (Exception e) {
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]");
+		}
+	}
+	
+	public void validateDateTime(Errors errors,  String filedName , SimpleDateTimeDTO dto , String fieldLabel) {
+		if(dto == null){
+			return ;
+		}
+		
+		validateDateTime(errors, dto.getYear() , dto.getMonth() , dto.getDay() , dto.getHour() , dto.getMinute() , filedName , fieldLabel);
+	}
+
 }
