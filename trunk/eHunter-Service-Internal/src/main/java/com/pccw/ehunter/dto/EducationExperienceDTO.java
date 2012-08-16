@@ -6,6 +6,7 @@ public class EducationExperienceDTO extends BaseDTO {
 	private SimpleDateDTO fromDateDto;
 	private SimpleDateDTO toDateDto;
 	private String school;
+	private String majorType;
 	private String major;
 	private String degree;
 
@@ -66,6 +67,14 @@ public class EducationExperienceDTO extends BaseDTO {
 
 	public void setDegreeDto(DegreeDTO degreeDto) {
 		this.degreeDto = degreeDto;
+	}
+
+	public String getMajorType() {
+		return majorType;
+	}
+
+	public void setMajorType(String majorType) {
+		this.majorType = majorType;
 	}
 
 }
