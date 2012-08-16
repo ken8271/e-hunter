@@ -26,6 +26,7 @@ public class TalentDTO extends BaseDTO {
 	private String talentSrc;
 	
 	private List<EducationExperienceDTO> eduExpDtos = new ArrayList<EducationExperienceDTO>();
+	private List<JobExperienceDTO> jobExpDtos = new ArrayList<JobExperienceDTO>();
 
 	public String getTalentSrc() {
 		return talentSrc;
@@ -163,4 +164,11 @@ public class TalentDTO extends BaseDTO {
 		this.eduExpDtos = eduExpDtos;
 	}
 
+	public List<JobExperienceDTO> getJobExpDtos() {
+		return jobExpDtos;
+	}
+
+	public void setJobExpDtos(List<JobExperienceDTO> jobExpDtos) {
+		this.jobExpDtos = jobExpDtos;
+	}
 }
