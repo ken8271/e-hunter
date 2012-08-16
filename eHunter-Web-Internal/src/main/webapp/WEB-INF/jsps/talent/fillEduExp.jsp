@@ -10,6 +10,8 @@
 $().ready(function(){
 	if('${clearField}' == 'Y'){
 		clearInputFields();
+	}else if('${clearField}' == 'N'){
+		loadSubjects();
 	}
 });
 
@@ -22,7 +24,7 @@ function clearInputFields(){
 	document.getElementById('toDateDto.day').value='';
 	$("#school").val('');
 	$("#majorSelector").val('');
-	$("#major").val();
+	$("#major").val('');
 	$("#degree").val('');
 }
 
@@ -46,11 +48,13 @@ function loadSubjects(){
 					var val = ''+$(this).children("value").text()+'';
 					major.options[major.length] = new Option(label, val);
 				});
-				$('#major').attr('disabled',false);
+				
+				if('${clearField}' == 'N'){
+					$("#major").val('${eduExpDto.major}');
+				}
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
-				$('#major').attr('disabled',true);
 				alert('系统错误');
 			}
 		});
@@ -58,7 +62,6 @@ function loadSubjects(){
 		var major = document.getElementById("major");
 		clearSelector(major);
 		major.options[major.length] = new Option("--- 请选择 ---", "");
-		$('#major').attr('disabled',true);
 	}
 }
 
@@ -141,15 +144,15 @@ function submitDelete(listName){
 					<tr >
 						<td class="labelColumn">专业名称：<span class="mandatoryField">*</span></td>
 						<td>
-						   <select  class="standardSelect" id="majorSelector" onchange="loadSubjects();">
-						   <option value="">--- 请选择 ---</option>
-						   <c:forEach items="${listOfSubjectType}" var="subjectType">
-						      <option value="${subjectType.typeCode }">${subjectType.displayName }</option>
-						   </c:forEach>
-						   </select>
+						   <form:select id="majorSelector" path="majorType" cssClass="standardSelect" onchange="loadSubjects();">
+						      <form:option value="" label="--- 请选择 ---"></form:option>
+						      <c:forEach items="${listOfSubjectType}" var="subjectType">
+						          <form:option value="${subjectType.typeCode }" label="${subjectType.displayName }"></form:option>
+						      </c:forEach>
+						   </form:select>
 						</td>
 						<td>
-						   <form:select path="major" cssClass="standardSelect" disabled="true">
+						   <form:select path="major" cssClass="standardSelect" >
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
 						   <common:errorSign id="major" path="major"></common:errorSign>

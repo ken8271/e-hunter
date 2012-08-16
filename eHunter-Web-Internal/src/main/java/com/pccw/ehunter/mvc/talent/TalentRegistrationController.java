@@ -182,7 +182,15 @@ public class TalentRegistrationController extends BaseController{
 				isNothingInput = false;
 			}
 			
+			if(!StringUtils.isEmpty(eduExpDto.getMajorType())){
+				isNothingInput = false;
+			}
+			
 			if(!StringUtils.isEmpty(eduExpDto.getMajor())){
+				isNothingInput = false;
+			}
+			
+			if(!StringUtils.isEmpty(eduExpDto.getDegree())){
 				isNothingInput = false;
 			}
 			
@@ -260,10 +268,10 @@ public class TalentRegistrationController extends BaseController{
 		ModelAndView mv = new ModelAndView("talent/fillEduExp");
 		
 		eduExpValidator.validate(eduExpDto, errors);
-		
+		logger.debug("-------->>> MAJOR : " + eduExpDto.getMajorType() + "/" + eduExpDto.getMajor());
 		if(errors.hasErrors()){
 			mv = new ModelAndView("talent/editEduExp");
-			mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, talentDto);
+			mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
 			return mv;
 		}
 		
@@ -306,6 +314,17 @@ public class TalentRegistrationController extends BaseController{
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
 		mv.addObject("clearField", CommonConstant.YES);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/backToFillEduExp.do")
+	public ModelAndView backToFillEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+
+		initEducationExperience(request , mv);
+		
+		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
 		return mv;
 	}
 	
