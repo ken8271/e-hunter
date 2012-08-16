@@ -7,6 +7,10 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/talent/loadSubjects.do" var="loadSubjectsUrl"></hdiv-c:url>
 <script type="text/javascript">
+$().ready(function(){
+	loadSubjects();
+});
+
 function loadSubjects(){
 	var majorSelector = document.getElementById("majorSelector");
 	if(majorSelector != null && majorSelector.selectedIndex != 0){
@@ -27,11 +31,11 @@ function loadSubjects(){
 					var val = ''+$(this).children("value").text()+'';
 					major.options[major.length] = new Option(label, val);
 				});
-				$('#major').attr('disabled',false);
+				
+				$('#major').val('${eduExpDto.major}');
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
-				$('#major').attr('disabled',true);
 				alert('系统错误');
 			}
 		});
@@ -39,7 +43,7 @@ function loadSubjects(){
 		var major = document.getElementById("major");
 		clearSelector(major);
 		major.options[major.length] = new Option("--- 请选择 ---", "");
-		$('#major').attr('disabled',true);
+		$('#major').val('');
 	}
 }
 
@@ -57,6 +61,7 @@ function submitForm(){
 </head>
 <body>
 	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/completeEditEduExp.do" method="post">
+	     <hdiv-c:url value="/talent/backToFillEduExp.do" var="backUrl"></hdiv-c:url>
 		<table border="0" width="99%">
 			<tr>
 				<td class="pageTitle">人才教育经历填写</td>
@@ -75,7 +80,7 @@ function submitForm(){
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
 							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitForm();">确认</a>
-							      <a class="button" href="#" style="white-space:nowrap;">返回</a>
+							      <a class="button" href="${backUrl }" style="white-space:nowrap;">返回</a>
 							   </div>
 							</div>
 							</td>
@@ -114,15 +119,15 @@ function submitForm(){
 					<tr >
 						<td class="labelColumn">专业名称：<span class="mandatoryField">*</span></td>
 						<td>
-						   <select  class="standardSelect" id="majorSelector" onchange="loadSubjects();">
-						   <option value="">--- 请选择 ---</option>
-						   <c:forEach items="${listOfSubjectType}" var="subjectType">
-						      <option value="${subjectType.typeCode }">${subjectType.displayName }</option>
-						   </c:forEach>
-						   </select>
+						   <form:select id="majorSelector" path="majorType" cssClass="standardSelect" onchange="loadSubjects();">
+						      <form:option value="" label="--- 请选择 ---"></form:option>
+						      <c:forEach items="${listOfSubjectType}" var="subjectType">
+						          <form:option value="${subjectType.typeCode }" label="${subjectType.displayName }"></form:option>
+						      </c:forEach>
+						   </form:select>
 						</td>
 						<td>
-						   <form:select path="major" cssClass="standardSelect" disabled="true">
+						   <form:select path="major" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
 						   <common:errorSign id="major" path="major"></common:errorSign>
@@ -156,7 +161,7 @@ function submitForm(){
 							<div id="buttonArea">
 							   <div class="buttonmenubox_R">
 							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitForm();">确认</a>
-							      <a class="button" href="#" style="white-space:nowrap;" >返回</a>
+							      <a class="button" href="${backUrl }" style="white-space:nowrap;" >返回</a>
 							   </div>
 							</div>
 							</td>
