@@ -231,7 +231,7 @@ function submitForm(actionFlagStr){
 			      <td width="100%" align="right">
 			        <div id="buttonArea">
 						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;">输入工作经历</a>
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('9');">输入工作经历</a>
 						</div>
 					</div>
 			      </td>

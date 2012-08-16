@@ -27,6 +27,7 @@ import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectTypeDTO;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -86,6 +87,8 @@ public class TalentRegistrationController extends BaseController{
 		
 		if(ActionFlag.NEW_EDU_EXP.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/fillEducationExperience.do", true));
+		} else if(ActionFlag.JOB_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillJobExperience.do", true));
 		}else if(ActionFlag.SUBMIT.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/saveTalentBaseInfo.do", true));
 		}else {
@@ -369,5 +372,29 @@ public class TalentRegistrationController extends BaseController{
 		}
 		
 		return null;
+	}
+	
+	//fill job experience 
+	@RequestMapping("/talent/fillJobExperience.do")
+	public ModelAndView fillJobExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/fillJobExperience");
+		
+		List<JobExperienceDTO> jobExpDtos = talentDto.getJobExpDtos();
+		
+		if(CollectionUtils.isEmpty(jobExpDtos)){
+			jobExpDtos = new ArrayList<JobExperienceDTO>(0);
+			talentDto.setJobExpDtos(jobExpDtos);
+		}
+
+		initJobExperience(request , mv);
+		
+		mv.addObject(SessionAttributeConstant.TALENT_JOB_EXPERIENCE_DTO, new JobExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
+		
+		return mv;
+	}
+
+	private void initJobExperience(HttpServletRequest request, ModelAndView mv) {
+		
 	}
 }
