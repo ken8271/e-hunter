@@ -8,33 +8,32 @@ import javax.persistence.Table;
 import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
-@Table(name="T_POST_TY_SUB")
-public class PositionSubType extends BaseEntity{
-
-	private String typeCode;
-	private String topType;
+@Table(name = "T_IND_TY_SUB")
+public class Industry extends BaseEntity {
+	private String industryCode;
+	private String categoryCode;
 	private String displayName;
 	private String description;
 	private int displaySeqNumber;
-	private String activeFlag;
+	private String activeIndicator;
 
 	@Id
 	@Column(name="TY_CD")
-	public String getTypeCode() {
-		return typeCode;
+	public String getIndustryCode() {
+		return industryCode;
 	}
 
-	public void setTypeCode(String typeCode) {
-		this.typeCode = typeCode;
+	public void setIndustryCode(String industryCode) {
+		this.industryCode = industryCode;
 	}
 
 	@Column(name="TOP_TY")
-	public String getTopType() {
-		return topType;
+	public String getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setTopType(String topType) {
-		this.topType = topType;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
 	@Column(name="DISP_NM")
@@ -59,20 +58,18 @@ public class PositionSubType extends BaseEntity{
 	public int getDisplaySeqNumber() {
 		return displaySeqNumber;
 	}
-	
+
 	public void setDisplaySeqNumber(int displaySeqNumber) {
 		this.displaySeqNumber = displaySeqNumber;
 	}
 
-
 	@Column(name="ACTV_FLG")
-	public String getActiveFlag() {
-		return activeFlag;
+	public String getActiveIndicator() {
+		return activeIndicator;
 	}
 
-
-	public void setActiveFlag(String activeFlag) {
-		this.activeFlag = activeFlag;
+	public void setActiveIndicator(String activeIndicator) {
+		this.activeIndicator = activeIndicator;
 	}
 
 }

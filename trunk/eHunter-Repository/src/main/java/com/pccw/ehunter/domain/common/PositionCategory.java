@@ -9,7 +9,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
 @Table(name="T_POST_TY")
-public class PositionType extends BaseEntity {
+public class PositionCategory extends BaseEntity {
 	private String typeCode;
 	private String displayName;
 	private String discription;
