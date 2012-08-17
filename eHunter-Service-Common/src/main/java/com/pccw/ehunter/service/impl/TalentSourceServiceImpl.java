@@ -28,7 +28,7 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 
 	@Override
 	public List<TalentSourceDTO> getAllTalentSources() {
-		List<TalentSource> srcs = dao.findAllUndeleted();
+		List<TalentSource> srcs = dao.findAllUndeleted("displaySeqNumber");
 		
 		if(CollectionUtils.isEmpty(srcs)){
 			return null;

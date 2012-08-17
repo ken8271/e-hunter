@@ -35,7 +35,7 @@ public class PositionCommonServiceImpl implements PositionCommonService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<PositionCategoryDTO> getPositionCategories() {
-		List<PositionCategory> pos = categoryDao.findAllUndeleted();
+		List<PositionCategory> pos = categoryDao.findAllUndeleted("displaySeqNumber");
 		
 		if(CollectionUtils.isEmpty(pos)){
 			return null;

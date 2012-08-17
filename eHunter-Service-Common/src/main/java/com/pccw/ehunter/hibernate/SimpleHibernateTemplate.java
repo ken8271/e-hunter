@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,6 +132,16 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> extends Hiberna
 			return createCriteria( criteria).list( );
 		}else{
 			return createCriteria().list( );
+		}
+	}
+	
+	public List<T> findAllUndeleted(String orderProperty) {
+		Order order = Order.asc(orderProperty);
+		if( BaseEntity.class.isAssignableFrom(entityClass) ){
+			Criterion criteria = Restrictions.ne("lastTransactionIndicator", "D");
+			return createCriteria( criteria).addOrder(order).list();
+		}else{
+			return createCriteria().addOrder(order).list( );
 		}
 	}
 
