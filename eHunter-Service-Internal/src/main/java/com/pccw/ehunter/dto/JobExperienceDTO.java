@@ -10,7 +10,7 @@ public class JobExperienceDTO extends BaseDTO {
 	private CompanySizeDTO companySizeDto;
 	private IndustryDTO industryDto;
 	private String department;
-	private PositionTypeDTO positionTypeDto;
+	private PositionCategoryDTO positionTypeDto;
 	private String positionName;
 	private String jobDescription;
 
@@ -70,14 +70,6 @@ public class JobExperienceDTO extends BaseDTO {
 		this.department = department;
 	}
 
-	public PositionTypeDTO getPositionTypeDto() {
-		return positionTypeDto;
-	}
-
-	public void setPositionTypeDto(PositionTypeDTO positionTypeDto) {
-		this.positionTypeDto = positionTypeDto;
-	}
-
 	public String getPositionName() {
 		return positionName;
 	}
@@ -92,6 +84,14 @@ public class JobExperienceDTO extends BaseDTO {
 
 	public void setJobDescription(String jobDescription) {
 		this.jobDescription = jobDescription;
+	}
+
+	public PositionCategoryDTO getPositionTypeDto() {
+		return positionTypeDto;
+	}
+
+	public void setPositionTypeDto(PositionCategoryDTO positionTypeDto) {
+		this.positionTypeDto = positionTypeDto;
 	}
 
 }
