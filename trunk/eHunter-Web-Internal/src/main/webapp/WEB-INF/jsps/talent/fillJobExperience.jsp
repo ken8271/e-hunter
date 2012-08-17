@@ -160,8 +160,11 @@ function submitDelete(listName){
 					<tr >
 						<td class="labelColumn">行业类别：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="industryDto.code" cssClass="standardSelect">
+						   <form:select path="industryDto.code" cssClass="standardSelect" >
 						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfIndustryCategory }" var="industryCategory">
+						         <form:option value="${industryCategory.categoryCode }" label="${industryCategory.displayName }"></form:option>
+						      </c:forEach>
 						   </form:select>
 						   <common:errorSign id="industryDto.code" path="industryDto.code"></common:errorSign>
 						</td>
@@ -182,6 +185,9 @@ function submitDelete(listName){
 						<td>
 						   <form:select path="positionTypeDto.typeCode" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfPositionCategory }" var="positionCategory">
+						         <form:option value="${positionCategory.typeCode }" label="${positionCategory.displayName }"></form:option>
+						      </c:forEach>
 						   </form:select>
 						   <common:errorSign id="positionTypeDto.typeCode" path="positionTypeDto.typeCode"></common:errorSign>
 						</td>
