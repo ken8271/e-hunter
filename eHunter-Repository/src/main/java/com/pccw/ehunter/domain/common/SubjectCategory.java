@@ -9,7 +9,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
 @Table(name = "T_SUBJ_TY")
-public class SubjectType extends BaseEntity {
+public class SubjectCategory extends BaseEntity {
 	private String typeCode;
 	private String displayName;
 	private String description;
