@@ -6,13 +6,16 @@ public class JobExperienceDTO extends BaseDTO {
 	private SimpleDateDTO fromDateDto;
 	private SimpleDateDTO toDateDto;
 	private String companyName;
-	private CompanyTypeDTO companyTypeDto;
-	private CompanySizeDTO companySizeDto;
-	private IndustryDTO industryDto;
 	private String department;
-	private PositionCategoryDTO positionTypeDto;
 	private String positionName;
 	private String jobDescription;
+
+	private CompanyCategoryDTO companyCategoryDto;
+	private CompanySizeDTO companySizeDto;
+	private IndustryCategoryDTO industryCategoryDto;
+	private IndustryDTO industryDto;
+	private PositionCategoryDTO positionCategoryDto;
+	private PositionDTO positionDto;
 
 	public SimpleDateDTO getFromDateDto() {
 		return fromDateDto;
@@ -36,14 +39,6 @@ public class JobExperienceDTO extends BaseDTO {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-	}
-
-	public CompanyTypeDTO getCompanyTypeDto() {
-		return companyTypeDto;
-	}
-
-	public void setCompanyTypeDto(CompanyTypeDTO companyTypeDto) {
-		this.companyTypeDto = companyTypeDto;
 	}
 
 	public CompanySizeDTO getCompanySizeDto() {
@@ -86,12 +81,36 @@ public class JobExperienceDTO extends BaseDTO {
 		this.jobDescription = jobDescription;
 	}
 
-	public PositionCategoryDTO getPositionTypeDto() {
-		return positionTypeDto;
+	public PositionCategoryDTO getPositionCategoryDto() {
+		return positionCategoryDto;
 	}
 
-	public void setPositionTypeDto(PositionCategoryDTO positionTypeDto) {
-		this.positionTypeDto = positionTypeDto;
+	public void setPositionCategoryDto(PositionCategoryDTO positionCategoryDto) {
+		this.positionCategoryDto = positionCategoryDto;
+	}
+
+	public CompanyCategoryDTO getCompanyCategoryDto() {
+		return companyCategoryDto;
+	}
+
+	public void setCompanyCategoryDto(CompanyCategoryDTO companyCategoryDto) {
+		this.companyCategoryDto = companyCategoryDto;
+	}
+
+	public IndustryCategoryDTO getIndustryCategoryDto() {
+		return industryCategoryDto;
+	}
+
+	public void setIndustryCategoryDto(IndustryCategoryDTO industryCategoryDto) {
+		this.industryCategoryDto = industryCategoryDto;
+	}
+
+	public PositionDTO getPositionDto() {
+		return positionDto;
+	}
+
+	public void setPositionDto(PositionDTO positionDto) {
+		this.positionDto = positionDto;
 	}
 
 }
