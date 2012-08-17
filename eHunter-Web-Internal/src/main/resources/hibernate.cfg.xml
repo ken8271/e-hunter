@@ -4,19 +4,22 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<mapping class="com.pccw.ehunter.domain.internal.InternalRole"></mapping>
-		<mapping class="com.pccw.ehunter.domain.internal.InternalUser"></mapping>
-		<mapping class="com.pccw.ehunter.domain.internal.CustomerGroup"></mapping>
-		<mapping class="com.pccw.ehunter.domain.internal.CustomerResponsablePerson"></mapping>
-		<mapping class="com.pccw.ehunter.domain.internal.CustomerCompany"></mapping>
-		<mapping class="com.pccw.ehunter.domain.internal.Project"/>
-		<mapping class="com.pccw.ehunter.domain.internal.ProjectPosition"/>
-		<mapping class="com.pccw.ehunter.domain.common.PositionType"></mapping>
-		<mapping class="com.pccw.ehunter.domain.common.PositionSubType"></mapping>
+		<mapping class="com.pccw.ehunter.domain.common.Degree" />
+		<mapping class="com.pccw.ehunter.domain.common.Industry" />
+		<mapping class="com.pccw.ehunter.domain.common.IndustryCategory" />
+		<mapping class="com.pccw.ehunter.domain.common.Position" />
+		<mapping class="com.pccw.ehunter.domain.common.PositionCategory" />
 		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>
-		<mapping class="com.pccw.ehunter.domain.common.Degree"/>
 		<mapping class="com.pccw.ehunter.domain.common.Subject"/>
-		<mapping class="com.pccw.ehunter.domain.common.SubjectType"/>
+		<mapping class="com.pccw.ehunter.domain.common.SubjectCategory"/>
 		<mapping class="com.pccw.ehunter.domain.common.TalentSource"/>
+		
+		<mapping class="com.pccw.ehunter.domain.internal.InternalRole" />
+		<mapping class="com.pccw.ehunter.domain.internal.InternalUser" />
+		<mapping class="com.pccw.ehunter.domain.internal.CustomerGroup" />
+		<mapping class="com.pccw.ehunter.domain.internal.CustomerResponsablePerson" />
+		<mapping class="com.pccw.ehunter.domain.internal.CustomerCompany" />
+		<mapping class="com.pccw.ehunter.domain.internal.Project" />
+		<mapping class="com.pccw.ehunter.domain.internal.ProjectPosition" />
 	</session-factory>
 </hibernate-configuration>

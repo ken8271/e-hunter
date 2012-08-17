@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
+import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerGroupConvertor;
-import com.pccw.ehunter.dto.BaseLabelValueDTO;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
+import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.service.PositionCommonService;
@@ -34,8 +37,7 @@ import com.pccw.ehunter.validator.CustomerValidator;
 
 @Controller
 @SessionAttributes(value = {SessionAttributeConstant.CUSTOMER_DTO,
-	                SessionAttributeConstant.LIST_OF_GROUPS,
-	                SessionAttributeConstant.LIST_OF_POSITION_TYPE})
+	                SessionAttributeConstant.LIST_OF_GROUPS})
 public class CustomerRegistrationController extends BaseController{
 		
 	@Autowired
@@ -46,23 +48,28 @@ public class CustomerRegistrationController extends BaseController{
 	
 	@Autowired
 	private CustomerValidator customerValidator;
+	
+	@Autowired
+	private CodeTableHelper codeTableHelper;
 
 	@RequestMapping(value="/customer/initAddCustomer.do")
 	public ModelAndView initAddCustom(HttpServletRequest request){
 		return new ModelAndView(new RedirectViewExt("/customer/fillCustomerInfo.do", true));
 	}
 	
-	private void initCustomer(HttpServletRequest request) {
+	private void initCustomer(HttpServletRequest request , ModelAndView mv) {
 		HttpSession session = request.getSession(false);
 		session.setAttribute(SessionAttributeConstant.CUSTOMER_DTO, new CustomerDTO());
 		session.setAttribute(SessionAttributeConstant.LIST_OF_GROUPS, CustomerGroupConvertor.toSelectOptions(custRegtService.loadCustGroups()));
-		session.setAttribute(SessionAttributeConstant.LIST_OF_POSITION_TYPE, positionCommonService.loadPositionTypes());
+		
+		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
+		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
 	}
 
 	@RequestMapping(value="/customer/fillCustomerInfo.do")
 	public ModelAndView fillCustomerInfo(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("customer/customerCreate");
-		initCustomer(request);
+		initCustomer(request , mv );
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, request.getSession(false).getAttribute(SessionAttributeConstant.CUSTOMER_DTO));
 		return mv;
 	}
@@ -112,16 +119,16 @@ public class CustomerRegistrationController extends BaseController{
 			response.setContentType("text/xml;charset=UTF-8");
 			
 			String code = request.getParameter("code");
-			List<BaseLabelValueDTO> lvs = positionCommonService.loadPositionTypeByParentCode(code);
+			List<PositionDTO> positions = positionCommonService.getPositionsByCategory(code);
 			
 			Document doc = DocumentHelper.createDocument();
 			Element root = doc.addElement("xml");
 			
-			if(!CollectionUtils.isEmpty(lvs)){
-				for(BaseLabelValueDTO lv : lvs){
+			if(!CollectionUtils.isEmpty(positions)){
+				for(PositionDTO dto : positions){
 					Element post = root.addElement("position");
-					post.addElement("label").setText(lv.getLabel());
-					post.addElement("value").setText(lv.getValue());
+					post.addElement("label").setText(dto.getDisplayName());
+					post.addElement("value").setText(dto.getTypeCode());
 				}
 			}
 			
@@ -154,7 +161,8 @@ public class CustomerRegistrationController extends BaseController{
 			mv = new ModelAndView("customer/customerCreate");
 			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 			mv.addObject(SessionAttributeConstant.LIST_OF_GROUPS, CustomerGroupConvertor.toSelectOptions(custRegtService.loadCustGroups()));
-			mv.addObject(SessionAttributeConstant.LIST_OF_POSITION_TYPE, positionCommonService.loadPositionTypes());
+			
+			mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, codeTableHelper.getPositionCategories(request));
 			return mv;
 		}
 		

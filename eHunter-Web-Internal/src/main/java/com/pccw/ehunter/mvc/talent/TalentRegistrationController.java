@@ -27,9 +27,11 @@ import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.JobExperienceDTO;
+import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
-import com.pccw.ehunter.dto.SubjectTypeDTO;
+import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
@@ -130,7 +132,7 @@ public class TalentRegistrationController extends BaseController{
 	}
 
 	private void initEducationExperience(HttpServletRequest request , ModelAndView mv) {		
-		List<SubjectTypeDTO> subjectTypes = codeTableHelper.getAllSubjectTypes(request);
+		List<SubjectCategoryDTO> subjectTypes = codeTableHelper.getAllSubjectTypes(request);
 		List<DegreeDTO> degrees = codeTableHelper.getAllDegrees(request);
 		
 		mv.addObject(WebConstant.LIST_OF_SUBJECT_TYPE, subjectTypes);
@@ -395,6 +397,10 @@ public class TalentRegistrationController extends BaseController{
 	}
 
 	private void initJobExperience(HttpServletRequest request, ModelAndView mv) {
+		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
+		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
 		
+		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
+		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
 	}
 }

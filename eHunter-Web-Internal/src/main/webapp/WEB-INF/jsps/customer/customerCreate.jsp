@@ -345,8 +345,8 @@
 						<td>
 						   <select  class="standardSelect" id="postSelector" onchange="loadPositions();">
 						   <option value="">--- 请选择 ---</option>
-						   <c:forEach items="${listOfPositionType}" var="postType">
-						      <option value="${postType.value }">${postType.label }</option>
+						   <c:forEach items="${listOfPositionCategory}" var="positionCategory">
+						      <option value="${positionCategory.typeCode }">${positionCategory.displayName }</option>
 						   </c:forEach>
 						   </select>
 						</td>
