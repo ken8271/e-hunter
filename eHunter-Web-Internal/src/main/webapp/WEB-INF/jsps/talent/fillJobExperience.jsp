@@ -5,13 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
-<hdiv-c:url value="/talent/loadSubjects.do" var="loadSubjectsUrl"></hdiv-c:url>
+<hdiv-c:url value="/talent/loadIndustries.do" var="loadIndustriesUrl"></hdiv-c:url>
+<hdiv-c:url value="/talent/loadPositions.do" var="loadPositionsUrl"></hdiv-c:url>
 <script type="text/javascript">
 $().ready(function(){
 	if('${clearField}' == 'Y'){
 		clearInputFields();
 	}else if('${clearField}' == 'N'){
-		loadSubjects();
 	}
 });
 
@@ -22,35 +22,32 @@ function clearInputFields(){
 	document.getElementById('toDateDto.year').value='';
 	document.getElementById('toDateDto.month').value='';
 	document.getElementById('toDateDto.day').value='';
-	$("#school").val('');
-	$("#majorSelector").val('');
-	$("#major").val('');
-	$("#degree").val('');
+	$("#companyName").val('');
 }
 
-function loadSubjects(){
-	var majorSelector = document.getElementById("majorSelector");
-	if(majorSelector != null && majorSelector.selectedIndex != 0){
+function loadIndustries(){
+	var industrySelector = document.getElementById("industrySelector");
+	if(industrySelector != null && industrySelector.selectedIndex != 0){
 		$().progressDialog.showDialog("");
-		var _id = majorSelector.options[majorSelector.selectedIndex].value;
+		var _id = industrySelector.options[industrySelector.selectedIndex].value;
 		$.ajax({
 			type:'post',
-			url:'${loadSubjectsUrl}',
+			url:'${loadIndustriesUrl}',
 			dataType:'xml',
 			data:{'_id':_id},
 			success:function(xml){	
 				$().progressDialog.hideDialog("");
-				var major = document.getElementById("major");
-				clearSelector(major);
-				major.options[major.length] = new Option("--- 请选择 ---", "");
-				$(xml).find('subject').each(function(i , element){
+				var industry = document.getElementById("industryDto.industryCode");
+				clearSelector(industry);
+				industry.options[industry.length] = new Option("--- 请选择 ---", "");
+				$(xml).find('industry').each(function(i , element){
 					var label = $(this).find("label").text();
 					var val = ''+$(this).children("value").text()+'';
-					major.options[major.length] = new Option(label, val);
+					industry.options[industry.length] = new Option(label, val);
 				});
 				
 				if('${clearField}' == 'N'){
-					$("#major").val('${eduExpDto.major}');
+					$("#industryDto.industryCode").val('${jobExpDto.industryDto.industryCode}');
 				}
 			},
 			error:function(){
@@ -59,9 +56,46 @@ function loadSubjects(){
 			}
 		});
 	}else{
-		var major = document.getElementById("major");
-		clearSelector(major);
-		major.options[major.length] = new Option("--- 请选择 ---", "");
+		var industry = document.getElementById("industryDto.industryCode");
+		clearSelector(industry);
+		industry.options[industry.length] = new Option("--- 请选择 ---", "");
+	}
+}
+
+function loadPositions(){
+	var positionSelector = document.getElementById("positionSelector");
+	if(positionSelector != null && positionSelector.selectedIndex != 0){
+		$().progressDialog.showDialog("");
+		var _id = positionSelector.options[positionSelector.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadPositionsUrl}',
+			dataType:'xml',
+			data:{'_id':_id},
+			success:function(xml){	
+				$().progressDialog.hideDialog("");
+				var position = document.getElementById("positionDto.typeCode");
+				clearSelector(position);
+				position.options[position.length] = new Option("--- 请选择 ---", "");
+				$(xml).find('position').each(function(i , element){
+					var label = $(this).find("label").text();
+					var val = ''+$(this).children("value").text()+'';
+					position.options[position.length] = new Option(label, val);
+				});
+				
+				if('${clearField}' == 'N'){
+					$("#positionDto.typeCode").val('${jobExpDto.positionDto.typeCode}');
+				}
+			},
+			error:function(){
+				$().progressDialog.hideDialog("");
+				alert('系统错误');
+			}
+		});
+	}else{
+		var position = document.getElementById("positionDto.typeCode");
+		clearSelector(position);
+		position.options[position.length] = new Option("--- 请选择 ---", "");
 	}
 }
 
@@ -144,31 +178,40 @@ function submitDelete(listName){
 					<tr >
 						<td class="labelColumn">企业性质：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="companyTypeDto.typeCode" cssClass="standardSelect">
+						   <form:select path="companyCategoryDto.categoryCode" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfCompanyCategory }" var="companyCategory">
+						         <form:option value="${companyCategory.categoryCode }" label="${companyCategory.displayName }"></form:option>
+						      </c:forEach>
 						   </form:select>
-						   <common:errorSign id="companyTypeDto.typeCode" path="companyTypeDto.typeCode"></common:errorSign>
+						   <common:errorSign id="companyCategoryDto.categoryCode" path="companyCategoryDto.categoryCode"></common:errorSign>
 						</td>
 						<td class="labelColumn">企业规模：<span class="mandatoryField">*</span></td>
 						<td >
-						   <form:select path="companySizeDto.code" cssClass="standardSelect">
+						   <form:select path="companySizeDto.sizeCode" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfCompanySize }" var="companySize">
+						         <form:option value="${companySize.sizeCode }" label="${companySize.displayName }"></form:option>
+						      </c:forEach>
 						   </form:select>
-						   <common:errorSign id="companySizeDto.code" path="companySizeDto.code"></common:errorSign>
+						   <common:errorSign id="companySizeDto.sizeCode" path="companySizeDto.sizeCode"></common:errorSign>
 						</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">行业类别：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="industryDto.code" cssClass="standardSelect" >
+						   <form:select id="industrySelector" path="industryCategoryDto.categoryCode" cssClass="standardSelect" onchange="loadIndustries();">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <c:forEach items="${listOfIndustryCategory }" var="industryCategory">
 						         <form:option value="${industryCategory.categoryCode }" label="${industryCategory.displayName }"></form:option>
 						      </c:forEach>
 						   </form:select>
-						   <common:errorSign id="industryDto.code" path="industryDto.code"></common:errorSign>
 						</td>
-						<td >&nbsp;</td>
+						<td >
+						   <form:select path="industryDto.industryCode" cssClass="standardSelect">
+						      <form:option value="" label="--- 请选择  ---"></form:option>
+						   </form:select>
+						</td>
 						<td >&nbsp;</td>
 					</tr>
 					<tr >
@@ -183,15 +226,18 @@ function submitDelete(listName){
 					<tr >
 						<td class="labelColumn">职位类别：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="positionTypeDto.typeCode" cssClass="standardSelect">
+						   <form:select id="positionSelector" path="positionCategoryDto.typeCode" cssClass="standardSelect" onchange="loadPositions();">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <c:forEach items="${listOfPositionCategory }" var="positionCategory">
 						         <form:option value="${positionCategory.typeCode }" label="${positionCategory.displayName }"></form:option>
 						      </c:forEach>
 						   </form:select>
-						   <common:errorSign id="positionTypeDto.typeCode" path="positionTypeDto.typeCode"></common:errorSign>
 						</td>
-						<td >&nbsp;</td>
+						<td >
+						   <form:select path="positionDto.typeCode" cssClass="standardSelect">
+						      <form:option value="" label="--- 请选择  ---"></form:option>
+						   </form:select>
+						</td>
 						<td >&nbsp;</td>
 					</tr>
 					<tr >
@@ -206,7 +252,7 @@ function submitDelete(listName){
 					<tr >
 						<td class="labelColumn">工作描述：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
-						   <form:textarea path="jobDescription" />
+						   <form:textarea path="jobDescription" cssClass="standardInputText" rows="3"/>
 						</td>
 					</tr>
 				</tbody>

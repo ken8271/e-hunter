@@ -25,11 +25,15 @@ import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.CompanyCategoryDTO;
+import com.pccw.ehunter.dto.CompanySizeDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
+import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -399,8 +403,98 @@ public class TalentRegistrationController extends BaseController{
 	private void initJobExperience(HttpServletRequest request, ModelAndView mv) {
 		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
 		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
+		List<CompanyCategoryDTO> companyCategories = codeTableHelper.getCompanyCategories(request);
+		List<CompanySizeDTO> companySizes = codeTableHelper.getCompanySizes(request);
 		
 		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
 		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
+		mv.addObject(WebConstant.LIST_OF_COMPANY_CATEGORY, companyCategories);
+		mv.addObject(WebConstant.LIST_OF_COMPANY_SIZE, companySizes);
+	}
+	
+	@RequestMapping("/talent/loadIndustries.do")
+	public ModelAndView loadIndustries(HttpServletRequest request , HttpServletResponse response){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		
+		try {
+			response.setContentType("text/xml;charset=UTF-8");
+			
+			String categoryCode = request.getParameter("_id");
+			List<IndustryDTO> industries = codeTableHelper.getIndustriesByCategory(categoryCode);
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			if(!CollectionUtils.isEmpty(industries)){
+				for(IndustryDTO dto : industries){
+					Element post = root.addElement("industry");
+					post.addElement("label").setText(dto.getDisplayName());
+					post.addElement("value").setText(dto.getIndustryCode());
+				}
+			}
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			
+			out = response.getWriter();
+			writer = new XMLWriter(out, format);
+			
+			writer.write(doc);
+			
+			if(writer != null){
+				writer.close();
+			}
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched(loadIndustries) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping("/talent/loadPositions.do")
+	public ModelAndView loadPositions(HttpServletRequest request , HttpServletResponse response){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		
+		try {
+			response.setContentType("text/xml;charset=UTF-8");
+			
+			String categoryCode = request.getParameter("_id");
+			List<PositionDTO> positions = codeTableHelper.getPositionsByCategory(categoryCode);
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			if(!CollectionUtils.isEmpty(positions)){
+				for(PositionDTO dto : positions){
+					Element post = root.addElement("position");
+					post.addElement("label").setText(dto.getDisplayName());
+					post.addElement("value").setText(dto.getTypeCode());
+				}
+			}
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			
+			out = response.getWriter();
+			writer = new XMLWriter(out, format);
+			
+			writer.write(doc);
+			
+			if(writer != null){
+				writer.close();
+			}
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched(loadPositions) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
+		
+		return null;
 	}
 }
