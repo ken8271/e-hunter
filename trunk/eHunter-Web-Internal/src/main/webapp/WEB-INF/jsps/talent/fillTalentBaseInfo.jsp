@@ -54,7 +54,7 @@ function submitForm(actionFlagStr){
 						<td>
 						   <form:select path="talentSrc"  cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
-						      <c:forEach items="${listOfTalentSrc }" var="src">
+						      <c:forEach items="${listOfTalentSource }" var="src">
 						         <form:option value="${src.sourceId }" label="${src.displayName }"></form:option>
 						      </c:forEach>
 						   </form:select>
