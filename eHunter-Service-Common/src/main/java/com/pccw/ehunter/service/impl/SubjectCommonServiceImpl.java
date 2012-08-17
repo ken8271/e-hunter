@@ -9,20 +9,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.convertor.SubjectCategoryConvertor;
 import com.pccw.ehunter.convertor.SubjectConvertor;
 import com.pccw.ehunter.domain.common.Subject;
+import com.pccw.ehunter.domain.common.SubjectCategory;
+import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
-import com.pccw.ehunter.service.SubjectService;
+import com.pccw.ehunter.service.SubjectCommonService;
 
-@Service("subjectService")
+@Service("subjectCommonService")
 @Transactional
-public class SubjectServiceImpl implements SubjectService{
+public class SubjectCommonServiceImpl implements SubjectCommonService{
+	
+	private SimpleHibernateTemplate<SubjectCategory, String> categoryDao;
+	
 	private SimpleHibernateTemplate<Subject, String> dao;
 	
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
+		categoryDao = new SimpleHibernateTemplate<SubjectCategory, String>(sessionFactory, SubjectCategory.class);
 		dao = new SimpleHibernateTemplate<Subject, String>(sessionFactory,Subject.class);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<SubjectCategoryDTO> getAllSubjectTypes() {
+		List<SubjectCategory> types = categoryDao.findAllUndeleted();
+		
+		if(CollectionUtils.isEmpty(types)){
+			return null;
+		}
+		
+		List<SubjectCategoryDTO> typeDtos = new ArrayList<SubjectCategoryDTO>();
+		for(SubjectCategory po : types){
+			typeDtos.add(SubjectCategoryConvertor.toDto(po));
+		}
+		
+		return typeDtos;
 	}
 
 	@Override

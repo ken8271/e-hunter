@@ -14,12 +14,17 @@ import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.IndustryCategoryDTO;
+import com.pccw.ehunter.dto.IndustryDTO;
+import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
-import com.pccw.ehunter.dto.SubjectTypeDTO;
+import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.service.DegreeService;
-import com.pccw.ehunter.service.SubjectService;
-import com.pccw.ehunter.service.SubjectTypeService;
+import com.pccw.ehunter.service.IndustryCommonService;
+import com.pccw.ehunter.service.PositionCommonService;
+import com.pccw.ehunter.service.SubjectCommonService;
 import com.pccw.ehunter.service.TalentSourceService;
 
 @Component("codeTableHelper")
@@ -28,10 +33,7 @@ public class CodeTableHelper {
 	private Logger logger = LoggerFactory.getLogger(CodeTableHelper.class);
 	
 	@Autowired
-	private SubjectTypeService subjectTypeService;
-	
-	@Autowired
-	private SubjectService subjectService;
+	private SubjectCommonService subjectCommonService;
 	
 	@Autowired
 	private DegreeService degreeService;
@@ -39,13 +41,19 @@ public class CodeTableHelper {
 	@Autowired
 	private TalentSourceService talentSourceService;
 	
+	@Autowired
+	private IndustryCommonService industryCommonService;
+	
+	@Autowired
+	private PositionCommonService positionCommonService;
+	
 	@SuppressWarnings("unchecked")
-	public List<SubjectTypeDTO> getAllSubjectTypes(HttpServletRequest request){
-		List<SubjectTypeDTO> types = (List<SubjectTypeDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SUBJECT_TYPE);
+	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
+		List<SubjectCategoryDTO> types = (List<SubjectCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SUBJECT_TYPE);
 		if(CollectionUtils.isEmpty(types)){
-			types = subjectTypeService.getAllSubjectTypes();
+			types = subjectCommonService.getAllSubjectTypes();
 			if(CollectionUtils.isEmpty(types)){
-				types = new ArrayList<SubjectTypeDTO>();
+				types = new ArrayList<SubjectCategoryDTO>();
 			}
 			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_SUBJECT_TYPE, types);
 		}else{
@@ -56,11 +64,11 @@ public class CodeTableHelper {
 	}
 	
 	public List<SubjectDTO> getSubjectsByType(String type){
-		return subjectService.getSubjectsByType(type);
+		return subjectCommonService.getSubjectsByType(type);
 	}
 	
 	public SubjectDTO getSubjectByCode(String code){
-		return subjectService.getSubjectByCode(code);
+		return subjectCommonService.getSubjectByCode(code);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -109,6 +117,56 @@ public class CodeTableHelper {
 		}
 		
 		return srcs;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<IndustryCategoryDTO> getIndustryCategories(HttpServletRequest request){
+		List<IndustryCategoryDTO> categories = (List<IndustryCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_INDUSTRY_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = industryCommonService.getIndustryCategories();
+			if(CollectionUtils.isEmpty(categories)){
+				categories = new ArrayList<IndustryCategoryDTO>();
+			}
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_INDUSTRY_CATEGORY, categories);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return categories;
+	}
+	
+	public List<IndustryDTO> getIndustriesByCategory(String categoryCode){
+		return industryCommonService.getIndustriesByCategory(categoryCode);
+	}
+	
+	public IndustryDTO getIndustryByCode(String code){
+		return industryCommonService.getIndustryByCode(code);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PositionCategoryDTO> getPositionCategories(HttpServletRequest request){
+		List<PositionCategoryDTO> categories = (List<PositionCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_POSITION_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = positionCommonService.getPositionCategories();
+			if(CollectionUtils.isEmpty(categories)){
+				categories = new ArrayList<PositionCategoryDTO>();
+			}
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_POSITION_CATEGORY, categories);
+		} else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return categories;
+	}
+	
+	public List<PositionDTO> getPositionsByCategory(String categoryCode){
+		return positionCommonService.getPositionsByCategory(categoryCode);
+	}
+	
+	public PositionDTO getPositionByCode(String code){
+		return positionCommonService.getPositionByCode(code);
 	}
 	
 }
