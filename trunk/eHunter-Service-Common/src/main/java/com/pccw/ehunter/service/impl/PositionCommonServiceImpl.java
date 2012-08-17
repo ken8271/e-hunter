@@ -3,56 +3,74 @@ package com.pccw.ehunter.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.pccw.ehunter.convertor.PositionTypeConvertor;
-import com.pccw.ehunter.dao.PositionCommonDAO;
-import com.pccw.ehunter.domain.common.PositionSubType;
-import com.pccw.ehunter.domain.common.PositionType;
-import com.pccw.ehunter.dto.BaseLabelValueDTO;
+import com.pccw.ehunter.convertor.PositionCategoryConvertor;
+import com.pccw.ehunter.convertor.PositionConvertor;
+import com.pccw.ehunter.domain.common.Position;
+import com.pccw.ehunter.domain.common.PositionCategory;
+import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.PositionCommonService;
 
 @Service("positionCommonService")
 @Transactional
 public class PositionCommonServiceImpl implements PositionCommonService{
 	
+	private SimpleHibernateTemplate<PositionCategory, String> categoryDao;
+	
+	private SimpleHibernateTemplate<Position, String> dao;
+	
 	@Autowired
-	private PositionCommonDAO positionDao;
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<BaseLabelValueDTO> loadPositionTypes() {
-		List<BaseLabelValueDTO> lvs = new ArrayList<BaseLabelValueDTO>();
-		List<PositionType> types = positionDao.loadPositionTypes();
-		
-		if(!CollectionUtils.isEmpty(types)){
-			for(PositionType type : types){
-				BaseLabelValueDTO dto = PositionTypeConvertor.toSelectOption(type);
-				if(null != dto){
-					lvs.add(dto);
-				}
-			}
-		}
-		return lvs;
+	public void setSessionFactory(SessionFactory sessionFactory){
+		categoryDao = new SimpleHibernateTemplate<PositionCategory, String>(sessionFactory, PositionCategory.class);
+		dao = new SimpleHibernateTemplate<Position, String>(sessionFactory, Position.class);
 	}
-	
+
 	@Override
 	@Transactional(readOnly=true)
-	public List<BaseLabelValueDTO> loadPositionTypeByParentCode(String code) {
-		List<BaseLabelValueDTO> lvs = new ArrayList<BaseLabelValueDTO>();
-		List<PositionSubType> subTypes = positionDao.loadSubTypesByParentCode(code);
+	public List<PositionCategoryDTO> getPositionCategories() {
+		List<PositionCategory> pos = categoryDao.findAllUndeleted();
 		
-		if(!CollectionUtils.isEmpty(subTypes)){
-			for(PositionSubType type : subTypes){
-				BaseLabelValueDTO dto = PositionTypeConvertor.toSelectOption(type);
-				if(null != dto){
-					lvs.add(dto);
-				}
-			}
+		if(CollectionUtils.isEmpty(pos)){
+			return null;
 		}
- 		return lvs;
+		
+		List<PositionCategoryDTO> dtos = new ArrayList<PositionCategoryDTO>();
+		
+		for(PositionCategory po : pos){
+			dtos.add(PositionCategoryConvertor.toDto(po));
+		}
+		
+		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<PositionDTO> getPositionsByCategory(String categoryCode) {
+		List<Position> pos = dao.findUndeletedByProperty("topType", categoryCode);
+		
+		if(CollectionUtils.isEmpty(pos)){
+			return null;
+		}
+		
+		List<PositionDTO> dtos = new ArrayList<PositionDTO>();
+		
+		for(Position po : pos){
+			dtos.add(PositionConvertor.toDto(po));
+		}
+		
+		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public PositionDTO getPositionByCode(String code) {
+		return PositionConvertor.toDto(dao.findUniqueByProperty("typeCode", code));
 	}
 }

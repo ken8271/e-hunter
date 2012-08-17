@@ -1,6 +1,6 @@
 package com.pccw.ehunter.dto;
 
-public class SubjectTypeDTO extends BaseDTO {
+public class SubjectCategoryDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
 	private String typeCode;

@@ -2,9 +2,11 @@ package com.pccw.ehunter.service;
 
 import java.util.List;
 
-import com.pccw.ehunter.dto.BaseLabelValueDTO;
+import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 
 public interface PositionCommonService {
-	public List<BaseLabelValueDTO> loadPositionTypes();
-	public List<BaseLabelValueDTO> loadPositionTypeByParentCode(String code);
+	public List<PositionCategoryDTO> getPositionCategories();
+	public List<PositionDTO> getPositionsByCategory(String categoryCode);
+	public PositionDTO getPositionByCode(String code);
 }

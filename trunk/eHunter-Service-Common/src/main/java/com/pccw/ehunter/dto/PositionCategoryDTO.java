@@ -1,12 +1,12 @@
 package com.pccw.ehunter.dto;
 
-public class IndustryTypeDTO extends BaseDTO {
+public class PositionCategoryDTO extends BaseDTO{
 	private static final long serialVersionUID = 1L;
-
 	private String typeCode;
 	private String displayName;
 	private String description;
-	private String activeIndicator;
+	private int displaySeqNumber;
+	private String activeFlag;
 
 	public String getTypeCode() {
 		return typeCode;
@@ -32,12 +32,19 @@ public class IndustryTypeDTO extends BaseDTO {
 		this.description = description;
 	}
 
-	public String getActiveIndicator() {
-		return activeIndicator;
+	public int getDisplaySeqNumber() {
+		return displaySeqNumber;
 	}
 
-	public void setActiveIndicator(String activeIndicator) {
-		this.activeIndicator = activeIndicator;
+	public void setDisplaySeqNumber(int displaySeqNumber) {
+		this.displaySeqNumber = displaySeqNumber;
 	}
 
+	public String getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(String activeFlag) {
+		this.activeFlag = activeFlag;
+	}
 }
