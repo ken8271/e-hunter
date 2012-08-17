@@ -28,7 +28,7 @@ public class DegreeServiceImpl implements DegreeService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<DegreeDTO> getAllDegrees() {
-		List<Degree> dgres = dao.findAllUndeleted();
+		List<Degree> dgres = dao.findAllUndeleted("displayIndexNumber");
 		
 		if(CollectionUtils.isEmpty(dgres)){
 			return null;

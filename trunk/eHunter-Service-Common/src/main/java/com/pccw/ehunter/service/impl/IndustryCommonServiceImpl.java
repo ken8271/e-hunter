@@ -35,7 +35,7 @@ public class IndustryCommonServiceImpl implements IndustryCommonService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<IndustryCategoryDTO> getIndustryCategories() {
-		List<IndustryCategory> pos = categoryDao.findAllUndeleted();
+		List<IndustryCategory> pos = categoryDao.findAllUndeleted("displaySeqNumber");
 		
 		if(CollectionUtils.isEmpty(pos)){
 			return null;

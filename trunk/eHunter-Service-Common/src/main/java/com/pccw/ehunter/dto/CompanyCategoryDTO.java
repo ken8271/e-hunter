@@ -1,19 +1,19 @@
 package com.pccw.ehunter.dto;
 
-public class CompanyTypeDTO extends BaseDTO {
+public class CompanyCategoryDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
-	private String typeCode;
+	private String categoryCode;
 	private String displayName;
 	private String description;
 	private String activeIndicator;
 
-	public String getTypeCode() {
-		return typeCode;
+	public String getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setTypeCode(String typeCode) {
-		this.typeCode = typeCode;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
 	public String getDisplayName() {

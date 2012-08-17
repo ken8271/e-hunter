@@ -13,6 +13,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.CompanyCategoryDTO;
+import com.pccw.ehunter.dto.CompanySizeDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.IndustryDTO;
@@ -21,6 +23,7 @@ import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
+import com.pccw.ehunter.service.CompanyCategoryService;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
 import com.pccw.ehunter.service.PositionCommonService;
@@ -46,6 +49,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private PositionCommonService positionCommonService;
+	
+	@Autowired
+	private CompanyCategoryService companyCategoryService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -167,6 +173,42 @@ public class CodeTableHelper {
 	
 	public PositionDTO getPositionByCode(String code){
 		return positionCommonService.getPositionByCode(code);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CompanyCategoryDTO> getCompanyCategories(HttpServletRequest request){
+		List<CompanyCategoryDTO> categories = (List<CompanyCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_COMPANY_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = companyCategoryService.getCompanyCategories();
+			
+			if(CollectionUtils.isEmpty(categories)){
+				categories = new ArrayList<CompanyCategoryDTO>();
+			}
+			
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_COMPANY_CATEGORY, categories);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		return categories;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CompanySizeDTO> getCompanySizes(HttpServletRequest request){
+		List<CompanySizeDTO> sizes = (List<CompanySizeDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_COMPANY_SIZE);
+		
+		if(CollectionUtils.isEmpty(sizes)){
+			sizes = companyCategoryService.getCompanySizes();
+			
+			if(CollectionUtils.isEmpty(sizes)){
+				sizes = new ArrayList<CompanySizeDTO>();
+			}
+			
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_COMPANY_SIZE, sizes);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		return sizes;
 	}
 	
 }

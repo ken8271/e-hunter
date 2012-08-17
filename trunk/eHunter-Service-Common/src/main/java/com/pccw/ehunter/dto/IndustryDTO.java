@@ -3,26 +3,26 @@ package com.pccw.ehunter.dto;
 public class IndustryDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
-	private String code;
-	private String typeCode;
+	private String industryCode;
+	private String categoryCode;
 	private String displayName;
 	private String description;
 	private String activeIndicator;
 
-	public String getCode() {
-		return code;
+	public String getIndustryCode() {
+		return industryCode;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setIndustryCode(String industryCode) {
+		this.industryCode = industryCode;
 	}
 
-	public String getTypeCode() {
-		return typeCode;
+	public String getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setTypeCode(String typeCode) {
-		this.typeCode = typeCode;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
 	public String getDisplayName() {

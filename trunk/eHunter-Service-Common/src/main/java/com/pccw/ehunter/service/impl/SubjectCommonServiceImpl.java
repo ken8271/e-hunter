@@ -35,7 +35,7 @@ public class SubjectCommonServiceImpl implements SubjectCommonService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<SubjectCategoryDTO> getAllSubjectTypes() {
-		List<SubjectCategory> types = categoryDao.findAllUndeleted();
+		List<SubjectCategory> types = categoryDao.findAllUndeleted("displayIndexNumber");
 		
 		if(CollectionUtils.isEmpty(types)){
 			return null;

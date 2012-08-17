@@ -3,17 +3,17 @@ package com.pccw.ehunter.dto;
 public class CompanySizeDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
-	private String code;
+	private String sizeCode;
 	private String displayName;
 	private String description;
 	private String activeIndicator;
 
-	public String getCode() {
-		return code;
+	public String getSizeCode() {
+		return sizeCode;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setSizeCode(String sizeCode) {
+		this.sizeCode = sizeCode;
 	}
 
 	public String getDisplayName() {
