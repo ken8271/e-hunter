@@ -265,12 +265,8 @@ function submitDelete(listName){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<div id="buttonArea">
-							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('7')">添加</a>
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="clearInputFields();">清除</a>
-							   </div>
-							</div>
+							<input class="standardButton" type="button" value="添加" onclick="complete('7');" />&nbsp;
+							<input class="standardButton" type="button" value="清除" onclick="clearInputFields();" />&nbsp;
 							</td>
 						</tr>
 					</table>
@@ -279,7 +275,7 @@ function submitDelete(listName){
 		</table>
 	</form:form>
 	<div class="emptyBlock"></div>
-	<form:form id="eduExpsForm" commandName="talentDto" action="${ctx }/talent/deleteEducationExperience.do">
+	<form:form id="jobExpsForm" commandName="resumeDto" action="${ctx }/talent/deleteJobExperience.do">
 		<table class="contentTableBody2" cellspacing="1" width="99%">
 		   <tr class="contentTableTitle">
 		      <td width="5%" align="center">全选</td>
@@ -289,8 +285,8 @@ function submitDelete(listName){
 		      <td width="20%">职位</td>
 		      <td width="10%" align="center">操作</td>
 		   </tr>
-		   <c:if test="${not empty talentDto.jobExpDtos }">
-		      <c:forEach items="${talentDto.jobExpDtos }" var="jobExp" varStatus="status">
+		   <c:if test="${not empty resumeDto.jobExpDtos }">
+		      <c:forEach items="${resumeDto.jobExpDtos }" var="jobExp" varStatus="status">
 		         <tr class="contentTableRow">
 		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
 		            <td>
@@ -307,8 +303,8 @@ function submitDelete(listName){
 		            </td>
 		            <td><c:out value="${jobExp.positionName }" escapeXml="true"></c:out></td>
 		            <td align="center"> 
-		            <hdiv-c:url value="/talent/preEditEduExp.do?_id=${status.index }" var="editEduExpUrl"></hdiv-c:url>
-		            <a class="button" href="${editEduExpUrl }" style="white-space:nowrap;" >编辑</a>
+		            <hdiv-c:url value="/talent/preEditJobExperience.do?_id=${status.index }" var="editJobExpUrl"></hdiv-c:url>
+		            <input class="standardButton" type="button" value="编辑" onclick="location.href='${editJobExpUrl}'" />&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>
@@ -321,12 +317,8 @@ function submitDelete(listName){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<div id="buttonArea">
-							   <div class="buttonmenubox_R">
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="submitDelete('expsList')">删除</a>
-							      <a class="button" href="#" style="white-space:nowrap;" onclick="complete('6');">保存</a>
-							   </div>
-							</div>
+							<input class="standardButton" type="button" value="删除" onclick="submitDelete('expsList');" />&nbsp;
+							<input class="standardButton" type="button" value="保存" onclick="complete('6');" />&nbsp;
 							</td>
 						</tr>
 					</table>

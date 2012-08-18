@@ -34,20 +34,23 @@ import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
-import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
+import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
+import com.pccw.ehunter.dto.ResumeDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.EducationExperienceValidator;
+import com.pccw.ehunter.validator.ResumeValidator;
 import com.pccw.ehunter.validator.TalentBaseInfoValidator;
 
 @Controller
 @SessionAttributes({SessionAttributeConstant.TALENT_DTO,
-	                SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO})
+	                SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO,
+	                SessionAttributeConstant.TALENT_RESUME_DTO})
 public class TalentRegistrationController extends BaseController{
 	
 	@Autowired
@@ -59,17 +62,21 @@ public class TalentRegistrationController extends BaseController{
 	@Autowired
 	private EducationExperienceValidator eduExpValidator;
 	
+	@Autowired
+	private ResumeValidator resumeValidator;
+	
 	@RequestMapping("/talent/initAddTalent.do")
 	public ModelAndView initAddTalent(HttpServletRequest request){
-		return new ModelAndView(new RedirectViewExt("/talent/fillTalentBaseInfo.do", true));
+		return new ModelAndView(new RedirectViewExt("/talent/fillTalentInfo.do", true));
 	}
 	
-	@RequestMapping("/talent/fillTalentBaseInfo.do")
-	public ModelAndView fillTalentBaseInfo(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("talent/fillTalentBaseInfo");
+	@RequestMapping("/talent/fillTalentInfo.do")
+	public ModelAndView fillTalentInfo(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("talent/talentCreate");
 		
 		initTalent(request , mv);
 		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, new TalentDTO());
 		return mv;
 	}
 
@@ -77,64 +84,101 @@ public class TalentRegistrationController extends BaseController{
 		List<TalentSourceDTO> talentSources = codeTableHelper.getAllTalentSources(request);
 		List<DegreeDTO> degrees = codeTableHelper.getAllDegrees(request);
 		
-		mv.addObject(SessionAttributeConstant.TALENT_DTO, new TalentDTO());
 		mv.addObject(WebConstant.LIST_OF_TALENT_SOURCE, talentSources);
 		mv.addObject(WebConstant.LIST_OF_DEGREE, degrees);
 	}
 	
-	@RequestMapping("/talent/addTalentActions.do")
-	public ModelAndView addTalentActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
-		if(!StringUtils.isEmpty(actionFlag)){
-			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
-		}else {
-			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
-		}
-		
-		if(ActionFlag.NEW_EDU_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillEducationExperience.do", true));
-		} else if(ActionFlag.JOB_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillJobExperience.do", true));
-		}else if(ActionFlag.SUBMIT.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/saveTalentBaseInfo.do", true));
-		}else {
-			return new ModelAndView("talent/fillTalentBaseInfo");
-		}
-	}
-	
-	@RequestMapping("/talent/saveTalentBaseInfo.do")
-	public ModelAndView saveTalentBaseInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView("");
+	@RequestMapping("/talent/saveTalentInfo.do")
+	public ModelAndView saveTalentInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
 		
 		talentBaseInfoValidator.validate(talentDto, errors);
 		
 		if(errors.hasErrors()){
-			mv = new ModelAndView("talent/fillTalentBaseInfo");
+			mv = new ModelAndView("talent/talentCreate");
+			initAddTalent(request);
 			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 			return mv;
 		}
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/fillTalentResume.do")
+	public ModelAndView fillTalentResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		ResumeDTO resumeDto = new ResumeDTO();
+		talentDto.setResumeDto(resumeDto);
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/addResumeActions.do")
+	public ModelAndView addResumeActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,BindingResult errors){
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		if(StringUtils.isEmpty(actionFlag)){
+			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
+		}else {
+			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		}
+		
+		if(ActionFlag.SUBMIT.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/addResume.do", true));
+		}else if(ActionFlag.EDU_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillEducationExperience.do", true));
+		}else if(ActionFlag.JOB_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillJobExperience.do", true));
+		}else if(ActionFlag.COMPLETE.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/completeAddResumes.do", true));
+		}else {
+			return new ModelAndView("talent/resumeCreate");
+		}
+	}
+	
+	@RequestMapping("/talent/addResume.do")
+	public ModelAndView addResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		resumeValidator.validate(talentDto.getResumeDto(), errors);
+		
+		if(errors.hasErrors()){
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			return mv;
+		}
+		
+		List<ResumeDTO> resumes = talentDto.getResumeDtos();		
+		resumes.add(talentDto.getResumeDto());
+		
+		talentDto.setResumeDto(new ResumeDTO());
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
 	
 	@RequestMapping("/talent/fillEducationExperience.do")
 	public ModelAndView fillEducationExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+		ModelAndView mv = new ModelAndView("talent/educationExperienceCreate");
 		
-		List<EducationExperienceDTO> eduExpDtos = talentDto.getEduExpDtos();
+		ResumeDTO resumeDto = talentDto.getResumeDto();
+		
+		List<EducationExperienceDTO> eduExpDtos = resumeDto.getEduExpDtos();
 		
 		if(CollectionUtils.isEmpty(eduExpDtos)){
 			eduExpDtos = new ArrayList<EducationExperienceDTO>(0);
-			talentDto.setEduExpDtos(eduExpDtos);
+			resumeDto.setEduExpDtos(eduExpDtos);
 		}
 
 		initEducationExperience(request , mv);
 		
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
-		mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO , resumeDto);
 		
 		return mv;
 	}
-
+	
 	private void initEducationExperience(HttpServletRequest request , ModelAndView mv) {		
 		List<SubjectCategoryDTO> subjectTypes = codeTableHelper.getAllSubjectTypes(request);
 		List<DegreeDTO> degrees = codeTableHelper.getAllDegrees(request);
@@ -143,11 +187,11 @@ public class TalentRegistrationController extends BaseController{
 		mv.addObject(WebConstant.LIST_OF_DEGREE, degrees);
 	}
 	
-	@RequestMapping("/talent/addEduExpActions.do")
+	@RequestMapping("/talent/addEducationExperienceActions.do")
 	public ModelAndView addEduExpActions(HttpServletRequest request , 
-			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
-			@ModelAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/addEduExp.do", true));
+			@ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/addEducationExperience.do", true));
 		
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
 		
@@ -155,10 +199,11 @@ public class TalentRegistrationController extends BaseController{
 		return mv;
 	}
 	
-	@RequestMapping("/talent/addEduExp.do")
-	public ModelAndView addEducationExperience(HttpServletRequest request , 
+	@RequestMapping("/talent/addEducationExperience.do")
+	public ModelAndView addEducationExperience(HttpServletRequest request ,
 			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
-			@ModelAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto,
 			BindingResult errors){
 		ModelAndView mv = null;
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
@@ -204,8 +249,8 @@ public class TalentRegistrationController extends BaseController{
 			}
 			
 			if(isNothingInput){
-				mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEduExp.do", true));
-				mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+				mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEducationExperience.do", true));
+				mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
 				return mv;
 			}
 		}
@@ -213,20 +258,20 @@ public class TalentRegistrationController extends BaseController{
 		eduExpValidator.validate(eduExpDto, errors);
 		
 		if(errors.hasErrors()){
-			mv = new ModelAndView("talent/fillEduExp");
-			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
-			mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+			mv = new ModelAndView("talent/educationExperienceCreate");
+			mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
+			mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
 			mv.addObject("clearField", CommonConstant.NO);
 			return mv;
 		}
 		
 		if(ActionFlag.COMPLETE.equals(actionFlag)){
-			mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEduExp.do", true));
+			mv = new ModelAndView(new RedirectViewExt("/talent/completeAddEducationExperience.do", true));
 			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 			return mv;
 		}
 		
-		mv = new ModelAndView("talent/fillEduExp");
+		mv = new ModelAndView("talent/educationExperienceCreate");
 		
 		SubjectDTO subject = codeTableHelper.getSubjectByCode(eduExpDto.getMajor());
 		eduExpDto.setMajorDto(subject);
@@ -234,53 +279,52 @@ public class TalentRegistrationController extends BaseController{
 		DegreeDTO degree = codeTableHelper.getDegreeByCode(request, eduExpDto.getDegree());
 		eduExpDto.setDegreeDto(degree);
 		
-		List<EducationExperienceDTO> eduExps = talentDto.getEduExpDtos();
+		List<EducationExperienceDTO> eduExps = resumeDto.getEduExpDtos();
 		eduExps.add(eduExpDto);
-		
-		request.getSession(false).removeAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO);
+			
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO);
 		eduExpDto = new EducationExperienceDTO();
-		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
 		mv.addObject("clearField", CommonConstant.YES);
 		return mv;
 	}
 	
-	@RequestMapping("/talent/completeAddEduExp.do")
+	@RequestMapping("/talent/completeAddEducationExperience.do")
 	public ModelAndView completeAddEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/fillTalentBaseInfo");
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
-		
 		return mv;
 	}
 	
-	@RequestMapping("/talent/preEditEduExp.do")
-	public ModelAndView preEditEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/editEduExp");
+	@RequestMapping("/talent/preEditEducationExperience.do")
+	public ModelAndView preEditEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto){
+		ModelAndView mv = new ModelAndView("talent/educationExperienceAmend");
 		String id = request.getParameter("_id");
 		request.getSession(false).setAttribute("_education_id", id);
-		List<EducationExperienceDTO> dtos = talentDto.getEduExpDtos();
+		List<EducationExperienceDTO> dtos = resumeDto.getEduExpDtos();
 		EducationExperienceDTO exp = null;
 		
 		if(!CollectionUtils.isEmpty(dtos)){
 			exp = dtos.get(Integer.parseInt(id));
 		}
 		
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, exp);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, exp);
 		return mv;
 	}
 	
-	@RequestMapping("/talent/completeEditEduExp.do")
+	@RequestMapping("/talent/completeEditEducationExperience.do")
 	public ModelAndView completeEditEduExp(HttpServletRequest request , 
-			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
-			@ModelAttribute(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO)EducationExperienceDTO eduExpDto,
 			BindingResult errors){
-		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+		ModelAndView mv = new ModelAndView("talent/educationExperienceCreate");
 		
 		eduExpValidator.validate(eduExpDto, errors);
-		logger.debug("-------->>> MAJOR : " + eduExpDto.getMajorType() + "/" + eduExpDto.getMajor());
+
 		if(errors.hasErrors()){
-			mv = new ModelAndView("talent/editEduExp");
-			mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+			mv = new ModelAndView("talent/educationExperienceAmend");
+			mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
 			return mv;
 		}
 		
@@ -291,23 +335,23 @@ public class TalentRegistrationController extends BaseController{
 		DegreeDTO degree = codeTableHelper.getDegreeByCode(request, eduExpDto.getDegree());
 		eduExpDto.setDegreeDto(degree);
 		
-		List<EducationExperienceDTO> dtos = talentDto.getEduExpDtos();
+		List<EducationExperienceDTO> dtos = resumeDto.getEduExpDtos();
 		if(!CollectionUtils.isEmpty(dtos)){
 			dtos.set(Integer.parseInt(id), eduExpDto);
 		}
 		
 		eduExpDto = new EducationExperienceDTO();
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
-		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, eduExpDto);
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
 		mv.addObject("clearField", CommonConstant.YES);
 		return mv;
 	}
 	
 	@RequestMapping("/talent/deleteEducationExperience.do")
-	public ModelAndView deleteEducationExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+	public ModelAndView deleteEducationExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto){
+		ModelAndView mv = new ModelAndView("talent/educationExperienceCreate");
 		String[] expsList = request.getParameterValues("expsList");
-		List<EducationExperienceDTO> dtos = talentDto.getEduExpDtos();
+		List<EducationExperienceDTO> dtos = resumeDto.getEduExpDtos();
 		List<EducationExperienceDTO> removeDtos = new ArrayList<EducationExperienceDTO>(0);
 		
 		if(expsList != null && expsList.length != 0 && !CollectionUtils.isEmpty(dtos)){
@@ -318,23 +362,54 @@ public class TalentRegistrationController extends BaseController{
 			dtos.removeAll(removeDtos);
 		}
 		
-		talentDto.setEduExpDtos(dtos);
+		resumeDto.setEduExpDtos(dtos);
 		
-		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
 		mv.addObject("clearField", CommonConstant.YES);
 		return mv;
 	}
 	
-	@RequestMapping("/talent/backToFillEduExp.do")
-	public ModelAndView backToFillEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/fillEduExp");
+	@RequestMapping("/talent/backToFillEducationExperience.do")
+	public ModelAndView backToFillEduExp(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto){
+		ModelAndView mv = new ModelAndView("talent/educationExperienceCreate");
 
 		initEducationExperience(request , mv);
 		
-		mv.addObject(SessionAttributeConstant.TLENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
-		mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
+		mv.addObject(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO, new EducationExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO , resumeDto);
 		return mv;
+	}
+	
+	@RequestMapping("/talent/fillJobExperience.do")
+	public ModelAndView fillJobExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_RESUME_DTO)ResumeDTO resumeDto){
+		ModelAndView mv = new ModelAndView("talent/jobExperienceCreate");
+		
+		List<JobExperienceDTO> jobExpDtos = resumeDto.getJobExpDtos();
+		
+		if(CollectionUtils.isEmpty(jobExpDtos)){
+			jobExpDtos = new ArrayList<JobExperienceDTO>(0);
+			resumeDto.setJobExpDtos(jobExpDtos);
+		}
+
+		initJobExperience(request , mv);
+		
+		mv.addObject(SessionAttributeConstant.TALENT_JOB_EXPERIENCE_DTO, new JobExperienceDTO());
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO , resumeDto);
+		
+		return mv;
+	}
+
+	private void initJobExperience(HttpServletRequest request, ModelAndView mv) {
+		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
+		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
+		List<CompanyCategoryDTO> companyCategories = codeTableHelper.getCompanyCategories(request);
+		List<CompanySizeDTO> companySizes = codeTableHelper.getCompanySizes(request);
+		
+		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
+		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
+		mv.addObject(WebConstant.LIST_OF_COMPANY_CATEGORY, companyCategories);
+		mv.addObject(WebConstant.LIST_OF_COMPANY_SIZE, companySizes);
 	}
 	
 	@RequestMapping("/talent/loadSubjects.do")
@@ -378,38 +453,6 @@ public class TalentRegistrationController extends BaseController{
 		}
 		
 		return null;
-	}
-	
-	//fill job experience 
-	@RequestMapping("/talent/fillJobExperience.do")
-	public ModelAndView fillJobExperience(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("talent/fillJobExperience");
-		
-		List<JobExperienceDTO> jobExpDtos = talentDto.getJobExpDtos();
-		
-		if(CollectionUtils.isEmpty(jobExpDtos)){
-			jobExpDtos = new ArrayList<JobExperienceDTO>(0);
-			talentDto.setJobExpDtos(jobExpDtos);
-		}
-
-		initJobExperience(request , mv);
-		
-		mv.addObject(SessionAttributeConstant.TALENT_JOB_EXPERIENCE_DTO, new JobExperienceDTO());
-		mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
-		
-		return mv;
-	}
-
-	private void initJobExperience(HttpServletRequest request, ModelAndView mv) {
-		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
-		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
-		List<CompanyCategoryDTO> companyCategories = codeTableHelper.getCompanyCategories(request);
-		List<CompanySizeDTO> companySizes = codeTableHelper.getCompanySizes(request);
-		
-		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
-		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
-		mv.addObject(WebConstant.LIST_OF_COMPANY_CATEGORY, companyCategories);
-		mv.addObject(WebConstant.LIST_OF_COMPANY_SIZE, companySizes);
 	}
 	
 	@RequestMapping("/talent/loadIndustries.do")
