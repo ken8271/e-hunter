@@ -5,19 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
-<script type="text/javascript">
-function submitForm(actionFlagStr){
-	var actionFlag = document.getElementById('actionFlag');
-	if(actionFlag != 'undefined' && actionFlagStr != ""){
-		actionFlag.value = actionFlagStr;
-	}
-	document.forms[0].submit();
-}
-</script>
 </head>
 <body>
-    <hdiv-c:url value="/talent/fillEducationExperience.do" var="eduExpUrl"></hdiv-c:url>
-	<form:form commandName="talentDto" action="${ctx}/talent/addTalentActions.do" method="post">
+	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentInfo.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag" />
 	    </div>
@@ -35,7 +25,7 @@ function submitForm(actionFlagStr){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="button" value="保存" onclick="submitForm('')"/>&nbsp;
+							   <input class="standardButton" type="submit" value="填写简历"/>&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -197,76 +187,13 @@ function submitForm(actionFlagStr){
 			</table>
 		</div>
 		<div class="emptyBlock"></div>
-		<table width="100%">
-			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才教育经历</b></font></td>
-			</tr>
-		</table>
-		<div class="emptyBlock"></div>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-			   <tr>
-			      <td width="100%" align="right">
-			        <div id="buttonArea">
-						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('7')">输入教育经历</a>
-						</div>
-					</div>
-			      </td>
-			   </tr>
-			</table>
-		</div>
-		<div class="emptyBlock"></div>
-		<table width="100%">
-			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第四部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才工作经历</b></font></td>
-			</tr>
-		</table>
-		<div class="emptyBlock"></div>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-			   <tr>
-			      <td width="100%" align="right">
-			        <div id="buttonArea">
-						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('9');">输入工作经历</a>
-						</div>
-					</div>
-			      </td>
-			   </tr>
-			</table>
-		</div>
-		<div class="emptyBlock"></div>
-		<table width="100%">
-			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第五部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才项目经验</b></font></td>
-			</tr>
-		</table>
-		<div class="emptyBlock"></div>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-			   <tr>
-			      <td width="100%" align="right">
-			        <div id="buttonArea">
-						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;">输入项目经验</a>
-						</div>
-					</div>
-			      </td>
-			   </tr>
-			</table>
-		</div>
-		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="保存" onclick="submitForm('5')"/>&nbsp;
+							   <input class="standardButton" type="submit" value="填写简历"/>&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>

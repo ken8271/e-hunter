@@ -296,7 +296,6 @@ div.emptyBlock {
 /*--- standard form input start -----*/
 .standardTableForm {
 	border: 1px solid #CCCCCC;
-	border-bottom: 0px;
 	word-wrap: break-word; 
 	word-break: break-all;
 	table-layout:fixed;
@@ -339,7 +338,20 @@ div.emptyBlock {
 
 .standardButton {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
-	font-size: 15px;
+	background-color: #666666;
+	padding: 0px 10px 0px 10px;
+	font-weight: bold;
+	line-height:22px;
+	color: #FFFFFF;
+	text-decoration: none;
+	Margin-left: 4px;
+	text-align:center;
+	cursor:pointer;
+	border:0;
+}
+
+.standardButton:hover {
+	background-color: #FF6500;
 }
 
 .labelColumn {

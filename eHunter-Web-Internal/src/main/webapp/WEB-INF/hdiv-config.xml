@@ -107,13 +107,13 @@
 				    </list>
 				</entry>
 				
-				<entry key="/talent/addEduExpActions.do">
+				<entry key="/talent/addEducationExperienceActions.do">
 				    <list>
 				        <value>major</value>
 				    </list>
 				</entry>
 				
-				<entry key="/talent/completeEditEduExp.do">
+				<entry key="/talent/completeEditEducationExperience.do">
 				    <list>
 				        <value>major</value>
 				    </list>
