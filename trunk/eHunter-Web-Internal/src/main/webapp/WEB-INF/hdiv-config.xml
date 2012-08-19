@@ -92,6 +92,7 @@
 						<value>jmesaDto.select</value>
 						<value>actionFlag</value>
 						<value>_id</value>
+						<value>expsList</value>
 					</list>
 				</entry>
 				
@@ -119,9 +120,17 @@
 				    </list>
 				</entry>
 				
-				<entry key="/talent/deleteEducationExperience.do">
+				<entry key="/talent/addJobExperienceActions.do">
 				    <list>
-				        <value>expsList</value>
+				        <value>positionDto.typeCode</value>
+				        <value>industryDto.industryCode</value>
+				    </list>
+				</entry>
+				
+				<entry key="/talent/completeEditJobExperience.do">
+				    <list>
+				        <value>positionDto.typeCode</value>
+				        <value>industryDto.industryCode</value>
 				    </list>
 				</entry>
 			</map>
