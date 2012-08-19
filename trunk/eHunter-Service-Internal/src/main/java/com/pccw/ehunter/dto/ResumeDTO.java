@@ -13,6 +13,8 @@ public class ResumeDTO extends BaseDTO {
 	private List<EducationExperienceDTO> eduExpDtos = new ArrayList<EducationExperienceDTO>();
 
 	private List<JobExperienceDTO> jobExpDtos = new ArrayList<JobExperienceDTO>();
+	
+	private List<ProjectExperienceDTO> prjExpDtos = new ArrayList<ProjectExperienceDTO>();
 
 	public String getName() {
 		return name;
@@ -44,5 +46,13 @@ public class ResumeDTO extends BaseDTO {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public List<ProjectExperienceDTO> getPrjExpDtos() {
+		return prjExpDtos;
+	}
+
+	public void setPrjExpDtos(List<ProjectExperienceDTO> prjExpDtos) {
+		this.prjExpDtos = prjExpDtos;
 	}
 }
