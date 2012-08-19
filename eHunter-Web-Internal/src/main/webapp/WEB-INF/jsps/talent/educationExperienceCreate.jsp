@@ -208,12 +208,12 @@ function submitDelete(listName){
 		         <tr class="contentTableRow">
 		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
 		            <td>
-		            <c:out value="${eduExp.fromDateDto.year }" escapeXml="true"/>年
-		            <c:out value="${eduExp.fromDateDto.month }" escapeXml="true"/>月
-		            <c:out value="${eduExp.fromDateDto.day }" escapeXml="true"/>日 &nbsp;-&nbsp;
-		            <c:out value="${eduExp.toDateDto.year }" escapeXml="true"/>年
-		            <c:out value="${eduExp.toDateDto.month }" escapeXml="true"/>月
-		            <c:out value="${eduExp.toDateDto.day }" escapeXml="true"/>日
+		            <c:out value="${eduExp.fromDateDto.year }" escapeXml="true"/>/
+		            <c:out value="${eduExp.fromDateDto.month }" escapeXml="true"/>/
+		            <c:out value="${eduExp.fromDateDto.day }" escapeXml="true"/>&nbsp;-&nbsp;
+		            <c:out value="${eduExp.toDateDto.year }" escapeXml="true"/>/
+		            <c:out value="${eduExp.toDateDto.month }" escapeXml="true"/>/
+		            <c:out value="${eduExp.toDateDto.day }" escapeXml="true"/>
 		            </td>
 		            <td><c:out value="${eduExp.school }" escapeXml="true"></c:out></td>
 		            <td>

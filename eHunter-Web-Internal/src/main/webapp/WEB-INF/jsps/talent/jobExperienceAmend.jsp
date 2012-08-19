@@ -9,32 +9,9 @@
 <hdiv-c:url value="/talent/loadPositions.do" var="loadPositionsUrl"></hdiv-c:url>
 <script type="text/javascript">
 $().ready(function(){
-	if('${clearField}' == 'Y'){
-		clearInputFields();
-	}else if('${clearField}' == 'N'){
-		loadIndustries();
-		loadPositions();
-	}
+	loadIndustries();
+	loadPositions();
 });
-
-function clearInputFields(){
-	document.getElementById('fromDateDto.year').value='';
-	document.getElementById('fromDateDto.month').value='';
-	document.getElementById('fromDateDto.day').value='';
-	document.getElementById('toDateDto.year').value='';
-	document.getElementById('toDateDto.month').value='';
-	document.getElementById('toDateDto.day').value='';
-	document.getElementById('companyName').value='';
-	document.getElementById('companyCategoryDto.categoryCode').value='';
-	document.getElementById('companySizeDto.sizeCode').value='';
-	document.getElementById('industrySelector').value='';
-	document.getElementById('industryDto.industryCode').value='';
-	document.getElementById('department').value='';
-	document.getElementById('positionSelector').value='';
-	document.getElementById('positionDto.typeCode').value='';
-	document.getElementById('positionName').value='';
-	document.getElementById('jobDescription').value='';
-}
 
 function loadIndustries(){
 	var industrySelector = document.getElementById("industrySelector");
@@ -56,9 +33,8 @@ function loadIndustries(){
 					var val = ''+$(this).children("value").text()+'';
 					industry.options[industry.length] = new Option(label, val);
 				});
-				if('${clearField}' == 'N'){
-					document.getElementById('industryDto.industryCode').value = '${jobExpDto.industryDto.industryCode}';
-				}
+				
+			    document.getElementById('industryDto.industryCode').value = '${jobExpDto.industryDto.industryCode}';
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
@@ -93,9 +69,7 @@ function loadPositions(){
 					position.options[position.length] = new Option(label, val);
 				});
 				
-				if('${clearField}' == 'N'){
-					document.getElementById('positionDto.typeCode').value = '${jobExpDto.positionDto.typeCode}';
-				}
+			    document.getElementById('positionDto.typeCode').value = '${jobExpDto.positionDto.typeCode}';
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
@@ -123,39 +97,32 @@ function complete(actionFlagStr){
 	var form = document.getElementById('jobExpForm');
 	form.submit();
 }
-
-function submitDelete(listName){
-	var isSubmit = false;
-	
-	for( var i = 0; i < document.getElementsByName(listName).length ; i++){ 		
-		if(document.getElementsByName(listName).item(i).checked == true){
-			isSubmit = true;
-			break;
-		} 				
-	}	
-
-	if(isSubmit == true){
-		if(confirm("确认删除被选择的记录？") == true){
-			var form = document.getElementById('jobExpsForm');
-	        form.submit();
-		}
-	}else{
-		alert('请至少选择一项进行删除！');
-	}
-}
 </script>
 </head>
 <body>
-	<form:form id="jobExpForm" commandName="jobExpDto" action="${ctx}/talent/addJobExperienceActions.do" method="post">
-	    <div style="display: none">
-	       <input type="hidden" id="actionFlag" name="actionFlag"/>
-	    </div>
+    <hdiv-c:url value="/talent/backToFillJobExperience.do" var="backUrl"></hdiv-c:url>
+	<form:form commandName="jobExpDto" action="${ctx}/talent/completeEditJobExperience.do" method="post">
 		<table border="0" width="99%">
 			<tr>
-				<td class="pageTitle">人才工作经历填写</td>
+				<td class="pageTitle">人才工作经历编辑</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="jobExpDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="99%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							<input class="standardButton" type="submit" value="确认" />&nbsp;
+							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -278,60 +245,8 @@ function submitDelete(listName){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp;
-							<input class="standardButton" type="button" value="清除" onclick="clearInputFields();" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form:form>
-	<div class="emptyBlock"></div>
-	<form:form id="jobExpsForm" commandName="resumeDto" action="${ctx }/talent/deleteJobExperience.do">
-		<table class="contentTableBody2" cellspacing="1" width="99%">
-		   <tr class="contentTableTitle">
-		      <td width="5%" align="center">全选</td>
-		      <td width="25%">时间</td>
-		      <td width="20%">行业</td>
-		      <td width="20%">企业名称</td>
-		      <td width="20%">职位</td>
-		      <td width="10%" align="center">操作</td>
-		   </tr>
-		   <c:if test="${not empty resumeDto.jobExpDtos }">
-		      <c:forEach items="${resumeDto.jobExpDtos }" var="jobExp" varStatus="status">
-		         <tr class="contentTableRow">
-		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
-		            <td>
-		            <c:out value="${jobExp.fromDateDto.year }" escapeXml="true"/>/
-		            <c:out value="${jobExp.fromDateDto.month }" escapeXml="true"/>/
-		            <c:out value="${jobExp.fromDateDto.day }" escapeXml="true"/>&nbsp;-&nbsp;
-		            <c:out value="${jobExp.toDateDto.year }" escapeXml="true"/>/
-		            <c:out value="${jobExp.toDateDto.month }" escapeXml="true"/>/
-		            <c:out value="${jobExp.toDateDto.day }" escapeXml="true"/>
-		            </td>
-		            <td><c:out value="${jobExp.industryDto.displayName }" escapeXml="true"></c:out></td>
-		            <td>
-		               <c:out value="${jobExp.companyName }" escapeXml="true"></c:out>
-		            </td>
-		            <td><c:out value="${jobExp.positionName }" escapeXml="true"></c:out></td>
-		            <td align="center"> 
-		            <hdiv-c:url value="/talent/preEditJobExperience.do?_id=${status.index }" var="editJobExpUrl"></hdiv-c:url>
-		            <input class="standardButton" type="button" value="编辑" onclick="location.href='${editJobExpUrl}'" />&nbsp;
-		            </td>
-		         </tr>
-		      </c:forEach>
-		   </c:if>
-		</table>
-		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							<input class="standardButton" type="button" value="删除" onclick="submitDelete('expsList');" />&nbsp;
-							<input class="standardButton" type="button" value="保存" onclick="complete('6');" />&nbsp;
+							<input class="standardButton" type="submit" value="确认" />&nbsp;
+							<input class="standardButton" type="button" value="返回" onclick="${backUrl}"/>&nbsp;
 							</td>
 						</tr>
 					</table>

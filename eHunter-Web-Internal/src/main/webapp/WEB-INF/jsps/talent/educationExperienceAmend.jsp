@@ -64,7 +64,7 @@ function submitForm(){
 	     <hdiv-c:url value="/talent/backToFillEducationExperience.do" var="backUrl"></hdiv-c:url>
 		<table border="0" width="99%">
 			<tr>
-				<td class="pageTitle">人才教育经历填写</td>
+				<td class="pageTitle">人才教育经历编辑</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="eduExpDto"></common:errorTable></td>
