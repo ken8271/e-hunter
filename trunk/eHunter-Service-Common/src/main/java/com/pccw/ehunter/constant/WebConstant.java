@@ -9,4 +9,6 @@ public class WebConstant {
 	public static final String LIST_OF_POSITION_CATEGORY = "listOfPositionCategory";
 	public static final String LIST_OF_COMPANY_CATEGORY = "listOfCompanyCategory";
 	public static final String LIST_OF_COMPANY_SIZE = "listOfCompanySize";
+	public static final String LIST_OF_SKILL_CATEGORY = "listOfSkillCategory";
+	public static final String LIST_OF_SKILL_LEVEL = "listOfSkillLevel";
 }
