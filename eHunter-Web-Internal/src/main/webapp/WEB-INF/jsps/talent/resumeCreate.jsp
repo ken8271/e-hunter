@@ -163,7 +163,10 @@ function submitForm(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
-				<td width="100%"><font face="Arial" size="2"><b>&nbsp;专业技能</b></font>&nbsp;<img alt="" src="${imagePath }/icon/blank.gif" /></td>
+				<td width="100%">
+				   <font face="Arial" size="2"><b>&nbsp;专业技能</b></font>&nbsp;
+				   <talent:checkSign path="${talentDto.resumeDto.skillDtos }"></talent:checkSign>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -173,7 +176,7 @@ function submitForm(actionFlagStr){
 			      <td width="100%" align="right">
 			        <div id="buttonArea">
 						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('10');">输入专业技能</a>
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('11');">输入专业技能</a>
 						</div>
 					</div>
 			      </td>

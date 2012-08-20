@@ -5,6 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
+<script type="text/javascript">
+$().ready(function(){
+	showOrHideInput();
+});
+
+function showOrHideInput(){
+	var skillCategory = document.getElementById('categoryCode');
+	if(skillCategory != null && skillCategory.selectedIndex != 0){
+		$('#skillName').show();
+	}else {
+		$('#skillName').hide();
+	}
+}
+</script>
 </head>
 <body>
     <hdiv-c:url value="/talent/backToFillProfessionalSkill.do" var="backUrl"></hdiv-c:url>

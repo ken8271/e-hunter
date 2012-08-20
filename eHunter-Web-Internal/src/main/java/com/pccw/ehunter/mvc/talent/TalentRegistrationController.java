@@ -112,6 +112,8 @@ public class TalentRegistrationController extends BaseController{
 			return new ModelAndView(new RedirectViewExt("/talent/fillProjectExperience.do", true));
 		}else if(ActionFlag.TRAINING_EXP.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/fillTrainingExperience.do", true));
+		}else if(ActionFlag.PROFESSIONAL_SKILL.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillProfessionalSkill.do", true));
 		}else if(ActionFlag.COMPLETE.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/completeAddResumes.do", true));
 		}else {
