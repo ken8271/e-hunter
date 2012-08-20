@@ -15,6 +15,8 @@ public class SessionAttributeConstant {
 	public static final String TALENT_EDUCATION_EXPERIENCE_DTO = "eduExpDto";
 	public static final String TALENT_JOB_EXPERIENCE_DTO = "jobExpDto";
 	public static final String TALENT_PROJECT_EXPERIENCE_DTO = "prjExpDto";
+	public static final String TALENT_TRAINING_EXPERIENCE_DTO = "trnExpDto";
+	public static final String TALENT_PROFESSIONAL_SKILL_DTO = "skillDto";
 	
 	public static final String TALENT_RESUME_DTO = "resumeDto";
 }

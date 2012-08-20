@@ -15,6 +15,10 @@ public class ResumeDTO extends BaseDTO {
 	private List<JobExperienceDTO> jobExpDtos = new ArrayList<JobExperienceDTO>();
 	
 	private List<ProjectExperienceDTO> prjExpDtos = new ArrayList<ProjectExperienceDTO>();
+	
+	private List<TrainingExperienceDTO> trnExpDtos = new ArrayList<TrainingExperienceDTO>();
+	
+	private List<ProfessionalSkillDTO> skillDtos = new ArrayList<ProfessionalSkillDTO>();
 
 	public String getName() {
 		return name;
@@ -54,5 +58,21 @@ public class ResumeDTO extends BaseDTO {
 
 	public void setPrjExpDtos(List<ProjectExperienceDTO> prjExpDtos) {
 		this.prjExpDtos = prjExpDtos;
+	}
+
+	public List<TrainingExperienceDTO> getTrnExpDtos() {
+		return trnExpDtos;
+	}
+
+	public void setTrnExpDtos(List<TrainingExperienceDTO> trnExpDtos) {
+		this.trnExpDtos = trnExpDtos;
+	}
+
+	public List<ProfessionalSkillDTO> getSkillDtos() {
+		return skillDtos;
+	}
+
+	public void setSkillDtos(List<ProfessionalSkillDTO> skillDtos) {
+		this.skillDtos = skillDtos;
 	}
 }

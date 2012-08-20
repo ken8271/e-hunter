@@ -19,6 +19,10 @@ public class ActionFlag {
 	
 	public static final String PROJECT_EXP = "10";
 	
+	public static final String PROFESSIONAL_SKILL = "11";
+	
+	public static final String LANGUAGE_ABILITY = "12";
+	
 	public static final String SELECT_ALL = "80";
 	
 	public static final String PAGING = "90";
