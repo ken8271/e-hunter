@@ -10,13 +10,23 @@ $().ready(function(){
 	if('${clearField}' == 'Y'){
 		clearInputFields();
 	}
+	showOrHideInput();
 });
 
+function showOrHideInput(){
+	var skillCategory = document.getElementById('categoryCode');
+	if(skillCategory != null && skillCategory.selectedIndex != 0){
+		$('#skillName').show();
+	}else {
+		$('#skillName').hide();
+	}
+}
+
 function clearInputFields(){
-	$('#categoryCode').val();
-	$('#skillName').val();
-	$('#duration').val();
-	$('#levelCode').val();
+	$('#categoryCode').val('');
+	$('#skillName').val('');
+	$('#duration').val('');
+	$('#levelCode').val('');
 }
 
 function complete(actionFlagStr){
@@ -71,7 +81,7 @@ function submitDelete(listName){
 					<tr>
 						<td class="labelColumn">技能类型/名称：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:select path="categoryCode" cssClass="standardSelect">
+						<form:select path="categoryCode" cssClass="standardSelect" onchange="showOrHideInput();">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <c:forEach items="${listOfSkillCategory }" var="skillCategory">
 						         <form:option value="${skillCategory.code }" label="${skillCategory.displayName }"></form:option>
@@ -88,7 +98,7 @@ function submitDelete(listName){
 				    <tr >
 						<td class="labelColumn">使用时间：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:input path="duration" cssClass="standardInputText"  />&nbsp;月
+						   <form:input path="duration" cssClass="standardInputTextNoWidth" maxlength="3" size="3"/>&nbsp;月
 					       <common:errorSign id="duration" path="duration"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
@@ -142,8 +152,8 @@ function submitDelete(listName){
 		         <tr class="contentTableRow">
 		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
 		            <td>
-		            <c:out value="${skill.categoryDto.displayName }" escapeXml="true"/>/
 		            <c:out value="${skill.skillName }" escapeXml="true"/>
+		            (<c:out value="${skill.categoryDto.displayName }" escapeXml="true"/>)
 		            </td>
 		            <td><c:out value="${skill.duration }" escapeXml="true"></c:out></td>
 		            <td><c:out value="${skill.levelDto.displayName }" escapeXml="true"></c:out></td>
