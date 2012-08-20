@@ -106,7 +106,7 @@ function submitDelete(listName){
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
 	    </div>
-		<table border="0" width="99%">
+		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才教育经历填写</td>
 			</tr>
@@ -117,7 +117,7 @@ function submitDelete(listName){
 		<div class="emptyBlock"></div>
 		<div class="contentTableBody">
 			<div style="height:5px"></div>
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%" >
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
@@ -177,7 +177,7 @@ function submitDelete(listName){
 			</table>			
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -194,7 +194,7 @@ function submitDelete(listName){
 	</form:form>
 	<div class="emptyBlock"></div>
 	<form:form id="eduExpsForm" commandName="resumeDto" action="${ctx }/talent/deleteEducationExperience.do">
-		<table class="contentTableBody2" cellspacing="1" width="99%">
+		<table class="contentTableBody2" cellspacing="1" width="100%">
 		   <tr class="contentTableTitle">
 		      <td width="5%" align="center">全选</td>
 		      <td width="25%">时间</td>
@@ -235,7 +235,7 @@ function submitDelete(listName){
 		   </c:if>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">

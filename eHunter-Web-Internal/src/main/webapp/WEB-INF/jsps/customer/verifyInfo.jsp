@@ -31,7 +31,7 @@
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table width="99%">
+		<table width="100%">
 		    <tr>
 		    <td align="right"><span class="textCh8" ><u>仅限公司内部查看/使用</u></span><br /></td>
 		    </tr>
@@ -49,7 +49,7 @@
 		<div>
 			<span class="titleCh10">&nbsp;第一部分：</span> <span class="titleCh10">客户集团资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" width="99%" cellpadding="5px">
+		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" width="100%" cellpadding="5px">
 			<tr>
 				<td width="17%"><span class="textCh8">集团名称</span></td>
 				<td width="36%"><span class="showCh"><c:out value="${customerDto.custGroup.fullName}" escapeXml="true" /> </span></td>
@@ -61,7 +61,7 @@
 		<div>
 			<span class="titleCh10">&nbsp;第二部分：</span> <span class="titleCh10">客户公司资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" width="99%" cellpadding="5px">
+		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" width="100%" cellpadding="5px">
 			<tr>
 				<td><span class="textCh8">公司名称</span></td>
 				<td><span class="showCh"><c:out value="${customerDto.fullName}" escapeXml="true" /></span></td>
@@ -127,7 +127,7 @@
 		<div>
 			<span class="titleCh10">&nbsp;第三部分：</span><span class="titleCh10">客户联系人资料</span>
 		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" cellSpacing="0" width="99%" cellpadding="5px">
+		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" cellSpacing="0" width="100%" cellpadding="5px">
 			<tr>
 				<td align="center" colspan="2" width="15%"><span class="textCh8">姓名</span><br /> <br /></td>
 				<td align="center" width="30%"><span class="textCh8">职位类型/职位</span><br /> <br /></td>

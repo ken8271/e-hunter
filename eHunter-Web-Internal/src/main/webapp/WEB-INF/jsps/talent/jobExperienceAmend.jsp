@@ -102,7 +102,7 @@ function complete(actionFlagStr){
 <body>
     <hdiv-c:url value="/talent/backToFillJobExperience.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="jobExpDto" action="${ctx}/talent/completeEditJobExperience.do" method="post">
-		<table border="0" width="99%">
+		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才工作经历编辑</td>
 			</tr>
@@ -111,7 +111,7 @@ function complete(actionFlagStr){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -128,7 +128,7 @@ function complete(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<div class="contentTableBody">
 			<div style="height:5px"></div>
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%" >
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
@@ -239,7 +239,7 @@ function complete(actionFlagStr){
 			</table>			
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">

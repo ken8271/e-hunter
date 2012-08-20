@@ -97,9 +97,7 @@
 					<tr>
 						<td class="labelColumn">出生日期：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="birthDateDto.year" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>&nbsp;-&nbsp; 
-						<form:input path="birthDateDto.month" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;-&nbsp; 
-						<form:input path="birthDateDto.day" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>
+						<common:inputDate dateYY="birthDateDto.year" dateMON="birthDateDto.month" dateDD="birthDateDto.day" ></common:inputDate>
 						<common:errorSign id="birthDateDto.day" path="birthDateDto.day"></common:errorSign>
 						</td>
 						<td class="labelColumn">籍贯：<span class="mandatoryField">*</span></td>
