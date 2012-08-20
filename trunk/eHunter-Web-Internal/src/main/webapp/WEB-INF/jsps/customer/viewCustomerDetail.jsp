@@ -13,7 +13,7 @@
 				<td class="pageTitle">客户公司详细资料</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -29,7 +29,7 @@
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
+		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 			<tbody>
 				<common:standardTableRow />
 				<tr >
@@ -48,7 +48,7 @@
 			</tr>
 		</table>
 		<div class="contentTableBody">
-		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
+		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <common:standardTableRow />
 					<tr >
@@ -76,7 +76,7 @@
 			</tr>
 		</table>
 		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <common:standardTableRow />
 					<tr >
@@ -128,7 +128,7 @@
 			</tr>
 		</table>
 		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <common:standardTableRow />
 				    <tr >
@@ -161,7 +161,7 @@
 		</div>	
 		<div class="emptyBlock"></div>
 		<div>${listOfCustomerProjects}</div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">

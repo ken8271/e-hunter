@@ -19,8 +19,10 @@ function clearInputFields(){
 	document.getElementById('toDateDto.year').value='';
 	document.getElementById('toDateDto.month').value='';
 	document.getElementById('toDateDto.day').value='';
-	$('#name').val('');
-	$('#duty').val('');
+	$('#organization').val('');
+	$('#address').val('');
+	$('#course').val('');
+	$('#cert').val('');
 	$('#description').val('');
 }
 
@@ -29,7 +31,7 @@ function complete(actionFlagStr){
 	if(actionFlag != 'undefined' && actionFlagStr != ""){
 		actionFlag.value = actionFlagStr;
 	}
-	var form = document.getElementById('prjExpForm');
+	var form = document.getElementById('trnExpForm');
 	form.submit();
 }
 
@@ -45,7 +47,7 @@ function submitDelete(listName){
 
 	if(isSubmit == true){
 		if(confirm("确认删除被选择的记录？") == true){
-			var form = document.getElementById('prjExpsForm');
+			var form = document.getElementById('trnExpsForm');
 	        form.submit();
 		}
 	}else{
@@ -55,16 +57,16 @@ function submitDelete(listName){
 </script>
 </head>
 <body>
-	<form:form id="prjExpForm" commandName="prjExpDto" action="${ctx}/talent/addProjectExperienceActions.do" method="post">
+	<form:form id="trnExpForm" commandName="trnExpDto" action="${ctx}/talent/addTrainingExperienceActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
 	    </div>
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">人才项目经验填写</td>
+				<td class="pageTitle">培训经历填写</td>
 			</tr>
 			<tr>
-				<td><common:errorTable path="prjExpDto"></common:errorTable></td>
+				<td><common:errorTable path="trnExpDto"></common:errorTable></td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -86,25 +88,41 @@ function submitDelete(listName){
 					    </td>
 					</tr>
 				    <tr >
-						<td class="labelColumn">项目名称：<span class="mandatoryField">*</span></td>
-						<td>
-						   <form:input path="name" cssClass="standardInputText"  /> 
-					       <common:errorSign id="name" path="name"></common:errorSign>
+						<td class="labelColumn">培训机构：<span class="mandatoryField">*</span></td>
+						<td colspan="2">
+						   <form:input path="organization" cssClass="standardInputText"  /> 
+					       <common:errorSign id="organization" path="organization"></common:errorSign>
 						</td>
-						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr >
-						<td class="labelColumn">职责描述：<span class="mandatoryField">*</span></td>
-						<td colspan="3">
-						  <form:textarea path="duty" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>300){this.value = this.value.substring(0, 300)}" cssClass="standardInputText"/>
-						  <common:errorSign id="duty" path="duty"></common:errorSign>
+						<td class="labelColumn">培训地点：</td>
+						<td colspan="2">
+						  <form:input path="address" cssClass="standardInputText"  /> 
+						  <common:errorSign id="address" path="address"></common:errorSign>
 						</td>
+						<td>&nbsp;</td>
 					</tr>
 					<tr >
-						<td class="labelColumn">项目描述：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">培训课程：<span class="mandatoryField">*</span></td>
+						<td colspan="2">
+						  <form:input path="course" cssClass="standardInputText"  /> 
+						  <common:errorSign id="course" path="course"></common:errorSign>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr >
+						<td class="labelColumn">获得证书：</td>
+						<td colspan="2">
+						  <form:input path="cert" cssClass="standardInputText"  /> 
+						  <common:errorSign id="cert" path="cert"></common:errorSign>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr >
+						<td class="labelColumn">详细描述：</td>
 						<td colspan="3">
-						   <form:textarea path="description" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>300){this.value = this.value.substring(0, 300)}" cssClass="standardInputText"/>
+						   <form:textarea path="description" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>300){this.value = this.value.substring(0, 100)}" cssClass="standardInputText"/>
 						   <common:errorSign id="description" path="description"></common:errorSign>
 						</td>
 					</tr>
@@ -118,7 +136,7 @@ function submitDelete(listName){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="添加" onclick="complete('10');" />&nbsp;
+							<input class="standardButton" type="button" value="添加" onclick="complete('9');" />&nbsp;
 							<input class="standardButton" type="button" value="清除" onclick="clearInputFields();" />&nbsp;
 							</td>
 						</tr>
@@ -128,30 +146,32 @@ function submitDelete(listName){
 		</table>
 	</form:form>
 	<div class="emptyBlock"></div>
-	<form:form id="prjExpsForm" commandName="resumeDto" action="${ctx }/talent/deleteProjectExperience.do">
+	<form:form id="trnExpsForm" commandName="resumeDto" action="${ctx }/talent/deleteTrainingExperience.do">
 		<table class="contentTableBody2" cellspacing="1" width="100%">
 		   <tr class="contentTableTitle">
 		      <td width="10%" align="center">全选</td>
-		      <td width="30%">时间</td>
-		      <td width="50%">项目名称</td>
+		      <td width="20%">时间</td>
+		      <td width="30%">培训机构</td>
+		      <td width="30%">培训课程</td>
 		      <td width="10%" align="center">操作</td>
 		   </tr>
-		   <c:if test="${not empty resumeDto.prjExpDtos }">
-		      <c:forEach items="${resumeDto.prjExpDtos }" var="project" varStatus="status">
+		   <c:if test="${not empty resumeDto.trnExpDtos }">
+		      <c:forEach items="${resumeDto.trnExpDtos }" var="training" varStatus="status">
 		         <tr class="contentTableRow">
 		            <td><input type="checkbox" name="expsList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
 		            <td>
-		            <c:out value="${project.fromDateDto.year }" escapeXml="true"/>/
-		            <c:out value="${project.fromDateDto.month }" escapeXml="true"/>/
-		            <c:out value="${project.fromDateDto.day }" escapeXml="true"/>&nbsp;-&nbsp;
-		            <c:out value="${project.toDateDto.year }" escapeXml="true"/>/
-		            <c:out value="${project.toDateDto.month }" escapeXml="true"/>/
-		            <c:out value="${project.toDateDto.day }" escapeXml="true"/>
+		            <c:out value="${training.fromDateDto.year }" escapeXml="true"/>/
+		            <c:out value="${training.fromDateDto.month }" escapeXml="true"/>/
+		            <c:out value="${training.fromDateDto.day }" escapeXml="true"/>&nbsp;-&nbsp;
+		            <c:out value="${training.toDateDto.year }" escapeXml="true"/>/
+		            <c:out value="${training.toDateDto.month }" escapeXml="true"/>/
+		            <c:out value="${training.toDateDto.day }" escapeXml="true"/>
 		            </td>
-		            <td><c:out value="${project.name }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${training.organization }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${training.course }" escapeXml="true"></c:out></td>
 		            <td align="center"> 
-		            <hdiv-c:url value="/talent/preEditProjectExperience.do?_id=${status.index }" var="editPrjExpUrl"></hdiv-c:url>
-		            <input class="standardButton" type="button" value="编辑" onclick="location.href='${editPrjExpUrl }'" />&nbsp;
+		            <hdiv-c:url value="/talent/preEditTrainingExperience.do?_id=${status.index }" var="editTrnExpUrl"></hdiv-c:url>
+		            <input class="standardButton" type="button" value="编辑" onclick="location.href='${editTrnExpUrl }'" />&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>

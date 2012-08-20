@@ -95,7 +95,7 @@ public class CustomerEnquireController extends BaseController{
 	}
 
 	private Table getHtmlTable(final HttpServletRequest request) {
-		Table table = new HtmlTable().width("99%");
+		Table table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);

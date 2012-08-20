@@ -62,7 +62,7 @@ function submitForm(){
 <body>
 	<form:form id="eduExpForm" commandName="eduExpDto" action="${ctx}/talent/completeEditEducationExperience.do" method="post">
 	     <hdiv-c:url value="/talent/backToFillEducationExperience.do" var="backUrl"></hdiv-c:url>
-		<table border="0" width="99%">
+		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才教育经历编辑</td>
 			</tr>
@@ -71,7 +71,7 @@ function submitForm(){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -88,7 +88,7 @@ function submitForm(){
 		<div class="emptyBlock"></div>
 		<div class="contentTableBody">
 			<div style="height:5px"></div>
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="99%" >
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
@@ -148,7 +148,7 @@ function submitForm(){
 			</table>			
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">

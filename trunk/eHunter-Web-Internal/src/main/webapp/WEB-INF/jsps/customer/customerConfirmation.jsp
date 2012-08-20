@@ -34,7 +34,7 @@
 				</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table class="verifyTable" style="border-collapse: collapse; margin: 5" border="2" cellSpacing="0" width="99%" cellpadding="5px">
+		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" cellSpacing="0" width="100%" cellpadding="5px">
 			<tr>
 				<td align="center" width="10%"><span class="textCh8">客户编号</span><br /> <br /></td>
 				<td align="center" width="30%"><span class="textCh8">客户名称/简称</span><br /> <br /></td>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/commons/taglibs.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
+<%@ taglib tagdir="/WEB-INF/tags/talent" prefix="talent"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,7 +21,7 @@ function submitForm(actionFlagStr){
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
 	    </div>
-		<table border="0" width="99%">
+		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才简历填写</td>
 			</tr>
@@ -51,8 +52,7 @@ function submitForm(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第一部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才基本信息</b></font></td>
+				<td width="100%"><font face="Arial" size="2"><b>&nbsp;基本信息</b></font></td>
 			</tr>
 		</table>
 		<div class="contentTableBody">
@@ -72,8 +72,10 @@ function submitForm(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第二部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才教育经历</b></font></td>
+			    <td width="100%">
+			       <font face="Arial" size="2"><b>&nbsp;教育经历</b></font>&nbsp;
+			       <talent:checkSign path="${talentDto.resumeDto.eduExpDtos }"></talent:checkSign>
+			    </td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -92,9 +94,11 @@ function submitForm(actionFlagStr){
 		</div>
 		<div class="emptyBlock"></div>
 		<table width="100%">
-			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才工作经历</b></font></td>
+			<tr valign="middle">
+				<td width="100%">
+				   <font face="Arial" size="2"><b>&nbsp;工作经历</b></font>&nbsp;
+				   <talent:checkSign path="${talentDto.resumeDto.jobExpDtos }"></talent:checkSign>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -114,8 +118,10 @@ function submitForm(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第四部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>人才项目经验</b></font></td>
+				<td width="100%">
+				   <font face="Arial" size="2"><b>&nbsp;项目经验</b></font>&nbsp;
+				   <talent:checkSign path="${talentDto.resumeDto.prjExpDtos }"></talent:checkSign>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -133,7 +139,49 @@ function submitForm(actionFlagStr){
 			</table>
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="99%">
+		<table width="100%">
+			<tr>
+				<td width="100%"><font face="Arial" size="2"><b>&nbsp;培训经历</b></font>&nbsp;
+				<talent:checkSign path="${talentDto.resumeDto.trnExpDtos }"></talent:checkSign>
+			</td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('9');">输入培训经历</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="100%"><font face="Arial" size="2"><b>&nbsp;专业技能</b></font>&nbsp;<img alt="" src="${imagePath }/icon/blank.gif" /></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('10');">输入专业技能</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
@@ -148,7 +196,7 @@ function submitForm(actionFlagStr){
 			</tr>
 		</table>
 	<div class="emptyBlock"></div>
-		<table class="contentTableBody2" cellspacing="1" width="99%">
+		<table class="contentTableBody2" cellspacing="1" width="100%">
 		   <tr class="contentTableTitle">
 		      <td width="10%" align="center">全选</td>
 		      <td width="10%">语言版本</td>

@@ -22,7 +22,9 @@
 					</td>
 					<td valign="top" width="10">&nbsp;</td>
 					<td valign="top" align="left">
-					   <sitemesh-decorator:body></sitemesh-decorator:body>
+					   <div style="margin-right: 5px">
+					      <sitemesh-decorator:body></sitemesh-decorator:body>
+					   </div>
 					</td>
 				</tr>
 			</table>
