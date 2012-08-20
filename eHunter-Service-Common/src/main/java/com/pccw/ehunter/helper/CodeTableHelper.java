@@ -20,6 +20,8 @@ import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.dto.SkillCategoryDTO;
+import com.pccw.ehunter.dto.SkillLevelDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
@@ -27,6 +29,8 @@ import com.pccw.ehunter.service.CompanyCategoryService;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
 import com.pccw.ehunter.service.PositionCommonService;
+import com.pccw.ehunter.service.SkillCategoryService;
+import com.pccw.ehunter.service.SkillLevelService;
 import com.pccw.ehunter.service.SubjectCommonService;
 import com.pccw.ehunter.service.TalentSourceService;
 
@@ -52,6 +56,12 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private CompanyCategoryService companyCategoryService;
+	
+	@Autowired
+	private SkillCategoryService skillCategoryService;
+	
+	@Autowired
+	private SkillLevelService skillLevelService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -209,6 +219,66 @@ public class CodeTableHelper {
 			logger.debug("retrieved from cache.");
 		}
 		return sizes;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SkillCategoryDTO> getSkillCategories(HttpServletRequest request){
+		List<SkillCategoryDTO> categories = (List<SkillCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SKILL_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = skillCategoryService.getSkillCategories();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_SKILL_CATEGORY, categories);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		return categories;
+	}
+	
+	public SkillCategoryDTO getSkillCategoryByCode(HttpServletRequest request , String code){
+		List<SkillCategoryDTO> categories = getSkillCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(SkillCategoryDTO dto : categories){
+				if(code.equals(dto.getCode())){
+					return dto;
+				}
+			}
+		}
+		
+		SkillCategoryDTO sc = new SkillCategoryDTO();
+		sc.setCode(code);
+		
+		return sc;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SkillLevelDTO> getSkillLevels(HttpServletRequest request){
+		List<SkillLevelDTO> levels = (List<SkillLevelDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SKILL_LEVEL);
+		
+		if(CollectionUtils.isEmpty(levels)){
+			levels = skillLevelService.getSkillLevels();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_SKILL_LEVEL, levels);
+		} else {
+			logger.debug("retrieved from cache.");
+		}
+		return levels;
+	}
+	
+	public SkillLevelDTO getSkillLevelByCode(HttpServletRequest request , String code){
+		List<SkillLevelDTO> levels = getSkillLevels(request);
+		
+		if(!CollectionUtils.isEmpty(levels)){
+			for(SkillLevelDTO dto : levels){
+				if(code.equals(dto.getCode())){
+					return dto;
+				}
+			}
+		}
+		
+		SkillLevelDTO sl = new SkillLevelDTO();
+		sl.setCode(code);
+		
+		return sl;
 	}
 	
 }
