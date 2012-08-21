@@ -41,9 +41,9 @@
 					<tr>
 						<td class="labelColumn">期望工作性质：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
-						<form:radiobutton path="employmentCategory" value="M" /> &nbsp;全职&nbsp;&nbsp;&nbsp;
-						<form:radiobutton path="employmentCategory" value="F" /> &nbsp;兼职&nbsp;&nbsp;&nbsp;
-						<form:radiobutton path="employmentCategory" value="F" /> &nbsp;实习&nbsp;&nbsp;&nbsp;
+						<form:radiobutton path="employmentCategory" value="FT" /> &nbsp;全职&nbsp;&nbsp;&nbsp;
+						<form:radiobutton path="employmentCategory" value="PT" /> &nbsp;兼职&nbsp;&nbsp;&nbsp;
+						<form:radiobutton path="employmentCategory" value="IS" /> &nbsp;实习&nbsp;&nbsp;&nbsp;
 						<common:errorSign id="employmentCategory" path="employmentCategory"></common:errorSign>
 						</td>
 					</tr>

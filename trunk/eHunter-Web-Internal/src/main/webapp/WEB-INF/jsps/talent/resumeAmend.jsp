@@ -32,16 +32,32 @@ function checkFilled(){
 </script>
 </head>
 <body>
-	<form:form id="resumeForm" commandName="talentDto" action="${ctx}/talent/addResumeActions.do" method="post">
+    <hdiv-c:url value="/talent/backToFillResume.do" var="backUrl"></hdiv-c:url>
+	<form:form id="resumeForm" commandName="talentDto" action="${ctx}/talent/editResumeActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
 	    </div>
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">人才简历填写</td>
+				<td class="pageTitle">人才简历编辑</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="talentDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="100%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							   <input class="standardButton" type="button" value="确认" onclick="submitForm('5')"/>&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -90,7 +106,7 @@ function checkFilled(){
 			    <td width="100%">
 			       <font face="Arial" size="2"><b>&nbsp;求职意向</b></font>&nbsp;
 			       <c:choose> 
-			       <c:when test="${talentDto.resumeDto.intentionDto != null && talentDto.resumeDto.intentionDto.expectSalary != null}"><img src="${imagePath}/icon/ok.gif"></img></c:when>
+			       <c:when test="${intentionDto != null && intentionDto.expectSalary != null}"><img src="${imagePath}/icon/ok.gif"></img></c:when>
 			       <c:otherwise><img src="${imagePath}/icon/blank.gif"></img></c:otherwise>
 			       </c:choose>
 			    </td>
@@ -292,57 +308,15 @@ function checkFilled(){
 				</tbody>
 			</table>
 		</div>
-		<div class="emptyBlock"></div>
+	    <div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="添加" onclick="submitForm('5')"/>&nbsp;
-							   <input class="standardButton" type="reset" value="清除">&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	<div class="emptyBlock"></div>
-		<table class="contentTableBody2" cellspacing="1" width="100%">
-		   <tr class="contentTableTitle">
-		      <td width="10%" align="center">全选</td>
-		      <td width="10%">语言版本</td>
-		      <td width="50%">简历名称</td>
-		      <td width="20%" align="center">操作</td>
-		   </tr>
-		   <c:if test="${not empty talentDto.resumeDtos }">
-		      <c:forEach items="${talentDto.resumeDtos }" var="resumeDto" varStatus="status">
-		         <tr class="contentTableRow">
-		            <td><input type="checkbox" name="resumeList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
-		            <td>
-		               <c:if test="${resumeDto.language == 'cn'}">中文</c:if>
-		               <c:if test="${resumeDto.language == 'en' }">英文</c:if>
-		            </td>
-		            <td><c:out value="${resumeDto.name }" escapeXml="true"></c:out></td>
-		            <td align="center"> 
-		              <hdiv-c:url value="/talent/preEditResume.do?_id=${status.index }" var="editUrl"></hdiv-c:url>
-		              <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
-		              <input class="standardButton" type="button" value="预览" />&nbsp;
-		            </td>
-		         </tr>
-		      </c:forEach>
-		   </c:if>
-		</table>
-		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="button" value="提交" onclick="submitForm('6')"/>&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="返回">
+							   <input class="standardButton" type="button" value="确认" onclick="submitForm('6')"/>&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
 							</td>
 						</tr>
 					</table>
