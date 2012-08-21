@@ -23,6 +23,10 @@ public class ActionFlag {
 	
 	public static final String LANGUAGE_ABILITY = "12";
 	
+	public static final String JOB_INTENTION = "13";
+	
+	public static final String CERT = "14";
+	
 	public static final String SELECT_ALL = "80";
 	
 	public static final String PAGING = "90";

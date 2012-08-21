@@ -9,16 +9,24 @@ public class ResumeDTO extends BaseDTO {
 	private String name;
 	
 	private String language;
+	
+	private SelfEvaluationDTO selfEvaluationDto;
+	
+	private JobIntentionDTO intentionDto;
 
-	private List<EducationExperienceDTO> eduExpDtos = new ArrayList<EducationExperienceDTO>();
+	private List<EducationExperienceDTO> eduExpDtos = new ArrayList<EducationExperienceDTO>(0);
 
-	private List<JobExperienceDTO> jobExpDtos = new ArrayList<JobExperienceDTO>();
+	private List<JobExperienceDTO> jobExpDtos = new ArrayList<JobExperienceDTO>(0);
 	
-	private List<ProjectExperienceDTO> prjExpDtos = new ArrayList<ProjectExperienceDTO>();
+	private List<ProjectExperienceDTO> prjExpDtos = new ArrayList<ProjectExperienceDTO>(0);
 	
-	private List<TrainingExperienceDTO> trnExpDtos = new ArrayList<TrainingExperienceDTO>();
+	private List<TrainingExperienceDTO> trnExpDtos = new ArrayList<TrainingExperienceDTO>(0);
 	
-	private List<ProfessionalSkillDTO> skillDtos = new ArrayList<ProfessionalSkillDTO>();
+	private List<ProfessionalSkillDTO> skillDtos = new ArrayList<ProfessionalSkillDTO>(0);
+	
+	private List<LanguageAbilityDTO> languageDtos = new ArrayList<LanguageAbilityDTO>(0);
+	
+	private List<CertDTO> certDtos = new ArrayList<CertDTO>(0);
 
 	public String getName() {
 		return name;
@@ -74,5 +82,37 @@ public class ResumeDTO extends BaseDTO {
 
 	public void setSkillDtos(List<ProfessionalSkillDTO> skillDtos) {
 		this.skillDtos = skillDtos;
+	}
+	
+	public SelfEvaluationDTO getSelfEvaluationDto() {
+		return selfEvaluationDto;
+	}
+	
+	public void setSelfEvaluationDto(SelfEvaluationDTO selfEvaluationDto) {
+		this.selfEvaluationDto = selfEvaluationDto;
+	}
+	
+	public JobIntentionDTO getIntentionDto() {
+		return intentionDto;
+	}
+	
+	public void setIntentionDto(JobIntentionDTO intentionDto) {
+		this.intentionDto = intentionDto;
+	}
+
+	public List<LanguageAbilityDTO> getLanguageDtos() {
+		return languageDtos;
+	}
+
+	public void setLanguageDtos(List<LanguageAbilityDTO> languageDtos) {
+		this.languageDtos = languageDtos;
+	}
+
+	public List<CertDTO> getCertDtos() {
+		return certDtos;
+	}
+
+	public void setCertDtos(List<CertDTO> certDtos) {
+		this.certDtos = certDtos;
 	}
 }
