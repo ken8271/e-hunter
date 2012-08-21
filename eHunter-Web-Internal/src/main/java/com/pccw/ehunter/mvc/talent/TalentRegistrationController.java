@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.JobIntentionDTO;
+import com.pccw.ehunter.dto.SelfEvaluationDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.ResumeDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
@@ -141,10 +144,83 @@ public class TalentRegistrationController extends BaseController{
 		List<ResumeDTO> resumes = talentDto.getResumeDtos();		
 		resumes.add(talentDto.getResumeDto());
 		
-		talentDto.setResumeDto(new ResumeDTO());
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_JOB_EXPERIENCE_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_PROJECT_EXPERIENCE_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_PROFESSIONAL_SKILL_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_LANGUAGE_ABLITITY_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_TRAINING_EXPERIENCE_DTO);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_CERT_DTO);
+		talentDto.setResumeDto(initialResumeDto());
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
 	
+	private ResumeDTO initialResumeDto(){
+		ResumeDTO resumeDto = new ResumeDTO();
+		SelfEvaluationDTO se = new SelfEvaluationDTO();
+		JobIntentionDTO ji = new JobIntentionDTO();
+		
+		resumeDto.setSelfEvaluationDto(se);
+		resumeDto.setIntentionDto(ji);
+		
+		return resumeDto;
+	}
+	
+	@RequestMapping("/talent/preEditResume.do")
+	public ModelAndView preEditResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		String id = request.getParameter("_id");
+		List<ResumeDTO> resumeDtos = talentDto.getResumeDtos();
+		ResumeDTO resumeDto = null;
+		
+		if(!CollectionUtils.isEmpty(resumeDtos)){
+			resumeDto = resumeDtos.get(Integer.parseInt(id));
+		}
+		
+		if(resumeDto != null){
+			talentDto.setResumeDto(resumeDto);
+		}else {
+			talentDto.setResumeDto(new ResumeDTO());
+		}
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/editResumeActions.do")
+	public ModelAndView editResumeActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,BindingResult errors){
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		if(StringUtils.isEmpty(actionFlag)){
+			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
+		}else {
+			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		}
+		
+		if(ActionFlag.SUBMIT.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/completeEditResume.do", true));
+		}else if(ActionFlag.EDU_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillEducationExperience.do", true));
+		}else if(ActionFlag.JOB_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillJobExperience.do", true));
+		}else if(ActionFlag.PROJECT_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillProjectExperience.do", true));
+		}else if(ActionFlag.TRAINING_EXP.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillTrainingExperience.do", true));
+		}else if(ActionFlag.PROFESSIONAL_SKILL.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillProfessionalSkill.do", true));
+		}else if(ActionFlag.JOB_INTENTION.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillJobIntention.do", true));
+		}else if(ActionFlag.LANGUAGE_ABILITY.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillLanguageAbility.do", true));
+		}else if(ActionFlag.CERT.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/fillCert.do", true));
+		}else {
+			return new ModelAndView("talent/resumeAmend");
+		}
+	}
 }

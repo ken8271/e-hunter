@@ -120,6 +120,7 @@ public class JobIntentionController extends BaseController{
 	@RequestMapping("/talent/backToFillResume.do")
 	public ModelAndView backToFillResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		talentDto.setResumeDto(new ResumeDTO());
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
