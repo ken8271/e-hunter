@@ -17,6 +17,7 @@
 		<mapping class="com.pccw.ehunter.domain.common.TalentSource"/>
 		<mapping class="com.pccw.ehunter.domain.common.SkillCategory"/>
 		<mapping class="com.pccw.ehunter.domain.common.SkillLevel"/>
+		<mapping class="com.pccw.ehunter.domain.common.LanguageCategory"/>
 		
 		<mapping class="com.pccw.ehunter.domain.internal.InternalRole" />
 		<mapping class="com.pccw.ehunter.domain.internal.InternalUser" />
