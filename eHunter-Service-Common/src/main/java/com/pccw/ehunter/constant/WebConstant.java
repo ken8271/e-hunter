@@ -11,4 +11,5 @@ public class WebConstant {
 	public static final String LIST_OF_COMPANY_SIZE = "listOfCompanySize";
 	public static final String LIST_OF_SKILL_CATEGORY = "listOfSkillCategory";
 	public static final String LIST_OF_SKILL_LEVEL = "listOfSkillLevel";
+	public static final String LIST_OF_LANGUAGE_CATEGORY = "listOfLanguageCategory";
 }

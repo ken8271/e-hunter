@@ -18,6 +18,7 @@ import com.pccw.ehunter.dto.CompanySizeDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.IndustryDTO;
+import com.pccw.ehunter.dto.LanguageCategoryDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.SkillCategoryDTO;
@@ -28,6 +29,7 @@ import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.service.CompanyCategoryService;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
+import com.pccw.ehunter.service.LanguageCommonService;
 import com.pccw.ehunter.service.PositionCommonService;
 import com.pccw.ehunter.service.SkillCategoryService;
 import com.pccw.ehunter.service.SkillLevelService;
@@ -62,6 +64,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private SkillLevelService skillLevelService;
+	
+	@Autowired
+	private LanguageCommonService languageService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -279,6 +284,36 @@ public class CodeTableHelper {
 		sl.setCode(code);
 		
 		return sl;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LanguageCategoryDTO> getLanguageCategories(HttpServletRequest request){
+		List<LanguageCategoryDTO> categories = (List<LanguageCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_LANGUAGE_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = languageService.getLanguageCategories();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_LANGUAGE_CATEGORY, categories);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		return categories;
+	}
+	
+	public LanguageCategoryDTO getLanguageCategoryByCode(HttpServletRequest request , String code){
+		List<LanguageCategoryDTO> categories = getLanguageCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(LanguageCategoryDTO dto : categories){
+				if(code.equals(dto.getCode())){
+					return dto;
+				}
+			}
+		}
+		
+		LanguageCategoryDTO lc = new LanguageCategoryDTO();
+		lc.setCode(code);
+		
+		return lc;
 	}
 	
 }
