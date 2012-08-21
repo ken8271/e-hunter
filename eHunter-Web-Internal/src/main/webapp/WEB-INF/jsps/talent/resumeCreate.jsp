@@ -73,6 +73,32 @@ function submitForm(actionFlagStr){
 		<table width="100%">
 			<tr>
 			    <td width="100%">
+			       <font face="Arial" size="2"><b>&nbsp;求职意向</b></font>&nbsp;
+			       <c:choose> 
+			       <c:when test="${intentionDto != null && intentionDto.expectSalary != ''}"><img src="${imagePath}/icon/ok.gif"></img></c:when>
+			       <c:otherwise><img src="${imagePath}/icon/blank.gif"></img></c:otherwise>
+			       </c:choose>
+			    </td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('13')">输入求职意向</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+			    <td width="100%">
 			       <font face="Arial" size="2"><b>&nbsp;教育经历</b></font>&nbsp;
 			       <talent:checkSign path="${talentDto.resumeDto.eduExpDtos }"></talent:checkSign>
 			    </td>
@@ -163,6 +189,28 @@ function submitForm(actionFlagStr){
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
+				<td width="100%"><font face="Arial" size="2"><b>&nbsp;语言能力</b></font>&nbsp;
+				<talent:checkSign path="${talentDto.resumeDto.languageDtos }"></talent:checkSign>
+			</td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('12');">输入语言能力</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
 				<td width="100%">
 				   <font face="Arial" size="2"><b>&nbsp;专业技能</b></font>&nbsp;
 				   <talent:checkSign path="${talentDto.resumeDto.skillDtos }"></talent:checkSign>
@@ -181,6 +229,43 @@ function submitForm(actionFlagStr){
 					</div>
 			      </td>
 			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="100%">
+				   <font face="Arial" size="2"><b>&nbsp;证书</b></font>&nbsp;
+				   <talent:checkSign path="${talentDto.resumeDto.certDtos }"></talent:checkSign>
+				</td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			   <tr>
+			      <td width="100%" align="right">
+			        <div id="buttonArea">
+						<div class="buttonmenubox_R">
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('14');">输入证书</a>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
+				<tbody>
+				    <common:standardTableRow />
+					<tr>
+						<td class="labelColumn">自我评价：</td>
+						<td colspan="3">
+						<form:textarea path="resumeDto.selfEvaluationDto.content" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>1000){this.value = this.value.substring(0, 1000)}" cssClass="standardInputText"/>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 		<div class="emptyBlock"></div>
