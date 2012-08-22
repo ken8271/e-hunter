@@ -9,6 +9,28 @@
 <script type="text/javascript">
 $().ready(function(){
 	checkFilled();
+	
+	if('${operation}' == 'E'){
+		$('#confirmButton_top').show();
+		$('#backButton_top_edit').show();
+		$('#confirmButton').show();
+		$('#backButton').show();
+		$('#submitButton_top').hide();
+		$('#backButton_top_add').hide();
+		$('#addButton').hide();
+		$('#resetButton').hide();
+		$('#resumesTable').hide();
+	}else {
+		$('#submitButton_top').show();
+		$('#backButton_top_add').show();
+		$('#addButton').show();
+		$('#resetButton').show();
+		$('#resumesTable').show();
+		$('#confirmButton_top').hide();
+		$('#backButton_top_edit').hide();
+		$('#confirmButton').hide();
+		$('#backButton').hide();
+	}
 });
 
 function submitForm(actionFlagStr){
@@ -32,6 +54,9 @@ function checkFilled(){
 </script>
 </head>
 <body>
+    <hdiv-c:url value="/talent/backToPreviousStep.do" var="backToFillTalentInfoUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/backToFillResume.do" var="backToFillResumeUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/clearCurrResume.do" var="clearUrl"></hdiv-c:url>
 	<form:form id="resumeForm" commandName="talentDto" action="${ctx}/talent/addResumeActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
@@ -42,6 +67,23 @@ function checkFilled(){
 			</tr>
 			<tr>
 				<td><common:errorTable path="talentDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="100%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							   <input id="submitButton_top" class="standardButton" type="button" value="提交" onclick="submitForm('6')"/>&nbsp;
+							   <input id="backButton_top_add" class="standardButton" type="button" value="返回" onclick="location.href='${backToFillTalentInfoUrl}'" />
+							   <input id="confirmButton_top" class="standardButton" type="button" value="确定" onclick="submitForm('3')" />
+							   <input id="backButton_top_edit" class="standardButton" type="button" value="返回" onclick="location.href='${backToFillResumeUrl}'"/>
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -250,7 +292,7 @@ function checkFilled(){
 		<table width="100%">
 			<tr>
 				<td width="100%">
-				   <font face="Arial" size="2"><b>&nbsp;证书</b></font>&nbsp;
+				   <font face="Arial" size="2"><b>&nbsp;所获证书</b></font>&nbsp;
 				   <talent:checkSign path="${talentDto.resumeDto.certDtos }"></talent:checkSign>
 				</td>
 			</tr>
@@ -262,7 +304,7 @@ function checkFilled(){
 			      <td width="100%" align="right">
 			        <div id="buttonArea">
 						<div class="buttonmenubox_R">
-							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('14');">输入证书</a>
+							<a class="button" href="#" style="white-space:nowrap;" onclick="submitForm('14');">输入所获证书</a>
 						</div>
 					</div>
 			      </td>
@@ -299,15 +341,18 @@ function checkFilled(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="添加" onclick="submitForm('5')"/>&nbsp;
-							   <input class="standardButton" type="reset" value="清除">&nbsp;
+							   <input id="addButton" class="standardButton" type="button" value="添加" onclick="submitForm('5')"/>&nbsp;
+							   <input id="confirmButton" class="standardButton" type="button" value="确认" onclick="submitForm('3')"/>&nbsp;
+							   <input id="resetButton" class="standardButton" type="button" value="清除" onclick="location.href='${clearUrl}'">&nbsp;
+							   <input id="backButton" class="standardButton" type="button" value="返回" onclick="location.href='${backToFillResumeUrl}'">&nbsp;
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 		</table>
-	<div class="emptyBlock"></div>
+	    <div class="emptyBlock"></div>
+	    <div id="resumesTable">
 		<table class="contentTableBody2" cellspacing="1" width="100%">
 		   <tr class="contentTableTitle">
 		      <td width="10%" align="center">全选</td>
@@ -318,7 +363,7 @@ function checkFilled(){
 		   <c:if test="${not empty talentDto.resumeDtos }">
 		      <c:forEach items="${talentDto.resumeDtos }" var="resumeDto" varStatus="status">
 		         <tr class="contentTableRow">
-		            <td><input type="checkbox" name="resumeList" value="${status.index }"/>&nbsp;${status.index+1 }</td>
+		            <td>${status.index+1 }</td>
 		            <td>
 		               <c:if test="${resumeDto.language == 'cn'}">中文</c:if>
 		               <c:if test="${resumeDto.language == 'en' }">英文</c:if>
@@ -326,8 +371,11 @@ function checkFilled(){
 		            <td><c:out value="${resumeDto.name }" escapeXml="true"></c:out></td>
 		            <td align="center"> 
 		              <hdiv-c:url value="/talent/preEditResume.do?_id=${status.index }" var="editUrl"></hdiv-c:url>
+		              <hdiv-c:url value="/talent/deleteResume.do?_id=${status.index }" var="deleteUrl"></hdiv-c:url>
+		              <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
 		              <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
-		              <input class="standardButton" type="button" value="预览" />&nbsp;
+		              <input class="standardButton" type="button" value="删除" onclick="location.href='${deleteUrl}'"/>&nbsp;
+		              <input class="standardButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>
@@ -341,14 +389,14 @@ function checkFilled(){
 						<tr>
 							<td>
 							   <input class="standardButton" type="button" value="提交" onclick="submitForm('6')"/>&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="返回">
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backToFillTalentInfoUrl}'"/>
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 		</table>
+		</div>
 	</form:form>
 </body>
 </html>

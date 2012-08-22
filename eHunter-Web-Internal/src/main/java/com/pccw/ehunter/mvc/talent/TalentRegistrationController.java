@@ -125,6 +125,8 @@ public class TalentRegistrationController extends BaseController{
 			return new ModelAndView(new RedirectViewExt("/talent/fillCert.do", true));
 		}else if(ActionFlag.COMPLETE.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/completeAddResumes.do", true));
+		}else if(ActionFlag.UPDATE.equals(actionFlag)){
+			return new ModelAndView(new RedirectViewExt("/talent/completeEditResume.do", true));
 		}else {
 			return new ModelAndView("talent/resumeCreate");
 		}
@@ -174,6 +176,7 @@ public class TalentRegistrationController extends BaseController{
 		ModelAndView mv = new ModelAndView("talent/resumeCreate");
 		
 		String id = request.getParameter("_id");
+		request.getSession(false).setAttribute("resumeId", id);
 		List<ResumeDTO> resumeDtos = talentDto.getResumeDtos();
 		ResumeDTO resumeDto = null;
 		
@@ -187,40 +190,106 @@ public class TalentRegistrationController extends BaseController{
 			talentDto.setResumeDto(new ResumeDTO());
 		}
 		
+		request.getSession(false).setAttribute("operation", "E");
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
 	
-	@RequestMapping("/talent/editResumeActions.do")
-	public ModelAndView editResumeActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,BindingResult errors){
-		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+	@RequestMapping("/talent/completeEditResume.do")
+	public ModelAndView completeEditResume(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
+			BindingResult errors){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
 		
-		if(StringUtils.isEmpty(actionFlag)){
-			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
-		}else {
-			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		resumeValidator.validate(talentDto.getResumeDto(), errors);
+		
+		if(errors.hasErrors()){
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			return mv;
 		}
 		
-		if(ActionFlag.SUBMIT.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/completeEditResume.do", true));
-		}else if(ActionFlag.EDU_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillEducationExperience.do", true));
-		}else if(ActionFlag.JOB_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillJobExperience.do", true));
-		}else if(ActionFlag.PROJECT_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillProjectExperience.do", true));
-		}else if(ActionFlag.TRAINING_EXP.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillTrainingExperience.do", true));
-		}else if(ActionFlag.PROFESSIONAL_SKILL.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillProfessionalSkill.do", true));
-		}else if(ActionFlag.JOB_INTENTION.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillJobIntention.do", true));
-		}else if(ActionFlag.LANGUAGE_ABILITY.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillLanguageAbility.do", true));
-		}else if(ActionFlag.CERT.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/fillCert.do", true));
-		}else {
-			return new ModelAndView("talent/resumeAmend");
+		String id = (String)request.getSession(false).getAttribute("resumeId");
+		ResumeDTO resumeDto = talentDto.getResumeDto();
+		List<ResumeDTO> dtos = talentDto.getResumeDtos();
+		
+		if(!CollectionUtils.isEmpty(dtos)){
+			dtos.set(Integer.parseInt(id), resumeDto);
 		}
+		
+		talentDto.setResumeDto(new ResumeDTO());
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
+		request.getSession(false).removeAttribute("operation");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/talent/backToPreviousStep.do")
+	public ModelAndView backToPreviousStep(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/talentCreate");
+		
+		initTalent(request , mv);
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/backToFillResume.do")
+	public ModelAndView backToFillResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		talentDto.setResumeDto(new ResumeDTO());
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
+		request.getSession(false).removeAttribute("operation");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/talent/clearCurrResume.do")
+	public ModelAndView clearCurrResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		talentDto.setResumeDto(new ResumeDTO());
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/talent/deleteResume.do")
+	public ModelAndView delelteResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeCreate");
+		
+		String id = request.getParameter("_id");
+		
+		List<ResumeDTO> resumes = talentDto.getResumeDtos();
+		
+		if(!CollectionUtils.isEmpty(resumes)){
+			resumes.remove(Integer.parseInt(id));
+		}
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/talent/pop/viewResume.do")
+	public ModelAndView viewResumeDetail(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/resumeView");
+		
+		String id = request.getParameter("_id");
+		List<ResumeDTO> dtos = talentDto.getResumeDtos();
+		ResumeDTO resume = null;
+		
+		if(!CollectionUtils.isEmpty(dtos)){
+			resume = dtos.get(Integer.parseInt(id));
+		}
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resume);
+		return mv;
 	}
 }
