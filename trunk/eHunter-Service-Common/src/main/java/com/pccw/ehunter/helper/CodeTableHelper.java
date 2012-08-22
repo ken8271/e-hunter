@@ -157,6 +157,22 @@ public class CodeTableHelper {
 		return categories;
 	}
 	
+	public IndustryCategoryDTO getIndustryCategoryByCode(HttpServletRequest request , String code){
+		List<IndustryCategoryDTO> categories = getIndustryCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(IndustryCategoryDTO dto : categories){
+				if(code.equals(dto.getCategoryCode())){
+					return dto;
+				}
+			}
+		}
+		
+		IndustryCategoryDTO ic = new IndustryCategoryDTO();
+		ic.setCategoryCode(code);
+		return ic;
+	}
+	
 	public List<IndustryDTO> getIndustriesByCategory(String categoryCode){
 		return industryCommonService.getIndustriesByCategory(categoryCode);
 	}
@@ -180,6 +196,23 @@ public class CodeTableHelper {
 		}
 		
 		return categories;
+	}
+	
+	public PositionCategoryDTO getPositionCategoryByCode(HttpServletRequest request , String code){
+		List<PositionCategoryDTO> categories = getPositionCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(PositionCategoryDTO dto : categories){
+				if(code.equals(dto.getTypeCode())){
+					return dto;
+				}
+			}
+		}
+		
+		PositionCategoryDTO pc = new PositionCategoryDTO();
+		pc.setTypeCode(code);
+		
+		return pc;
 	}
 	
 	public List<PositionDTO> getPositionsByCategory(String categoryCode){
@@ -208,6 +241,23 @@ public class CodeTableHelper {
 		return categories;
 	}
 	
+	public CompanyCategoryDTO getCompanyCategoryByCode(HttpServletRequest request , String code){
+		List<CompanyCategoryDTO> categories = getCompanyCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(CompanyCategoryDTO dto : categories){
+				if(code.equals(dto.getCategoryCode())){
+					return dto;
+				}
+			}
+		}
+		
+		CompanyCategoryDTO cc = new CompanyCategoryDTO();
+		cc.setCategoryCode(code);
+		
+		return cc;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<CompanySizeDTO> getCompanySizes(HttpServletRequest request){
 		List<CompanySizeDTO> sizes = (List<CompanySizeDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_COMPANY_SIZE);
@@ -224,6 +274,23 @@ public class CodeTableHelper {
 			logger.debug("retrieved from cache.");
 		}
 		return sizes;
+	}
+	
+	public CompanySizeDTO getCompanySizeByCode(HttpServletRequest request , String code){
+		List<CompanySizeDTO> sizes = getCompanySizes(request);
+		
+		if(!CollectionUtils.isEmpty(sizes)){
+			for(CompanySizeDTO dto : sizes){
+				if(code.equals(dto.getSizeCode())){
+					return dto;
+				}
+			}
+		}
+		
+		CompanySizeDTO cs = new CompanySizeDTO();
+		cs.setSizeCode(code);
+		
+		return cs;
 	}
 	
 	@SuppressWarnings("unchecked")
