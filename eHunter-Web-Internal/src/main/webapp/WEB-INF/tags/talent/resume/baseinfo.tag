@@ -1,6 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <%@ tag language="java" pageEncoding="UTF-8"%>
-<%@ attribute name="path" type="java.lang.String" required="true"%>
 
 <div class="resumesLookTop">
 	<div class="resLookTopleft">
@@ -20,7 +19,7 @@
 				<li>
 				   <c:out value="${talentDto.birthDateDto.year }"escapeXml="true" />年
 				   <c:out value="${talentDto.birthDateDto.month }" escapeXml="true" />月生</li>
-				<li><c:out value="${talentDto.highestDegree }" escapeXml="true"></c:out></li>
+				<li><c:out value="${talentDto.degreeDto.displayName }" escapeXml="true"></c:out></li>
 			</ul>
 		</div>
 		<div class="lookLeftList">

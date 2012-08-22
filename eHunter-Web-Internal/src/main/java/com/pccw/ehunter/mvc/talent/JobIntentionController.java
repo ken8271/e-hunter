@@ -93,10 +93,20 @@ public class JobIntentionController extends BaseController{
 			return mv;
 		}
 		
+		fillPropertyByCode(request, intentionDto);
+		
 		resumeDto.setIntentionDto(intentionDto);
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
+	}
+	
+	private void fillPropertyByCode(HttpServletRequest request , JobIntentionDTO intentionDto){
+		PositionCategoryDTO pc = codeTableHelper.getPositionCategoryByCode(request, intentionDto.getExpectPosition());
+		IndustryCategoryDTO ic = codeTableHelper.getIndustryCategoryByCode(request, intentionDto.getExpectIndustry());
+		
+		intentionDto.setExpectPositionDto(pc);
+		intentionDto.setExpectIndustryDto(ic);
 	}
 	
 	private boolean isNothingInput(JobIntentionDTO dto){
