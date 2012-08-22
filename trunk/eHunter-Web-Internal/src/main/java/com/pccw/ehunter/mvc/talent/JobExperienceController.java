@@ -160,6 +160,22 @@ public class JobExperienceController extends BaseController{
 		return isNothingInput;
 	}
 	
+	private void fillPropertyByCode(HttpServletRequest request , JobExperienceDTO exp){
+		CompanyCategoryDTO cc = codeTableHelper.getCompanyCategoryByCode(request, exp.getCompanyCategoryDto().getCategoryCode());
+		CompanySizeDTO cs = codeTableHelper.getCompanySizeByCode(request, exp.getCompanySizeDto().getSizeCode());
+		IndustryCategoryDTO ic = codeTableHelper.getIndustryCategoryByCode(request, exp.getIndustryCategoryDto().getCategoryCode());
+		IndustryDTO industry = codeTableHelper.getIndustryByCode(exp.getIndustryDto().getIndustryCode());
+		PositionCategoryDTO pc = codeTableHelper.getPositionCategoryByCode(request, exp.getPositionCategoryDto().getTypeCode());
+		PositionDTO position = codeTableHelper.getPositionByCode(exp.getPositionDto().getTypeCode());
+		
+		exp.setCompanyCategoryDto(cc);
+		exp.setCompanySizeDto(cs);
+		exp.setIndustryCategoryDto(ic);
+		exp.setIndustryDto(industry);
+		exp.setPositionCategoryDto(pc);
+		exp.setPositionDto(position);
+	}
+	
 	@RequestMapping("/talent/addJobExperience.do")
 	public ModelAndView addJobExperience(HttpServletRequest request ,
 			@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto,
@@ -200,11 +216,7 @@ public class JobExperienceController extends BaseController{
 		
 		mv = new ModelAndView("talent/jobExperienceCreate");
 		
-		IndustryDTO industry = codeTableHelper.getIndustryByCode(jobExpDto.getIndustryDto().getIndustryCode());
-		PositionDTO position = codeTableHelper.getPositionByCode(jobExpDto.getPositionDto().getTypeCode());
-		
-		jobExpDto.setIndustryDto(industry);
-		jobExpDto.setPositionDto(position);
+		fillPropertyByCode(request, jobExpDto);
 		
 		List<JobExperienceDTO> jobExpDtos = resumeDto.getJobExpDtos();
 		jobExpDtos.add(jobExpDto);
@@ -256,11 +268,7 @@ public class JobExperienceController extends BaseController{
 		
 		String id = (String)request.getSession(false).getAttribute("jobExpId");
 		
-		IndustryDTO industry = codeTableHelper.getIndustryByCode(jobExpDto.getIndustryDto().getIndustryCode());
-		PositionDTO position = codeTableHelper.getPositionByCode(jobExpDto.getPositionDto().getTypeCode());
-		
-		jobExpDto.setIndustryDto(industry);
-		jobExpDto.setPositionDto(position);
+		fillPropertyByCode(request, jobExpDto);
 		
 		List<JobExperienceDTO> jobExpDtos = resumeDto.getJobExpDtos();
 		

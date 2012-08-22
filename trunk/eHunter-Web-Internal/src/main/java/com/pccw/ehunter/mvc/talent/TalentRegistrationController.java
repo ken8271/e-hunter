@@ -81,6 +81,9 @@ public class TalentRegistrationController extends BaseController{
 			return mv;
 		}
 		
+		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
+		talentDto.setDegreeDto(degreeDto);
+		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
