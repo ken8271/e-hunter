@@ -2,6 +2,7 @@
 <decorators defaultdir="/decorators">
 	<excludes>
 		<pattern>/commons/*</pattern>
+		<pattern>/talent/pop/*</pattern>
 	</excludes>
 	
 	<decorator name="main" page="main.jsp">

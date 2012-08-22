@@ -7,7 +7,7 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 </head>
 <body>
-    <hdiv-c:url value="/talent/backToFillResume.do" var="backUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/backWithNothingFilled.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="intentionDto" action="${ctx}/talent/completeAddJobIntention.do" method="post">
 		<table border="0" width="100%">
 			<tr>

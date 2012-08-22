@@ -1,0 +1,32 @@
+ /***预览简历***/
+.resumesLook{ width:614px; color:#555; overflow:hidden;}
+.resumesLookTop{ width:604px; margin:auto; border-bottom:1px solid #B7B7B7;overflow:hidden;}
+.resLookTopleft{ width:450px; padding:0 15px; float:left;}
+.lookLeftname{ width:450px; height:60px; font-weight:bold; line-height:60px; font-size:35px;}
+.lookLeftList{ width:450px; padding-bottom:5px; overflow:hidden;}
+.lookLeftList ul li{ padding:0 6px; border-right:1px solid #B7B7B7; float:left;}
+.lookLeftList ul li.lookBordernone{ border:0;}
+.lookLeftList span{ color:#315aaa;}
+.lookLeftMain{ width:444px; height:25px; padding-left:6px;}
+.lookLeftMain span{ color:#315aaa;}
+.resLookTopright{ width:124px; float:left;}
+.resLookToprightimg{ width:70px; height:90px; margin:20px 0 10px; padding:5px; border:1px solid #B7B7B7;}
+
+.resumesLookAll{ width:604px; margin:auto; border-top:1px solid #E6E6E6;}
+.resumesLookMain{ width:574px; padding:10px 0; margin:auto;}
+.resumesLookTitle{ width:554px; height:26px; line-height:26px; padding-left:20px; margin:auto; font-size:14px; color:#315aaa; background:url(/ehunter/images/icon/resumebg.jpg) no-repeat;}
+.resumesLookDetails{ width:574px; overflow:hidden;}
+.detailsName{ width:60px; height:24px; line-height:24px; padding-left:18px; float:left;}
+.detailsMain{ width:496px; line-height:24px; float:left;}
+.mainIntro{ width:568px; padding:0 0 0 6px; line-height:20px;}
+.resumesLookTips{ width:568px; height:25px; padding-left:6px; line-height:25px;}
+.lookLeftListStrong{ width:574px; margin-bottom:10px; font-weight:bold;}
+.notStrong{ font-weight:normal;}
+.notStrongAdd{ width:496px;}
+.lookLeftListAdd{ width:490px; padding-left:6px;}
+.resumesLookWord{ width:60px; height:24px; padding-left:6px; line-height:24px; float:left;}
+.resumesLookBorder{ border-bottom:1px dashed #cccccc;}
+.resumesAttachment{ width:312px; height:240px; margin:auto;}
+.lookResuesButton{ width:574px; height:70px;}
+.lookResuesBgt20{ width:124px; height:29px; margin:auto; padding-top:20px;}
+.lookResuesBgt20 button{ width:124px; height:29px;}

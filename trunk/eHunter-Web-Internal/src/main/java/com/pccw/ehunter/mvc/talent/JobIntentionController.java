@@ -45,12 +45,20 @@ public class JobIntentionController extends BaseController{
 		
 		initJobIntention(request , mv);
 		
-		JobIntentionDTO intentionDto = (JobIntentionDTO)request.getSession(false).getAttribute(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO);
+		String operation = (String)request.getSession(false).getAttribute("operation");
+		
+		ResumeDTO resumeDto = talentDto.getResumeDto();
+		JobIntentionDTO intentionDto = null;
+		if("E".equals(operation)){
+			intentionDto = resumeDto.getIntentionDto();
+		}else {
+			intentionDto = (JobIntentionDTO)request.getSession(false).getAttribute(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO);
+		}
+		
 		if(intentionDto == null){
 			intentionDto = new JobIntentionDTO();
 		}
 		
-		ResumeDTO resumeDto = talentDto.getResumeDto();
 		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
 		mv.addObject(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO,intentionDto);
 		return mv;
@@ -117,10 +125,15 @@ public class JobIntentionController extends BaseController{
 		return isNothingInput;
 	}
 	
-	@RequestMapping("/talent/backToFillResume.do")
-	public ModelAndView backToFillResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+	@RequestMapping("/talent/backWithNothingFilled.do")
+	public ModelAndView backWithNothingFilled(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		ModelAndView mv = new ModelAndView("talent/resumeCreate");
-		talentDto.setResumeDto(new ResumeDTO());
+		
+		String operation = (String)request.getSession(false).getAttribute("operation");
+		if(!"E".equals(operation)){
+			talentDto.setResumeDto(new ResumeDTO());			
+		}
+		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
