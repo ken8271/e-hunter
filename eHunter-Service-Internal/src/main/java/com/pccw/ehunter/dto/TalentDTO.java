@@ -25,6 +25,7 @@ public class TalentDTO extends BaseDTO {
 	
 	private String talentSrc;
 	
+	private DegreeDTO degreeDto;
 	private ResumeDTO resumeDto;
 	private List<ResumeDTO> resumeDtos = new ArrayList<ResumeDTO>(0);
 
@@ -170,5 +171,13 @@ public class TalentDTO extends BaseDTO {
 
 	public void setResumeDto(ResumeDTO resumeDto) {
 		this.resumeDto = resumeDto;
+	}
+
+	public DegreeDTO getDegreeDto() {
+		return degreeDto;
+	}
+
+	public void setDegreeDto(DegreeDTO degreeDto) {
+		this.degreeDto = degreeDto;
 	}
 }
