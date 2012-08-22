@@ -1,7 +1,5 @@
 package com.pccw.ehunter.dto;
 
-import java.util.List;
-
 public class JobIntentionDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
