@@ -1,2 +1,0 @@
-ALTER TABLE `t_tlnt_cert`
-ADD COLUMN `CERT_DESC`  varchar(1000) NULL AFTER `SCORE`;
