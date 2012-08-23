@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
-<%@ taglib tagdir="/WEB-INF/tags/customer" prefix="customer"%>
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 <head>
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
-	<form:form method="post" name="talentDto" action="${ctx}/customer/submitTalent.do">
+    <hdiv-c:url value="/talent/backToFillResume.do" var="backUrl"></hdiv-c:url>
+	<form:form method="post" name="talentDto" action="${ctx}/talent/submitTalent.do">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才资料确认</td>
@@ -23,7 +23,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回" >
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
 							</td>
 						</tr>
 					</table>
@@ -51,10 +51,10 @@
 		</div>
 		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" width="100%" cellpadding="5px">
 			<tr>
-				<td><span class="textCh8">中文名</span></td>
-				<td><span class="showCh"><c:out value="${talentDto.cnName}" escapeXml="true" /></span></td>
-				<td><span class="textCh8">英文名</span></td>
-				<td><span class="showCh"><c:out value="${talentDto.enName}" escapeXml="true" /></span></td>
+				<td width="20%"><span class="textCh8">中文名</span></td>
+				<td width="30%"><span class="showCh"><c:out value="${talentDto.cnName}" escapeXml="true" /></span></td>
+				<td width="20%"><span class="textCh8">英文名</span></td>
+				<td width="30%"><span class="showCh"><c:out value="${talentDto.enName}" escapeXml="true" /></span></td>
 			</tr>
 			<tr>
 				<td><span class="textCh8">性别</span></td>
@@ -107,18 +107,22 @@
 		</div>
 		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" width="100%" cellpadding="5px">
 			<tr>
-				<td><span class="textCh8">家庭电话</span></td>
-				<td>
+				<td width="20%"><span class="textCh8">家庭电话</span></td>
+				<td width="30%">
 				   <span class="showCh">
-				      <c:out value="${talentDto.homeNumberDto.regionCode}" escapeXml="true" />&nbsp;-&nbsp;
-				      <c:out value="${talentDto.homeNumberDto.phoneNumber}" escapeXml="true" />
+				      <c:if test="${talentDto.homeNumberDto != null && talentDto.homeNumberDto.phoneNumber != null && talentDto.homeNumberDto.phoneNumber != ''}">
+				         <c:out value="${talentDto.homeNumberDto.regionCode}" escapeXml="true" />&nbsp;-&nbsp;
+				         <c:out value="${talentDto.homeNumberDto.phoneNumber}" escapeXml="true" />
+				      </c:if>  
 				   </span>
 				</td>
-				<td><span class="textCh8">公司电话</span></td>
-				<td>
+				<td width="20%"><span class="textCh8">公司电话</span></td>
+				<td width="30%">
 				   <span class="showCh">
-				      <c:out value="${talentDto.companyNumberDto.regionCode}" escapeXml="true" />&nbsp;-&nbsp;
-				      <c:out value="${talentDto.companyNumberDto.phoneNumber}" escapeXml="true" />
+				      <c:if test="${talentDto.companyNumberDto != null && talentDto.companyNumberDto.phoneNumber != null && talentDto.companyNumberDto.phoneNumber != ''}">
+				         <c:out value="${talentDto.companyNumberDto.regionCode}" escapeXml="true" />&nbsp;-&nbsp;
+				         <c:out value="${talentDto.companyNumberDto.phoneNumber}" escapeXml="true" />
+				      </c:if>
 				   </span>
 				</td>
 			</tr>
@@ -169,9 +173,9 @@
 				</td>
 				<td><span class="textCn8"><c:out value="${resume.name }"></c:out></span></td>
 				<td><span class="textCn8"></span></td>
-				<td>
+				<td align="center">
 				    <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
-					<input class="standardButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>
+					<input class="tableButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>
 				</td>
 			</tr>
 			</c:forEach>
@@ -183,14 +187,13 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回">
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 		</table>
-
 	</form:form>
 </body>
 </html>
