@@ -6,16 +6,16 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
-import com.pccw.ehunter.domain.internal.EducationExperience;
-import com.pccw.ehunter.domain.internal.EducationExperiencePK;
-import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.domain.internal.TrainingExperience;
+import com.pccw.ehunter.domain.internal.TrainingExperiencePK;
+import com.pccw.ehunter.dto.TrainingExperienceDTO;
 
-public class EducationExperienceConvertor {
+public class TrainingExperienceConvertor {
 	
-	public static EducationExperienceDTO toDto(EducationExperience po){
+	public static TrainingExperienceDTO toDto(TrainingExperience po){
 		if(po == null) return null;
 		
-		EducationExperienceDTO dto = new EducationExperienceDTO();
+		TrainingExperienceDTO dto = new TrainingExperienceDTO();
 		
 		BeanUtils.copyProperties(po, dto);
 		
@@ -26,41 +26,41 @@ public class EducationExperienceConvertor {
 		return dto;
 	}
 	
-	public static EducationExperience toPo(EducationExperienceDTO dto){
+	public static TrainingExperience toPo(TrainingExperienceDTO dto){
 		if(dto == null) return null;
 		
-		EducationExperience po = new EducationExperience();
+		TrainingExperience po = new TrainingExperience();
 		
 		BeanUtils.copyProperties(dto, po);
 		
-		EducationExperiencePK pk = new EducationExperiencePK();
+		TrainingExperiencePK pk = new TrainingExperiencePK();
 		pk.setItemNumber(dto.getItemNumber());
-		
 		po.setPk(pk);
+		
 		po.setFromDate(SimpleDateConvertor.toDate(dto.getFromDateDto()));
 		po.setToDate(SimpleDateConvertor.toDate(dto.getToDateDto()));
 		
 		return po;
 	}
 	
-	public static List<EducationExperienceDTO> toDtos(List<EducationExperience> pos){
+	public static List<TrainingExperienceDTO> toDtos(List<TrainingExperience> pos){
 		if(CollectionUtils.isEmpty(pos)) return null;
 		
-		List<EducationExperienceDTO> dtos = new ArrayList<EducationExperienceDTO>();
+		List<TrainingExperienceDTO> dtos = new ArrayList<TrainingExperienceDTO>();
 		
-		for(EducationExperience po : pos){
+		for(TrainingExperience po : pos){
 			dtos.add(toDto(po));
 		}
 		
 		return dtos;
 	}
 	
-	public static List<EducationExperience> toPos(List<EducationExperienceDTO> dtos){
+	public static List<TrainingExperience> toPos(List<TrainingExperienceDTO> dtos){
 		if(CollectionUtils.isEmpty(dtos)) return null;
 		
-		List<EducationExperience> pos = new ArrayList<EducationExperience>();
+		List<TrainingExperience> pos = new ArrayList<TrainingExperience>();
 		
-		for(EducationExperienceDTO dto : dtos){
+		for(TrainingExperienceDTO dto : dtos){
 			pos.add(toPo(dto));
 		}
 		
