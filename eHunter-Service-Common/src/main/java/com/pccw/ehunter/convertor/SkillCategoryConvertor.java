@@ -18,4 +18,14 @@ public class SkillCategoryConvertor {
 		
 		return dto;
 	}
+	
+	public static SkillCategory toPo(SkillCategoryDTO dto){
+		if(dto == null) return null;
+		
+		SkillCategory po = new SkillCategory();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

@@ -17,4 +17,14 @@ public class IndustryCategoryConvertor {
 		
 		return dto;
 	}
+	
+	public static IndustryCategory toPo(IndustryCategoryDTO dto){
+		if(dto == null) return null;
+		
+		IndustryCategory po = new IndustryCategory();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

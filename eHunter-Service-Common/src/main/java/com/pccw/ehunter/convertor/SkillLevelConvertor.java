@@ -18,4 +18,14 @@ public class SkillLevelConvertor {
 		
 		return dto;
 	}
+	
+	public static SkillLevel toPo(SkillLevelDTO dto){
+		if(dto == null) return null;
+		
+		SkillLevel po = new SkillLevel();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

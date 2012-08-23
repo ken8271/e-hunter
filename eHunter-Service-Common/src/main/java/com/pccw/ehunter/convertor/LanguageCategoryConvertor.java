@@ -18,4 +18,14 @@ public class LanguageCategoryConvertor {
 		
 		return dto;
 	}
+	
+	public static LanguageCategory toPo(LanguageCategoryDTO dto){
+		if(dto == null) return null;
+		
+		LanguageCategory po = new LanguageCategory();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

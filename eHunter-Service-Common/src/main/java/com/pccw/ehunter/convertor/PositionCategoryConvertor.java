@@ -19,6 +19,16 @@ public class PositionCategoryConvertor {
 		return dto;
 	}
 	
+	public static PositionCategory toPo(PositionCategoryDTO dto){
+		if(dto == null) return null;
+		
+		PositionCategory po = new PositionCategory();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
+	
 	public static BaseLabelValueDTO toSelectOption(PositionCategory po){
 		if(po == null){
 			return null;

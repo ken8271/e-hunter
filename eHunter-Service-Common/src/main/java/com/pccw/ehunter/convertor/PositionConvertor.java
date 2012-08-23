@@ -19,6 +19,16 @@ public class PositionConvertor {
 		return dto;
 	}
 	
+	public static Position toPo(PositionDTO dto){
+		if(dto == null) return null;
+		
+		Position po = new Position();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
+	
 	public static BaseLabelValueDTO toSelectOption(Position po){
 		if(po == null){
 			return null;
