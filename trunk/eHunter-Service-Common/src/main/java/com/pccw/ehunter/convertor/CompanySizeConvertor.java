@@ -18,4 +18,14 @@ public class CompanySizeConvertor {
 		
 		return dto;
 	}
+	
+	public static CompanySize toPo(CompanySizeDTO dto){
+		if(dto == null) return null;
+		
+		CompanySize po = new CompanySize();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

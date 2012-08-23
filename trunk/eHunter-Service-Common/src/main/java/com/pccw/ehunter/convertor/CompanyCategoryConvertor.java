@@ -18,4 +18,14 @@ public class CompanyCategoryConvertor {
 		
 		return dto;
 	}
+	
+	public static CompanyCategory toPo(CompanyCategoryDTO dto){
+		if(dto == null) return null;
+		
+		CompanyCategory po = new CompanyCategory();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }

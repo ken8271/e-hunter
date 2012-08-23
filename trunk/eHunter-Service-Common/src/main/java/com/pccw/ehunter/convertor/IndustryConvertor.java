@@ -18,4 +18,14 @@ public class IndustryConvertor {
 		
 		return dto;
 	}
+	
+	public static Industry toPo(IndustryDTO dto){
+		if(dto == null) return null;
+		
+		Industry po = new Industry();
+		
+		BeanUtils.copyProperties(dto, po);
+		
+		return po;
+	}
 }
