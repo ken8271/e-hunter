@@ -2,7 +2,7 @@ package com.pccw.ehunter.dto;
 
 public class CertDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
-
+	private int itemNumber;
 	private String certName;
 	private SimpleDateDTO gainedDateDto;
 	private String description;
@@ -29,6 +29,14 @@ public class CertDTO extends BaseDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
 	}
 
 }

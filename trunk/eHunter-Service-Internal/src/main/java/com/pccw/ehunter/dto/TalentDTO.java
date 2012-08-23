@@ -6,6 +6,7 @@ import java.util.List;
 public class TalentDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private String talentID;
 	private String cnName;
 	private String enName;
 	private String gender;
@@ -28,6 +29,14 @@ public class TalentDTO extends BaseDTO {
 	private DegreeDTO degreeDto;
 	private ResumeDTO resumeDto;
 	private List<ResumeDTO> resumeDtos = new ArrayList<ResumeDTO>(0);
+
+	public String getTalentID() {
+		return talentID;
+	}
+
+	public void setTalentID(String talentID) {
+		this.talentID = talentID;
+	}
 
 	public String getTalentSrc() {
 		return talentSrc;

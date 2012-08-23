@@ -3,6 +3,7 @@ package com.pccw.ehunter.dto;
 public class ProfessionalSkillDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private int itemNumber;
 	private String categoryCode;
 	private String skillName;
 	private String duration;
@@ -10,6 +11,14 @@ public class ProfessionalSkillDTO extends BaseDTO {
 
 	private SkillCategoryDTO categoryDto;
 	private SkillLevelDTO levelDto;
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
+	}
 
 	public String getCategoryCode() {
 		return categoryCode;

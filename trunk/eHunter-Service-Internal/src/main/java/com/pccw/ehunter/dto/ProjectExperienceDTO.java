@@ -3,11 +3,20 @@ package com.pccw.ehunter.dto;
 public class ProjectExperienceDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private int itemNumber;
 	private SimpleDateDTO fromDateDto;
 	private SimpleDateDTO toDateDto;
 	private String name;
 	private String duty;
 	private String description;
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
+	}
 
 	public SimpleDateDTO getFromDateDto() {
 		return fromDateDto;

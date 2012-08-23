@@ -3,6 +3,7 @@ package com.pccw.ehunter.dto;
 public class LanguageAbilityDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private int itemNumber;
 	private String languageCategory;
 	private String ablitityOfRW;
 	private String ablitityOfLS;
@@ -10,6 +11,14 @@ public class LanguageAbilityDTO extends BaseDTO {
 	private LanguageCategoryDTO languageCategoryDto;
 	private SkillLevelDTO ablitityOfRWDto;
 	private SkillLevelDTO ablitityOfLSDto;
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
+	}
 
 	public String getLanguageCategory() {
 		return languageCategory;

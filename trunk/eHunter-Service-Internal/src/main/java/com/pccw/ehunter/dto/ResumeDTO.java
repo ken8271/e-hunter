@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ResumeDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
+	
+	private int itemNumber;
 
 	private String name;
 	
@@ -27,6 +29,14 @@ public class ResumeDTO extends BaseDTO {
 	private List<LanguageAbilityDTO> languageDtos = new ArrayList<LanguageAbilityDTO>(0);
 	
 	private List<CertDTO> certDtos = new ArrayList<CertDTO>(0);
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
+	}
 
 	public String getName() {
 		return name;
