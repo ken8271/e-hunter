@@ -354,6 +354,23 @@ div.emptyBlock {
 	background-color: #FF6500;
 }
 
+.tableButton {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	background-color: #CCCCCC;
+	padding: 0px 10px 0px 10px;
+	line-height:22px;
+	color: #000000;
+	text-decoration: none;
+	Margin-left: 4px;
+	text-align:center;
+	cursor:pointer;
+	border:0;
+}
+
+.tableButton:hover {
+	background-color: #666666;
+}
+
 .labelColumn {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
 	color: #666666;

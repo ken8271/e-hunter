@@ -127,7 +127,7 @@ public class TalentRegistrationController extends BaseController{
 		}else if(ActionFlag.CERT.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/fillCert.do", true));
 		}else if(ActionFlag.COMPLETE.equals(actionFlag)){
-			return new ModelAndView(new RedirectViewExt("/talent/completeAddResumes.do", true));
+			return new ModelAndView(new RedirectViewExt("/talent/saveResumes.do", true));
 		}else if(ActionFlag.UPDATE.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/completeEditResume.do", true));
 		}else {
@@ -293,6 +293,91 @@ public class TalentRegistrationController extends BaseController{
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resume);
+		return mv;
+	}
+	
+	@RequestMapping("/talent/saveResumes.do")
+	public ModelAndView saveResumes(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
+		ModelAndView mv = null;
+		
+		if(talentDto.getResumeDto() == null || isNothingInput(talentDto.getResumeDto())){
+			mv = new ModelAndView(new RedirectViewExt("/talent/verify.do", true));
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			return mv;
+		}
+		
+		resumeValidator.validate(talentDto.getResumeDto(), errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("talent/resumeCreate");
+			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+			return mv;
+		}
+		
+		mv = new ModelAndView(new RedirectViewExt("/talent/verify.do", true));
+				
+		talentDto.getResumeDtos().add(talentDto.getResumeDto());
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
+		return mv;
+	}
+	
+	private boolean isNothingInput(ResumeDTO dto){
+		boolean isNothingInput = true;
+		
+		if(!StringUtils.isEmpty(dto.getName())){
+			isNothingInput = false;
+		}
+		
+		if(!StringUtils.isEmpty(dto.getLanguage())){
+			isNothingInput = false;
+		}
+		
+		if(dto.getIntentionDto() != null && !StringUtils.isEmpty(dto.getIntentionDto().getEmploymentCategory())){
+			isNothingInput = false;
+		}
+		
+		if(dto.getSelfEvaluationDto() != null && !StringUtils.isEmpty(dto.getSelfEvaluationDto().getContent())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getEduExpDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getJobExpDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getPrjExpDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getTrnExpDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getSkillDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getLanguageDtos())){
+			isNothingInput = false;
+		}
+		
+		if(!CollectionUtils.isEmpty(dto.getCertDtos())){
+			isNothingInput = false;
+		}
+		return isNothingInput;
+	}
+	
+	@RequestMapping("/talent/verify.do")
+	public ModelAndView verify(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/verifyInfo");
+		
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		
 		return mv;
 	}
 }
