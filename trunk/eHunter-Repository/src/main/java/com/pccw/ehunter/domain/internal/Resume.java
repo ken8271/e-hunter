@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,7 +20,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Table(name = "T_TLNT_RSUM")
 public class Resume extends BaseEntity {
 	private String resumeID;
-	private int resumeIndex;
+	private int itemNumber;
+	private String name;
 	private String language;
 	
 	private Talent talent;
@@ -34,23 +36,35 @@ public class Resume extends BaseEntity {
 	private List<LanguageAbility> languages;
 	private List<Cert> certs;
 
+	@Id
+	@Column(name="SYS_REF_RSUM")
 	public String getResumeID() {
 		return resumeID;
 	}
-
+	
 	public void setResumeID(String resumeID) {
 		this.resumeID = resumeID;
 	}
+	
+	@Column(name="RSUM_NM")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Column(name="RSUM_SEQ_NBR")
-	public int getResumeIndex() {
-		return resumeIndex;
+	public int getItemNumber() {
+		return itemNumber;
 	}
 
-	public void setResumeIndex(int resumeIndex) {
-		this.resumeIndex = resumeIndex;
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
 	}
 
+	@Column(name="RSUM_LAN")
 	public String getLanguage() {
 		return language;
 	}
