@@ -3,6 +3,7 @@ package com.pccw.ehunter.dto;
 public class EducationExperienceDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private int itemNumber;
 	private SimpleDateDTO fromDateDto;
 	private SimpleDateDTO toDateDto;
 	private String school;
@@ -12,6 +13,14 @@ public class EducationExperienceDTO extends BaseDTO {
 
 	private SubjectDTO majorDto;
 	private DegreeDTO degreeDto;
+
+	public int getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
+	}
 
 	public SimpleDateDTO getFromDateDto() {
 		return fromDateDto;
