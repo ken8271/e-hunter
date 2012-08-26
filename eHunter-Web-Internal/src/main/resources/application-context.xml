@@ -17,7 +17,11 @@
 	
 	<context:annotation-config />
 	
-	<context:component-scan base-package="com.pccw.ehunter"></context:component-scan>
+	<context:component-scan base-package="com.pccw.ehunter.dao" />
+	<context:component-scan base-package="com.pccw.ehunter.security" />
+	<context:component-scan base-package="com.pccw.ehunter.service" />
+	<context:component-scan base-package="com.pccw.ehunter.validator" />
+	<context:component-scan base-package="com.pccw.ehunter.helper" />
 	
 	<!-- Data Source Properties-->
 	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />

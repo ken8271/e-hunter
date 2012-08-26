@@ -63,7 +63,7 @@
 		</property>
 
 		<property name="errorPage">
-			<value>/commons/403.jsp</value>
+			<value>/commons/500.jsp</value>
 		</property>
 		
 		<property name="confidentiality">
