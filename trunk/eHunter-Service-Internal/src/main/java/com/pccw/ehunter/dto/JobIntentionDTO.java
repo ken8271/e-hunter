@@ -3,6 +3,7 @@ package com.pccw.ehunter.dto;
 public class JobIntentionDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
+	private String resumeID;
 	private String employmentCategory ;
 	private String expectAddress;
 	private String expectPosition;
@@ -11,6 +12,14 @@ public class JobIntentionDTO extends BaseDTO {
 
 	private PositionCategoryDTO expectPositionDto;
 	private IndustryCategoryDTO expectIndustryDto;
+
+	public String getResumeID() {
+		return resumeID;
+	}
+
+	public void setResumeID(String resumeID) {
+		this.resumeID = resumeID;
+	}
 
 	public String getEmploymentCategory() {
 		return employmentCategory;
