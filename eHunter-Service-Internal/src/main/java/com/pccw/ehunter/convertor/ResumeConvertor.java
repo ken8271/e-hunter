@@ -1,9 +1,23 @@
 package com.pccw.ehunter.convertor;
 
-import org.springframework.beans.BeanUtils;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+
+import com.pccw.ehunter.domain.internal.Cert;
+import com.pccw.ehunter.domain.internal.EducationExperience;
+import com.pccw.ehunter.domain.internal.JobExperience;
+import com.pccw.ehunter.domain.internal.JobIntention;
+import com.pccw.ehunter.domain.internal.LanguageAbility;
+import com.pccw.ehunter.domain.internal.ProfessionalSkill;
+import com.pccw.ehunter.domain.internal.ProjectExperience;
 import com.pccw.ehunter.domain.internal.Resume;
+import com.pccw.ehunter.domain.internal.SelfEvaluation;
+import com.pccw.ehunter.domain.internal.TrainingExperience;
 import com.pccw.ehunter.dto.ResumeDTO;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class ResumeConvertor {
 	
@@ -33,17 +47,97 @@ public class ResumeConvertor {
 		Resume po = new Resume();
 		BeanUtils.copyProperties(dto, po);
 		
-		po.setSelfEvaluation(SelfEvaluationConvertor.toPo(dto.getSelfEvaluationDto()));
-		po.setIntention(JobIntentionConvertor.toPo(dto.getIntentionDto()));
+		SelfEvaluation se = SelfEvaluationConvertor.toPo(dto.getSelfEvaluationDto());
+		if(se != null && !StringUtils.isEmpty(se.getContent())){
+			se.setResume(po);
+			po.setSelfEvaluation(se);
+		}
 		
-		po.setCerts(CertConvertor.toPos(dto.getCertDtos()));
-		po.setEduExps(EducationExperienceConvertor.toPos(dto.getEduExpDtos()));
-		po.setJobExps(JobExperienceConvertor.toPos(dto.getJobExpDtos()));
-		po.setLanguages(LanguageAbilityConvertor.toPos(dto.getLanguageDtos()));
-		po.setPrjExps(ProjectExperienceConvertor.toPos(dto.getPrjExpDtos()));
-		po.setSkills(ProfessionalSkillConvertor.toPos(dto.getSkillDtos()));
-		po.setTrnExps(TrainingExperienceConvertor.toPos(dto.getTrnExpDtos()));
+		JobIntention ji = JobIntentionConvertor.toPo(dto.getIntentionDto());
+		if(ji != null){
+			ji.setResume(po);
+			po.setIntention(ji);
+		}
+		
+		List<Cert> certs = CertConvertor.toPos(dto.getCertDtos());
+		if(!CollectionUtils.isEmpty(certs)){
+			for(Cert cert : certs){
+				cert.getPk().setResume(po);
+			}
+			po.setCerts(certs);
+		}
+		
+		List<EducationExperience> eduExps = EducationExperienceConvertor.toPos(dto.getEduExpDtos());
+		if(!CollectionUtils.isEmpty(eduExps)){
+			for(EducationExperience eduExp : eduExps){
+				eduExp.getPk().setResume(po);
+			}
+			po.setEduExps(eduExps);
+		}
+		
+		List<JobExperience> jobExps = JobExperienceConvertor.toPos(dto.getJobExpDtos());
+		if(!CollectionUtils.isEmpty(jobExps)){
+			for(JobExperience jobExp : jobExps){
+				jobExp.getPk().setResume(po);
+			}
+			po.setJobExps(jobExps);
+		}
+		
+		List<LanguageAbility> languages = LanguageAbilityConvertor.toPos(dto.getLanguageDtos());
+		if(!CollectionUtils.isEmpty(languages)){
+			for(LanguageAbility language : languages){
+				language.getPk().setResume(po);
+			}
+			po.setLanguages(languages);
+		}
+		
+		List<ProjectExperience> prjExps = ProjectExperienceConvertor.toPos(dto.getPrjExpDtos());
+		if(!CollectionUtils.isEmpty(prjExps)){
+			for(ProjectExperience prjExp : prjExps){
+				prjExp.getPk().setResume(po);
+			}
+			po.setPrjExps(prjExps);
+		}
+		
+		List<ProfessionalSkill> skills = ProfessionalSkillConvertor.toPos(dto.getSkillDtos());
+		if(!CollectionUtils.isEmpty(skills)){
+			for(ProfessionalSkill skill : skills){
+				skill.getPk().setResume(po);
+			}
+			po.setSkills(skills);
+		}
+		
+		List<TrainingExperience> trnExps = TrainingExperienceConvertor.toPos(dto.getTrnExpDtos());
+		if(!CollectionUtils.isEmpty(trnExps)){
+			for(TrainingExperience trnExp : trnExps){
+				trnExp.getPk().setResume(po);
+			}
+			po.setTrnExps(trnExps);
+		}
 		
 		return po;
+	}
+	
+	public static List<ResumeDTO> toDtos(List<Resume> pos){
+		if(CollectionUtils.isEmpty(pos)) return null;
+		
+		List<ResumeDTO> dtos = new ArrayList<ResumeDTO>();
+		for(Resume po : pos){
+			dtos.add(toDto(po));
+		}
+		
+		return dtos;
+	}
+	
+	public static List<Resume> toPos(List<ResumeDTO> dtos){
+		if(CollectionUtils.isEmpty(dtos)) return null;
+		
+		List<Resume> pos = new ArrayList<Resume>();
+		
+		for(ResumeDTO dto : dtos){
+			pos.add(toPo(dto));
+		}
+		
+		return pos;
 	}
 }
