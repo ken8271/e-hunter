@@ -16,4 +16,14 @@ public class MobilePhoneConvertor {
 		
 		return dto;
 	}
+	
+	public static String toString(MobilePhoneDTO dto){
+		if(dto == null) return null;
+		
+		if(StringUtils.isEmpty(dto.getPhoneNumber())){
+			return null;
+		}
+		
+		return dto.toString();
+	}
 }

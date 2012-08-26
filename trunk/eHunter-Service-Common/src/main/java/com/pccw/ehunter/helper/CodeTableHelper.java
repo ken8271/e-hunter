@@ -125,7 +125,7 @@ public class CodeTableHelper {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<TalentSourceDTO> getAllTalentSources(HttpServletRequest request){
+	public List<TalentSourceDTO> getTalentSources(HttpServletRequest request){
 		List<TalentSourceDTO> srcs = (List<TalentSourceDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_TALENT_SOURCE);
 		if(CollectionUtils.isEmpty(srcs)){
 			srcs = talentSourceService.getAllTalentSources();
@@ -138,6 +138,22 @@ public class CodeTableHelper {
 		}
 		
 		return srcs;
+	}
+	
+	public TalentSourceDTO getTalentSource(HttpServletRequest request , String code){
+		List<TalentSourceDTO> srcs = getTalentSources(request);
+		
+		if(!CollectionUtils.isEmpty(srcs)){
+			for(TalentSourceDTO src : srcs){
+				if(code.equals(src.getSourceId())){
+					return src;
+				}
+			}
+		}
+		
+		TalentSourceDTO dto = new TalentSourceDTO();
+		dto.setSourceId(code);
+		return dto;
 	}
 	
 	@SuppressWarnings("unchecked")
