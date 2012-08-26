@@ -3,6 +3,7 @@ package com.pccw.ehunter.domain.internal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -12,12 +13,25 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_JB_INT")
 public class JobIntention extends BaseEntity {
+	private static final long serialVersionUID = -6134729247532060548L;
+	
+	private String resumeID;
 	private Resume resume;
 	private String employmentCategory;
 	private String expectAddress;
 	private String expectPosition;
 	private String expectIndustry;
 	private String expectSalary;
+
+	@Id
+	@Column(name="SYS_REF_RSUM")
+	public String getResumeID() {
+		return resumeID;
+	}
+
+	public void setResumeID(String resumeID) {
+		this.resumeID = resumeID;
+	}
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn(name = "SYS_REF_RSUM", referencedColumnName = "SYS_REF_RSUM")

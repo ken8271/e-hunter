@@ -18,6 +18,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_INT_USR")
 public class InternalUser extends BaseEntity {
+	private static final long serialVersionUID = 4317238041740048471L;
 
 	private String userRecId;
 

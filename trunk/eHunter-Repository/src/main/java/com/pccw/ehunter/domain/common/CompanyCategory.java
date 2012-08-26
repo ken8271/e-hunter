@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_CO_TY")
 public class CompanyCategory extends BaseEntity {
+	private static final long serialVersionUID = -3809436636984110928L;
+	
 	private String categoryCode;
 	private String displayName;
 	private String description;

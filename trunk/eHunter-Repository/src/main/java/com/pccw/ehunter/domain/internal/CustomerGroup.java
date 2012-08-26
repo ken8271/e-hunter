@@ -14,7 +14,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_CUST_GP")
 public class CustomerGroup extends BaseEntity {
-
+	private static final long serialVersionUID = 6163846469916754879L;
+	
 	private String systemGroupRefNum;
 	private String shortName;
 	private String fullName;

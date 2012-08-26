@@ -15,6 +15,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_PRJ_POST_DESC")
 public class ProjectPosition extends BaseEntity {
+	private static final long serialVersionUID = 2910231627184560563L;
+	
 	private String systemPositionRefNum;
 	private String postionType;
 	private String postionName;

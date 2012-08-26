@@ -17,7 +17,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_CUST_CO")
 public class CustomerCompany extends BaseEntity {
-
+	private static final long serialVersionUID = 96719763048882882L;
+	
 	private String systemCustRefNum;
 	private String shortName;
 	private String fullName;

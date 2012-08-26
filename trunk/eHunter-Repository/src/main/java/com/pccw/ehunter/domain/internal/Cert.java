@@ -12,6 +12,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_CERT")
 public class Cert extends BaseEntity {
+	private static final long serialVersionUID = 1706709104414988356L;
+	
 	private CertPK pk;
 	private String certName;
 	private Date gainedDate;

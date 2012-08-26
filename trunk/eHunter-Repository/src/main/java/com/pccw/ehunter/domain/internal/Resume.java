@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.pccw.ehunter.domain.BaseEntity;
@@ -19,6 +18,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_RSUM")
 public class Resume extends BaseEntity {
+	private static final long serialVersionUID = 8332972899968974325L;
+	
 	private String resumeID;
 	private int itemNumber;
 	private String name;
@@ -102,7 +103,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<EducationExperience> getEduExps() {
 		return eduExps;
 	}
@@ -112,7 +112,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<JobExperience> getJobExps() {
 		return jobExps;
 	}
@@ -122,7 +121,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<ProjectExperience> getPrjExps() {
 		return prjExps;
 	}
@@ -132,7 +130,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<TrainingExperience> getTrnExps() {
 		return trnExps;
 	}
@@ -142,7 +139,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<ProfessionalSkill> getSkills() {
 		return skills;
 	}
@@ -152,7 +148,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<LanguageAbility> getLanguages() {
 		return languages;
 	}
@@ -162,7 +157,6 @@ public class Resume extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.resume", cascade = { CascadeType.ALL })
-	@OrderBy(value = "pk.itemNumber asc")
 	public List<Cert> getCerts() {
 		return certs;
 	}

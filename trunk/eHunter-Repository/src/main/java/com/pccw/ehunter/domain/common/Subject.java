@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_SUBJ")
 public class Subject extends BaseEntity {
+	private static final long serialVersionUID = -3991124598055913923L;
+	
 	private String subjectCode;
 	private String subjectType;
 	private String displayName;
