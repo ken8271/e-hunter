@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_INT_ROLE")
 public class InternalRole extends BaseEntity {
+	private static final long serialVersionUID = 8603466488533506785L;
+	
 	private String sysRefRole;
 	private String roleId;
 	private String roleName;

@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_TLNT_LAN_ABLT")
 public class LanguageAbility extends BaseEntity{
+	private static final long serialVersionUID = -3225330014677099306L;
+	
 	private LanguageAbilityPK pk;
 	private String languageCategory;
 	private String ablitityOfRW;

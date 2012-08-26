@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.pccw.ehunter.domain.BaseEntity;
@@ -17,6 +16,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_BS_INF")
 public class Talent extends BaseEntity {
+	private static final long serialVersionUID = 3598927769117045074L;
+	
 	private String talentID;
 	private String talentSrc;
 	private String cnName;
@@ -193,7 +194,6 @@ public class Talent extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="talent" , cascade = CascadeType.ALL)
-	@OrderBy(value="resumeIndex ASC")
 	public List<Resume> getResumes() {
 		return resumes;
 	}

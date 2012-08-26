@@ -10,7 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_SEQ_NBR_LST")
 public class Sequence extends BaseEntity {
-
+	private static final long serialVersionUID = 8552716580295341657L;
+	
 	private String key;
 	private Long value;
 	private String description;

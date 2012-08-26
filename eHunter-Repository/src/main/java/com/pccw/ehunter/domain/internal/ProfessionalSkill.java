@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_PRO_SKL")
 public class ProfessionalSkill extends BaseEntity {
+	private static final long serialVersionUID = -4654099347588124926L;
+	
 	private ProfessionalSkillPK pk;
 	private String categoryCode;
 	private String skillName;

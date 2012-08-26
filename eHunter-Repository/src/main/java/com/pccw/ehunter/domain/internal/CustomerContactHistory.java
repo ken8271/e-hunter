@@ -9,7 +9,9 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
 @Table(name="T_CUST_CONT_HST")
-public class CustomerContactHistory extends BaseEntity {
+public class CustomerContactHistory extends BaseEntity {	
+	private static final long serialVersionUID = 8956214459524819069L;
+	
 	private String systemConatctRefNum;
 	private String customerId;
 	private String projectId;

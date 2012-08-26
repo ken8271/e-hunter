@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_DGRE")
 public class Degree extends BaseEntity {
+	private static final long serialVersionUID = 4907756524081420076L;
+	
 	private String degreeCode;
 	private String displayName;
 	private String description;

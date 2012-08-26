@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_IND_TY")
 public class IndustryCategory extends BaseEntity {
+	private static final long serialVersionUID = 3496749076429171781L;
+	
 	private String categoryCode;
 	private String displayName;
 	private String description;

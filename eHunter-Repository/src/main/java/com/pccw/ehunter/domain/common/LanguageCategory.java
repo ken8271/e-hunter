@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_LAN_TY")
 public class LanguageCategory extends BaseEntity {
+	private static final long serialVersionUID = -1294089456454141949L;
+	
 	private String code;
 	private String displayName;
 	private String description;

@@ -1,5 +1,6 @@
 package com.pccw.ehunter.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -7,8 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseEntity {
-
+public class BaseEntity implements Serializable{
+	private static final long serialVersionUID = 8151455261677162678L;
+	
 	private String createBy;
 	private Date createDateTime;
 	private String lastUpdateBy;

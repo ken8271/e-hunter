@@ -12,6 +12,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_TRN_EXP")
 public class TrainingExperience extends BaseEntity {
+	private static final long serialVersionUID = 6339731287371657101L;
+	
 	private TrainingExperiencePK pk;
 	private Date fromDate;
 	private Date toDate;

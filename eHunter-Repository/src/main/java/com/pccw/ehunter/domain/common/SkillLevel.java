@@ -10,7 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_SKL_LEVL")
 public class SkillLevel extends BaseEntity {
-
+	private static final long serialVersionUID = 3356918685792623304L;
+	
 	private String code;
 	private String displayName;
 	private String description;

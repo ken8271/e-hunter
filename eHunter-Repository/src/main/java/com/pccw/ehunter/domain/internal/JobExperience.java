@@ -12,6 +12,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name = "T_TLNT_JOB_EXP")
 public class JobExperience extends BaseEntity {
+	private static final long serialVersionUID = 3474237408789851850L;
+	
 	private JobExperiencePK pk;
 	private Date fromDate;
 	private Date toDate;

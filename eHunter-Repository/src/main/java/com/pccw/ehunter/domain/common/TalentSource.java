@@ -9,7 +9,9 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
 @Table(name = "T_TLNT_SRC")
-public class TalentSource extends BaseEntity {
+public class TalentSource extends BaseEntity {	
+	private static final long serialVersionUID = 7744329694261222961L;
+	
 	private String sourceId;
 	private String displayName;
 	private String offcialSite;

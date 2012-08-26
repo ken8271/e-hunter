@@ -18,6 +18,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_PRJ")
 public class Project extends BaseEntity {
+	private static final long serialVersionUID = -6586349396029661685L;
+	
 	private String systemProjectRefNum;
 	private String projectName;
 	private CustomerCompany customer;

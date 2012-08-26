@@ -10,6 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_POST_TY")
 public class PositionCategory extends BaseEntity {
+	private static final long serialVersionUID = 463552436472946122L;
+	
 	private String typeCode;
 	private String displayName;
 	private String discription;

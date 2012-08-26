@@ -1,5 +1,7 @@
 package com.pccw.ehunter.domain.internal;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -7,8 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class EducationExperiencePK {
-
+public class EducationExperiencePK implements Serializable{
+	private static final long serialVersionUID = -2970471892087536832L;
+	
 	private Resume resume;
 	private int itemNumber;
 

@@ -10,7 +10,8 @@ import com.pccw.ehunter.domain.BaseEntity;
 @Entity
 @Table(name="T_CUST_RP")
 public class CustomerResponsablePerson extends BaseEntity {
-
+	private static final long serialVersionUID = -1825842012826184595L;
+	
 	private String systemRespRefNum;
 	private String name;
 	private String positionType;
