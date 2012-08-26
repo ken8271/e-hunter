@@ -24,6 +24,7 @@ import com.pccw.ehunter.dto.ResumeDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
+import com.pccw.ehunter.service.TalentRegistrationService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.ResumeValidator;
@@ -45,6 +46,9 @@ public class TalentRegistrationController extends BaseController{
 	@Autowired
 	private ResumeValidator resumeValidator;
 	
+	@Autowired
+	private TalentRegistrationService talentRegtService;
+	
 	@RequestMapping("/talent/initAddTalent.do")
 	public ModelAndView initAddTalent(HttpServletRequest request){
 		return new ModelAndView(new RedirectViewExt("/talent/fillTalentInfo.do", true));
@@ -61,7 +65,7 @@ public class TalentRegistrationController extends BaseController{
 	}
 
 	private void initTalent(HttpServletRequest request , ModelAndView mv) {		
-		List<TalentSourceDTO> talentSources = codeTableHelper.getAllTalentSources(request);
+		List<TalentSourceDTO> talentSources = codeTableHelper.getTalentSources(request);
 		List<DegreeDTO> degrees = codeTableHelper.getAllDegrees(request);
 		
 		mv.addObject(WebConstant.LIST_OF_TALENT_SOURCE, talentSources);
@@ -83,6 +87,9 @@ public class TalentRegistrationController extends BaseController{
 		
 		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
 		talentDto.setDegreeDto(degreeDto);
+		
+		TalentSourceDTO src = codeTableHelper.getTalentSource(request, talentDto.getTalentSrc());
+		talentDto.setTalentSrcDto(src);
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
@@ -378,6 +385,19 @@ public class TalentRegistrationController extends BaseController{
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		
+		return mv;
+	}
+	
+	@RequestMapping("/talent/submitTalent.do")
+	public ModelAndView submitTalent(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		talentRegtService.completeTalentRegistration(talentDto);
+		return new ModelAndView(new RedirectViewExt("/talent/completeTalentRegistration.do", true));
+	}
+	
+	@RequestMapping("/talent/completeTalentRegistration.do")
+	public ModelAndView completeTalentRegistration(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("talent/talentConfirmation");
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
 }
