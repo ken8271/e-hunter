@@ -23,4 +23,5 @@ public class CommonConstant {
 	public static final String PREFIX_CUSTOMER_ID = "C";
 	public static final String PREFIX_TALENT_ID = "T";
 	public static final String PREFIX_PROJECT_ID = "P";
+	public static final String PREFIX_RESUME_ID = "R";
 }

@@ -10,7 +10,7 @@ public class BaseDTO implements Serializable {
 	private Date createDateTime;
 	private String lastUpdateBy;
 	private Date lastUpdateDateTime;
-	private String lastUpdateTransaction;
+	private String lastTransactionIndicator;
 
 	public String getCreateBy() {
 		return createBy;
@@ -44,12 +44,12 @@ public class BaseDTO implements Serializable {
 		this.lastUpdateDateTime = lastUpdateDateTime;
 	}
 
-	public String getLastUpdateTransaction() {
-		return lastUpdateTransaction;
+	public String getLastTransactionIndicator() {
+		return lastTransactionIndicator;
 	}
 
-	public void setLastUpdateTransaction(String lastUpdateTransaction) {
-		this.lastUpdateTransaction = lastUpdateTransaction;
+	public void setLastTransactionIndicator(String lastTransactionIndicator) {
+		this.lastTransactionIndicator = lastTransactionIndicator;
 	}
 
 }

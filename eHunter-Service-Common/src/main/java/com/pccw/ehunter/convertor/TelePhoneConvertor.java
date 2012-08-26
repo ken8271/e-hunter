@@ -19,4 +19,14 @@ public class TelePhoneConvertor {
 		
 		return dto;
 	}
+	
+	public static String toString(TelephoneDTO dto){
+		if(dto == null) return null;
+		
+		if(StringUtils.isEmpty(dto.getRegionCode()) || StringUtils.isEmpty(dto.getPhoneNumber())){
+			return null;
+		}
+		
+		return dto.toString();
+	}
 }
