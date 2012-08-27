@@ -1,0 +1,4 @@
+ALTER TABLE `t_tlnt_rsum`
+DROP INDEX `RSUM_NM`;
+ALTER TABLE `t_tlnt_rsum`
+DROP INDEX `RSUM_LAN`;
