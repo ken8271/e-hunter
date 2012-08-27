@@ -31,4 +31,7 @@ public class ActionFlag {
 	
 	public static final String PAGING = "90";
 	public static final String PRINT = "100";
+	
+	public static final String MANUAL_INPUT_RESUME = "manual";
+	public static final String BATCH_IMPORT_RESUME = "import";
 }
