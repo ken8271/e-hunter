@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
-        <hdiv-c:url value="/customer/viewTalentDetail.do?_id=${talentDto.talentID }" var="viewTalentDetailUrl"></hdiv-c:url>
+        <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }" var="viewTalentDetailUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才资料预览</td>
@@ -57,7 +57,7 @@
 				<td align="center"><span class="textCn8"><c:out value="${talentDto.nowLivePlace }" escapeXml="true"></c:out></span>
 				<td align="center"><span class="textCn8"><c:out value="${talentDto.degreeDto.displayName }" escapeXml="true"></c:out></span>
 				<td>
-                    <input class="standardButton" type="button" value="查看" onclick="location.href='${viewCustomerDetailUrl}'">
+                    <input class="standardButton" type="button" value="查看" onclick="location.href='${viewTalentDetailUrl}'">
 				</td>
 			</tr>
 		</table>
