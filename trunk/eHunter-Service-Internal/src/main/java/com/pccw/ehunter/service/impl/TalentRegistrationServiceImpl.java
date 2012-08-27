@@ -1,5 +1,6 @@
 package com.pccw.ehunter.service.impl;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import com.pccw.ehunter.dto.SelfEvaluationDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TrainingExperienceDTO;
 import com.pccw.ehunter.helper.IDGeneratorImpl;
+import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.TalentRegistrationService;
 import com.pccw.ehunter.utility.BaseDtoUtility;
 
@@ -34,6 +36,13 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 	
 	@Autowired
 	private IDGeneratorImpl idGenerator;
+	
+	private SimpleHibernateTemplate<Talent, String> commonDao;
+	
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory){
+		commonDao = new SimpleHibernateTemplate<Talent, String>(sessionFactory, Talent.class);
+	}
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -134,5 +143,10 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 			}
 			itemNumber = 1;
 		}
+	}
+
+	@Override
+	public TalentDTO getTalentByID(String id) {
+		return TalentConvertor.toDto(commonDao.findUniqueByProperty("talentID", id));
 	}
 }
