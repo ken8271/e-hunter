@@ -17,7 +17,11 @@ import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.JobIntentionDTO;
+import com.pccw.ehunter.dto.LanguageAbilityDTO;
+import com.pccw.ehunter.dto.ProfessionalSkillDTO;
 import com.pccw.ehunter.dto.SelfEvaluationDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.ResumeDTO;
@@ -74,7 +78,14 @@ public class TalentRegistrationController extends BaseController{
 	
 	@RequestMapping("/talent/saveTalentInfo.do")
 	public ModelAndView saveTalentInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
+		String type = request.getParameter("type");
+		
+		ModelAndView mv = null;
+		if(ActionFlag.BATCH_IMPORT_RESUME.equals(type)){			
+			mv= new ModelAndView(new RedirectViewExt("/talent/batchImportResume.do", true));
+		}else {
+			mv= new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
+		}
 		
 		talentBaseInfoValidator.validate(talentDto, errors);
 		
@@ -298,11 +309,58 @@ public class TalentRegistrationController extends BaseController{
 			resume = dtos.get(Integer.parseInt(id));
 		}
 		
+		initializeResume(request , resume);
+		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resume);
 		return mv;
 	}
 	
+	private void initializeResume(HttpServletRequest request , ResumeDTO resume) {
+		if(resume.getIntentionDto() != null){
+			JobIntentionDTO intentionDto = resume.getIntentionDto();
+			if(intentionDto.getExpectIndustryDto() == null){
+				intentionDto.setExpectIndustryDto(codeTableHelper.getIndustryCategoryByCode(request, intentionDto.getExpectIndustry()));
+			}
+			if(intentionDto.getExpectPositionDto() == null){
+				intentionDto.setExpectPositionDto(codeTableHelper.getPositionCategoryByCode(request, intentionDto.getExpectPosition()));
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(resume.getEduExpDtos())){
+			for(EducationExperienceDTO eduExpDto : resume.getEduExpDtos()){
+				if(eduExpDto.getDegreeDto() == null) eduExpDto.setDegreeDto(codeTableHelper.getDegreeByCode(request, eduExpDto.getDegree()));
+				if(eduExpDto.getMajorDto() == null) eduExpDto.setMajorDto(codeTableHelper.getSubjectByCode(eduExpDto.getMajor()));
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(resume.getJobExpDtos())){
+			for(JobExperienceDTO jobExpDto : resume.getJobExpDtos()){
+				jobExpDto.setCompanyCategoryDto(codeTableHelper.getCompanyCategoryByCode(request, jobExpDto.getCompanyCategoryDto().getCategoryCode()));
+				jobExpDto.setCompanySizeDto(codeTableHelper.getCompanySizeByCode(request, jobExpDto.getCompanySizeDto().getSizeCode()));
+				//jobExpDto.setIndustryCategoryDto(codeTableHelper.getIndustryCategoryByCode(request, jobExpDto.getIndustryCategoryDto().getCategoryCode()));
+				jobExpDto.setIndustryDto(codeTableHelper.getIndustryByCode(jobExpDto.getIndustryDto().getIndustryCode()));
+				//jobExpDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, jobExpDto.getPositionCategoryDto().getTypeCode()));
+				jobExpDto.setPositionDto(codeTableHelper.getPositionByCode(jobExpDto.getPositionDto().getTypeCode()));
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(resume.getLanguageDtos())){
+			for(LanguageAbilityDTO language : resume.getLanguageDtos()){
+				language.setLanguageCategoryDto(codeTableHelper.getLanguageCategoryByCode(request, language.getLanguageCategory()));
+				language.setAblitityOfRWDto(codeTableHelper.getSkillLevelByCode(request, language.getAblitityOfRW()));
+				language.setAblitityOfLSDto(codeTableHelper.getSkillLevelByCode(request, language.getAblitityOfLS()));
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(resume.getSkillDtos())){
+			for(ProfessionalSkillDTO skillDto : resume.getSkillDtos()){
+				skillDto.setCategoryDto(codeTableHelper.getSkillCategoryByCode(request, skillDto.getCategoryCode()));
+				skillDto.setLevelDto(codeTableHelper.getSkillLevelByCode(request, skillDto.getLevelCode()));
+			}
+		}
+	}
+
 	@RequestMapping("/talent/saveResumes.do")
 	public ModelAndView saveResumes(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
 		ModelAndView mv = null;

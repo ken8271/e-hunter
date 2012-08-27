@@ -18,8 +18,9 @@
 			<td class="functionMenuBar">
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
-						<td><input class="standardButton" type="button" value="编辑" />&nbsp;
-							<input class="standardButton" type="button" value="新增简历">&nbsp;
+						<td>
+							<input class="standardButton" type="button" value="添加到项目">&nbsp;
+						    <input class="standardButton" type="button" value="编辑" />&nbsp;
 							<input class="standardButton" type="button" value="返回">
 						</td>
 					</tr>
@@ -65,9 +66,9 @@
 					</td>
 					<td class="labelColumn">婚姻状况：</td>
 					<td>
-					   <c:if test="${talentDto.maritalStatus == '001'}"><c:out value="未婚" escapeXml="true"></c:out></c:if>
-					   <c:if test="${talentDto.maritalStatus == '002'}"><c:out value="已婚" escapeXml="true"></c:out></c:if>
-					   <c:if test="${talentDto.maritalStatus == '003'}"><c:out value="保密" escapeXml="true"></c:out></c:if>
+					   <c:if test="${talentDto.maritalStatus == '01'}"><c:out value="未婚" escapeXml="true"></c:out></c:if>
+					   <c:if test="${talentDto.maritalStatus == '02'}"><c:out value="已婚" escapeXml="true"></c:out></c:if>
+					   <c:if test="${talentDto.maritalStatus == '03'}"><c:out value="保密" escapeXml="true"></c:out></c:if>
 					</td>
 				</tr>
 				<tr>
@@ -140,13 +141,46 @@
 		</table>
 	</div>
 	<div class="emptyBlock"></div>
+	<table width="100%">
+		<tr>
+			<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
+			<td width="90%"><font face="Arial" size="2"><b>人才简历</b></font></td>
+		</tr>
+	</table>
+	<div class="emptyBlock"></div>
+	<table class="contentTableBody2" cellspacing="1" width="100%">
+		   <tr class="contentTableTitle">
+		      <td width="10%" align="center">序号</td>
+		      <td width="10%">语言版本</td>
+		      <td width="50%">简历名称</td>
+		      <td width="20%" align="center">操作</td>
+		   </tr>
+		   <c:if test="${not empty talentDto.resumeDtos }">
+		      <c:forEach items="${talentDto.resumeDtos }" var="resumeDto" varStatus="status">
+		         <tr class="contentTableRow">
+		            <td>${status.index+1 }</td>
+		            <td>
+		               <c:if test="${resumeDto.language == 'cn'}">中文</c:if>
+		               <c:if test="${resumeDto.language == 'en' }">英文</c:if>
+		            </td>
+		            <td><c:out value="${resumeDto.name }" escapeXml="true"></c:out></td>
+		            <td align="center"> 
+		              <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
+		              <input class="standardButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>&nbsp;
+		            </td>
+		         </tr>
+		      </c:forEach>
+		   </c:if>
+	</table>
+	<div class="emptyBlock"></div>
 	<table id="bg2" border="0" width="100%">
 		<tr>
 			<td class="functionMenuBar">
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
-						<td><input class="standardButton" type="button" value="编辑" />&nbsp;
-							<input class="standardButton" type="button" value="新增简历">&nbsp;
+						<td>
+							<input class="standardButton" type="button" value="添加到项目">&nbsp;
+						    <input class="standardButton" type="button" value="编辑" />&nbsp;
 							<input class="standardButton" type="button" value="返回">
 						</td>
 					</tr>
