@@ -8,9 +8,10 @@ public class SessionAttributeConstant {
 	public static final String LIST_OF_CUSTOMERS = "listOfCustomers";
 	
 	public static final String LIST_OF_RPOJECTS = "listOfCustomerProjects";
+	public static final String LIST_OF_TALENT_SRC = "listOfTalentSrc";
 	
 	public static final String TALENT_DTO = "talentDto";
-	public static final String LIST_OF_TALENT_SRC = "listOfTalentSrc";
+	public static final String TALENT_RESUME_DTO = "resumeDto";
 	
 	public static final String TALENT_EDUCATION_EXPERIENCE_DTO = "eduExpDto";
 	public static final String TALENT_JOB_EXPERIENCE_DTO = "jobExpDto";
@@ -21,5 +22,6 @@ public class SessionAttributeConstant {
 	public static final String TALENT_LANGUAGE_ABLITITY_DTO = "languageDto";
 	public static final String TALENT_CERT_DTO = "certDto";
 	
-	public static final String TALENT_RESUME_DTO = "resumeDto";
+	public static final String TALENT_ENQUIRE_DTO = "enquireDto";
+	public static final String LIST_OF_TALENT = "listOfTalent";
 }
