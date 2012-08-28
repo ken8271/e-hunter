@@ -8,6 +8,8 @@ import org.springframework.util.CollectionUtils;
 import com.pccw.ehunter.domain.internal.Resume;
 import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.TalentDTO;
+import com.pccw.ehunter.dto.TalentEnquireDTO;
+import com.pccw.ehunter.dto.TalentPagedCriteria;
 
 public class TalentConvertor {
 	
@@ -51,6 +53,23 @@ public class TalentConvertor {
 		}
 		
 		return po;
+	}
+	
+	public static TalentPagedCriteria toPagedCriteria(TalentEnquireDTO enquireDto){
+		TalentPagedCriteria pagedCriteria = new TalentPagedCriteria();
+		
+		if(enquireDto == null){
+			return pagedCriteria;
+		}
+		
+		BeanUtils.copyProperties(enquireDto, pagedCriteria);
+		
+		if(enquireDto.getJmesaDto() != null && enquireDto.getJmesaDto().getRowSelect() != null){
+			pagedCriteria.getPageFilter().setRowStart(enquireDto.getJmesaDto().getRowSelect().getRowStart());
+			pagedCriteria.getPageFilter().setRowEnd(enquireDto.getJmesaDto().getRowSelect().getRowEnd());
+		}
+		
+		return pagedCriteria;
 	}
 	
 }
