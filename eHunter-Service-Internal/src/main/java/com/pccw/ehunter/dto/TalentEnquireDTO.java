@@ -11,7 +11,7 @@ public class TalentEnquireDTO implements Serializable {
 	private String maritalStatus;
 	private String talentSrc;
 
-	private JmesaCheckBoxDTO jmesaDto;
+	private JmesaCheckBoxDTO jmesaDto = new JmesaCheckBoxDTO();
 
 	public String getTalentID() {
 		return talentID;
