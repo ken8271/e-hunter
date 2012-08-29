@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
@@ -167,6 +168,7 @@ public class TalentEnquireController extends BaseController{
 				url.append(request.getContextPath());
 				url.append("/talent/viewTalentDetail.do?_id=");
 				url.append(dto.getTalentID());
+				url.append("&type=1");
 				
 				StringBuffer buffer = new StringBuffer();
 				
@@ -239,6 +241,7 @@ public class TalentEnquireController extends BaseController{
 		ModelAndView mv = new ModelAndView("talent/viewTalentDetail");
 		
 		String id = request.getParameter("_id");
+		String type = request.getParameter("type");
 		
 		TalentDTO talentDto = talentRegtService.getTalentByID(id);
 		
@@ -248,6 +251,11 @@ public class TalentEnquireController extends BaseController{
 		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
 		talentDto.setDegreeDto(degreeDto);
 		
+		if(ActionFlag.CREATE.equals(type)){
+			mv.addObject("backUrl", URLUtils.getHDIVUrl(request, request.getContextPath() + "/talent/completeTalentRegistration.do"));
+		}else if(ActionFlag.SEARCH.equals(type)){
+			mv.addObject("backUrl", URLUtils.getHDIVUrl(request, request.getContextPath() + "/talent/talentsSearch.do"));
+		}
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}

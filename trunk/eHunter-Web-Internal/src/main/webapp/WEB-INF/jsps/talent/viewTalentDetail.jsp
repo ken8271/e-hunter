@@ -21,7 +21,7 @@
 						<td>
 							<input class="standardButton" type="button" value="添加到项目">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" />&nbsp;
-							<input class="standardButton" type="button" value="返回">
+							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 						</td>
 					</tr>
 				</table>
@@ -181,7 +181,7 @@
 						<td>
 							<input class="standardButton" type="button" value="添加到项目">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" />&nbsp;
-							<input class="standardButton" type="button" value="返回">
+							<input class="standardButton" type="button" value="返回"  onclick="location.href='${backUrl}'" />
 						</td>
 					</tr>
 				</table>
