@@ -7,13 +7,10 @@
 <title>e-Hunter System/[EH-TLNT-0101]</title>
 <script type="text/javascript">
 function resetForm(){
-	$("#systemCustRefNum").val('');
-	$("#groupName").val('');
+	$("#talentID").val('');
 	$("#name").val('');
-	$("#type").val('');
-	$("#size").val('');
-	$("#grade").val('');
-	$("#status").val('');
+	$("#gender").val('');
+	$("#talentSrc").val('');
 }
 </script>
 </head>
