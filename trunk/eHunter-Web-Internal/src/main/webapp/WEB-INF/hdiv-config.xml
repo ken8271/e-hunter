@@ -59,6 +59,7 @@
 				<value>/customer/initAddCustomer.do</value>
 				<value>/customer/initCustomersSearch.do</value>
 				<value>/talent/initAddTalent.do</value>
+				<value>/talent/initTalentsSearch.do</value>
 			</list>			
 		</property>
 
