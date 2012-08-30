@@ -457,5 +457,23 @@ A.button:hover {
 	color: #000000;
 	width: 100%
 }
+
+.search{
+	background:url(/ehunter/images/icon/search_bg.gif)  no-repeat 0 0;	
+	width:200px;	
+	height:25px;
+}
+
+.search:hover {	
+	
+}
+
+.searchBtn {
+	width:25px;	
+	height:25px;	
+	border:1;	
+	cursor:pointer;	
+	display:inline-block;
+}
 /*--- standard form input end -----*/
 

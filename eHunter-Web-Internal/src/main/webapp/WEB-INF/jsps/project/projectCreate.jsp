@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>e-Hunter System/[EH-TLNT-0001]</title>
+<title>e-Hunter System/[EH-PRJ-0001]</title>
 <script type="text/javascript">
 function setOverlayDimension (){
 	 var overlay = document.getElementById('fade');
@@ -58,16 +58,16 @@ function popUpSelector(){
 </script>
 </head>
 <body>
-	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentInfo.do" method="post">
+	<form:form commandName="projectDto" action="${ctx}/project/saveProjectInfo.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag" />
 	    </div>
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">人才基本资料填写</td>
+				<td class="pageTitle">创建猎头项目</td>
 			</tr>
 			<tr>
-				<td><common:errorTable path="talentDto"></common:errorTable></td>
+				<td><common:errorTable path="projectDto"></common:errorTable></td>
 			</tr>
 		</table>
 		<table id="bg2" border="0" width="100%">
@@ -76,7 +76,7 @@ function popUpSelector(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="button" value="下一步" onclick="popUpSelector();" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -122,10 +122,6 @@ function popUpSelector(){
 						<td class="labelColumn">中文名：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:input path="cnName" cssClass="standardInputText" ></form:input>
-						<div class="search">
-						<input type="text"  class="input" style="width:175px;height: 25px" />
-						<a class="searchBtn" style="width: 25px" onclick="javascript:alert(1);" title="搜索按鈕"></a>
-						</div>
 						<common:errorSign id="cnName" path="cnName"></common:errorSign>
 						</td>
 						<td class="labelColumn">英文名：</td>
@@ -247,7 +243,7 @@ function popUpSelector(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="button" value="下一步" onclick="popUpSelector();" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
