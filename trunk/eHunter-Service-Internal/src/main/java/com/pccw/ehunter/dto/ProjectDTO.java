@@ -8,7 +8,9 @@ public class ProjectDTO extends BaseDTO {
 
 	private String systemProjectRefNum;
 	private String projectName;
-	private CustomerDTO customer;
+	private InternalUserDTO adviserDto;
+	private CustomerDTO customerDto;
+	private CustomerEnquireDTO enquireDto;
 
 	private List<ProjectPositionDTO> postions = new ArrayList<ProjectPositionDTO>();
 
@@ -28,12 +30,12 @@ public class ProjectDTO extends BaseDTO {
 		this.projectName = projectName;
 	}
 
-	public CustomerDTO getCustomer() {
-		return customer;
+	public CustomerDTO getCustomerDto() {
+		return customerDto;
 	}
 
-	public void setCustomer(CustomerDTO customer) {
-		this.customer = customer;
+	public void setCustomerDto(CustomerDTO customerDto) {
+		this.customerDto = customerDto;
 	}
 
 	public List<ProjectPositionDTO> getPostions() {
@@ -44,4 +46,19 @@ public class ProjectDTO extends BaseDTO {
 		this.postions = postions;
 	}
 
+	public InternalUserDTO getAdviserDto() {
+		return adviserDto;
+	}
+
+	public void setAdviserDto(InternalUserDTO adviserDto) {
+		this.adviserDto = adviserDto;
+	}
+
+	public CustomerEnquireDTO getEnquireDto() {
+		return enquireDto;
+	}
+
+	public void setEnquireDto(CustomerEnquireDTO enquireDto) {
+		this.enquireDto = enquireDto;
+	}
 }

@@ -24,4 +24,6 @@ public class SessionAttributeConstant {
 	
 	public static final String TALENT_ENQUIRE_DTO = "enquireDto";
 	public static final String LIST_OF_TALENT = "listOfTalent";
+	
+	public static final String PROJECT_DTO = "projectDto";
 }
