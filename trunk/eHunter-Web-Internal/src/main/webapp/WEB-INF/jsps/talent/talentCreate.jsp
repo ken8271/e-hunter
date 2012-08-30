@@ -122,10 +122,6 @@ function popUpSelector(){
 						<td class="labelColumn">中文名：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:input path="cnName" cssClass="standardInputText" ></form:input>
-						<div class="search">
-						<input type="text"  class="input" style="width:175px;height: 25px" />
-						<a class="searchBtn" style="width: 25px" onclick="javascript:alert(1);" title="搜索按鈕"></a>
-						</div>
 						<common:errorSign id="cnName" path="cnName"></common:errorSign>
 						</td>
 						<td class="labelColumn">英文名：</td>
