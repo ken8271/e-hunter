@@ -17,7 +17,7 @@
 			
 			<h3 class="menuheader expandable">项目管理</h3>
 			<ul class="categoryitems">
-			<li><a href="#">新建项目</a></li>
+			<li><a href="${ctx}/project/initNewProject.do">新建项目</a></li>
 			<li><a href="#">项目查询</a></li>
 			</ul>
 						
