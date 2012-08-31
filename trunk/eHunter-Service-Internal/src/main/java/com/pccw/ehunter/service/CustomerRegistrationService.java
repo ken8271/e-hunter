@@ -10,4 +10,5 @@ public interface CustomerRegistrationService {
 	public List<CustomerGroupDTO> loadCustGroups();
 	public int getCountOfGroupsByFullName(String fullName);
 	public void completeCustRegistration(CustomerDTO customerDto);
+	public void updateSubsidiaryInfo(String systemGroupRefNum , String systemCustRefNum);
 }
