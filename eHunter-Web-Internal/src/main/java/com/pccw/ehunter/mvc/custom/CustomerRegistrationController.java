@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CustomerIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerGroupConvertor;
@@ -179,7 +180,12 @@ public class CustomerRegistrationController extends BaseController{
 	
 	@RequestMapping(value="/customer/submitCustomer.do")
 	public ModelAndView submitCustomer(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		String systemGroupRefNum = null;
+		if(customerDto.getCustGroup() != null && CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(customerDto.getGroupIndicator()) ){
+			systemGroupRefNum = customerDto.getCustGroup().getSystemGroupRefNum();
+		}
 		custRegtService.completeCustRegistration(customerDto);
+		custRegtService.updateSubsidiaryInfo(systemGroupRefNum, customerDto.getSystemCustRefNum());
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
 	
