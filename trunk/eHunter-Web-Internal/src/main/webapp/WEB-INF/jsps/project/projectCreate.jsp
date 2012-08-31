@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-PRJ-0001]</title>
+<hdiv-c:url value="/project/loadCustomers.do" var="loadCustomerUrl"></hdiv-c:url>
 <script type="text/javascript">
 function setOverlayDimension (){
 	 var overlay = document.getElementById('fade');
@@ -39,8 +40,60 @@ function popUpFrame(lightDivId, fadeDivId) {
 }
 
 function popUpSelector(){
+	clearResult();
 	setOverlayDimension('fade');	
 	popUpFrame('light','fade');
+}
+
+function clearResult(){
+	$('#resultTable tr.contentTableRow').remove();
+	$('#resultTable').hide();
+}
+
+function loadCustomerInfo(){
+	$().progressDialog.showDialog("");
+	var id = document.getElementById('customerId').value;
+	var name = document.getElementById('customerName').value;
+	$.ajax({
+		type:'post',
+		async:true,
+		url:'${loadCustomerUrl}',
+		dataType:'xml',
+		data:{'_id':id , '_name':name},
+		success:function(xml){
+			var str = '';
+			$(xml).find('customer').each(function(i , element){
+				var custId = $(this).find("id").text();
+				var custName = $(this).find("name").text();
+				var grade = $(this).find("grade").text();
+				var status = $(this).find("status").text();
+				str = str + "<tr class='contentTableRow'><td><input type='radio' name='type' value='" + custId+ "'/></td>"
+				        + "<td>" + custId + "</td>"
+				        + "<td>" + custName + "</td>"
+				        + "<td>" + grade + "</td>"
+				        + "<td>" + status + "</td>";
+			});
+			$(str).appendTo('#resultTable');
+			$('#resultTable').show();
+			$().progressDialog.hideDialog("");
+		},
+		error:function(){
+			$().progressDialog.hideDialog("");
+			alert('系统错误');
+		}
+	});	
+}
+
+function getSelectedCustomer(){
+	var selectedValue = $(':radio:checked').val();
+	if(selectedValue != undefined){
+		document.getElementById('systemCustRefNum').value = selectedValue;
+		document.getElementById('light').style.display = 'none'; 
+		document.getElementById('fade').style.display = 'none';
+		showAllObject();
+	}else {		
+		alert('请至少选择一项');
+	}
 }
 </script>
 </head>
@@ -63,7 +116,7 @@ function popUpSelector(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="button" value="下一步" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步"/>&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -112,7 +165,7 @@ function popUpSelector(){
 						<td class="labelColumn">客户编号：<span class="mandatoryField">*</span></td>
 						<td>
 						   <div class="search">
-						      <form:input path="customerDto.systemCustRefNum" cssStyle="width:173px;height: 25px"/>
+						      <form:input path="systemCustRefNum" cssStyle="width:173px;height: 25px"/>
 						      <a class="searchBtn" onclick="popUpSelector();" title="搜索按鈕">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						   </div>
 						   <common:errorSign path="customerDto.systemCustRefNum" id="customerDto.systemCustRefNum"></common:errorSign>
@@ -130,7 +183,7 @@ function popUpSelector(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="下一步" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步"  />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
