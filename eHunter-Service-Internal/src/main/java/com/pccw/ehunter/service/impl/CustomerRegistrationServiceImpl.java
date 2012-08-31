@@ -66,7 +66,6 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	@Transactional
 	public void completeCustRegistration(CustomerDTO customerDto) {
 		
-		String systemGroupRefNum = null;
 		if(customerDto != null){
 			customerDto.setSystemCustRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_SEQUENCE_KEY, CommonConstant.PREFIX_CUSTOMER_ID , 6));
 
@@ -74,7 +73,6 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 				if(CustomerIndicator.CUSTOMER_GROUP.equals(customerDto.getGroupIndicator())){
 					customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));					
 				}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(customerDto.getGroupIndicator())){
-					systemGroupRefNum = customerDto.getCustGroup().getSystemGroupRefNum();
 					customerDto.getCustGroup().setSystemGroupRefNum(null);		
 				}
 			}
@@ -101,9 +99,12 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 		}
 		
 		custRegtDao.saveCustomerCompany(po);
-		
+	}
+	
+	@Transactional
+	public void updateSubsidiaryInfo(String systemGroupRefNum , String systemCustRefNum){
 		if(!StringUtils.isEmpty(systemGroupRefNum)){
-			custRegtDao.updateCustomerByProperty("SYS_REF_GP", systemGroupRefNum, customerDto.getSystemCustRefNum());
+			custRegtDao.updateCustomerByProperty("SYS_REF_GP", systemGroupRefNum, systemCustRefNum);
 		}
 	}
 }
