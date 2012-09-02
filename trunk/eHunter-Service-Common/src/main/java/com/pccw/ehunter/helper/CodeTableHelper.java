@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.CompanyCategoryDTO;
 import com.pccw.ehunter.dto.CompanySizeDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
@@ -21,6 +22,7 @@ import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.LanguageCategoryDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.dto.ProvinceDTO;
 import com.pccw.ehunter.dto.SkillCategoryDTO;
 import com.pccw.ehunter.dto.SkillLevelDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
@@ -31,6 +33,7 @@ import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
 import com.pccw.ehunter.service.LanguageCommonService;
 import com.pccw.ehunter.service.PositionCommonService;
+import com.pccw.ehunter.service.RegionCommonService;
 import com.pccw.ehunter.service.SkillCategoryService;
 import com.pccw.ehunter.service.SkillLevelService;
 import com.pccw.ehunter.service.SubjectCommonService;
@@ -67,6 +70,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private LanguageCommonService languageService;
+	
+	@Autowired
+	private RegionCommonService regionCommonService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -399,4 +405,42 @@ public class CodeTableHelper {
 		return lc;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<ProvinceDTO> getProvinces(HttpServletRequest request){
+		List<ProvinceDTO> provinces = (List<ProvinceDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_PROVINCE);
+		
+		if(CollectionUtils.isEmpty(provinces)){
+			provinces = regionCommonService.getProvinces();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_PROVINCE, provinces);
+		} else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return provinces;
+	}
+	
+	public ProvinceDTO getProvinceByCode(HttpServletRequest request , String code){
+		List<ProvinceDTO> provinces = getProvinces(request);
+		
+		if(!CollectionUtils.isEmpty(provinces)){
+			for(ProvinceDTO dto : provinces){
+				if(code.equals(dto.getProvinceCode())){
+					return dto;
+				}
+			}
+		}
+		
+		ProvinceDTO dto = new ProvinceDTO();
+		dto.setProvinceCode(code);
+		
+		return dto;
+	}
+	
+	public List<CityDTO> getCitiesByProvinceCode(String provinceCode){
+		return regionCommonService.getCitiesByProvinceCode(provinceCode);
+	}
+	
+	public CityDTO getCityByCode(String cityCode){
+		return regionCommonService.getCityByCode(cityCode);
+	}
 }
