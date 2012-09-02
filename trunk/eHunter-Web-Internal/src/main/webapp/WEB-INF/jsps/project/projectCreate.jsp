@@ -116,7 +116,7 @@ function getSelectedCustomer(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="下一步"/>&nbsp;
+							   <input class="standardButton" type="submit" value="保存" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -168,7 +168,7 @@ function getSelectedCustomer(){
 						      <form:input path="systemCustRefNum" cssStyle="width:173px;height: 25px"/>
 						      <a class="searchBtn" onclick="popUpSelector();" title="搜索按鈕">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						   </div>
-						   <common:errorSign path="customerDto.systemCustRefNum" id="customerDto.systemCustRefNum"></common:errorSign>
+						   <common:errorSign path="systemCustRefNum" id="systemCustRefNum"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
@@ -183,7 +183,7 @@ function getSelectedCustomer(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="下一步"  />&nbsp;
+							   <input class="standardButton" type="submit" value="保存" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>

@@ -4,6 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
+	    <mapping class="com.pccw.ehunter.domain.common.City"/>
 	    <mapping class="com.pccw.ehunter.domain.common.CompanyCategory"/>
 	    <mapping class="com.pccw.ehunter.domain.common.CompanySize"/>
 		<mapping class="com.pccw.ehunter.domain.common.Degree" />
@@ -11,6 +12,7 @@
 		<mapping class="com.pccw.ehunter.domain.common.IndustryCategory" />
 		<mapping class="com.pccw.ehunter.domain.common.Position" />
 		<mapping class="com.pccw.ehunter.domain.common.PositionCategory" />
+		<mapping class="com.pccw.ehunter.domain.common.Province" />
 		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>
 		<mapping class="com.pccw.ehunter.domain.common.Subject"/>
 		<mapping class="com.pccw.ehunter.domain.common.SubjectCategory"/>

@@ -7,16 +7,13 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 </head>
 <body>
-	<form:form commandName="talentDto" action="${ctx}/talent/saveTalentInfo.do" method="post">
-	    <div style="display: none">
-	       <input type="hidden" id="actionFlag" name="actionFlag" />
-	    </div>
+	<form:form commandName="postRequireDto" action="${ctx}/talent/saveTalentInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">职位描述</td>
+				<td class="pageTitle">需求职位信息 - 职位要求</td>
 			</tr>
 			<tr>
-				<td><common:errorTable path="talentDto"></common:errorTable></td>
+				<td><common:errorTable path="postRequireDto"></common:errorTable></td>
 			</tr>
 		</table>
 		<table id="bg2" border="0" width="100%">
@@ -25,9 +22,9 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
+							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" />
 							</td>
 						</tr>
 					</table>
@@ -37,17 +34,15 @@
 		<div class="emptyBlock"></div>
 		<table width="100%">
 			<tr>
-				<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
-				<td width="90%"><font face="Arial" size="2"><b>职位基本描述</b></font></td>
+				<td width="90%"><font face="Arial" size="2"><b>基本素质要求</b></font></td>
 			</tr>
 		</table>
 		<div class="contentTableBody">
-			<div style="height:5px"></div>
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
-						<td class="labelColumn">招聘企业：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">年龄要求：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:input path="cnName" cssClass="standardInputText" ></form:input>
 						<common:errorSign id="cnName" path="cnName"></common:errorSign>
@@ -55,7 +50,7 @@
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">职位分类：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">性别要求：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:input path="cnName" cssClass="standardInputText" ></form:input>
 						<common:errorSign id="gender" path="gender"></common:errorSign>
@@ -192,9 +187,9 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
+							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" />
 							</td>
 						</tr>
 					</table>
