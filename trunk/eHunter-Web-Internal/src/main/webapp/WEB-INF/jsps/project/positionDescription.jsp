@@ -129,18 +129,18 @@
 					<tr >
 						<td class="labelColumn">薪资构成：<span class="mandatoryField">*</span></td>
 					    <td colspan="3">
-							<input type="checkbox" name="salaryStructure" value="BSC" />&nbsp;基本薪资&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryStructure" value="BNS" />&nbsp;奖金/提成&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryStructure" value="OPT" />&nbsp;期权&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryStructure" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="salaryCategory" value="BSC" />&nbsp;基本薪资&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="salaryCategory" value="BNS" />&nbsp;奖金/提成&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="salaryCategory" value="OPT" />&nbsp;期权&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="salaryCategory" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
 					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">社会福利：</td>
 						<td colspan="3">
-						    <input type="checkbox" name="socityWelfare" value="STD" />&nbsp;国家标准&nbsp;&nbsp;&nbsp;
-						    <input type="checkbox" name="socityWelfare" value="BIS" />&nbsp;商业保险&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="socityWelfare" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
+						    <input type="checkbox" name="societyWelfare" value="STD" />&nbsp;国家标准&nbsp;&nbsp;&nbsp;
+						    <input type="checkbox" name="societyWelfare" value="BIS" />&nbsp;商业保险&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="societyWelfare" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr >
