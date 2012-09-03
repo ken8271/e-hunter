@@ -4,6 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
+	    <mapping class="com.pccw.ehunter.domain.common.AnnualLeaveWelfare"/>
 	    <mapping class="com.pccw.ehunter.domain.common.City"/>
 	    <mapping class="com.pccw.ehunter.domain.common.CompanyCategory"/>
 	    <mapping class="com.pccw.ehunter.domain.common.CompanySize"/>
@@ -13,12 +14,15 @@
 		<mapping class="com.pccw.ehunter.domain.common.Position" />
 		<mapping class="com.pccw.ehunter.domain.common.PositionCategory" />
 		<mapping class="com.pccw.ehunter.domain.common.Province" />
+		<mapping class="com.pccw.ehunter.domain.common.ResidentialWelfare"/>
+		<mapping class="com.pccw.ehunter.domain.common.SalaryCategory"/>
 		<mapping class="com.pccw.ehunter.domain.common.Sequence"/>
 		<mapping class="com.pccw.ehunter.domain.common.Subject"/>
 		<mapping class="com.pccw.ehunter.domain.common.SubjectCategory"/>
 		<mapping class="com.pccw.ehunter.domain.common.TalentSource"/>
 		<mapping class="com.pccw.ehunter.domain.common.SkillCategory"/>
 		<mapping class="com.pccw.ehunter.domain.common.SkillLevel"/>
+		<mapping class="com.pccw.ehunter.domain.common.SocietyWelfare"/>
 		<mapping class="com.pccw.ehunter.domain.common.LanguageCategory"/>
 		
 		<mapping class="com.pccw.ehunter.domain.internal.InternalRole" />

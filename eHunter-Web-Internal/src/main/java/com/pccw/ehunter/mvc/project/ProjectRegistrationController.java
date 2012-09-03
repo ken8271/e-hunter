@@ -23,12 +23,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
+import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDescriptionDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
+import com.pccw.ehunter.dto.ResidentialWelfareDTO;
+import com.pccw.ehunter.dto.SalaryCategoryDTO;
+import com.pccw.ehunter.dto.SocietyWelfareDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
@@ -116,8 +120,16 @@ public class ProjectRegistrationController extends BaseController{
 	
 	private void initializePositionDescription(HttpServletRequest request,ModelAndView mv) {
 		List<PositionCategoryDTO> categories = codeTableHelper.getPositionCategories(request);
+		List<SalaryCategoryDTO> salaryCategories = codeTableHelper.getSalaryCategories(request);
+		List<AnnualLeaveWelfareDTO> annualWelfares = codeTableHelper.getAnnualLeaveWelfares(request);
+		List<ResidentialWelfareDTO> residentialWelfares = codeTableHelper.getResidentialWelfares(request);
+		List<SocietyWelfareDTO> societyWelfares = codeTableHelper.getSocietyWelfares(request);
 		
 		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, categories);
+		mv.addObject(WebConstant.LIST_OF_SALARY_CATEGORY, salaryCategories);
+		mv.addObject(WebConstant.LIST_OF_ANNUAL_LEAVE_WELFARE, annualWelfares);
+		mv.addObject(WebConstant.LIST_OF_RESIDENTIAL_WELFARE, residentialWelfares);
+		mv.addObject(WebConstant.LIST_OF_SOCIETY_WELFARE, societyWelfares);
 	}
 
 	@RequestMapping("/project/loadCustomers.do")
