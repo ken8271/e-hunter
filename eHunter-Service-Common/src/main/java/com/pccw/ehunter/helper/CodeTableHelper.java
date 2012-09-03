@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
 import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.CompanyCategoryDTO;
 import com.pccw.ehunter.dto.CompanySizeDTO;
@@ -23,8 +24,11 @@ import com.pccw.ehunter.dto.LanguageCategoryDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProvinceDTO;
+import com.pccw.ehunter.dto.ResidentialWelfareDTO;
+import com.pccw.ehunter.dto.SalaryCategoryDTO;
 import com.pccw.ehunter.dto.SkillCategoryDTO;
 import com.pccw.ehunter.dto.SkillLevelDTO;
+import com.pccw.ehunter.dto.SocietyWelfareDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
@@ -38,6 +42,7 @@ import com.pccw.ehunter.service.SkillCategoryService;
 import com.pccw.ehunter.service.SkillLevelService;
 import com.pccw.ehunter.service.SubjectCommonService;
 import com.pccw.ehunter.service.TalentSourceService;
+import com.pccw.ehunter.service.WelfareCommonService;
 
 @Component("codeTableHelper")
 public class CodeTableHelper {
@@ -73,6 +78,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private RegionCommonService regionCommonService;
+	
+	@Autowired
+	private WelfareCommonService welfareCommonService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -442,5 +450,129 @@ public class CodeTableHelper {
 	
 	public CityDTO getCityByCode(String cityCode){
 		return regionCommonService.getCityByCode(cityCode);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AnnualLeaveWelfareDTO> getAnnualLeaveWelfares(HttpServletRequest request){
+		List<AnnualLeaveWelfareDTO> welfares = (List<AnnualLeaveWelfareDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_ANNUAL_LEAVE_WELFARE);
+		
+		if(CollectionUtils.isEmpty(welfares)){
+			welfares = welfareCommonService.getAnnualLeaveWelfares();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_ANNUAL_LEAVE_WELFARE, welfares);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return welfares;
+	}
+	
+	public AnnualLeaveWelfareDTO getAnnualLeaveWelfareByCode(HttpServletRequest request , String code){
+		List<AnnualLeaveWelfareDTO> welfares = getAnnualLeaveWelfares(request);
+		
+		if(!CollectionUtils.isEmpty(welfares)){
+			for(AnnualLeaveWelfareDTO welfareDto : welfares){
+				if(code.equals(welfareDto.getWelfareCode())){
+					return welfareDto;
+				}
+			}
+		}
+		
+		AnnualLeaveWelfareDTO dto = new AnnualLeaveWelfareDTO();
+		dto.setWelfareCode(code);
+		
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SalaryCategoryDTO> getSalaryCategories(HttpServletRequest request){
+		List<SalaryCategoryDTO> categories = (List<SalaryCategoryDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SALARY_CATEGORY);
+		
+		if(CollectionUtils.isEmpty(categories)){
+			categories = welfareCommonService.getSalaryCategories();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_SALARY_CATEGORY, categories);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return categories;
+	}
+	
+	public SalaryCategoryDTO getSalaryCategoryByCode(HttpServletRequest request , String code){
+		List<SalaryCategoryDTO> categories = getSalaryCategories(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(SalaryCategoryDTO dto : categories){
+				if(code.equals(dto)){
+					return dto;
+				}
+			}
+		}
+		
+		SalaryCategoryDTO dto = new SalaryCategoryDTO();
+		dto.setCategoryCode(code);
+		
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ResidentialWelfareDTO> getResidentialWelfares(HttpServletRequest request){
+		List<ResidentialWelfareDTO> welfares = (List<ResidentialWelfareDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_RESIDENTIAL_WELFARE);
+		
+		if(CollectionUtils.isEmpty(welfares)){
+			welfares = welfareCommonService.getResidentialWelfares();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_RESIDENTIAL_WELFARE, welfares);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return welfares;
+	}
+	
+	public ResidentialWelfareDTO getResidentialWelfareByCode(HttpServletRequest request , String code){
+		List<ResidentialWelfareDTO> welfares = getResidentialWelfares(request);
+		
+		if(!CollectionUtils.isEmpty(welfares)){
+			for(ResidentialWelfareDTO dto : welfares){
+				if(code.equals(dto.getWelfareCode())){
+					return dto;
+				}
+			}
+		}
+		
+		ResidentialWelfareDTO dto = new ResidentialWelfareDTO();
+		dto.setWelfareCode(code);
+		
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SocietyWelfareDTO> getSocietyWelfares(HttpServletRequest request){
+		List<SocietyWelfareDTO> welfares = (List<SocietyWelfareDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_SOCIETY_WELFARE);
+		
+		if(CollectionUtils.isEmpty(welfares)){
+			welfares = welfareCommonService.getSocietyWelfares();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_SOCIETY_WELFARE, welfares);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return welfares;
+	}
+	
+	public SocietyWelfareDTO getSocietyWelfareByCode(HttpServletRequest request , String code){
+		List<SocietyWelfareDTO> welfares = getSocietyWelfares(request);
+		
+		if(!CollectionUtils.isEmpty(welfares)){
+			for(SocietyWelfareDTO dto : welfares){
+				if(code.equals(dto.getWelfareCode())){
+					return dto;
+				}
+			}
+		}
+		
+		SocietyWelfareDTO dto = new SocietyWelfareDTO();
+		dto.setWelfareCode(code);
+		
+		return dto;
 	}
 }

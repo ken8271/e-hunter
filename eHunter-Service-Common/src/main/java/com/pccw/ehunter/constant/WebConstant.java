@@ -14,4 +14,8 @@ public class WebConstant {
 	public static final String LIST_OF_LANGUAGE_CATEGORY = "listOfLanguageCategory";
 	public static final String LIST_OF_PROVINCE = "listOfProvince";
 	public static final String LIST_OF_CITY = "listOfCity";
+	public static final String LIST_OF_SALARY_CATEGORY = "listOfSalaryCategory";
+	public static final String LIST_OF_ANNUAL_LEAVE_WELFARE = "listOfAnnualLeaveWelfare";
+	public static final String LIST_OF_RESIDENTIAL_WELFARE = "listOfResidentialWelfare";
+	public static final String LIST_OF_SOCIETY_WELFARE = "listOfSocietyWelfare";
 }
