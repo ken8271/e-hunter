@@ -17,8 +17,8 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private SimpleDateDTO expiryDateDto;
 	private String salaryFrom;
 	private String salaryTo;
-	private String[] salaryStructure;
-	private String[] socityWelfare;
+	private String[] salaryCategory;
+	private String[] societyWelfare;
 	private String[] residentialWelfare;
 	private String[] annualLeaveWelfare;
 	private String dutyDescription;
@@ -119,20 +119,20 @@ public class PositionDescriptionDTO extends BaseDTO {
 		this.salaryTo = salaryTo;
 	}
 
-	public String[] getSalaryStructure() {
-		return salaryStructure;
+	public String[] getSalaryCategory() {
+		return salaryCategory;
 	}
 
-	public void setSalaryStructure(String[] salaryStructure) {
-		this.salaryStructure = salaryStructure;
+	public void setSalaryCategory(String[] salaryCategory) {
+		this.salaryCategory = salaryCategory;
 	}
 
-	public String[] getSocityWelfare() {
-		return socityWelfare;
+	public String[] getSocietyWelfare() {
+		return societyWelfare;
 	}
 
-	public void setSocityWelfare(String[] socityWelfare) {
-		this.socityWelfare = socityWelfare;
+	public void setSocietyWelfare(String[] societyWelfare) {
+		this.societyWelfare = societyWelfare;
 	}
 
 	public String[] getResidentialWelfare() {
