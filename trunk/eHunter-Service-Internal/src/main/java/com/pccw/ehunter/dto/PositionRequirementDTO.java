@@ -1,22 +1,20 @@
 package com.pccw.ehunter.dto;
 
-import java.util.List;
-
 public class PositionRequirementDTO extends BaseDTO {
 	private static final long serialVersionUID = -6064997412158930410L;
 
 	private String ageFrom;
 	private String ageTo;
 	private String gender;
-	private String major;
-	private SubjectDTO majorDto;
+	private String majorCategory;
+	private SubjectCategoryDTO majorCategoryDto;
 	private String workExperience;
 	private String degree;
 	private String degreeDto;
 	private String ftEduIndicator;
 	private String[] language;
 	private String duty;
-	private List<String> keywords;
+	private String[] keyWords = new String[5];
 	private String remark;
 
 	public String getAgeFrom() {
@@ -43,20 +41,20 @@ public class PositionRequirementDTO extends BaseDTO {
 		this.gender = gender;
 	}
 
-	public String getMajor() {
-		return major;
+	public String getMajorCategory() {
+		return majorCategory;
 	}
 
-	public void setMajor(String major) {
-		this.major = major;
+	public void setMajorCategory(String majorCategory) {
+		this.majorCategory = majorCategory;
 	}
 
-	public SubjectDTO getMajorDto() {
-		return majorDto;
+	public SubjectCategoryDTO getMajorCategoryDto() {
+		return majorCategoryDto;
 	}
 
-	public void setMajorDto(SubjectDTO majorDto) {
-		this.majorDto = majorDto;
+	public void setMajorCategoryDto(SubjectCategoryDTO majorCategoryDto) {
+		this.majorCategoryDto = majorCategoryDto;
 	}
 
 	public String getWorkExperience() {
@@ -107,12 +105,12 @@ public class PositionRequirementDTO extends BaseDTO {
 		this.duty = duty;
 	}
 
-	public List<String> getKeywords() {
-		return keywords;
+	public String[] getKeyWords() {
+		return keyWords;
 	}
 
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
+	public void setKeyWords(String[] keyWords) {
+		this.keyWords = keyWords;
 	}
 
 	public String getRemark() {

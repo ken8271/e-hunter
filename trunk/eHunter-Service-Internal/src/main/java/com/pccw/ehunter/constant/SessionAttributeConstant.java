@@ -27,4 +27,5 @@ public class SessionAttributeConstant {
 	
 	public static final String PROJECT_DTO = "projectDto";
 	public static final String POSITION_DESCRIPTION_DTO = "postDescDto";
+	public static final String POSITION_REQUIREMENT_DTO = "postRequireDto";
 }
