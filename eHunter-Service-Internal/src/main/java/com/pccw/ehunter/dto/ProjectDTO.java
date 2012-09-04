@@ -1,8 +1,5 @@
 package com.pccw.ehunter.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProjectDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
@@ -12,7 +9,8 @@ public class ProjectDTO extends BaseDTO {
 	private InternalUserDTO adviserDto;
 	private CustomerDTO customerDto;
 
-	private List<ProjectPositionDTO> postions = new ArrayList<ProjectPositionDTO>();
+	private PositionDescriptionDTO postDescDto;
+	private PositionRequirementDTO postRequireDto;
 
 	public String getSystemProjectRefNum() {
 		return systemProjectRefNum;
@@ -54,12 +52,20 @@ public class ProjectDTO extends BaseDTO {
 		this.customerDto = customerDto;
 	}
 
-	public List<ProjectPositionDTO> getPostions() {
-		return postions;
+	public PositionDescriptionDTO getPostDescDto() {
+		return postDescDto;
 	}
 
-	public void setPostions(List<ProjectPositionDTO> postions) {
-		this.postions = postions;
+	public void setPostDescDto(PositionDescriptionDTO postDescDto) {
+		this.postDescDto = postDescDto;
+	}
+
+	public PositionRequirementDTO getPostRequireDto() {
+		return postRequireDto;
+	}
+
+	public void setPostRequireDto(PositionRequirementDTO postRequireDto) {
+		this.postRequireDto = postRequireDto;
 	}
 
 }
