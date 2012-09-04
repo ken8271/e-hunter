@@ -5,9 +5,46 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
+<hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
+<script type="text/javascript">
+function loadPositions(){
+	var postSelector = document.getElementById("positionSelector");
+	if(postSelector != null && postSelector.selectedIndex != 0){
+		$().progressDialog.showDialog("");
+		var code = postSelector.options[postSelector.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadPositions}',
+			dataType:'xml',
+			data:{'code':code},
+			success:function(xml){
+				$().progressDialog.hideDialog("");
+				var subSelector = document.getElementById("subPostSelector");
+				clearSelector(subSelector);
+				subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
+				$(xml).find('position').each(function(i , element){
+					var label = $(this).find("label").text();
+					var val = ''+$(this).children("value").text()+'';
+					subSelector.options[subSelector.length] = new Option(label, val);
+				});
+			},
+			error:function(){
+				$().progressDialog.hideDialog("");
+				alert('系统错误');
+			}
+		});
+	}
+}
+
+function clearSelector(selector){
+	while(selector.childNodes.length>0){
+		selector.removeChild(selector.childNodes[0]);
+	}
+}
+</script>
 </head>
 <body>
-	<form:form commandName="postDescDto" action="${ctx}/talent/savePositionDescription.do" method="post">
+	<form:form commandName="postDescDto" action="${ctx}/project/savePositionDescription.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag" />
 	    </div>
@@ -60,7 +97,7 @@
 						   </form:select>
 						</td>
 						<td >
-						   <form:select path="position" cssClass="standardSelect">
+						   <form:select id="subPostSelector" path="position" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						   </form:select>
 						    <common:errorSign id="position" path="position"></common:errorSign>
