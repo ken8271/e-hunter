@@ -116,7 +116,7 @@ function getSelectedCustomer(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="保存" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>
@@ -141,6 +141,7 @@ function getSelectedCustomer(){
 						<td class="labelColumn">项目名称：<span class="mandatoryField">*</span></td>
 						<td>
 						   <form:input path="projectName" cssClass="standardInputText" /> 
+						   <common:errorSign path="projectName" id="projectName"></common:errorSign>
 						</td>
 						<td class="labelColumn">项目负责人：<span class="mandatoryField">*</span></td>
 						<td>
@@ -183,7 +184,7 @@ function getSelectedCustomer(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="保存" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步 " />&nbsp;
 							   <input class="standardButton" type="reset" value="重置">&nbsp;
 							   <input class="standardButton" type="button" value="结束">
 							</td>

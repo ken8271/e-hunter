@@ -26,13 +26,16 @@ import com.pccw.ehunter.convertor.CustomerConvertor;
 import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
+import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDescriptionDTO;
+import com.pccw.ehunter.dto.PositionRequirementDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ResidentialWelfareDTO;
 import com.pccw.ehunter.dto.SalaryCategoryDTO;
 import com.pccw.ehunter.dto.SocietyWelfareDTO;
+import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
@@ -130,6 +133,33 @@ public class ProjectRegistrationController extends BaseController{
 		mv.addObject(WebConstant.LIST_OF_ANNUAL_LEAVE_WELFARE, annualWelfares);
 		mv.addObject(WebConstant.LIST_OF_RESIDENTIAL_WELFARE, residentialWelfares);
 		mv.addObject(WebConstant.LIST_OF_SOCIETY_WELFARE, societyWelfares);
+	}
+	
+	@RequestMapping("/project/savePositionDescription.do")
+	public ModelAndView savePositionDescription(HttpServletRequest request ,
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
+			@ModelAttribute(SessionAttributeConstant.POSITION_DESCRIPTION_DTO)PositionDescriptionDTO postDescDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/fillPositionRequirement.do", true));
+		
+		projectDto.setPostDescDto(postDescDto);
+		return mv;
+	}
+	
+	@RequestMapping("/project/fillPositionRequirement.do")
+	public ModelAndView fillPositionRequirement(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("project/positionRequirement");
+		
+		initializePositionRequirement(request , mv);
+		mv.addObject(SessionAttributeConstant.POSITION_REQUIREMENT_DTO, new PositionRequirementDTO());
+		return mv;
+	}
+
+	private void initializePositionRequirement(HttpServletRequest request,ModelAndView mv) {
+		List<SubjectCategoryDTO> majorCategories = codeTableHelper.getAllSubjectTypes(request);
+		List<DegreeDTO> degreeCategories = codeTableHelper.getAllDegrees(request);
+		
+		mv.addObject(WebConstant.LIST_OF_SUBJECT_TYPE, majorCategories);
+		mv.addObject(WebConstant.LIST_OF_DEGREE, degreeCategories);
 	}
 
 	@RequestMapping("/project/loadCustomers.do")
