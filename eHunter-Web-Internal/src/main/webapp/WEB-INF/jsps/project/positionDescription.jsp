@@ -7,6 +7,11 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
+$(document).ready(function(){
+	loadPositions();
+	$('#subPostSelector').val('${postDescDto.position}');
+});
+
 function loadPositions(){
 	var postSelector = document.getElementById("positionSelector");
 	if(postSelector != null && postSelector.selectedIndex != 0){
@@ -166,36 +171,34 @@ function clearSelector(selector){
 					<tr >
 						<td class="labelColumn">薪资构成：<span class="mandatoryField">*</span></td>
 					    <td colspan="3">
-							<input type="checkbox" name="salaryCategory" value="BSC" />&nbsp;基本薪资&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryCategory" value="BNS" />&nbsp;奖金/提成&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryCategory" value="OPT" />&nbsp;期权&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="salaryCategory" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
+					        <c:forEach items="${listOfSalaryCategory }" var="salaryCategory">
+					           <input type="checkbox" name="salaryCategory" value='<form:cipher value="${salaryCategory.categoryCode }" parameter="salaryCategory"/>'/>&nbsp;${salaryCategory.displayName }&nbsp;&nbsp;&nbsp;
+					        </c:forEach>
 					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">社会福利：</td>
 						<td colspan="3">
-						    <input type="checkbox" name="societyWelfare" value="STD" />&nbsp;国家标准&nbsp;&nbsp;&nbsp;
-						    <input type="checkbox" name="societyWelfare" value="BIS" />&nbsp;商业保险&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="societyWelfare" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
-						</td>
+					        <c:forEach items="${listOfSocietyWelfare }" var="societyWelfare">
+					           <input type="checkbox" name="societyWelfare" value='<form:cipher value="${societyWelfare.welfareCode }" parameter="societyWelfare"/>'/>&nbsp;${societyWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					        </c:forEach>
+					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">居住福利：</td>
 						<td colspan="3">
-						    <input type="checkbox" name="residentialWelfare" value="AWC" />&nbsp;住房补贴&nbsp;&nbsp;&nbsp;
-						    <input type="checkbox" name="residentialWelfare" value="ARG" />&nbsp;公司安排&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="residentialWelfare" value="PCF" />&nbsp;公积金&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="residentialWelfare" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
-						</td>
+					        <c:forEach items="${listOfResidentialWelfare }" var="residentialWelfare">
+					           <input type="checkbox" name="residentialWelfare" value='<form:cipher value="${residentialWelfare.welfareCode }" parameter="residentialWelfare"/>'/>&nbsp;${residentialWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					        </c:forEach>
+					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">年假福利：</td>
 						<td colspan="3">
-						    <input type="checkbox" name="annualLeaveWelfare" value="STD" />&nbsp;国家标准&nbsp;&nbsp;&nbsp;
-						    <input type="checkbox" name="annualLeaveWelfare" value="REP" />&nbsp;公司补充&nbsp;&nbsp;&nbsp;
-							<input type="checkbox" name="annualLeaveWelfare" value="OTH" />&nbsp;其他&nbsp;&nbsp;&nbsp;
-						</td>
+					        <c:forEach items="${listOfAnnualLeaveWelfare }" var="annualLeaveWelfare">
+					           <input type="checkbox" name="annualLeaveWelfare" value='<form:cipher value="${annualLeaveWelfare.welfareCode }" parameter="annualLeaveWelfare"/>'/>&nbsp;${annualLeaveWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					        </c:forEach>
+					    </td>
 					</tr>
 				</tbody>
 			</table>
