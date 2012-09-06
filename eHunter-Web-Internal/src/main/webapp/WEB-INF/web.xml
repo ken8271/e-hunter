@@ -125,4 +125,15 @@
 		<exception-type>com.pccw.ehunter.exception.SessionTimeoutException</exception-type>
 		<location>/commons/sessionTimeout.jsp</location>
 	</error-page>
+	
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.hdiv.org/spring/tags/form</taglib-uri>
+			<taglib-location>/WEB-INF/tld/hdiv-spring-form.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.springframework.org/tags/form</taglib-uri>
+			<taglib-location>/WEB-INF/tld/spring-form.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>
