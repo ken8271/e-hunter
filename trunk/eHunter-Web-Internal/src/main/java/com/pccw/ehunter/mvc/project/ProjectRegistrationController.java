@@ -41,6 +41,7 @@ import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.SecurityUtils;
+import com.pccw.ehunter.validator.PositionDescriptionValidator;
 import com.pccw.ehunter.validator.ProjectValidator;
 
 @Controller
@@ -57,6 +58,9 @@ public class ProjectRegistrationController extends BaseController{
 	
 	@Autowired
 	private CodeTableHelper codeTableHelper;
+	
+	@Autowired
+	private PositionDescriptionValidator postDescValidator;
 	
 	@RequestMapping("/project/initNewProject.do")
 	public ModelAndView initNewProject(HttpServletRequest request){
@@ -138,10 +142,19 @@ public class ProjectRegistrationController extends BaseController{
 	@RequestMapping("/project/savePositionDescription.do")
 	public ModelAndView savePositionDescription(HttpServletRequest request ,
 			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
-			@ModelAttribute(SessionAttributeConstant.POSITION_DESCRIPTION_DTO)PositionDescriptionDTO postDescDto){
+			@ModelAttribute(SessionAttributeConstant.POSITION_DESCRIPTION_DTO)PositionDescriptionDTO postDescDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/fillPositionRequirement.do", true));
 		
+		postDescValidator.validate(postDescDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("project/positionDescription");
+			mv.addObject("customerName", projectDto.getCustomerDto().getFullName());
+			mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
+		}
+		
 		projectDto.setPostDescDto(postDescDto);
+		
 		return mv;
 	}
 	
