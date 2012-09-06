@@ -37,6 +37,11 @@
 			<version>0.0.1</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
