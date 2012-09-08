@@ -41,6 +41,7 @@ import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.SecurityUtils;
+import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.PositionDescriptionValidator;
 import com.pccw.ehunter.validator.ProjectValidator;
 
@@ -149,11 +150,24 @@ public class ProjectRegistrationController extends BaseController{
 		
 		if(errors.hasErrors()){
 			mv = new ModelAndView("project/positionDescription");
+			mv.addObject("salaryCategory", StringUtils.concat(postDescDto.getSalaryCategory(), ","));
+			mv.addObject("societyWelfare", StringUtils.concat(postDescDto.getSocietyWelfare(), ","));
+			mv.addObject("residentialWelfare", StringUtils.concat(postDescDto.getResidentialWelfare(), ","));
+			mv.addObject("annualLeaveWelfare", StringUtils.concat(postDescDto.getAnnualLeaveWelfare(), ","));
 			mv.addObject("customerName", projectDto.getCustomerDto().getFullName());
 			mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
 		}
 		
 		projectDto.setPostDescDto(postDescDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/project/backToProjectInfo.do")
+	public ModelAndView backToProjectInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView("project/projectCreate");
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		
 		return mv;
 	}
@@ -173,6 +187,33 @@ public class ProjectRegistrationController extends BaseController{
 		
 		mv.addObject(WebConstant.LIST_OF_SUBJECT_TYPE, majorCategories);
 		mv.addObject(WebConstant.LIST_OF_DEGREE, degreeCategories);
+	}
+	
+	@RequestMapping("/project/savePositionRequirement.do")
+	public ModelAndView savePositionRequirement(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.POSITION_REQUIREMENT_DTO)PositionRequirementDTO postRequireDto , BindingResult errors){
+		ModelAndView mv = new ModelAndView("project/verify");
+		
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping("/project/backToPositionDescription.do")
+	public ModelAndView backToPositionDescription(HttpServletRequest request ,
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
+			@ModelAttribute(SessionAttributeConstant.POSITION_DESCRIPTION_DTO)PositionDescriptionDTO postDescDto){
+		ModelAndView mv = new ModelAndView("project/positionDescription");
+		
+		initializePositionDescription(request , mv);
+		
+		mv.addObject("salaryCategory", StringUtils.concat(postDescDto.getSalaryCategory(), ","));
+		mv.addObject("societyWelfare", StringUtils.concat(postDescDto.getSocietyWelfare(), ","));
+		mv.addObject("residentialWelfare", StringUtils.concat(postDescDto.getResidentialWelfare(), ","));
+		mv.addObject("annualLeaveWelfare", StringUtils.concat(postDescDto.getAnnualLeaveWelfare(), ","));
+		mv.addObject("customerName", projectDto.getCustomerDto().getFullName());
+		mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
+		
+		return mv;
 	}
 
 	@RequestMapping("/project/loadCustomers.do")

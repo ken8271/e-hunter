@@ -376,6 +376,19 @@ div.emptyBlock {
 	background-color: #666666;
 }
 
+.selectButton{
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
+	padding: 0px 10px 0px 10px;
+	line-height:22px;
+	text-decoration: none;
+	border:0;
+	height: 23px;
+	text-align:left;
+	cursor:pointer;
+	width:161px;
+	background:url(/ehunter/images/icon/selector_btn.jpg) no-repeat
+}
+
 .labelColumn {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
 	color: #666666;

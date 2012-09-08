@@ -42,7 +42,7 @@
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
-						<td class="labelColumn">年龄要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">年龄要求：</td>
 						<td>
 						<form:select path="ageFrom" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -59,7 +59,7 @@
 						</form:select>
 						<common:errorSign id="ageTo" path="ageTo"></common:errorSign>
 						</td>
-						<td class="labelColumn">性别要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">性别要求：</td>
 						<td>
 						<form:select path="gender" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -69,7 +69,7 @@
 						<common:errorSign id="gender" path="gender"></common:errorSign>
 					</tr>
 					<tr>
-						<td class="labelColumn">专业要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">专业要求：</td>
 						<td>
 						   <form:select path="majorCategory" cssClass="standardSelect" >
 						      <form:option value="" label="不限"></form:option>
@@ -79,7 +79,7 @@
 						   </form:select>
 						<common:errorSign id="majorCategory" path="majorCategory"></common:errorSign>
 						</td>
-						<td class="labelColumn">总工作年限：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">总工作年限：</td>
 						<td>
 						   <form:input path="workExperience" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;年以上
 						   <common:errorSign id="workExperience" path="workExperience"></common:errorSign>

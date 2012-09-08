@@ -9,8 +9,24 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	loadPositions();
-	$('#subPostSelector').val('${postDescDto.position}');
+	setCheckedIndicator('SC' , '${salaryCategory}'.split(','));
+	setCheckedIndicator('SW' , '${societyWelfare}'.split(','));
+	setCheckedIndicator('RW' , '${residentialWelfare}'.split(','));
+	setCheckedIndicator('AW' , '${annualLeaveWelfare}'.split(','));
 });
+
+function setCheckedIndicator(prefix , tokens){
+	if(tokens == null) return ;
+	
+	for (var i = 0; i < tokens.length; i++) {
+		if(tokens[i] != '') {
+			var checkBox = document.getElementById(prefix + '_' +tokens[i]);
+			if(checkBox != null){
+				checkBox.checked = true;
+			}
+		}
+	}
+}
 
 function loadPositions(){
 	var postSelector = document.getElementById("positionSelector");
@@ -32,6 +48,8 @@ function loadPositions(){
 					var val = ''+$(this).children("value").text()+'';
 					subSelector.options[subSelector.length] = new Option(label, val);
 				});
+				
+				$('#subPostSelector').val('${postDescDto.position}');
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
@@ -135,7 +153,9 @@ function clearSelector(selector){
 					</tr>
 					<tr>
 						<td class="labelColumn">工作地点：<span class="mandatoryField">*</span></td>
-						<td>&nbsp;</td>
+						<td>
+						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()">
+						</td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
@@ -172,7 +192,7 @@ function clearSelector(selector){
 						<td class="labelColumn">薪资构成：<span class="mandatoryField">*</span></td>
 					    <td colspan="3">
 					        <c:forEach items="${listOfSalaryCategory }" var="salaryCategory">
-					           <input type="checkbox" name="salaryCategory" value='<form:cipher value="${salaryCategory.categoryCode }" parameter="salaryCategory"/>'/>&nbsp;${salaryCategory.displayName }&nbsp;&nbsp;&nbsp;
+					           <input id="SC_${salaryCategory.categoryCode }" type="checkbox" name="salaryCategory" value='<form:cipher value="${salaryCategory.categoryCode }" parameter="salaryCategory"/>'/>&nbsp;${salaryCategory.displayName }&nbsp;&nbsp;&nbsp;
 					        </c:forEach>
 					    </td>
 					</tr>
@@ -180,7 +200,7 @@ function clearSelector(selector){
 						<td class="labelColumn">社会福利：</td>
 						<td colspan="3">
 					        <c:forEach items="${listOfSocietyWelfare }" var="societyWelfare">
-					           <input type="checkbox" name="societyWelfare" value='<form:cipher value="${societyWelfare.welfareCode }" parameter="societyWelfare"/>'/>&nbsp;${societyWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					           <input id="SW_${societyWelfare.welfareCode  }" type="checkbox" name="societyWelfare" value='<form:cipher value="${societyWelfare.welfareCode }" parameter="societyWelfare"/>'/>&nbsp;${societyWelfare.displayName }&nbsp;&nbsp;&nbsp;
 					        </c:forEach>
 					    </td>
 					</tr>
@@ -188,7 +208,7 @@ function clearSelector(selector){
 						<td class="labelColumn">居住福利：</td>
 						<td colspan="3">
 					        <c:forEach items="${listOfResidentialWelfare }" var="residentialWelfare">
-					           <input type="checkbox" name="residentialWelfare" value='<form:cipher value="${residentialWelfare.welfareCode }" parameter="residentialWelfare"/>'/>&nbsp;${residentialWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					           <input id="RW_${residentialWelfare.welfareCode  }" type="checkbox" name="residentialWelfare" value='<form:cipher value="${residentialWelfare.welfareCode }" parameter="residentialWelfare"/>'/>&nbsp;${residentialWelfare.displayName }&nbsp;&nbsp;&nbsp;
 					        </c:forEach>
 					    </td>
 					</tr>
@@ -196,7 +216,7 @@ function clearSelector(selector){
 						<td class="labelColumn">年假福利：</td>
 						<td colspan="3">
 					        <c:forEach items="${listOfAnnualLeaveWelfare }" var="annualLeaveWelfare">
-					           <input type="checkbox" name="annualLeaveWelfare" value='<form:cipher value="${annualLeaveWelfare.welfareCode }" parameter="annualLeaveWelfare"/>'/>&nbsp;${annualLeaveWelfare.displayName }&nbsp;&nbsp;&nbsp;
+					           <input id="AW_${annualLeaveWelfare.welfareCode  }" type="checkbox" name="annualLeaveWelfare" value='<form:cipher value="${annualLeaveWelfare.welfareCode }" parameter="annualLeaveWelfare"/>'/>&nbsp;${annualLeaveWelfare.displayName }&nbsp;&nbsp;&nbsp;
 					        </c:forEach>
 					    </td>
 					</tr>
