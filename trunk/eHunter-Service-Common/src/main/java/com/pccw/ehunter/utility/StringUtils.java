@@ -105,4 +105,31 @@ public class StringUtils {
 			return null;
 		}
 	}
+	
+	public static String concat(String[] tokens, String delim) {
+		return concat(tokens, EMPTY_STRING, EMPTY_STRING, delim);
+	}
+	
+	public static String concat(String[] tokens, String tokenPrefix,
+			String tokenSuffix, String delim) {
+		StringBuffer s = new StringBuffer();
+		if (tokens != null) {
+			if (tokenPrefix == null) {
+				tokenPrefix = EMPTY_STRING;
+			}
+			if (tokenSuffix == null) {
+				tokenSuffix = EMPTY_STRING;
+			}
+			if (delim == null) {
+				delim = EMPTY_STRING;
+			}
+			for (int i = 0; i < tokens.length; i++) {
+				s.append(tokenPrefix).append(tokens[i]).append(tokenSuffix);
+				if (i + 1 < tokens.length) {
+					s.append(delim);
+				}
+			}
+		}
+		return s.toString();
+	}
 }
