@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
+<hdiv-c:url value="/project/loadCities.do" var="loadCities"></hdiv-c:url>
 <script type="text/javascript">
 $(document).ready(function(){
 	loadPositions();
@@ -13,7 +14,17 @@ $(document).ready(function(){
 	setCheckedIndicator('SW' , '${societyWelfare}'.split(','));
 	setCheckedIndicator('RW' , '${residentialWelfare}'.split(','));
 	setCheckedIndicator('AW' , '${annualLeaveWelfare}'.split(','));
+	
+	getSelectedCities();
+	displaySelectedCities(document.getElementById('citySelector'));
 });
+
+function popUpSelector(){
+	$('#citySelector').hide();
+	setPopUpFramePosition(600,300);
+	setOverlayDimension('fade');	
+	popUpFrame('light','fade');
+}
 
 function setCheckedIndicator(prefix , tokens){
 	if(tokens == null) return ;
@@ -25,6 +36,149 @@ function setCheckedIndicator(prefix , tokens){
 				checkBox.checked = true;
 			}
 		}
+	}
+}
+
+function isExist(citySelector , value){
+	for(var i=0; i<citySelector.length ; i++){
+		if(value == citySelector.options[i].value){
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+function getSelectedCities(){
+	var citySelector = document.getElementById('citySelector');
+	
+	var displayStr = "<span>";
+	var displayValue = '';
+	for(var i=0 ;  i<citySelector.length ; i++){
+		displayStr = displayStr + citySelector.options[i].text + "&nbsp;&nbsp;&nbsp;&nbsp;";
+		
+		if(i == citySelector.length-1){
+			displayValue = displayValue + citySelector.options[i].value;
+		}else {
+			displayValue = displayValue + citySelector.options[i].value + ',';
+		}
+	}
+	displayStr = displayStr + "</span>";
+	
+	$('#expectCitiesDisplay span').remove();
+	$(displayStr).appendTo('#expectCitiesDisplay');
+	
+	$('#cities').val(displayValue);
+}
+
+function removeByCode(citySelector , value){
+	for(var i=0 ; i<citySelector.length ; i++){
+		if(value == citySelector.options[i].value){
+			citySelector.options.remove(i);  
+			i--;
+		}
+	}
+}
+
+function displaySelectedCities(citySelector){
+	var str = '';
+	for(var i=0 ; i<5 ; i++){
+		if(i < citySelector.length){
+			str = str + "<td><input type='checkbox' value='" + citySelector.options[i].value + "' checked onclick='handleUnselect(this)'/>" + citySelector.options[i].text +"</td>";
+		}else {
+			str = str + "<td>&nbsp;</td>";
+		}
+	}
+	
+	clearSelectedCities();
+	$(str).appendTo('#selectedCities');
+}
+
+function clearCities(){
+	$('#cityDisplayPanel tr').remove();
+}
+
+function clearSelectedCities(){
+	$('#selectedCities td:gt(0)').remove();
+}
+
+function handleUnselect(c){
+	var citySelector = document.getElementById('citySelector');
+	if(!c.checked){
+		removeByCode(citySelector , c.value);
+		
+		var city = $('#cityDisplayPanel [value='+ c.value + ']');
+		if(city != null && city[0] != null){
+			city[0].checked = false;
+		}
+		
+		displaySelectedCities(citySelector);
+	}
+}
+
+function handleSelect(city){
+	var citySelector = document.getElementById('citySelector');
+	var c = $(city).children();
+	var label = $(city).text();
+	c[0].checked = !c[0].checked;
+	
+	if(c[0].checked){
+		if(citySelector.length >= 5){
+			alert('最多可添加5个地区');
+			c[0].checked = false;
+			return ;
+		}
+		
+		if(!isExist(citySelector , c[0].value)){			
+		   citySelector.options[citySelector.length] = new Option(label, c[0].value);
+		}else {
+		   c[0].checked = false;
+		   removeByCode(citySelector,c[0].value);
+		}
+	}else {		
+		removeByCode(citySelector,c[0].value);
+	}
+	
+	displaySelectedCities(citySelector);
+}
+
+function loadCities(){
+	clearCities();
+	var provinceSelector = document.getElementById("provinceSelector");
+	if(provinceSelector != null && provinceSelector.selectedIndex != 0){
+		$().progressDialog.showDialog("");
+		var code = provinceSelector.options[provinceSelector.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadCities}',
+			dataType:'xml',
+			data:{'_id':code},
+			success:function(xml){
+				var str = '';
+				var count = 0;
+				$(xml).find('city').each(function(i , element){
+					count++;
+					var cityCode = $(this).find("value").text();
+					var cityName = $(this).find("label").text();
+					if(count%5 == 1){
+						str = str + "<tr height='30px'>";
+					}
+					
+					str = str + "<td style='cursor:pointer; width: 20%; padding-left: 1px;' onclick='handleSelect(this);'><input style='display:none' type='checkbox' value='" + cityCode + "'/>&nbsp;" + cityName +"</td>";
+
+					if(count%5 == 0){
+						str = str + "</tr>";
+					}
+				});
+				
+				$(str).appendTo('#cityDisplayPanel');
+				$().progressDialog.hideDialog("");
+			},
+			error:function(){
+				$().progressDialog.hideDialog("");
+				alert('系统错误');
+			}
+		});
 	}
 }
 
@@ -67,6 +221,7 @@ function clearSelector(selector){
 </script>
 </head>
 <body>
+    <hdiv-c:url value="/project/backToProjectInfo.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="postDescDto" action="${ctx}/project/savePositionDescription.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag" />
@@ -87,7 +242,7 @@ function clearSelector(selector){
 							<td>							   
 							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" />
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
 					</table>
@@ -154,9 +309,10 @@ function clearSelector(selector){
 					<tr>
 						<td class="labelColumn">工作地点：<span class="mandatoryField">*</span></td>
 						<td>
-						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()">
+						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpSelector();">
+						   <form:hidden path="cities"/>
 						</td>
-						<td colspan="2">&nbsp;</td>
+						<td id="expectCitiesDisplay" colspan="2"></td>
 					</tr>
 					<tr>
 						<td class="labelColumn">截止日期：<span class="mandatoryField">*</span></td>
@@ -243,6 +399,7 @@ function clearSelector(selector){
 				</tbody>
 			</table>
 		</div>
+		<jsp:include page="citySelector_pop.jsp"></jsp:include>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -252,7 +409,7 @@ function clearSelector(selector){
 							<td>
 							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" />
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
 					</table>

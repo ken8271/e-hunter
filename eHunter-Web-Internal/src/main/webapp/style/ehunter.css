@@ -203,12 +203,16 @@ div.emptyBlock {
 .white_content {
 	display: none;
 	position: absolute;
-	top: 25%;
-	left: 25%;
-	width: 600px;
-	height: 200px;
 	padding: 16px;
 	border: 5px solid #EEEEEE;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+.white_content_without_padding {
+	display: none;
+	position: absolute;
 	background-color: white;
 	z-index: 1002;
 	overflow: auto;
@@ -487,6 +491,19 @@ A.button:hover {
 	width:25px;	
 	height:25px;	
 	cursor:pointer;	
+}
+
+.popUpTitle{
+	font: bold 14px Arial;
+	color: white;
+	height:30px;
+	clear:both;
+	background:#5f94f0;
+}
+
+.seprator{
+	height: 5px;
+	background: url(/ehunter/images/icon/separator_bot.gif) repeat scroll 0% 0% transparent;
 }
 /*--- standard form input end -----*/
 

@@ -11,18 +11,20 @@
 				 <div class="emptyBlock"></div>
 			</td>
 		</tr>
+		<tr height="5px"></tr>
 		<tr>
 			<td align="left" >
 				&nbsp;<input id="manual" type="radio" value="manual" name="type" checked/>手动输入人才简历.
 			</td>
 		</tr>
+		<tr height="5px"></tr>
 		<tr>	
 			<td align="left">
 				&nbsp;<input id="import" type="radio" value="import" name="type" />批量导入人才简历.
 			</td>
 		</tr>
 	</table>
-	
+	<div class="emptyBlock"></div>
 	<div class="emptyBlock"></div>
 	<table id="bg2" border="0" width="100%">
 		<tr>
