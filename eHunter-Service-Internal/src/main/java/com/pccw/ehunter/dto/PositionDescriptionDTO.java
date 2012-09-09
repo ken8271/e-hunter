@@ -12,7 +12,7 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private String positionName;
 	private String department;
 	private String reportTarget;
-	private String[] cities;
+	private String cities;
 	private List<CityDTO> cityDtos;
 	private SimpleDateDTO expiryDateDto;
 	private String salaryFrom;
@@ -79,11 +79,11 @@ public class PositionDescriptionDTO extends BaseDTO {
 		this.reportTarget = reportTarget;
 	}
 
-	public String[] getCities() {
+	public String getCities() {
 		return cities;
 	}
 
-	public void setCities(String[] cities) {
+	public void setCities(String cities) {
 		this.cities = cities;
 	}
 
