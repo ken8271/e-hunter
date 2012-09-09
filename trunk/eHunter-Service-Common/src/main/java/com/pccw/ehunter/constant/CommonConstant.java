@@ -13,6 +13,7 @@ public class CommonConstant {
 	public static final boolean ENABLE_HDIV = true;
 	
 	public static final String HYPHEN = "-";
+	public static final String COMMA = ",";
 	
 	public static final String STATUS_IN_SERVICE = "IS";//在职
 	public static final String STATUS_OUT_SERVICE = "OS";//离职
