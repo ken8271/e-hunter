@@ -33,6 +33,8 @@ public class PositionDescriptionValidator extends AbstractValidator{
 		validateRequired(errors, "reportTarget", dto.getReportTarget(), "汇报对象");
 		validateStringLength(errors, "reportTarget", dto.getReportTarget(), "汇报对象", 50);
 		
+		validateRequired(errors, "cities", dto.getCities(), "工作地点");
+		
 		if(dto.getExpiryDateDto() != null){
 			validateRequired(errors, "expiryDateDto.day", dto.getExpiryDateDto().getDay(), "截止日期");			
 		}else {
