@@ -1,6 +1,7 @@
 package com.pccw.ehunter.mvc.project;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,18 +21,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
 import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
+import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDescriptionDTO;
 import com.pccw.ehunter.dto.PositionRequirementDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
+import com.pccw.ehunter.dto.ProvinceDTO;
 import com.pccw.ehunter.dto.ResidentialWelfareDTO;
 import com.pccw.ehunter.dto.SalaryCategoryDTO;
 import com.pccw.ehunter.dto.SocietyWelfareDTO;
@@ -47,7 +52,9 @@ import com.pccw.ehunter.validator.ProjectValidator;
 
 @Controller
 @SessionAttributes({
-	SessionAttributeConstant.PROJECT_DTO
+	SessionAttributeConstant.PROJECT_DTO,
+	SessionAttributeConstant.POSITION_DESCRIPTION_DTO,
+	SessionAttributeConstant.POSITION_REQUIREMENT_DTO
 })
 public class ProjectRegistrationController extends BaseController{
 	
@@ -132,12 +139,14 @@ public class ProjectRegistrationController extends BaseController{
 		List<AnnualLeaveWelfareDTO> annualWelfares = codeTableHelper.getAnnualLeaveWelfares(request);
 		List<ResidentialWelfareDTO> residentialWelfares = codeTableHelper.getResidentialWelfares(request);
 		List<SocietyWelfareDTO> societyWelfares = codeTableHelper.getSocietyWelfares(request);
+		List<ProvinceDTO> provinces = codeTableHelper.getProvinces(request);
 		
 		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, categories);
 		mv.addObject(WebConstant.LIST_OF_SALARY_CATEGORY, salaryCategories);
 		mv.addObject(WebConstant.LIST_OF_ANNUAL_LEAVE_WELFARE, annualWelfares);
 		mv.addObject(WebConstant.LIST_OF_RESIDENTIAL_WELFARE, residentialWelfares);
 		mv.addObject(WebConstant.LIST_OF_SOCIETY_WELFARE, societyWelfares);
+		mv.addObject(WebConstant.LIST_OF_PROVINCE, provinces);
 	}
 	
 	@RequestMapping("/project/savePositionDescription.do")
@@ -145,6 +154,17 @@ public class ProjectRegistrationController extends BaseController{
 			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
 			@ModelAttribute(SessionAttributeConstant.POSITION_DESCRIPTION_DTO)PositionDescriptionDTO postDescDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/fillPositionRequirement.do", true));
+		
+		List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+		if(!StringUtils.isEmpty(postDescDto.getCities())){
+			String[] cities = StringUtils.tokenize(postDescDto.getCities(), CommonConstant.COMMA);
+			if(cities != null && cities.length != 0){
+				for(String cityCode : cities){
+					cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+				}
+			}
+		}
+		postDescDto.setCityDtos(cityDtos);
 		
 		postDescValidator.validate(postDescDto, errors);
 		
@@ -184,9 +204,11 @@ public class ProjectRegistrationController extends BaseController{
 	private void initializePositionRequirement(HttpServletRequest request,ModelAndView mv) {
 		List<SubjectCategoryDTO> majorCategories = codeTableHelper.getAllSubjectTypes(request);
 		List<DegreeDTO> degreeCategories = codeTableHelper.getAllDegrees(request);
+		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
 		
 		mv.addObject(WebConstant.LIST_OF_SUBJECT_TYPE, majorCategories);
 		mv.addObject(WebConstant.LIST_OF_DEGREE, degreeCategories);
+		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
 	}
 	
 	@RequestMapping("/project/savePositionRequirement.do")
@@ -255,6 +277,46 @@ public class ProjectRegistrationController extends BaseController{
 			}
 		} catch (Exception e) {
 			logger.error(">>>>> Exception Catched (loadCustomers) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
+		return null;
+	}
+	
+	@RequestMapping("/project/loadCities.do")
+	public ModelAndView loadCities(HttpServletRequest request , HttpServletResponse response){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		try {
+			response.setContentType("text/xml;charset=UTF-8");
+			out = response.getWriter();
+			
+			String code = request.getParameter("_id");
+			
+			List<CityDTO> cities = codeTableHelper.getCitiesByProvinceCode(code);
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			if(!CollectionUtils.isEmpty(cities)){
+				for(CityDTO cityDto : cities){
+					Element city = root.addElement("city");
+					city.addElement("label").setText(cityDto.getDisplayName());
+					city.addElement("value").setText(cityDto.getCityCode());
+				}
+			}
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			writer = new XMLWriter(out, format);
+			writer.write(doc);
+			
+			if(null != writer){
+				writer.close();
+			}
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched (loadCities) : " + e.getMessage());
 		} finally {
 			if(null != out){
 				out.close();

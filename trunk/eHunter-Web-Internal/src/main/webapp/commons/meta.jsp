@@ -18,6 +18,7 @@
 <script type="text/javascript">
    var BAR_ROOT_DIR = "${ctx}/script/progressbar/";
 </script>
+<script type="text/javascript" src="${ctx}/script/ehunter.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery-1.6.4.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery-1.6.4.min.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery.form.js"></script>
