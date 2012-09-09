@@ -5,66 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
-<hdiv-c:url value="/talent/loadIndustries.do" var="loadIndustriesUrl"></hdiv-c:url>
-<script type="text/javascript">
-function popUpSelector(){
-	setPopUpFramePosition(600,300);
-	setOverlayDimension('fade');	
-	popUpFrame('light','fade');
-}
-
-function clearIndustries(){
-	$('#industryDisplayPanel tr').remove();
-}
-
-function loadIndustries(){
-	clearIndustries();
-	var industrySelector = document.getElementById("industrySelector");
-	if(industrySelector != null && industrySelector.selectedIndex != 0){
-		$().progressDialog.showDialog("");
-		var _id = industrySelector.options[industrySelector.selectedIndex].value;
-		$.ajax({
-			type:'post',
-			url:'${loadIndustriesUrl}',
-			dataType:'xml',
-			data:{'_id':_id},
-			success:function(xml){
-				var str = '';
-				var count = 0;
-				$(xml).find('industry').each(function(i , element){
-					count++;
-					var industryCode = $(this).find("value").text();
-					var industryName = $(this).find("label").text();
-					if(count%2 == 1){
-						str = str + "<tr height='30px'><td width='5%'></td>";
-						str = str + "<td style='cursor:pointer; width: 45%; padding-left: 1px;' onclick='handleSelect(this);'><input style='display:none' type='checkbox' value='" + industryCode + "'/>&nbsp;" + industryName +"</td>";
-					}
-
-					if(count%2 == 0){
-						str = str + "<td width='5%'></td>";
-					    str = str + "<td style='cursor:pointer; width: 45%; padding-left: 1px;' onclick='handleSelect(this);'><input style='display:none' type='checkbox' value='" + industryCode + "'/>&nbsp;" + industryName +"</td>";
-					    str = str + "</tr>";
-					}
-				});
-				
-				$(str).appendTo('#industryDisplayPanel');
-				$().progressDialog.hideDialog("");
-			},
-			error:function(){
-				$().progressDialog.hideDialog("");
-				alert('系统错误');
-			}
-		});
-	}
-}
-</script>
 </head>
 <body>
-    <hdiv-c:url value="/project/backToPositionDescription.do" var="backUrl"></hdiv-c:url>
+    <hdiv-c:url value="/project/backToPositionRequirement.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="postRequireDto" action="${ctx}/project/savePositionRequirement.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">需求职位信息 - 职位要求</td>
+				<td class="pageTitle">项目人才库 - 添加项目人才</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="postRequireDto"></common:errorTable></td>
@@ -76,7 +23,7 @@ function loadIndustries(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
@@ -228,7 +175,6 @@ function loadIndustries(){
 					<tr >
 						<td class="labelColumn">所属行业：</td>
 						<td colspan="3">
-						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpSelector();">
 						</td>
 					</tr>
 				</tbody>
@@ -254,7 +200,6 @@ function loadIndustries(){
 				</tbody>
 			</table>
 		</div>
-		<jsp:include page="industrySelector_pop.jsp"></jsp:include>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -262,7 +207,7 @@ function loadIndustries(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
