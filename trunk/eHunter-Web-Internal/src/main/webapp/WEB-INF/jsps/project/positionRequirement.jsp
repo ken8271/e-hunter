@@ -247,12 +247,12 @@ function loadIndustries(){
 					<tr>
 						<td class="labelColumn">语言要求：</td>
 						<td colspan="3">
-						   <input type="checkbox" name="language" value="EN" />&nbsp;英语&nbsp;&nbsp;&nbsp;
-						   <input type="checkbox" name="language" value="JP" />&nbsp;日语&nbsp;&nbsp;&nbsp;
-						   <input type="checkbox" name="language" value="FR" />&nbsp;法语&nbsp;&nbsp;&nbsp;
-						   <input type="checkbox" name="language" value="CH" />&nbsp;普通话&nbsp;&nbsp;&nbsp;
-						   <input type="checkbox" name="language" value="CT" />&nbsp;粤语&nbsp;&nbsp;&nbsp;
-						   <input type="checkbox" name="language" value="OT" />&nbsp;其他&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_EN" type="checkbox" name="language" value='<form:cipher value="EN" parameter="language"/>'/>&nbsp;英语&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_JP" type="checkbox" name="language" value='<form:cipher value="JP" parameter="language"/>'/>&nbsp;日语&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_FR" type="checkbox" name="language" value='<form:cipher value="FR" parameter="language"/>'/>&nbsp;法语&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_CH" type="checkbox" name="language" value='<form:cipher value="CH" parameter="language"/>'/>&nbsp;普通话&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_CT" type="checkbox" name="language" value='<form:cipher value="CT" parameter="language"/>'/>&nbsp;粤语&nbsp;&nbsp;&nbsp;
+						   <input id="LAN_OT" type="checkbox" name="language" value='<form:cipher value="OT" parameter="language"/>'/>&nbsp;其他&nbsp;&nbsp;&nbsp;
 						   <common:errorSign path="language"></common:errorSign>
 						</td>
 					</tr>
