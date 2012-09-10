@@ -7,6 +7,7 @@
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <hdiv-c:url value="/project/loadCities.do" var="loadCities"></hdiv-c:url>
+<script type="text/javascript" src="${scriptPath }/multiSelector.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	loadPositions();
@@ -39,16 +40,6 @@ function setCheckedIndicator(prefix , tokens){
 	}
 }
 
-function isExist(citySelector , value){
-	for(var i=0; i<citySelector.length ; i++){
-		if(value == citySelector.options[i].value){
-			return true;
-		}
-	}
-	
-	return false;
-}
-
 function getSelectedCities(){
 	var citySelector = document.getElementById('citySelector');
 	
@@ -69,15 +60,6 @@ function getSelectedCities(){
 	$(displayStr).appendTo('#expectCitiesDisplay');
 	
 	$('#cities').val(displayValue);
-}
-
-function removeByCode(citySelector , value){
-	for(var i=0 ; i<citySelector.length ; i++){
-		if(value == citySelector.options[i].value){
-			citySelector.options.remove(i);  
-			i--;
-		}
-	}
 }
 
 function displaySelectedCities(citySelector){
@@ -129,7 +111,7 @@ function handleSelect(city){
 			return ;
 		}
 		
-		if(!isExist(citySelector , c[0].value)){			
+		if(!hasBeenSelect(citySelector , c[0].value)){			
 		   citySelector.options[citySelector.length] = new Option(label, c[0].value);
 		}else {
 		   c[0].checked = false;
