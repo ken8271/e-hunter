@@ -213,7 +213,7 @@ public class ProjectRegistrationController extends BaseController{
 	
 	@RequestMapping("/project/savePositionRequirement.do")
 	public ModelAndView savePositionRequirement(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.POSITION_REQUIREMENT_DTO)PositionRequirementDTO postRequireDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView("project/verify");
+		ModelAndView mv = new ModelAndView("project/talentLibrary");
 		
 		
 		
