@@ -6,8 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
 <hdiv-c:url value="/talent/loadIndustries.do" var="loadIndustriesUrl"></hdiv-c:url>
+<script type="text/javascript" src="${scriptPath }/multiSelector.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	getSelectedIndustries();
+	displaySelectedIndustries(document.getElementById('industrySelector'));
+});
+
 function popUpSelector(){
+	$('#industrySelector').hide();
 	setPopUpFramePosition(600,300);
 	setOverlayDimension('fade');	
 	popUpFrame('light','fade');
@@ -17,9 +24,89 @@ function clearIndustries(){
 	$('#industryDisplayPanel tr').remove();
 }
 
+function clearSelectedIndustries(){
+	$('#selectedIndustries td:gt(0)').remove();
+}
+
+function displaySelectedIndustries(selector){
+	var str = '';
+	
+	str = str + "<td>";
+	for(var i=0 ; i<selector.length ; i++){
+		str = str + "<input type='checkbox' value='"  + selector.options[i].value + "' checked onclick='handleUnselect(this)'/>" + selector.options[i].text + "<br/>";
+	}
+	str = str + "</td>";
+	
+	clearSelectedIndustries();
+	$(str).appendTo('#selectedIndustries');
+}
+
+function getSelectedIndustries(){
+	var industrySelector = document.getElementById('industrySelector');
+	
+	var displayStr = "<span>";
+	var displayValue = '';
+	for(var i=0 ;  i<industrySelector.length ; i++){
+		displayStr = displayStr + industrySelector.options[i].text + "<br/>";
+		
+		if(i == industrySelector.length-1){
+			displayValue = displayValue + industrySelector.options[i].value;
+		}else {
+			displayValue = displayValue + industrySelector.options[i].value + ',';
+		}
+	}
+	displayStr = displayStr + "</span>";
+	
+	$('#expectIndustriesDisplay span').remove();
+	$(displayStr).appendTo('#expectIndustriesDisplay');
+	
+	//$('#cities').val(displayValue);
+}
+
+
+function handleUnselect(c){
+	var industrySelector = document.getElementById('industrySelector');
+	if(!c.checked){
+		removeByCode(industrySelector , c.value);
+		
+		var industry = $('#industryDisplayPanel [value='+ c.value + ']');
+		if(industry != null && industry[0] != null){
+			industry[0].checked = false;
+		}
+		
+		displaySelectedIndustries(industrySelector);
+	}
+}
+
+function handleSelect(industry){
+	var industrySelector = document.getElementById('industrySelector');
+	var c = $(industry).children();
+	var label = $(industry).text();
+	c[0].checked = !c[0].checked;
+	
+	if(c[0].checked){
+		if(industrySelector.length >= 3){
+			alert('最多可添加3个地区');
+			c[0].checked = false;
+			return ;
+		}
+		
+		if(!hasBeenSelect(industrySelector , c[0].value)){			
+			industrySelector.options[industrySelector.length] = new Option(label, c[0].value);
+		}else {
+		   c[0].checked = false;
+		   removeByCode(industrySelector,c[0].value);
+		}
+	}else {		
+		removeByCode(industrySelector,c[0].value);
+	}
+	
+	displaySelectedIndustries(industrySelector);
+}
+
 function loadIndustries(){
 	clearIndustries();
-	var industrySelector = document.getElementById("industrySelector");
+	var industrySelector = document.getElementById("industryCategorySelector");
 	if(industrySelector != null && industrySelector.selectedIndex != 0){
 		$().progressDialog.showDialog("");
 		var _id = industrySelector.options[industrySelector.selectedIndex].value;
@@ -227,9 +314,10 @@ function loadIndustries(){
 				    <common:standardTableRow />
 					<tr >
 						<td class="labelColumn">所属行业：</td>
-						<td colspan="3">
+						<td>
 						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpSelector();">
 						</td>
+						<td id="expectIndustriesDisplay" colspan="2"></td>
 					</tr>
 				</tbody>
 			</table>
