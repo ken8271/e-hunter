@@ -98,6 +98,23 @@ public class CodeTableHelper {
 		return types;
 	}
 	
+	public SubjectCategoryDTO getSubjectCatgoryByCode(HttpServletRequest request , String code){
+		List<SubjectCategoryDTO> categories = getAllSubjectTypes(request);
+		
+		if(!CollectionUtils.isEmpty(categories)){
+			for(SubjectCategoryDTO dto : categories){
+				if(code.equals(dto.getTypeCode())){
+					return dto;
+				}
+			}
+		}
+		
+		SubjectCategoryDTO dto = new SubjectCategoryDTO();
+		dto.setTypeCode(code);
+		
+		return dto;
+	}
+	
 	public List<SubjectDTO> getSubjectsByType(String type){
 		return subjectCommonService.getSubjectsByType(type);
 	}
@@ -502,7 +519,7 @@ public class CodeTableHelper {
 		
 		if(!CollectionUtils.isEmpty(categories)){
 			for(SalaryCategoryDTO dto : categories){
-				if(code.equals(dto)){
+				if(code.equals(dto.getCategoryCode())){
 					return dto;
 				}
 			}
