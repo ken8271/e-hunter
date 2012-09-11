@@ -75,3 +75,16 @@ function setPopUpFramePosition(width , height) {
 		"top" : topOffset + "px"
 	});
 }
+
+function setCheckedIndicator(prefix , tokens){
+	if(tokens == null) return ;
+	
+	for (var i = 0; i < tokens.length; i++) {
+		if(tokens[i] != '') {
+			var checkBox = document.getElementById(prefix + '_' +tokens[i]);
+			if(checkBox != null){
+				checkBox.checked = true;
+			}
+		}
+	}
+}

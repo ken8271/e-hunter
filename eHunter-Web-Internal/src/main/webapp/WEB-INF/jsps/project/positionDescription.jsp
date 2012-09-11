@@ -27,19 +27,6 @@ function popUpSelector(){
 	popUpFrame('light','fade');
 }
 
-function setCheckedIndicator(prefix , tokens){
-	if(tokens == null) return ;
-	
-	for (var i = 0; i < tokens.length; i++) {
-		if(tokens[i] != '') {
-			var checkBox = document.getElementById(prefix + '_' +tokens[i]);
-			if(checkBox != null){
-				checkBox.checked = true;
-			}
-		}
-	}
-}
-
 function getSelectedCities(){
 	var citySelector = document.getElementById('citySelector');
 	
