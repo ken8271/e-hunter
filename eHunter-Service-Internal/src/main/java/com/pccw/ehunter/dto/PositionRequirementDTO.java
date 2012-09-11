@@ -12,7 +12,7 @@ public class PositionRequirementDTO extends BaseDTO {
 	private SubjectCategoryDTO majorCategoryDto;
 	private String workExperience;
 	private String degree;
-	private String degreeDto;
+	private DegreeDTO degreeDto;
 	private String ftEduIndicator;
 	private String[] language;
 	private String duty;
@@ -77,11 +77,11 @@ public class PositionRequirementDTO extends BaseDTO {
 		this.degree = degree;
 	}
 
-	public String getDegreeDto() {
+	public DegreeDTO getDegreeDto() {
 		return degreeDto;
 	}
 
-	public void setDegreeDto(String degreeDto) {
+	public void setDegreeDto(DegreeDTO degreeDto) {
 		this.degreeDto = degreeDto;
 	}
 

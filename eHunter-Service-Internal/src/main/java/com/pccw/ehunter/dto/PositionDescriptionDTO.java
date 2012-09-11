@@ -1,5 +1,6 @@
 package com.pccw.ehunter.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PositionDescriptionDTO extends BaseDTO {
@@ -18,9 +19,13 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private String salaryFrom;
 	private String salaryTo;
 	private String[] salaryCategory;
+	private List<SalaryCategoryDTO> salaryCategoryDtos = new ArrayList<SalaryCategoryDTO>();
 	private String[] societyWelfare;
+	private List<SocietyWelfareDTO> scoitetyWelfareDtos = new ArrayList<SocietyWelfareDTO>();
 	private String[] residentialWelfare;
+	private List<ResidentialWelfareDTO> residentialWelfareDtos = new ArrayList<ResidentialWelfareDTO>();
 	private String[] annualLeaveWelfare;
+	private List<AnnualLeaveWelfareDTO> annualLeaveWelfareDtos = new ArrayList<AnnualLeaveWelfareDTO>();
 	private String dutyDescription;
 
 	public String getPositionCategory() {
@@ -157,6 +162,41 @@ public class PositionDescriptionDTO extends BaseDTO {
 
 	public void setDutyDescription(String dutyDescription) {
 		this.dutyDescription = dutyDescription;
+	}
+
+	public List<SalaryCategoryDTO> getSalaryCategoryDtos() {
+		return salaryCategoryDtos;
+	}
+
+	public void setSalaryCategoryDtos(List<SalaryCategoryDTO> salaryCategoryDtos) {
+		this.salaryCategoryDtos = salaryCategoryDtos;
+	}
+
+	public List<SocietyWelfareDTO> getScoitetyWelfareDtos() {
+		return scoitetyWelfareDtos;
+	}
+
+	public void setScoitetyWelfareDtos(
+			List<SocietyWelfareDTO> scoitetyWelfareDtos) {
+		this.scoitetyWelfareDtos = scoitetyWelfareDtos;
+	}
+
+	public List<ResidentialWelfareDTO> getResidentialWelfareDtos() {
+		return residentialWelfareDtos;
+	}
+
+	public void setResidentialWelfareDtos(
+			List<ResidentialWelfareDTO> residentialWelfareDtos) {
+		this.residentialWelfareDtos = residentialWelfareDtos;
+	}
+
+	public List<AnnualLeaveWelfareDTO> getAnnualLeaveWelfareDtos() {
+		return annualLeaveWelfareDtos;
+	}
+
+	public void setAnnualLeaveWelfareDtos(
+			List<AnnualLeaveWelfareDTO> annualLeaveWelfareDtos) {
+		this.annualLeaveWelfareDtos = annualLeaveWelfareDtos;
 	}
 
 }
