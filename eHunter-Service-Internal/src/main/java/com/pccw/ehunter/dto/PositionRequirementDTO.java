@@ -1,5 +1,7 @@
 package com.pccw.ehunter.dto;
 
+import java.util.List;
+
 public class PositionRequirementDTO extends BaseDTO {
 	private static final long serialVersionUID = -6064997412158930410L;
 
@@ -15,6 +17,8 @@ public class PositionRequirementDTO extends BaseDTO {
 	private String[] language;
 	private String duty;
 	private String[] keyWords = new String[5];
+	private String expectIndustries;
+	private List<IndustryDTO> expectIndustryDtos;
 	private String remark;
 
 	public String getAgeFrom() {
@@ -119,6 +123,22 @@ public class PositionRequirementDTO extends BaseDTO {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getExpectIndustries() {
+		return expectIndustries;
+	}
+
+	public void setExpectIndustries(String expectIndustries) {
+		this.expectIndustries = expectIndustries;
+	}
+
+	public List<IndustryDTO> getExpectIndustryDtos() {
+		return expectIndustryDtos;
+	}
+
+	public void setExpectIndustryDtos(List<IndustryDTO> expectIndustryDtos) {
+		this.expectIndustryDtos = expectIndustryDtos;
 	}
 
 }
