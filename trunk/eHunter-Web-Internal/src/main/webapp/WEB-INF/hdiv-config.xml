@@ -99,6 +99,7 @@
 						<value>_name</value>
 						<value>position</value>
 						<value>cities</value>
+						<value>expectIndustries</value>
 					</list>
 				</entry>
 				

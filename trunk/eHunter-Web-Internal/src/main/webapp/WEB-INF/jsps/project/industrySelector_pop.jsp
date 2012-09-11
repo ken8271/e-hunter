@@ -21,6 +21,9 @@
 		<tr id="selectedIndustries" height="25px">
 			<td>
 			   <select style="display: none" id="industrySelector">
+			      <c:forEach items="${postRequireDto.expectIndustryDtos }" var="industryDto">
+			         <option value="${industryDto.industryCode }">${industryDto.displayName }</option>
+			      </c:forEach>
 			   </select>
 			   <span style="font: 12px Arial">&nbsp;&nbsp;已选行业：</span>
 			</td>

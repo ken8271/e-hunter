@@ -31,6 +31,7 @@ import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
+import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDescriptionDTO;
@@ -48,6 +49,7 @@ import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.SecurityUtils;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.PositionDescriptionValidator;
+import com.pccw.ehunter.validator.PositionRequirementValidator;
 import com.pccw.ehunter.validator.ProjectValidator;
 
 @Controller
@@ -69,6 +71,9 @@ public class ProjectRegistrationController extends BaseController{
 	
 	@Autowired
 	private PositionDescriptionValidator postDescValidator;
+	
+	@Autowired
+	private PositionRequirementValidator postRequireValidator;
 	
 	@RequestMapping("/project/initNewProject.do")
 	public ModelAndView initNewProject(HttpServletRequest request){
@@ -212,11 +217,43 @@ public class ProjectRegistrationController extends BaseController{
 	}
 	
 	@RequestMapping("/project/savePositionRequirement.do")
-	public ModelAndView savePositionRequirement(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.POSITION_REQUIREMENT_DTO)PositionRequirementDTO postRequireDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView("project/talentLibrary");
+	public ModelAndView savePositionRequirement(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
+			@ModelAttribute(SessionAttributeConstant.POSITION_REQUIREMENT_DTO)PositionRequirementDTO postRequireDto , 
+			BindingResult errors){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/verify.do", true));
 		
+		List<IndustryDTO> industryDtos = new ArrayList<IndustryDTO>();
+		if(!StringUtils.isEmpty(postRequireDto.getExpectIndustries())){
+			String[] industries = StringUtils.tokenize(postRequireDto.getExpectIndustries(), CommonConstant.COMMA);
+			if(industries != null && industries.length != 0){
+				for(String industryCode : industries){
+					industryDtos.add(codeTableHelper.getIndustryByCode(industryCode));
+				}
+			}
+		}
 		
+		postRequireDto.setExpectIndustryDtos(industryDtos);
 		
+		postRequireValidator.validate(postRequireDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("project/positionRequirement");
+			mv.addObject("languages", StringUtils.concat(postRequireDto.getLanguage(), ","));
+			initializePositionRequirement(request , mv);
+			mv.addObject(SessionAttributeConstant.POSITION_REQUIREMENT_DTO, postRequireDto);
+		}
+		
+		projectDto.setPostRequireDto(postRequireDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/project/verify.do")
+	public ModelAndView verify(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView("project/verifyInfo");
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}
 	

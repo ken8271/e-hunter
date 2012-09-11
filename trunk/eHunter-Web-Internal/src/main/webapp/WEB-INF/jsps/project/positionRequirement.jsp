@@ -11,6 +11,8 @@
 $(document).ready(function(){
 	getSelectedIndustries();
 	displaySelectedIndustries(document.getElementById('industrySelector'));
+	
+	setCheckedIndicator('LAN' , '${languages}'.split(','));	
 });
 
 function popUpSelector(){
@@ -60,7 +62,7 @@ function getSelectedIndustries(){
 	$('#expectIndustriesDisplay span').remove();
 	$(displayStr).appendTo('#expectIndustriesDisplay');
 	
-	//$('#cities').val(displayValue);
+	$('#expectIndustries').val(displayValue);
 }
 
 
@@ -163,7 +165,7 @@ function loadIndustries(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
@@ -183,7 +185,7 @@ function loadIndustries(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
-						<td class="labelColumn">年龄要求：</td>
+						<td class="labelColumn">年龄要求：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:select path="ageFrom" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -200,7 +202,7 @@ function loadIndustries(){
 						</form:select>
 						<common:errorSign id="ageTo" path="ageTo"></common:errorSign>
 						</td>
-						<td class="labelColumn">性别要求：</td>
+						<td class="labelColumn">性别要求：<span class="mandatoryField">*</span></td>
 						<td>
 						<form:select path="gender" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -210,7 +212,7 @@ function loadIndustries(){
 						<common:errorSign id="gender" path="gender"></common:errorSign>
 					</tr>
 					<tr>
-						<td class="labelColumn">专业要求：</td>
+						<td class="labelColumn">专业要求：<span class="mandatoryField">*</span></td>
 						<td>
 						   <form:select path="majorCategory" cssClass="standardSelect" >
 						      <form:option value="" label="不限"></form:option>
@@ -220,14 +222,14 @@ function loadIndustries(){
 						   </form:select>
 						<common:errorSign id="majorCategory" path="majorCategory"></common:errorSign>
 						</td>
-						<td class="labelColumn">总工作年限：</td>
+						<td class="labelColumn">总工作年限：<span class="mandatoryField">*</span></td>
 						<td>
 						   <form:input path="workExperience" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;年以上
 						   <common:errorSign id="workExperience" path="workExperience"></common:errorSign>
 						</td>
 					</tr>
 				    <tr >
-						<td class="labelColumn">学历要求：</td>
+						<td class="labelColumn">学历要求：<span class="mandatoryField">*</span></td>
 						<td>
 						   <form:select path="degree"  cssClass="standardSelect">
 						      <form:option value="" label="不限"></form:option>
@@ -245,7 +247,7 @@ function loadIndustries(){
 						</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">语言要求：</td>
+						<td class="labelColumn">语言要求：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
 						   <input id="LAN_EN" type="checkbox" name="language" value='<form:cipher value="EN" parameter="language"/>'/>&nbsp;英语&nbsp;&nbsp;&nbsp;
 						   <input id="LAN_JP" type="checkbox" name="language" value='<form:cipher value="JP" parameter="language"/>'/>&nbsp;日语&nbsp;&nbsp;&nbsp;
@@ -290,13 +292,13 @@ function loadIndustries(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr >
-						<td class="labelColumn">关键词：</td>
+						<td class="labelColumn">关键词：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
-						   <form:input path="keyWords[0]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;
-						   <form:input path="keyWords[1]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;
-						   <form:input path="keyWords[2]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;
-						   <form:input path="keyWords[3]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;
-						   <form:input path="keyWords[4]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;
+						   <form:input path="keyWords[0]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[0]" path="keyWords[0]"></common:errorSign>
+						   <form:input path="keyWords[1]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[1]" path="keyWords[1]"></common:errorSign>
+						   <form:input path="keyWords[2]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[2]" path="keyWords[2]"></common:errorSign>
+						   <form:input path="keyWords[3]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[3]" path="keyWords[3]"></common:errorSign>
+						   <form:input path="keyWords[4]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[4]" path="keyWords[4]"></common:errorSign>
 						</td>
 					</tr>
 				</tbody>
@@ -313,9 +315,10 @@ function loadIndustries(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr >
-						<td class="labelColumn">所属行业：</td>
+						<td class="labelColumn">所属行业：<span class="mandatoryField">*</span></td>
 						<td>
 						   <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpSelector();">
+						   <form:hidden path="expectIndustries"/>
 						</td>
 						<td id="expectIndustriesDisplay" colspan="2"></td>
 					</tr>
@@ -350,7 +353,7 @@ function loadIndustries(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
+							   <input class="standardButton" type="submit" value="提交" />&nbsp;
 							   <input class="standardButton" type="reset" value="重置" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
