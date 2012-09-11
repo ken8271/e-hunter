@@ -183,6 +183,34 @@ public class ProjectRegistrationController extends BaseController{
 			mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
 		}
 		
+		List<SalaryCategoryDTO> scDtos = postDescDto.getSalaryCategoryDtos();
+		if(!StringUtils.isEmpty(postDescDto.getSalaryCategory())){
+			for(String sc : postDescDto.getSalaryCategory()){
+				scDtos.add(codeTableHelper.getSalaryCategoryByCode(request, sc));
+			}
+		}
+		
+		List<SocietyWelfareDTO> swDtos = postDescDto.getScoitetyWelfareDtos();
+		if(!StringUtils.isEmpty(postDescDto.getSocietyWelfare())){
+			for(String sw : postDescDto.getSocietyWelfare()){
+				swDtos.add(codeTableHelper.getSocietyWelfareByCode(request, sw));
+			}
+		}
+		
+		List<ResidentialWelfareDTO> rwDtos = postDescDto.getResidentialWelfareDtos();
+		if(!StringUtils.isEmpty(postDescDto.getResidentialWelfare())){
+			for(String rw : postDescDto.getResidentialWelfare()){
+				rwDtos.add(codeTableHelper.getResidentialWelfareByCode(request, rw));
+			}
+		}
+		
+		List<AnnualLeaveWelfareDTO> awDtos = postDescDto.getAnnualLeaveWelfareDtos();
+		if(!StringUtils.isEmpty(postDescDto.getAnnualLeaveWelfare())){
+			for(String aw : postDescDto.getAnnualLeaveWelfare()){
+				awDtos.add(codeTableHelper.getAnnualLeaveWelfareByCode(request, aw));
+			}
+		}
+		
 		projectDto.setPostDescDto(postDescDto);
 		
 		return mv;
@@ -243,6 +271,9 @@ public class ProjectRegistrationController extends BaseController{
 			initializePositionRequirement(request , mv);
 			mv.addObject(SessionAttributeConstant.POSITION_REQUIREMENT_DTO, postRequireDto);
 		}
+		
+		postRequireDto.setMajorCategoryDto(codeTableHelper.getSubjectCatgoryByCode(request, postRequireDto.getMajorCategory()));
+		postRequireDto.setDegreeDto(codeTableHelper.getDegreeByCode(request, postRequireDto.getDegree()));
 		
 		projectDto.setPostRequireDto(postRequireDto);
 		
