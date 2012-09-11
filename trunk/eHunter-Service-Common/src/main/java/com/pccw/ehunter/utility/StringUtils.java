@@ -21,6 +21,10 @@ public class StringUtils {
 		return (s == null || (s.trim()).equals(EMPTY_STRING));
 	}
 	
+	public static boolean isEmpty(String[] s){
+		return (s == null || s.length == 0);
+	}
+	
 	public static String trim(String s) {
 		if (s == null) {
 			return EMPTY_STRING;
