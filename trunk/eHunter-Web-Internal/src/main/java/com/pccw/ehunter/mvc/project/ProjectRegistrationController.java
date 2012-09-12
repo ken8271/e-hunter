@@ -45,6 +45,7 @@ import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
+import com.pccw.ehunter.service.ProjectRegistrationService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.SecurityUtils;
 import com.pccw.ehunter.utility.StringUtils;
@@ -74,6 +75,9 @@ public class ProjectRegistrationController extends BaseController{
 	
 	@Autowired
 	private PositionRequirementValidator postRequireValidator;
+	
+	@Autowired
+	private ProjectRegistrationService projectRegtService;
 	
 	@RequestMapping("/project/initNewProject.do")
 	public ModelAndView initNewProject(HttpServletRequest request){
@@ -315,6 +319,19 @@ public class ProjectRegistrationController extends BaseController{
 		mv.addObject("customerName", projectDto.getCustomerDto().getFullName());
 		mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
 		
+		return mv;
+	}
+	
+	@RequestMapping("/project/submitProject.do")
+	public ModelAndView submitProject(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/completeProjectRegistration.do", true));
+		projectRegtService.submitProject(projectDto);
+		return mv;
+	}
+	
+	@RequestMapping("/project/completeProjectRegistration.do")
+	public ModelAndView completeProjectRegistration(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("index");
 		return mv;
 	}
 

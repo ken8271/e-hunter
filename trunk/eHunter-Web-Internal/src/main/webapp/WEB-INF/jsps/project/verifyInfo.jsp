@@ -190,10 +190,10 @@
 				<td width="17%"><span class="textCh8">基本素质要求</span></td>
 				<td colspan="3">
 				   <span class="showCh">
-				       1. 年龄要求：<c:out value="${not empty projectDto.postRequireDto.ageFrom ? projectDto.postRequireDto.ageFrom : '不限'}"escapeXml="true" />&nbsp;~&nbsp;<c:out value="${not empty projectDto.postRequireDto.ageTo ? projectDto.postRequireDto.ageTo : '不限'}"escapeXml="true" /><br/>
+				       1. 年龄要求：<c:out value="${not empty projectDto.postRequireDto.ageFromStr ? projectDto.postRequireDto.ageFromStr : '不限'}"escapeXml="true" />&nbsp;~&nbsp;<c:out value="${not empty projectDto.postRequireDto.ageToStr ? projectDto.postRequireDto.ageToStr : '不限'}"escapeXml="true" /><br/>
 				       2. 性别要求：<c:out value="${not empty projectDto.postRequireDto.gender ? (projectDto.postRequireDto.gender== 'M' ? '男' : '女') : '不限'}" escapeXml="true" /><br/>
 				       3. 专业要求：<c:out value="${not empty projectDto.postRequireDto.majorCategoryDto.displayName ? projectDto.postRequireDto.majorCategoryDto.displayName : '不限'}" escapeXml="true" /><br>
-				       4. 总工作年限：<c:if test="${not empty projectDto.postRequireDto.workExperience }"><c:out value="${projectDto.postRequireDto.workExperience }"escapeXml="true" />年以上</c:if><br/>
+				       4. 总工作年限：<c:if test="${not empty projectDto.postRequireDto.workExperienceStr }"><c:out value="${projectDto.postRequireDto.workExperienceStr }"escapeXml="true" />年以上</c:if><br/>
 				       5. 学历要求：<c:out value="${not empty projectDto.postRequireDto.degreeDto.displayName ? projectDto.postRequireDto.degreeDto.displayName : '不限'}" escapeXml="true" /><br/>
 				       6. 是否统招全日制：<c:out value="${projectDto.postRequireDto.ftEduIndicator == 'Y' ? '是' : '不限' }" escapeXml="true" /><br>
 				       7. 语言要求：
