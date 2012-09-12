@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.domain.internal.InternalUser;
 import com.pccw.ehunter.domain.internal.PositionDescription;
+import com.pccw.ehunter.domain.internal.PositionRequirement;
 import com.pccw.ehunter.domain.internal.Project;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
@@ -46,6 +47,10 @@ public class ProjectConvertor {
 		PositionDescription pd = PositionDescriptionConvertor.toPo(dto.getPostDescDto(), transactionIndicator);
 		pd.setProject(po);
 		po.setPostDescription(pd);
+		
+		PositionRequirement pr = PositionRequirementConvertor.toPo(dto.getPostRequireDto());
+		pr.setProject(po);
+		po.setPostRequirement(pr);
 		
 		return po;
 	}

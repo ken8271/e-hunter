@@ -18,8 +18,8 @@ public class PositionRequirementValidator extends AbstractValidator{
 	public void validate(Object target, Errors errors) {
 		PositionRequirementDTO dto = (PositionRequirementDTO)target;
 		
-		validateRequired(errors, "workExperience", dto.getWorkExperience(), "总工作年限");
-		validateOnlyNumberic(errors, "workExperience", dto.getWorkExperience(), "总工作年限");
+		validateRequired(errors, "workExperienceStr", dto.getWorkExperienceStr(), "总工作年限");
+		validateOnlyNumberic(errors, "workExperienceStr", dto.getWorkExperienceStr(), "总工作年限");
 		
 		validateRequired(errors, "ftEduIndicator", dto.getFtEduIndicator(), "是否统招全日制");
 		

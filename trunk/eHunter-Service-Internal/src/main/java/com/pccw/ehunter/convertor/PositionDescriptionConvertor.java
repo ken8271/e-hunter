@@ -28,20 +28,22 @@ public class PositionDescriptionConvertor {
 		if(!StringUtils.isEmpty(dto.getKeyWords())){
 			String[] keyWords = dto.getKeyWords();
 			for(int i=0 ; i<keyWords.length ; i++){
-				PositionKeyWordPK pk = new PositionKeyWordPK();
-				pk.setPostDesc(po);
-				pk.setItemNumber(i);
-				
-				PositionKeyWord kw = new PositionKeyWord();
-				kw.setPk(pk);
-				kw.setContent(keyWords[i]);
-				
-				BaseEntityUtility.setCommonProperties(kw, transactionIndicator);
-				
-				kws.add(kw);
+				if(!StringUtils.isEmpty(keyWords[i])){					
+					PositionKeyWordPK pk = new PositionKeyWordPK();
+					pk.setPostDesc(po);
+					pk.setItemNumber(i);
+					
+					PositionKeyWord kw = new PositionKeyWord();
+					kw.setPk(pk);
+					kw.setContent(keyWords[i]);
+					
+					BaseEntityUtility.setCommonProperties(kw, transactionIndicator);
+					
+					kws.add(kw);
+				}
 			}
 		}
-		po.setKeyWords(kws);
+		po.setPositionKeyWords(kws);
 		
 		return po;
 	}
