@@ -2,6 +2,7 @@ package com.pccw.ehunter.domain.internal;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -24,6 +25,7 @@ public class PositionKeyWordPK implements Serializable {
 		this.postDesc = postDesc;
 	}
 
+	@Column(name="SEQ_NBR")
 	public int getItemNumber() {
 		return itemNumber;
 	}

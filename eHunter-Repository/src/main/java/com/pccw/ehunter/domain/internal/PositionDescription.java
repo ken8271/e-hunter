@@ -20,7 +20,7 @@ import com.pccw.ehunter.domain.BaseEntity;
 public class PositionDescription extends BaseEntity {
 	private static final long serialVersionUID = 8698828216911059838L;
 
-	private String systemPostionRefNum;
+	private String systemPositionRefNum;
 	private Project project;
 	private String position;
 	private String positionName;
@@ -34,18 +34,19 @@ public class PositionDescription extends BaseEntity {
 	private String societyWelfareStr;
 	private String residentialWelfareStr;
 	private String annualLeaveWelfareStr;
-	private List<PositionKeyWord> keyWords;
+	private List<PositionKeyWord> positionKeyWords;
 	private String dutyDescription;
 
 	@Id
 	@Column(name="SYS_REF_POST")
-	public String getSystemPostionRefNum() {
-		return systemPostionRefNum;
+	public String getSystemPositionRefNum() {
+		return systemPositionRefNum;
+	}
+	
+	public void setSystemPositionRefNum(String systemPositionRefNum) {
+		this.systemPositionRefNum = systemPositionRefNum;
 	}
 
-	public void setSystemPostionRefNum(String systemPostionRefNum) {
-		this.systemPostionRefNum = systemPostionRefNum;
-	}
 
 	@OneToOne(fetch=FetchType.LAZY)
 	@PrimaryKeyJoinColumn(name = "SYS_REF_POST", referencedColumnName = "SYS_REF_PRJ")
@@ -175,12 +176,11 @@ public class PositionDescription extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.postDesc", cascade = { CascadeType.ALL })
-	public List<PositionKeyWord> getKeyWords() {
-		return keyWords;
+	public List<PositionKeyWord> getPositionKeyWords() {
+		return positionKeyWords;
 	}
 
-	public void setKeyWords(List<PositionKeyWord> keyWords) {
-		this.keyWords = keyWords;
+	public void setPositionKeyWords(List<PositionKeyWord> positionKeyWords) {
+		this.positionKeyWords = positionKeyWords;
 	}
-
 }
