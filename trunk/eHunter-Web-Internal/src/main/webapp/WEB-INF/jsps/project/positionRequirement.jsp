@@ -12,7 +12,7 @@ $(document).ready(function(){
 	getSelectedIndustries();
 	displaySelectedIndustries(document.getElementById('industrySelector'));
 	
-	setCheckedIndicator('LAN' , '${languages}'.split(','));	
+	setCheckedIndicator('LAN' , '${postRequireDto.languageStr}'.split(','));	
 });
 
 function popUpSelector(){
@@ -276,29 +276,6 @@ function loadIndustries(){
 						<td colspan="3">
 						   <form:textarea path="duty" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>1000){this.value = this.value.substring(0, 1000)}" cssClass="standardInputText"/>
 						   <common:errorSign id="duty" path="duty"></common:errorSign>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="emptyBlock"></div>
-		<table width="100%">
-			<tr>
-				<td width="90%"><font face="Arial" size="2"><b>职位关键词</b></font></td>
-			</tr>
-		</table>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-				<tbody>
-				    <common:standardTableRow />
-					<tr >
-						<td class="labelColumn">关键词：<span class="mandatoryField">*</span></td>
-						<td colspan="3">
-						   <form:input path="keyWords[0]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[0]" path="keyWords[0]"></common:errorSign>
-						   <form:input path="keyWords[1]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[1]" path="keyWords[1]"></common:errorSign>
-						   <form:input path="keyWords[2]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[2]" path="keyWords[2]"></common:errorSign>
-						   <form:input path="keyWords[3]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[3]" path="keyWords[3]"></common:errorSign>
-						   <form:input path="keyWords[4]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[4]" path="keyWords[4]"></common:errorSign>
 						</td>
 					</tr>
 				</tbody>

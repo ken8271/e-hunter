@@ -11,10 +11,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	loadPositions();
-	setCheckedIndicator('SC' , '${salaryCategory}'.split(','));
-	setCheckedIndicator('SW' , '${societyWelfare}'.split(','));
-	setCheckedIndicator('RW' , '${residentialWelfare}'.split(','));
-	setCheckedIndicator('AW' , '${annualLeaveWelfare}'.split(','));
+	setCheckedIndicator('SC' , '${postDescDto.salaryCategoryStr}'.split(','));
+	setCheckedIndicator('SW' , '${postDescDto.societyWelfareStr}'.split(','));
+	setCheckedIndicator('RW' , '${postDescDto.residentialWelfareStr}'.split(','));
+	setCheckedIndicator('AW' , '${postDescDto.annualLeaveWelfareStr}'.split(','));
 	
 	getSelectedCities();
 	displaySelectedCities(document.getElementById('citySelector'));
@@ -307,9 +307,9 @@ function clearSelector(selector){
 					<tr >
 						<td class="labelColumn">职位年薪：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						   <form:input path="salaryFrom" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>万元 至
-					       <form:input path="salaryTo" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>万元（年薪单位：万元人民币）
-					       <common:errorSign id="salaryTo" path="salaryTo"></common:errorSign>
+						   <form:input path="salaryFromStr" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>万元 至
+					       <form:input path="salaryToStr" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/>万元（年薪单位：万元人民币）
+					       <common:errorSign id="salaryToStr" path="salaryToStr"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -344,6 +344,29 @@ function clearSelector(selector){
 					           <input id="AW_${annualLeaveWelfare.welfareCode  }" type="checkbox" name="annualLeaveWelfare" value='<form:cipher value="${annualLeaveWelfare.welfareCode }" parameter="annualLeaveWelfare"/>'/>&nbsp;${annualLeaveWelfare.displayName }&nbsp;&nbsp;&nbsp;
 					        </c:forEach>
 					    </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+				<td width="90%"><font face="Arial" size="2"><b>职位关键词</b></font></td>
+			</tr>
+		</table>
+		<div class="contentTableBody">
+			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+				<tbody>
+				    <common:standardTableRow />
+					<tr >
+						<td class="labelColumn">关键词：<span class="mandatoryField">*</span></td>
+						<td colspan="3">
+						   <form:input path="keyWords[0]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[0]" path="keyWords[0]"></common:errorSign>
+						   <form:input path="keyWords[1]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[1]" path="keyWords[1]"></common:errorSign>
+						   <form:input path="keyWords[2]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[2]" path="keyWords[2]"></common:errorSign>
+						   <form:input path="keyWords[3]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[3]" path="keyWords[3]"></common:errorSign>
+						   <form:input path="keyWords[4]" cssClass="standardInputTextNoWidth" maxlength="5" size="10"/>&nbsp;&nbsp;<common:errorSign id="keyWords[4]" path="keyWords[4]"></common:errorSign>
+						</td>
 					</tr>
 				</tbody>
 			</table>
