@@ -103,6 +103,16 @@
 				</td>
 			</tr>
 			<tr>
+				<td width="17%"><span class="textCh8">职位关键词</span></td>
+				<td colspan="3">
+				   <span class="showCh">
+				      <c:forEach items="${projectDto.postDescDto.keyWords }" var="keyWord">
+				        <c:out value="${keyWord }" escapeXml="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				      </c:forEach>
+				   </span>
+				</td>
+			</tr>
+			<tr>
 				<td><span class="textCh8">职责描述</span></td>
 				<td colspan="3">
 				   <span class="showCh">
@@ -123,8 +133,8 @@
 				<td width="17%"><span class="textCh8">职位年薪</span></td>
 				<td colspan="3">
 				   <span class="showCh">
-				      <c:out value="${projectDto.postDescDto.salaryFrom}" escapeXml="true" />万元至
-				      <c:out value="${projectDto.postDescDto.salaryTo}" escapeXml="true" />万元
+				      <c:out value="${projectDto.postDescDto.salaryFromStr}" escapeXml="true" />万元至
+				      <c:out value="${projectDto.postDescDto.salaryToStr}" escapeXml="true" />万元
 				   </span>
 				</td>
 			</tr>
@@ -199,29 +209,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td><span class="textCh8">任职资格</span></td>
-				<td colspan="3"><span class="showCh"><c:out value="${projectDto.postRequireDto.duty}" escapeXml="true" /></span></td>
-			</tr>
-		</table>
-		<br />
-		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" width="100%" cellpadding="5px">
-		    <tr style="display: none">
-		        <td width="17%"></td>
-				<td width="36%"></td>
-				<td width="17%"></td>
-				<td width="30%"></td>
-		    </tr>
-			<tr>
-				<td width="17%"><span class="textCh8">职位关键词</span></td>
-				<td colspan="3">
-				   <span class="showCh">
-				      <c:forEach items="${projectDto.postRequireDto.keyWords }" var="keyWord">
-				        <c:out value="${keyWord }" escapeXml="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				      </c:forEach>
-				   </span>
-				</td>
-			</tr>
-			<tr>
 				<td width="17%"><span class="textCh8">期望人选来源行业</span></td>
 				<td colspan="3">
 				   <c:forEach items="${projectDto.postRequireDto.expectIndustryDtos }" var="industryDto">
@@ -229,6 +216,10 @@
 				   </c:forEach>
 				</td>
 			</tr>
+			<tr>
+				<td><span class="textCh8">任职资格</span></td>
+				<td colspan="3"><span class="showCh"><c:out value="${projectDto.postRequireDto.duty}" escapeXml="true" /></span></td>
+			</tr>	
 			<tr>
 				<td width="17%"><span class="textCh8">补充说明</span></td>
 				<td colspan="3">

@@ -171,17 +171,26 @@ public class ProjectRegistrationController extends BaseController{
 		}
 		postDescDto.setCityDtos(cityDtos);
 		
+		postDescDto.setSalaryCategoryStr(StringUtils.concat(postDescDto.getSalaryCategory(), ","));
+		postDescDto.setSocietyWelfareStr(StringUtils.concat(postDescDto.getSocietyWelfare(), ","));
+		postDescDto.setResidentialWelfareStr(StringUtils.concat(postDescDto.getResidentialWelfare(), ","));
+		postDescDto.setAnnualLeaveWelfareStr(StringUtils.concat(postDescDto.getAnnualLeaveWelfare(), ","));
+		
 		postDescValidator.validate(postDescDto, errors);
 		
 		if(errors.hasErrors()){
 			mv = new ModelAndView("project/positionDescription");
-			mv.addObject("salaryCategory", StringUtils.concat(postDescDto.getSalaryCategory(), ","));
-			mv.addObject("societyWelfare", StringUtils.concat(postDescDto.getSocietyWelfare(), ","));
-			mv.addObject("residentialWelfare", StringUtils.concat(postDescDto.getResidentialWelfare(), ","));
-			mv.addObject("annualLeaveWelfare", StringUtils.concat(postDescDto.getAnnualLeaveWelfare(), ","));
 			mv.addObject("customerName", projectDto.getCustomerDto().getFullName());
+			
+			postDescDto.setSalaryCategory(null);
+			postDescDto.setSocietyWelfare(null);
+			postDescDto.setResidentialWelfare(null);
+			postDescDto.setAnnualLeaveWelfare(null);
 			mv.addObject(SessionAttributeConstant.POSITION_DESCRIPTION_DTO, postDescDto);
 		}
+		
+		postDescDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, postDescDto.getPositionCategory()));
+		postDescDto.setPositionDto(codeTableHelper.getPositionByCode(postDescDto.getPosition()));
 		
 		List<SalaryCategoryDTO> scDtos = postDescDto.getSalaryCategoryDtos();
 		if(!StringUtils.isEmpty(postDescDto.getSalaryCategory())){
@@ -263,12 +272,15 @@ public class ProjectRegistrationController extends BaseController{
 		
 		postRequireDto.setExpectIndustryDtos(industryDtos);
 		
+		postRequireDto.setLanguageStr(StringUtils.concat(postRequireDto.getLanguage(), ","));
+		
 		postRequireValidator.validate(postRequireDto, errors);
 		
 		if(errors.hasErrors()){
 			mv = new ModelAndView("project/positionRequirement");
-			mv.addObject("languages", StringUtils.concat(postRequireDto.getLanguage(), ","));
 			initializePositionRequirement(request , mv);
+			
+			postRequireDto.setLanguage(null);
 			mv.addObject(SessionAttributeConstant.POSITION_REQUIREMENT_DTO, postRequireDto);
 		}
 		
