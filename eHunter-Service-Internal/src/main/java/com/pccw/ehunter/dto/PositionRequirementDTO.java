@@ -6,12 +6,12 @@ public class PositionRequirementDTO extends BaseDTO {
 	private static final long serialVersionUID = -6064997412158930410L;
 
 	private String systemPositionRefNum;
-	private String ageFrom;
-	private String ageTo;
+	private String ageFromStr;
+	private String ageToStr;
 	private String gender;
 	private String majorCategory;
 	private SubjectCategoryDTO majorCategoryDto;
-	private String workExperience;
+	private String workExperienceStr;
 	private String degree;
 	private DegreeDTO degreeDto;
 	private String ftEduIndicator;
@@ -30,20 +30,28 @@ public class PositionRequirementDTO extends BaseDTO {
 		this.systemPositionRefNum = systemPositionRefNum;
 	}
 
-	public String getAgeFrom() {
-		return ageFrom;
+	public String getAgeFromStr() {
+		return ageFromStr;
 	}
 
-	public void setAgeFrom(String ageFrom) {
-		this.ageFrom = ageFrom;
+	public void setAgeFromStr(String ageFromStr) {
+		this.ageFromStr = ageFromStr;
 	}
 
-	public String getAgeTo() {
-		return ageTo;
+	public String getAgeToStr() {
+		return ageToStr;
 	}
 
-	public void setAgeTo(String ageTo) {
-		this.ageTo = ageTo;
+	public void setAgeToStr(String ageToStr) {
+		this.ageToStr = ageToStr;
+	}
+
+	public String getWorkExperienceStr() {
+		return workExperienceStr;
+	}
+
+	public void setWorkExperienceStr(String workExperienceStr) {
+		this.workExperienceStr = workExperienceStr;
 	}
 
 	public String getGender() {
@@ -68,14 +76,6 @@ public class PositionRequirementDTO extends BaseDTO {
 
 	public void setMajorCategoryDto(SubjectCategoryDTO majorCategoryDto) {
 		this.majorCategoryDto = majorCategoryDto;
-	}
-
-	public String getWorkExperience() {
-		return workExperience;
-	}
-
-	public void setWorkExperience(String workExperience) {
-		this.workExperience = workExperience;
 	}
 
 	public String getDegree() {

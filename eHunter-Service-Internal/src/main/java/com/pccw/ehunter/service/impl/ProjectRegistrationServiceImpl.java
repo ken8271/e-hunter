@@ -29,7 +29,9 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 	@Override
 	@Transactional
 	public void submitProject(ProjectDTO projectDto) {
-		if(projectDto != null){			
+		System.out.println("---------------1-----------------");
+		if(projectDto != null){		
+			System.out.println("---------------2-----------------");
 			String projectID = idGenerator.generateID(IDNumberKeyConstant.PROJECT_SEQUENCE_KEY, "P", 9);
 			projectDto.setSystemProjectRefNum(projectID);
 			BaseDtoUtility.setCommonProperties(projectDto, TransactionIndicator.INSERT);
@@ -37,18 +39,23 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 			PositionDescriptionDTO pdDto = projectDto.getPostDescDto();
 			PositionRequirementDTO prDto = projectDto.getPostRequireDto();
 			if(pdDto != null){
+				System.out.println("---------------3-----------------");
 				pdDto.setSystemPositionRefNum(projectID);
 				BaseDtoUtility.setCommonProperties(pdDto, TransactionIndicator.INSERT);
 			}
 			
 			if(prDto != null){
+				System.out.println("---------------4-----------------");
 				prDto.setSystemPositionRefNum(projectID);
 				BaseDtoUtility.setCommonProperties(prDto, TransactionIndicator.INSERT);
 			}
 		}
 		
+		System.out.println("---------------6-----------------" + projectDto.getPostDescDto().getSystemPositionRefNum());
 		Project project = ProjectConvertor.toPo(projectDto , TransactionIndicator.INSERT);
 		
+		System.out.println(project.getPostDescription().getSystemPositionRefNum());
+		System.out.println("---------------5-----------------");
 		projectRegtDao.saveProject(project);
 	}
 
