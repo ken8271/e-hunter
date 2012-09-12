@@ -17,11 +17,11 @@ public class PositionRequirement extends BaseEntity {
 
 	private String systemPositionRefNum;
 	private Project project;
-	private String ageFrom;
-	private String ageTo;
+	private Integer ageFrom;
+	private Integer ageTo;
 	private String gender;
 	private String majorCategory;
-	private String workExperience;
+	private Integer workExperience;
 	private String degree;
 	private String ftEduIndicator;
 	private String languageStr;
@@ -50,20 +50,20 @@ public class PositionRequirement extends BaseEntity {
 	}
 
 	@Column(name="AG_FR")
-	public String getAgeFrom() {
+	public Integer getAgeFrom() {
 		return ageFrom;
 	}
 
-	public void setAgeFrom(String ageFrom) {
+	public void setAgeFrom(Integer ageFrom) {
 		this.ageFrom = ageFrom;
 	}
 
 	@Column(name="AG_TO")
-	public String getAgeTo() {
+	public Integer getAgeTo() {
 		return ageTo;
 	}
 
-	public void setAgeTo(String ageTo) {
+	public void setAgeTo(Integer ageTo) {
 		this.ageTo = ageTo;
 	}
 
@@ -84,16 +84,16 @@ public class PositionRequirement extends BaseEntity {
 	public void setMajorCategory(String majorCategory) {
 		this.majorCategory = majorCategory;
 	}
-
+	
 	@Column(name="JOB_EXP_REQ")
-	public String getWorkExperience() {
+	public Integer getWorkExperience() {
 		return workExperience;
 	}
 
-	public void setWorkExperience(String workExperience) {
+	public void setWorkExperience(Integer workExperience) {
 		this.workExperience = workExperience;
 	}
-
+	
 	@Column(name="EDU_REQ")
 	public String getDegree() {
 		return degree;
