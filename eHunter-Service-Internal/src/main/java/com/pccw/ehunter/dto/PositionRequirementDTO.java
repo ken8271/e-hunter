@@ -5,6 +5,7 @@ import java.util.List;
 public class PositionRequirementDTO extends BaseDTO {
 	private static final long serialVersionUID = -6064997412158930410L;
 
+	private String systemPositionRefNum;
 	private String ageFrom;
 	private String ageTo;
 	private String gender;
@@ -15,11 +16,19 @@ public class PositionRequirementDTO extends BaseDTO {
 	private DegreeDTO degreeDto;
 	private String ftEduIndicator;
 	private String[] language;
+	private String languageStr;
 	private String duty;
-	private String[] keyWords = new String[5];
 	private String expectIndustries;
 	private List<IndustryDTO> expectIndustryDtos;
 	private String remark;
+
+	public String getSystemPositionRefNum() {
+		return systemPositionRefNum;
+	}
+
+	public void setSystemPositionRefNum(String systemPositionRefNum) {
+		this.systemPositionRefNum = systemPositionRefNum;
+	}
 
 	public String getAgeFrom() {
 		return ageFrom;
@@ -109,14 +118,6 @@ public class PositionRequirementDTO extends BaseDTO {
 		this.duty = duty;
 	}
 
-	public String[] getKeyWords() {
-		return keyWords;
-	}
-
-	public void setKeyWords(String[] keyWords) {
-		this.keyWords = keyWords;
-	}
-
 	public String getRemark() {
 		return remark;
 	}
@@ -139,6 +140,14 @@ public class PositionRequirementDTO extends BaseDTO {
 
 	public void setExpectIndustryDtos(List<IndustryDTO> expectIndustryDtos) {
 		this.expectIndustryDtos = expectIndustryDtos;
+	}
+
+	public String getLanguageStr() {
+		return languageStr;
+	}
+
+	public void setLanguageStr(String languageStr) {
+		this.languageStr = languageStr;
 	}
 
 }

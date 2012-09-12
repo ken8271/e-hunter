@@ -6,6 +6,7 @@ import java.util.List;
 public class PositionDescriptionDTO extends BaseDTO {
 	private static final long serialVersionUID = -6282581877255631471L;
 
+	private String systemPositionRefNum;
 	private String positionCategory;
 	private PositionCategoryDTO positionCategoryDto;
 	private String position;
@@ -16,17 +17,30 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private String cities;
 	private List<CityDTO> cityDtos;
 	private SimpleDateDTO expiryDateDto;
-	private String salaryFrom;
-	private String salaryTo;
+	private String salaryFromStr;
+	private String salaryToStr;
 	private String[] salaryCategory;
+	private String salaryCategoryStr;
 	private List<SalaryCategoryDTO> salaryCategoryDtos = new ArrayList<SalaryCategoryDTO>();
 	private String[] societyWelfare;
+	private String societyWelfareStr;
 	private List<SocietyWelfareDTO> scoitetyWelfareDtos = new ArrayList<SocietyWelfareDTO>();
 	private String[] residentialWelfare;
+	private String residentialWelfareStr;
 	private List<ResidentialWelfareDTO> residentialWelfareDtos = new ArrayList<ResidentialWelfareDTO>();
 	private String[] annualLeaveWelfare;
+	private String annualLeaveWelfareStr;
 	private List<AnnualLeaveWelfareDTO> annualLeaveWelfareDtos = new ArrayList<AnnualLeaveWelfareDTO>();
+	private String[] keyWords = new String[5];
 	private String dutyDescription;
+
+	public String getSystemPositionRefNum() {
+		return systemPositionRefNum;
+	}
+
+	public void setSystemPositionRefNum(String systemPositionRefNum) {
+		this.systemPositionRefNum = systemPositionRefNum;
+	}
 
 	public String getPositionCategory() {
 		return positionCategory;
@@ -108,20 +122,20 @@ public class PositionDescriptionDTO extends BaseDTO {
 		this.expiryDateDto = expiryDateDto;
 	}
 
-	public String getSalaryFrom() {
-		return salaryFrom;
+	public String getSalaryFromStr() {
+		return salaryFromStr;
 	}
 
-	public void setSalaryFrom(String salaryFrom) {
-		this.salaryFrom = salaryFrom;
+	public void setSalaryFromStr(String salaryFromStr) {
+		this.salaryFromStr = salaryFromStr;
 	}
 
-	public String getSalaryTo() {
-		return salaryTo;
+	public String getSalaryToStr() {
+		return salaryToStr;
 	}
 
-	public void setSalaryTo(String salaryTo) {
-		this.salaryTo = salaryTo;
+	public void setSalaryToStr(String salaryToStr) {
+		this.salaryToStr = salaryToStr;
 	}
 
 	public String[] getSalaryCategory() {
@@ -197,6 +211,46 @@ public class PositionDescriptionDTO extends BaseDTO {
 	public void setAnnualLeaveWelfareDtos(
 			List<AnnualLeaveWelfareDTO> annualLeaveWelfareDtos) {
 		this.annualLeaveWelfareDtos = annualLeaveWelfareDtos;
+	}
+
+	public String getSalaryCategoryStr() {
+		return salaryCategoryStr;
+	}
+
+	public void setSalaryCategoryStr(String salaryCategoryStr) {
+		this.salaryCategoryStr = salaryCategoryStr;
+	}
+
+	public String getSocietyWelfareStr() {
+		return societyWelfareStr;
+	}
+
+	public void setSocietyWelfareStr(String societyWelfareStr) {
+		this.societyWelfareStr = societyWelfareStr;
+	}
+
+	public String getResidentialWelfareStr() {
+		return residentialWelfareStr;
+	}
+
+	public void setResidentialWelfareStr(String residentialWelfareStr) {
+		this.residentialWelfareStr = residentialWelfareStr;
+	}
+
+	public String getAnnualLeaveWelfareStr() {
+		return annualLeaveWelfareStr;
+	}
+
+	public void setAnnualLeaveWelfareStr(String annualLeaveWelfareStr) {
+		this.annualLeaveWelfareStr = annualLeaveWelfareStr;
+	}
+
+	public String[] getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String[] keyWords) {
+		this.keyWords = keyWords;
 	}
 
 }
