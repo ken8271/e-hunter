@@ -187,20 +187,20 @@ function loadIndustries(){
 					<tr>
 						<td class="labelColumn">年龄要求：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:select path="ageFrom" cssClass="standardSelectNoWidth">
+						<form:select path="ageFromStr" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
 						   <c:forEach begin="20" end="50" step="5" var="age">
 						      <form:option value="${age }" label="${age }"></form:option>
 						   </c:forEach>
 						</form:select>
 						&nbsp;&nbsp;-&nbsp;&nbsp;
-						<form:select path="ageTo" cssClass="standardSelectNoWidth">
+						<form:select path="ageToStr" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
 						   <c:forEach begin="20" end="50" step="5" var="age">
 						      <form:option value="${age }" label="${age }"></form:option>
 						   </c:forEach>
 						</form:select>
-						<common:errorSign id="ageTo" path="ageTo"></common:errorSign>
+						<common:errorSign id="ageToStr" path="ageToStr"></common:errorSign>
 						</td>
 						<td class="labelColumn">性别要求：<span class="mandatoryField">*</span></td>
 						<td>
@@ -224,8 +224,8 @@ function loadIndustries(){
 						</td>
 						<td class="labelColumn">总工作年限：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:input path="workExperience" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;年以上
-						   <common:errorSign id="workExperience" path="workExperience"></common:errorSign>
+						   <form:input path="workExperienceStr" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;年以上
+						   <common:errorSign id="workExperienceStr" path="workExperienceStr"></common:errorSign>
 						</td>
 					</tr>
 				    <tr >
