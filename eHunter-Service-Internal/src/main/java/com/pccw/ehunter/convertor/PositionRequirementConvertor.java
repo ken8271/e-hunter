@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.pccw.ehunter.domain.internal.PositionRequirement;
 import com.pccw.ehunter.dto.PositionRequirementDTO;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class PositionRequirementConvertor {
 
@@ -14,9 +15,17 @@ public class PositionRequirementConvertor {
 		
 		BeanUtils.copyProperties(dto, po);
 		
-		po.setAgeFrom(Integer.valueOf(dto.getAgeFromStr()));
-		po.setAgeTo(Integer.valueOf(dto.getAgeToStr()));
-		po.setWorkExperience(Integer.valueOf(dto.getAgeToStr()));
+		if(!StringUtils.isEmpty(dto.getAgeFromStr())){
+			po.setAgeFrom(Integer.valueOf(dto.getAgeFromStr()));			
+		}
+		
+		if(!StringUtils.isEmpty(dto.getAgeToStr())){
+			po.setAgeTo(Integer.valueOf(dto.getAgeToStr()));			
+		}
+		
+		if(!StringUtils.isEmpty(dto.getWorkExperienceStr())){
+			po.setWorkExperience(Integer.valueOf(dto.getWorkExperienceStr()));			
+		}
 		
 		return po;
 	}

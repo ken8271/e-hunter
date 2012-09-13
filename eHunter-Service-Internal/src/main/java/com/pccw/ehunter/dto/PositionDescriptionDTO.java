@@ -12,6 +12,7 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private String position;
 	private PositionDTO positionDto;
 	private String positionName;
+	private String expectNumberStr;
 	private String department;
 	private String reportTarget;
 	private String cities;
@@ -80,6 +81,14 @@ public class PositionDescriptionDTO extends BaseDTO {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	public String getExpectNumberStr() {
+		return expectNumberStr;
+	}
+
+	public void setExpectNumberStr(String expectNumberStr) {
+		this.expectNumberStr = expectNumberStr;
 	}
 
 	public String getDepartment() {

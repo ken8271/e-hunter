@@ -23,6 +23,7 @@ public class PositionDescriptionConvertor {
 		po.setExpiryDate(SimpleDateConvertor.toDate(dto.getExpiryDateDto()));
 		po.setSalaryFrom(Integer.valueOf(dto.getSalaryFromStr()));
 		po.setSalaryTo(Integer.valueOf(dto.getSalaryToStr()));
+		po.setExpectNumber(Integer.valueOf(dto.getExpectNumberStr()));
 		
 		List<PositionKeyWord> kws = new ArrayList<PositionKeyWord>();
 		if(!StringUtils.isEmpty(dto.getKeyWords())){

@@ -31,6 +31,9 @@ public class PositionDescriptionValidator extends AbstractValidator{
 		validateRequired(errors, "department", dto.getDepartment(), "部门名称");
 		validateStringLength(errors, "department", dto.getDepartment(), "部门名称", 50);
 		
+		validateRequired(errors, "expectNumberStr", dto.getExpectNumberStr(), "需求人数");
+		validateOnlyNumberic(errors, "expectNumberStr", dto.getExpectNumberStr(), "需求人数");
+		
 		validateRequired(errors, "reportTarget", dto.getReportTarget(), "汇报对象");
 		validateStringLength(errors, "reportTarget", dto.getReportTarget(), "汇报对象", 50);
 		
