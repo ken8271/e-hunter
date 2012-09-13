@@ -24,6 +24,7 @@ public class PositionDescription extends BaseEntity {
 	private Project project;
 	private String position;
 	private String positionName;
+	private Integer expectNumber;
 	private String department;
 	private String reportTarget;
 	private String cities;
@@ -74,6 +75,15 @@ public class PositionDescription extends BaseEntity {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	@Column(name="EXPT_TLNT_NBR")
+	public Integer getExpectNumber() {
+		return expectNumber;
+	}
+
+	public void setExpectNumber(Integer expectNumber) {
+		this.expectNumber = expectNumber;
 	}
 
 	@Column(name="POST_DEPT")
