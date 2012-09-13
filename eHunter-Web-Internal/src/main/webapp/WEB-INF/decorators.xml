@@ -3,6 +3,7 @@
 	<excludes>
 		<pattern>/commons/*</pattern>
 		<pattern>/talent/pop/*</pattern>
+		<pattern>/customer/pop/*</pattern>
 	</excludes>
 	
 	<decorator name="main" page="main.jsp">

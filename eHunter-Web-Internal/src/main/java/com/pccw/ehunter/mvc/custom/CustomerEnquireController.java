@@ -179,6 +179,17 @@ public class CustomerEnquireController extends BaseController{
 		handleProjectsSearch(request , enquireDto , mv);
 		return mv;
 	}
+	
+	@RequestMapping(value="/customer/pop/viewCustomerDetail.do")
+	public ModelAndView viewCustomerDetailPop(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("customer/viewCustomerDetail");
+		
+		String id = request.getParameter("_id");
+		CustomerDTO customerDto = custCommonService.getCustomerByID(id);
+		mv.addObject("customerDto", customerDto);
+		
+		return mv;
+	}
 
 	private void handleProjectsSearch(HttpServletRequest request,final ProjectEnquireDTO enquireDto, ModelAndView mv) {
 		TableModel model = new TableModel("_jmesa_projects", request);
