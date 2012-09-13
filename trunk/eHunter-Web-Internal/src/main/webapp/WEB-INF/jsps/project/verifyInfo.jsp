@@ -76,9 +76,13 @@
 		    </tr>
 			<tr>
 				<td><span class="textCh8">职位名称</span></td>
-				<td><span class="showCh"><c:out value="${projectDto.postDescDto.positionName}" escapeXml="true" /></span></td>
+				<td colspan="3"><span class="showCh"><c:out value="${projectDto.postDescDto.positionName}" escapeXml="true" /></span></td>
+			</tr>
+			<tr>
+				<td><span class="textCh8">需求人数</span></td>
+				<td><span class="showCh"><c:out value="${projectDto.postDescDto.expectNumberStr}" escapeXml="true" />人</span></td>
 				<td><span class="textCh8">截止日期</span></td>
-				<td colspan="3">
+				<td>
 				   <span class="showCh">
 				       <c:out value="${projectDto.postDescDto.expiryDateDto.year }"escapeXml="true" />/
 				       <c:out value="${projectDto.postDescDto.expiryDateDto.month }" escapeXml="true" />/
