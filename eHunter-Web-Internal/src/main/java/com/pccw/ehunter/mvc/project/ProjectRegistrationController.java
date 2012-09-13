@@ -330,8 +330,10 @@ public class ProjectRegistrationController extends BaseController{
 	}
 	
 	@RequestMapping("/project/completeProjectRegistration.do")
-	public ModelAndView completeProjectRegistration(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("index");
+	public ModelAndView completeProjectRegistration(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView("project/projectConfirmation");
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}
 

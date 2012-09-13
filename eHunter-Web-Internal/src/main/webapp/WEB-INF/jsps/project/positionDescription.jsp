@@ -257,7 +257,11 @@ function clearSelector(selector){
 						<form:input path="positionName" cssClass="standardInputText" ></form:input>
 						<common:errorSign id="positionName" path="positionName"></common:errorSign>
 						</td>
-						<td colspan="2">&nbsp;</td>
+						<td class="labelColumn">需求人数：<span class="mandatoryField">*</span></td>
+						<td>
+						<form:input path="expectNumberStr" cssClass="standardInputTextNoWidth" maxlength="4" size="4"></form:input>人
+						<common:errorSign id="expectNumberStr" path="expectNumberStr"></common:errorSign>
+						</td>
 					</tr>
 					<tr>
 						<td class="labelColumn">所属部门：<span class="mandatoryField">*</span></td>
