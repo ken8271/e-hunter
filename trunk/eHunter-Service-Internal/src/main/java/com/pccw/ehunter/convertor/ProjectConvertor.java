@@ -30,6 +30,23 @@ public class ProjectConvertor {
 		return pagedCriteria;
 	}
 	
+	public static ProjectDTO toDto(Project po){
+		if(po == null) return null;
+		
+		ProjectDTO dto = new ProjectDTO();
+		BeanUtils.copyProperties(po, dto);
+		
+		dto.setCustomerDto(CustomerConvertor.toDto(po.getCustomer()));
+		dto.setSystemCustRefNum(dto.getCustomerDto().getSystemCustRefNum());
+		
+		dto.setAdviserDto(InternalUserConvertor.toDto(po.getAdviser()));
+		
+		dto.setPostDescDto(PositionDescriptionConvertor.toDto(po.getPostDescription()));
+		dto.setPostRequireDto(PositionRequirementConvertor.toDto(po.getPostRequirement()));
+		
+		return dto;
+	}
+	
 	public static Project toPo(ProjectDTO dto , String transactionIndicator){
 		if(dto==null) return null;
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.PositionDescription;
 import com.pccw.ehunter.domain.internal.PositionKeyWord;
@@ -13,6 +14,32 @@ import com.pccw.ehunter.utility.BaseEntityUtility;
 import com.pccw.ehunter.utility.StringUtils;
 
 public class PositionDescriptionConvertor {
+	
+	public static PositionDescriptionDTO toDto(PositionDescription po){
+		if(po == null) return null;
+		
+		PositionDescriptionDTO dto = new PositionDescriptionDTO();
+		BeanUtils.copyProperties(po, dto);
+		
+		dto.setExpectNumberStr(String.valueOf(po.getExpectNumber()));
+		dto.setExpiryDateDto(SimpleDateConvertor.toSimpleDate(po.getExpiryDate()));
+		
+		if(po.getSalaryFrom() != null){			
+			dto.setSalaryFromStr(String.valueOf(po.getSalaryFrom()));
+		}
+		
+		if(po.getSalaryTo() != null){
+			dto.setSalaryToStr(String.valueOf(po.getSalaryTo()));
+		}
+		
+		String[] keyWords = new String[5];
+		if(!CollectionUtils.isEmpty(po.getPositionKeyWords())){
+			keyWords = PositionKeyWordConvertor.toStrings(po.getPositionKeyWords());
+		}
+		dto.setKeyWords(keyWords);
+		
+		return dto;
+	}
 	
 	public static PositionDescription toPo(PositionDescriptionDTO dto , String transactionIndicator){
 		if(dto == null) return null;

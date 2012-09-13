@@ -7,6 +7,33 @@ import com.pccw.ehunter.dto.PositionRequirementDTO;
 import com.pccw.ehunter.utility.StringUtils;
 
 public class PositionRequirementConvertor {
+	
+	public static PositionRequirementDTO toDto(PositionRequirement po){
+		if(po == null) return null;
+		
+		PositionRequirementDTO dto = new PositionRequirementDTO();
+		BeanUtils.copyProperties(po, dto);
+		
+		if(po.getAgeFrom() != null){
+			dto.setAgeFromStr(String.valueOf(po.getAgeFrom()));
+		}else {
+			dto.setAgeFromStr(StringUtils.EMPTY_STRING);
+		}
+		
+		if(po.getAgeTo() != null){
+			dto.setAgeToStr(String.valueOf(po.getAgeTo()));
+		}else {
+			dto.setAgeToStr(StringUtils.EMPTY_STRING);
+		}
+		
+		if(po.getWorkExperience() != null){
+			dto.setWorkExperienceStr(String.valueOf(po.getWorkExperience()));
+		}else {
+			dto.setWorkExperienceStr(StringUtils.EMPTY_STRING);
+		}
+		
+		return dto;
+	}
 
 	public static PositionRequirement toPo(PositionRequirementDTO dto){
 		if(dto == null) return null;

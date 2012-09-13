@@ -3,13 +3,17 @@ package com.pccw.ehunter.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dao.ProjectCommonDAO;
+import com.pccw.ehunter.domain.internal.Project;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
+import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.ProjectCommonService;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -18,6 +22,13 @@ public class ProjectCommonServiceImpl implements ProjectCommonService{
 	
 	@Autowired
 	private ProjectCommonDAO projectCommonDao;
+	
+	private SimpleHibernateTemplate<Project, String> simpleDao;
+	
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory){
+		simpleDao = new SimpleHibernateTemplate<Project, String>(sessionFactory, Project.class);
+	}
 
 	@Override
 	public int getProjectsCountByCriteria(ProjectPagedCriteria pagedCriteria) {
@@ -42,6 +53,11 @@ public class ProjectCommonServiceImpl implements ProjectCommonService{
 		}
 		
 		return projects;
+	}
+
+	@Override
+	public ProjectDTO getProjectByID(String id) {
+		return ProjectConvertor.toDto(simpleDao.findUniqueByProperty("systemProjectRefNum", id));
 	}
 
 }
