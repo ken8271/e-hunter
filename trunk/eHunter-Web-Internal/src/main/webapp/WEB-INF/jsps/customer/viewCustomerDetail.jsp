@@ -1,13 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/commons/meta.jsp"%>
 <%@ include file="/commons/taglibs.jsp"%>
+<%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-CUST-0102]</title>
 </head>
 <body>
-<hdiv-c:url value="/customer/editCustomer.do" var="editCustomerUrl"></hdiv-c:url>
+        <hdiv-c:url value="/customer/editCustomer.do" var="editCustomerUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司详细资料</td>
