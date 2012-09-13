@@ -54,7 +54,7 @@ public class ResumeConvertor {
 		}
 		
 		JobIntention ji = JobIntentionConvertor.toPo(dto.getIntentionDto());
-		if(ji != null){
+		if(ji != null && !StringUtils.isEmpty(ji.getEmploymentCategory())){
 			ji.setResume(po);
 			po.setIntention(ji);
 		}
