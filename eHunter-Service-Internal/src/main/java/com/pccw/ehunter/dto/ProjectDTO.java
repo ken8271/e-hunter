@@ -1,5 +1,7 @@
 package com.pccw.ehunter.dto;
 
+import java.util.List;
+
 public class ProjectDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
@@ -11,6 +13,8 @@ public class ProjectDTO extends BaseDTO {
 
 	private PositionDescriptionDTO postDescDto;
 	private PositionRequirementDTO postRequireDto;
+	
+	private List<ProjectCandidateRepositoryDTO> cddtRepoDtos;
 
 	public String getSystemProjectRefNum() {
 		return systemProjectRefNum;
@@ -66,6 +70,14 @@ public class ProjectDTO extends BaseDTO {
 
 	public void setPostRequireDto(PositionRequirementDTO postRequireDto) {
 		this.postRequireDto = postRequireDto;
+	}
+
+	public List<ProjectCandidateRepositoryDTO> getCddtRepoDtos() {
+		return cddtRepoDtos;
+	}
+
+	public void setCddtRepoDtos(List<ProjectCandidateRepositoryDTO> cddtRepoDtos) {
+		this.cddtRepoDtos = cddtRepoDtos;
 	}
 
 }
