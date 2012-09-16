@@ -2,7 +2,7 @@ package com.pccw.ehunter.dto;
 
 import java.io.Serializable;
 
-class Selection implements Serializable {
+public class Selection implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String key;
