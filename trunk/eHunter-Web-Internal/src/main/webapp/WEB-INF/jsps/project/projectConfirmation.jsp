@@ -7,6 +7,7 @@
 </head>
 <body>
         <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&type=2" var="viewProjectDetailUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/initProjectCandidateRepository.do?_id=${projectDto.systemProjectRefNum }" var="tlntAsgnUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">成功创建猎头项目</td>
@@ -17,7 +18,7 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="button" value="添加项目人才库" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td><input class="standardButton" type="button" value="添加项目人才库" onclick="location.href='${tlntAsgnUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -64,7 +65,8 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="button" value="添加项目人才库" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td>
+							    <input class="standardButton" type="button" value="添加项目人才库" onclick="location.href='${tlntAsgnUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
