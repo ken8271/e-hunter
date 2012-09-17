@@ -7,4 +7,6 @@ import com.pccw.ehunter.dto.TalentPagedCriteria;
 public interface TalentCommonDAO {
 	public int getTalentsCountByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<Object> getTalentsByCriteria(TalentPagedCriteria pagedCriteria);
+	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria);
+	public List<Object> getCandidatesByCriteria(TalentPagedCriteria pagedCriteria);
 }

@@ -28,11 +28,13 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 	private CodeTableHelper codeTableHelper;
 
 	@Override
+	@Transactional(readOnly=true)
 	public int getTalentsCountByCriteria(TalentPagedCriteria pagedCriteria) {
 		return talentCommonDao.getTalentsCountByCriteria(pagedCriteria);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<TalentDTO> getTalentsByCriteria(HttpServletRequest request , TalentPagedCriteria pagedCriteria) {
 		List<Object> list = talentCommonDao.getTalentsByCriteria(pagedCriteria);
 		List<TalentDTO> dtos = new ArrayList<TalentDTO>();
@@ -52,6 +54,19 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 			}
 		}
 		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria) {
+		return 0;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<TalentDTO> getCandidatesByCriteria(HttpServletRequest request,
+			TalentPagedCriteria pagedCriteria) {
+		return null;
 	}
 
 }

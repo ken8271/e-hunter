@@ -12,8 +12,12 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import com.pccw.ehunter.constant.CommonConstant;
+import com.pccw.ehunter.constant.DateFormatConstant;
+import com.pccw.ehunter.constant.DegreeOrderConstant;
 import com.pccw.ehunter.dao.TalentCommonDAO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
+import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.StringUtils;
 
 @Component("talentCommonDao")
@@ -92,25 +96,119 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
 			filter.append(" AND UPPER(tlnt.TLNT_SRC) = UPPER(:src) ");
 		}
+
+		if(!StringUtils.isEmpty(pagedCriteria.getAgeTo())){
+			filter.append(" AND tlnt.BRTH_DTTM >= :birthDateFrom ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getAgeFrom())){
+			filter.append(" AND tlnt.BRTH_DTTM < :birthDateTo ");
+		}
+		
+		StringBuffer subFilter = null;
+		if(!StringUtils.isEmpty(pagedCriteria.getMajorCategory())){
+			subFilter = new StringBuffer();
+			subFilter.append(" SELECT 1 ");
+			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_EDU_EXP tee ");
+			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
+			subFilter.append(" AND tee.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
+			subFilter.append(" AND tee.MAJOR = :majorCategory ");
+			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getDegree())){
+			subFilter = new StringBuffer();
+			subFilter.append(" SELECT 1 ");
+			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_EDU_EXP tee ");
+			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
+			subFilter.append(" AND tee.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
+			if(DegreeOrderConstant.OTHER.equals(pagedCriteria.getDegree())){
+				subFilter.append(" AND tee.DEGREE NOT IN ( ");
+				for(int i=0; i<DegreeOrderConstant.DEGREE_ORDER_LIST.size() ; i++){
+					subFilter.append( "'" + DegreeOrderConstant.DEGREE_ORDER_LIST.get(i) + "'");
+					if(i != DegreeOrderConstant.DEGREE_ORDER_LIST.size()-1){
+						subFilter.append(" , ");
+					}
+				}
+				subFilter.append(" ) ");
+			}else {
+				subFilter.append(" AND tee.DEGREE IN ( ");
+				for(int i=DegreeOrderConstant.DEGREE_ORDER_LIST.indexOf(pagedCriteria.getDegree()); i<DegreeOrderConstant.DEGREE_ORDER_LIST.size() ; i++){
+					subFilter.append("'" + DegreeOrderConstant.DEGREE_ORDER_LIST.get(i) + "'");
+					if(i != DegreeOrderConstant.DEGREE_ORDER_LIST.size()-1){
+						subFilter.append(" , ");
+					}
+				}
+				subFilter.append(" ) ");
+			}
+			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getExpectIndustries())){
+			subFilter = new StringBuffer();
+			String[] industries = pagedCriteria.getExpectIndustries().split(CommonConstant.COMMA);
+			subFilter.append(" SELECT 1 ");
+			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_JOB_EXP tje ");
+			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
+			subFilter.append(" AND tje.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
+			subFilter.append(" AND tje.IND_TY IN ( ");
+			for(int i=0 ; i<industries.length ; i++){
+				subFilter.append("'" + industries[i] + "'");
+				if(i != industries.length-1){
+					subFilter.append(" , ");
+				}
+			}
+			subFilter.append(" ) ");
+			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
+		}
 		
 		return filter;
 	}
 
 	private void setParameters(Query query , TalentPagedCriteria pagedCriteria){
-		if(!StringUtils.isEmpty(pagedCriteria.getTalentID())){
-			query.setString("talentId", pagedCriteria.getTalentID());
+		try {	
+			if(!StringUtils.isEmpty(pagedCriteria.getTalentID())){
+				query.setString("talentId", pagedCriteria.getTalentID());
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getName())){
+				query.setString("name", pagedCriteria.getName());
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getGender())){
+				query.setString("gender", pagedCriteria.getGender());
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
+				query.setString("src", pagedCriteria.getTalentSrc());
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getAgeTo())){
+				int beginYear = DateUtils.getCurrentYear()-Integer.parseInt(pagedCriteria.getAgeTo())+1;
+				query.setDate("birthDateFrom", DateUtils.parse(DateFormatConstant.DATE_YYYYMMDD	, String.valueOf(beginYear)+"0101"));
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getAgeFrom())){
+				int endYear = DateUtils.getCurrentYear()-Integer.parseInt(pagedCriteria.getAgeFrom())+2;
+				query.setDate("birthDateTo", DateUtils.parse(DateFormatConstant.DATE_YYYYMMDD	, String.valueOf(endYear)+"0101"));
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getMajorCategory())){
+				query.setString("majorCategory", pagedCriteria.getMajorCategory());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getName())){
-			query.setString("name", pagedCriteria.getName());
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getGender())){
-			query.setString("gender", pagedCriteria.getGender());
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
-			query.setString("src", pagedCriteria.getTalentSrc());
-		}
+	}
+
+	@Override
+	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria) {
+		return 0;
+	}
+
+	@Override
+	public List<Object> getCandidatesByCriteria(
+			TalentPagedCriteria pagedCriteria) {
+		return null;
 	}
 }
