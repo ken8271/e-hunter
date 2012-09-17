@@ -162,9 +162,19 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
 		}
 		
+		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+			filter.append(" AND NOT EXISTS ( ");
+			filter.append(" SELECT 1 ");
+			filter.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
+			filter.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
+			filter.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
+			filter.append(" AND prj.SYS_REF_PRJ = :projectId ");
+			filter.append(" ) ");
+		}
+		
 		return filter;
 	}
-
+	
 	private void setParameters(Query query , TalentPagedCriteria pagedCriteria){
 		try {	
 			if(!StringUtils.isEmpty(pagedCriteria.getTalentID())){
@@ -195,6 +205,10 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			
 			if(!StringUtils.isEmpty(pagedCriteria.getMajorCategory())){
 				query.setString("majorCategory", pagedCriteria.getMajorCategory());
+			}
+			
+			if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+				query.setString("projectId", pagedCriteria.getSystemProjectRefNum());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

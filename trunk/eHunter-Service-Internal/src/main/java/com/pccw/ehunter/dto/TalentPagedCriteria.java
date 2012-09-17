@@ -8,6 +8,7 @@ public class TalentPagedCriteria extends PagedCriteria {
 	private String maritalStatus;
 	private String talentSrc;
 
+	private String systemProjectRefNum;
 	private String ageFrom;
 	private String ageTo;
 	private String gender;
@@ -111,6 +112,14 @@ public class TalentPagedCriteria extends PagedCriteria {
 
 	public void setExpectIndustries(String expectIndustries) {
 		this.expectIndustries = expectIndustries;
+	}
+
+	public String getSystemProjectRefNum() {
+		return systemProjectRefNum;
+	}
+
+	public void setSystemProjectRefNum(String systemProjectRefNum) {
+		this.systemProjectRefNum = systemProjectRefNum;
 	}
 
 }

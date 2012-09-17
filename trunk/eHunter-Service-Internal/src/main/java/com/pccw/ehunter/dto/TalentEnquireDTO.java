@@ -10,6 +10,8 @@ public class TalentEnquireDTO implements Serializable {
 	private String maritalStatus;
 	private String talentSrc;
 	
+	private String systemProjectRefNum;
+	private String searchIndicator;
 	private String ageFrom;
 	private String ageTo;
 	private String gender;
@@ -123,6 +125,22 @@ public class TalentEnquireDTO implements Serializable {
 
 	public void setExpectIndustries(String expectIndustries) {
 		this.expectIndustries = expectIndustries;
+	}
+
+	public String getSystemProjectRefNum() {
+		return systemProjectRefNum;
+	}
+
+	public void setSystemProjectRefNum(String systemProjectRefNum) {
+		this.systemProjectRefNum = systemProjectRefNum;
+	}
+
+	public String getSearchIndicator() {
+		return searchIndicator;
+	}
+
+	public void setSearchIndicator(String searchIndicator) {
+		this.searchIndicator = searchIndicator;
 	}
 
 }
