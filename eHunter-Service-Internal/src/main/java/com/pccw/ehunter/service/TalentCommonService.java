@@ -10,4 +10,6 @@ import com.pccw.ehunter.dto.TalentPagedCriteria;
 public interface TalentCommonService {
 	public int getTalentsCountByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<TalentDTO> getTalentsByCriteria(HttpServletRequest request ,TalentPagedCriteria pagedCriteria);
+	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria);
+	public List<TalentDTO> getCandidatesByCriteria(HttpServletRequest request , TalentPagedCriteria pagedCriteria);
 }
