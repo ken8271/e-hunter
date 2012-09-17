@@ -451,4 +451,9 @@ public class DateUtils {
 		return cal.getTime();
 	}
 	
+	public static int getCurrentYear(){
+		Calendar cal = DateUtils.toCalendar( new Date() );
+		return cal.get(Calendar.YEAR);
+	}
+	
 }
