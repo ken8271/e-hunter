@@ -63,12 +63,29 @@ public class CandidateRepositoryController extends BaseController{
 		
 		mv.addObject("systemProjectRefNum", systemProjectRefNum);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
-		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, new TalentEnquireDTO());
+		
+		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
+		
+		initializeCandidateEnqireDto(enquireDto , projectDto);
+		
+		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
 		
 		request.getSession(false).removeAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT);
 		return mv;
 	}
 	
+	private void initializeCandidateEnqireDto(TalentEnquireDTO enquireDto , ProjectDTO projectDto) {
+		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
+		enquireDto.setAgeFrom(projectDto.getPostRequireDto().getAgeFromStr());
+		enquireDto.setAgeTo(projectDto.getPostRequireDto().getAgeToStr());
+		enquireDto.setGender(projectDto.getPostRequireDto().getGender());
+		enquireDto.setMajorCategory(projectDto.getPostRequireDto().getMajorCategory());
+		enquireDto.setWorkExperience(projectDto.getPostRequireDto().getWorkExperienceStr());
+		enquireDto.setDegree(projectDto.getPostRequireDto().getDegree());
+		enquireDto.setFtEduIndicator(projectDto.getPostRequireDto().getFtEduIndicator());
+		enquireDto.setExpectIndustries(projectDto.getPostRequireDto().getExpectIndustries());
+	}
+
 	@RequestMapping("/project/appendCandidateRepositoryActions.do")
 	public ModelAndView appendCandidateRepositoryActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDto){
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryCreate");

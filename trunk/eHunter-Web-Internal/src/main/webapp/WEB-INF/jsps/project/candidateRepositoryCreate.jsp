@@ -8,21 +8,25 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 <script type="text/javascript">
 $().ready(function(){
-	$('#ageFrom').val('${projectDto.postRequireDto.ageFromStr}');
-	$('#ageTo').val('${projectDto.postRequireDto.ageToStr}');
-	$('#gender').val('${projectDto.postRequireDto.gender}');
-	$('#majorCategory').val('${projectDto.postRequireDto.majorCategory}');
-	$('#workExperience').val('${projectDto.postRequireDto.workExperienceStr}');
-	$('#degree').val('${projectDto.postRequireDto.degree}');
-	if('${projectDto.postRequireDto.ftEduIndicator}' == 'Y'){
-		$('#ftEduIndicator_Y').attr('checked' , true);
-	}else {
-		$('#ftEduIndicator_N').attr('checked' , true);
+	if('${enquireDto.searchIndicator}' == 'Y'){
+		$('#searchIndicator').attr('checked',true);
 	}
+	setExtraCriteria(document.getElementById('searchIndicator'));
 });
 
 function setExtraCriteria(c){
 	if(c.checked == true){
+		$('#ageFrom').val('${projectDto.postRequireDto.ageFromStr}');
+		$('#ageTo').val('${projectDto.postRequireDto.ageToStr}');
+		$('#gender').val('${projectDto.postRequireDto.gender}');
+		$('#majorCategory').val('${projectDto.postRequireDto.majorCategory}');
+		$('#workExperience').val('${projectDto.postRequireDto.workExperienceStr}');
+		$('#degree').val('${projectDto.postRequireDto.degree}');
+		if('${projectDto.postRequireDto.ftEduIndicator}' == 'Y'){
+			$('#ftEduIndicator_Y').attr('checked' , true);
+		}else {
+			$('#ftEduIndicator_N').attr('checked' , true);
+		}
 		$('#ageFrom').attr('disabled' , true);
 		$('#ageTo').attr('disabled' , true);
 		$('#gender').attr('disabled' , true);
@@ -43,6 +47,24 @@ function setExtraCriteria(c){
 		$('#ftEduIndicator_Y').attr('disabled' , false);
 		$('#ftEduIndicator_N').attr('disabled' , false);
 	}
+}
+
+function checkCandidateSelection(){
+	var selectCount = 0;
+	var selections = document.getElementsByName("jmesaDto.select");
+	if(selections != 'undefined'){
+		for(var i=0 ; i<selections.length ; i++){
+			if(selections[i].checked){
+				selectCount++;
+			}
+		}
+	}
+	if(selectCount==0){
+		alert('请至少选择一名候选人才!');
+		return;
+	}
+	
+	submitForm('5');
 }
 
 function submitForm(actionFlagStr){
@@ -93,6 +115,19 @@ function submitForm(actionFlagStr){
 						   <img src="${imagePath }/icon/tips.gif" title="查看项目资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
 						</td>
 					</tr>
+					<tr>
+					    <td class="labelColumn">客户公司：</td>
+						<td colspan="3">
+						     <c:out value="${projectDto.customerDto.fullName }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
+						     <img src="${imagePath }/icon/tips.gif" title="查看客户公司资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">需求职位：</td>
+						<td colspan="3">
+						     <c:out value="${projectDto.postDescDto.positionName}" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -113,7 +148,7 @@ function submitForm(actionFlagStr){
 			</tbody>
 		</table>
 		<div class="emptyBlock"></div>
-		&nbsp;<input type="checkbox" onclick="setExtraCriteria(this)"/>&nbsp;只接受符合该项目职位基本素质要求的人才
+		&nbsp;<input id="searchIndicator" type="checkbox" name="searchIndicator" value='<form:cipher value="Y" parameter="searchIndicator"/>' onclick="setExtraCriteria(this)"/>&nbsp;只接受符合该项目职位基本素质要求的人才
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 			<tbody>
 				<common:standardTableRow />
@@ -191,6 +226,13 @@ function submitForm(actionFlagStr){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td class="note">
+	            <span class="succmsg">需求人数：1 人&nbsp;/&nbsp;项目人才库人数：2人&nbsp;/&nbsp;已选择：4人</span>
+	          </td>
+	       </tr>
+	    </table>
 		<div>${listOfTalent}</div>
 		<div class="emptyBlock"></div>
 		<c:if test="${not empty listOfTalent}">
@@ -200,7 +242,7 @@ function submitForm(actionFlagStr){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-								<input class="standardButton" type="button" value="添加到项目人才库" onclick="submitForm('5')">&nbsp;
+								<input class="standardButton" type="button" value="添加到项目人才库" onclick="checkCandidateSelection();">&nbsp;
 							</td>
 						</tr>
 					</table>
