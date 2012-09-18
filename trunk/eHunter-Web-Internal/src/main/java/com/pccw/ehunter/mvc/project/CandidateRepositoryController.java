@@ -385,4 +385,16 @@ public class CandidateRepositoryController extends BaseController{
 		
 		return table;
 	}
+	
+	@RequestMapping("/project/viewCandidateRepository.do")
+	public ModelAndView viewCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView("project/candidateRepositoryView");
+		
+		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
+		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
+		
+		handlePagedSearch(request , mv , enquireDto);
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		return mv;
+	}
 }

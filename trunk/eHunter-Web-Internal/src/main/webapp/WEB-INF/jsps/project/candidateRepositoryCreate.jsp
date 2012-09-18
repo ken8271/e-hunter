@@ -104,7 +104,6 @@ function submitForm(actionFlagStr){
 		</table>
 		<div class="emptyBlock"></div>
 		<div class="contentTableBody">
-			<div style="height: 5px"></div>
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 					<common:standardTableRow />
@@ -226,13 +225,6 @@ function submitForm(actionFlagStr){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		   <tr>
-		      <td class="note">
-	            <span class="succmsg">需求人数：1 人&nbsp;/&nbsp;项目人才库人数：2人&nbsp;/&nbsp;已选择：4人</span>
-	          </td>
-	       </tr>
-	    </table>
 		<div>${listOfTalent}</div>
 		<div class="emptyBlock"></div>
 		<c:if test="${not empty listOfTalent}">
