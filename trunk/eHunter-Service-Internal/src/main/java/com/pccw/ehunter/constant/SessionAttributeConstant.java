@@ -7,7 +7,7 @@ public class SessionAttributeConstant {
 	public static final String CUSTOMER_ENQUIRE_DTO = "enquireDto";
 	public static final String LIST_OF_CUSTOMERS = "listOfCustomers";
 	
-	public static final String LIST_OF_RPOJECTS = "listOfCustomerProjects";
+	public static final String LIST_OF_RPOJECTS = "listOfProject";
 	public static final String LIST_OF_TALENT_SRC = "listOfTalentSrc";
 	
 	public static final String TALENT_DTO = "talentDto";
@@ -29,4 +29,5 @@ public class SessionAttributeConstant {
 	public static final String PROJECT_DTO = "projectDto";
 	public static final String POSITION_DESCRIPTION_DTO = "postDescDto";
 	public static final String POSITION_REQUIREMENT_DTO = "postRequireDto";
+	public static final String PROJECT_ENQUIRE_DTO = "prjEnquireDto";
 }

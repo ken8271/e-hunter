@@ -8,6 +8,11 @@ public class ProjectEnquireDTO implements Serializable {
 	private String systemProjectRefNum;
 	private String projectName;
 	private String systemCustRefNum;
+	private String customerName;
+	private String projectStatus;
+
+	private SimpleDateDTO fromDateDto;
+	private SimpleDateDTO toDateDto;
 
 	private JmesaCheckBoxDTO jmesaDto;
 
@@ -41,6 +46,38 @@ public class ProjectEnquireDTO implements Serializable {
 
 	public void setJmesaDto(JmesaCheckBoxDTO jmesaDto) {
 		this.jmesaDto = jmesaDto;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public SimpleDateDTO getFromDateDto() {
+		return fromDateDto;
+	}
+
+	public void setFromDateDto(SimpleDateDTO fromDateDto) {
+		this.fromDateDto = fromDateDto;
+	}
+
+	public SimpleDateDTO getToDateDto() {
+		return toDateDto;
+	}
+
+	public void setToDateDto(SimpleDateDTO toDateDto) {
+		this.toDateDto = toDateDto;
 	}
 
 }

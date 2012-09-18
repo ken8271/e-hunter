@@ -10,6 +10,7 @@ import com.pccw.ehunter.domain.internal.Project;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class ProjectConvertor {
 	
@@ -21,6 +22,14 @@ public class ProjectConvertor {
 		}
 		
 		BeanUtils.copyProperties(enquireDto, pagedCriteria);
+		
+		if(enquireDto.getFromDateDto() != null && !StringUtils.isEmpty(enquireDto.getFromDateDto().getDay())){
+			pagedCriteria.setFromDate(SimpleDateConvertor.toDate(enquireDto.getFromDateDto()));
+		}
+		
+		if(enquireDto.getToDateDto() != null && !StringUtils.isEmpty(enquireDto.getToDateDto().getDay())){
+			pagedCriteria.setToDate(SimpleDateConvertor.toDate(enquireDto.getToDateDto()));
+		}
 		
 		if(enquireDto.getJmesaDto() != null && enquireDto.getJmesaDto().getRowSelect() != null){
 			pagedCriteria.getPageFilter().setRowStart(enquireDto.getJmesaDto().getRowSelect().getRowStart());
