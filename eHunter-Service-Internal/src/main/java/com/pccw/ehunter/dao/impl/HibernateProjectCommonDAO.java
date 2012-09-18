@@ -31,7 +31,7 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT COUNT(pr.SYS_REF_PRJ) ");
-				buffer.append(" FROM T_PRJ pr ");
+				buffer.append(" FROM T_PRJ pr , T_CUST_CO cc , T_INT_USR usr ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFilter(pagedCriteria));
 				
@@ -53,15 +53,15 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT pr.SYS_REF_PRJ , pr.PRJ_NM ");
-				buffer.append(" FROM T_PRJ pr ");
+				buffer.append(" SELECT pr.SYS_REF_PRJ , pr.PRJ_NM , cc.CO_NM , pr.CR_DTTM , usr.CNM ");
+				buffer.append(" FROM T_PRJ pr , T_CUST_CO cc , T_INT_USR usr ");
 				buffer.append(" WHERE 1=1 ");
 				buffer.append(getSQLFilter(pagedCriteria));
 				buffer.append(" ORDER BY pr.SYS_REF_PRJ ");
 				
 				Query query = session.createSQLQuery(buffer.toString());
 				setParameters(query , pagedCriteria);
-				return null;
+				return query.list();
 			}
 		});
 		return list;
@@ -69,6 +69,17 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 	
 	private StringBuffer getSQLFilter(ProjectPagedCriteria pagedCriteria) {
 		StringBuffer filter = new StringBuffer();
+		
+		filter.append(" AND usr.USR_REC_ID = pr.PRJ_ADVSR ");
+		filter.append(" AND cc.SYS_REF_CUST = pr.SYS_REF_CUST ");
+		
+		if(pagedCriteria.getFromDate() != null){
+			filter.append(" AND pr.CR_DTTM >= :fromDate ");
+		}
+		
+		if(pagedCriteria.getToDate() != null){
+			filter.append(" AND pr.CR_DTTM < ADDDATE(:toDate, INTERVAL 1 DAY) ");
+		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
 			filter.append(" AND UPPER(pr.SYS_REF_PRJ) LIKE CONCAT('%',UPPER(:systemProjectRefNum),'%') ");
@@ -82,20 +93,36 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 			filter.append(" AND UPPER(pr.SYS_REF_CUST) LIKE CONCAT('%',UPPER(:systemCustRefNum),'%') ");
 		}
 		
+		if(!StringUtils.isEmpty(pagedCriteria.getCustomerName())){
+			filter.append(" AND (UPPER(cc.CO_NM) LIKE CONCAT('%',UPPER(:custName),'%') OR UPPER(cc.CO_SHRT_NM) LIKE CONCAT('%',UPPER(:custName),'%')) ");
+		}
+		
 		return filter;
 	}
 	
 	private void setParameters(Query query, ProjectPagedCriteria pagedCriteria) {
+		if(pagedCriteria.getFromDate() != null){
+			query.setDate("fromDate", pagedCriteria.getFromDate());
+		}
+		
+		if(pagedCriteria.getToDate() != null){
+			query.setDate("toDate", pagedCriteria.getToDate());
+		}
+		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
-			query.setString("systemProjectRefNum", pagedCriteria.getSystemProjectRefNum());
+			query.setString("systemProjectRefNum", pagedCriteria.getSystemProjectRefNum().trim());
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getProjectName())){
-			query.setString("projectName", pagedCriteria.getProjectName());
+			query.setString("projectName", pagedCriteria.getProjectName().trim());
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemCustRefNum())){
-			query.setString("systemCustRefNum", pagedCriteria.getSystemCustRefNum());
+			query.setString("systemCustRefNum", pagedCriteria.getSystemCustRefNum().trim());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getCustomerName())){
+			query.setString("custName", pagedCriteria.getCustomerName().trim());
 		}
 		
 	}
