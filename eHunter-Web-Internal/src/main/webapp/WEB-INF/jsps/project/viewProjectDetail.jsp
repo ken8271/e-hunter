@@ -9,6 +9,7 @@
 </head>
 <body>
     <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
+    <hdiv-c:url value="/project/viewCandidateRepository.do" var="viewCandidateRepositoryUrl"></hdiv-c:url>
 	<table border="0" width="100%">
 		<tr>
 			<td class="pageTitle">项目详细资料</td>
@@ -20,7 +21,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-							<input class="standardButton" type="button" value="项目人才库管理">&nbsp;
+							<input class="standardButton" type="button" value="项目人才库" onclick="location.href='${viewCandidateRepositoryUrl}'">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" />&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 						</td>
@@ -212,7 +213,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-							<input class="standardButton" type="button" value="项目人才库管理">&nbsp;
+							<input class="standardButton" type="button" value="项目人才库" onclick="location.href='${viewCandidateRepositoryUrl}'">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" />&nbsp;
 							<input class="standardButton" type="button" value="返回"  onclick="location.href='${backUrl}'" />
 						</td>

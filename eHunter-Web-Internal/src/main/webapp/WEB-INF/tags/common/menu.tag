@@ -5,20 +5,20 @@
 			<ul class="categoryitems">
 			<li><a href="${ctx}/customer/initAddCustomer.do">新增客户</a></li>
 			<li><a href="${ctx}/customer/initCustomersSearch.do">客户查询</a></li>
-			<li><a href="#">客户联系记录</a></li>
+			<li><a href="${ctx}/customer/initCustomerContact.do">客户联系记录</a></li>
 			</ul>
 			
 			<h3 class="menuheader expandable">人才库管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx}/talent/initAddTalent.do">新增人才</a></li>
 			<li><a href="${ctx}/talent/initTalentsSearch.do">人才查询</a></li>
-			<li><a href="#">人才联系记录</a></li>
+			<li><a href="${ctx}/talent/initTalentContact.do">人才联系记录</a></li>
 			</ul>
 			
 			<h3 class="menuheader expandable">项目管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx}/project/initNewProject.do">新建项目</a></li>
-			<li><a href="#">项目查询</a></li>
+			<li><a href="${ctx}/project/initProjectsSearch.do">项目查询</a></li>
 			</ul>
 						
 			<h3 class="menuheader expandable">邮件管理</h3>

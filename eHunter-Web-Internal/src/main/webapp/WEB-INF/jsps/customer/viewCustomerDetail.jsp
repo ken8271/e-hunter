@@ -161,7 +161,7 @@
 			</table>
 		</div>	
 		<div class="emptyBlock"></div>
-		<div>${listOfCustomerProjects}</div>
+		<div>${listOfProject}</div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">

@@ -61,6 +61,7 @@
 				<value>/talent/initAddTalent.do</value>
 				<value>/talent/initTalentsSearch.do</value>
 				<value>/project/initNewProject.do</value>
+				<value>/project/initProjectsSearch.do</value>
 			</list>			
 		</property>
 
