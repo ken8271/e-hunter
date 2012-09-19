@@ -34,7 +34,8 @@ import com.pccw.ehunter.utility.URLUtils;
 
 @Controller
 @SessionAttributes({
-	SessionAttributeConstant.PROJECT_ENQUIRE_DTO
+	SessionAttributeConstant.PROJECT_ENQUIRE_DTO,
+	SessionAttributeConstant.PROJECT_DTO
 })
 public class ProjectEnquireController extends BaseController{
 	

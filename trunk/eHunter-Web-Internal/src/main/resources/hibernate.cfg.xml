@@ -45,7 +45,7 @@
 		<mapping class="com.pccw.ehunter.domain.internal.LanguageAbility" />
 		<mapping class="com.pccw.ehunter.domain.internal.ProfessionalSkillPK" />
 		<mapping class="com.pccw.ehunter.domain.internal.ProfessionalSkill" />
-		<mapping class="com.pccw.ehunter.domain.internal.ProjectCandidateRepository" />
+		<mapping class="com.pccw.ehunter.domain.internal.Candidate" />
 		<mapping class="com.pccw.ehunter.domain.internal.ProjectExperiencePK" />
 		<mapping class="com.pccw.ehunter.domain.internal.ProjectExperience" />
 		<mapping class="com.pccw.ehunter.domain.internal.TrainingExperiencePK" />

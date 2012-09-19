@@ -29,7 +29,7 @@ import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
-import com.pccw.ehunter.dto.ProjectCandidateRepositoryDTO;
+import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.Selection;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -82,8 +82,8 @@ public class CandidateRepositoryController extends BaseController{
 		enquireDto.setMajorCategory(projectDto.getPostRequireDto().getMajorCategory());
 		enquireDto.setWorkExperience(projectDto.getPostRequireDto().getWorkExperienceStr());
 		enquireDto.setDegree(projectDto.getPostRequireDto().getDegree());
-		enquireDto.setFtEduIndicator(projectDto.getPostRequireDto().getFtEduIndicator());
-		enquireDto.setExpectIndustries(projectDto.getPostRequireDto().getExpectIndustries());
+		//enquireDto.setFtEduIndicator(projectDto.getPostRequireDto().getFtEduIndicator());
+		//enquireDto.setExpectIndustries(projectDto.getPostRequireDto().getExpectIndustries());
 	}
 
 	@RequestMapping("/project/appendCandidateRepositoryActions.do")
@@ -156,7 +156,7 @@ public class CandidateRepositoryController extends BaseController{
 		
 		List<TalentDTO> talentDtos = (List<TalentDTO>)request.getSession(false).getAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT);
 		
-		List<ProjectCandidateRepositoryDTO> repoDtos = new ArrayList<ProjectCandidateRepositoryDTO>();
+		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
 		if(!CollectionUtils.isEmpty(talentDtos)){			
 			repoDtos = handleSelected(enquireDTO ,projectDto , talentDtos);
 		}
@@ -167,16 +167,16 @@ public class CandidateRepositoryController extends BaseController{
 		return mv;
 	}
 	
-	private List<ProjectCandidateRepositoryDTO> handleSelected(TalentEnquireDTO enquireDTO ,ProjectDTO projectDto , List<TalentDTO> talentDtos) {
-		List<ProjectCandidateRepositoryDTO> repoDtos = new ArrayList<ProjectCandidateRepositoryDTO>();
+	private List<CandidateDTO> handleSelected(TalentEnquireDTO enquireDTO ,ProjectDTO projectDto , List<TalentDTO> talentDtos) {
+		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
 		
-		ProjectCandidateRepositoryDTO repo = null;
+		CandidateDTO repo = null;
 		if(!CollectionUtils.isEmpty(enquireDTO.getJmesaDto().getAllSelections())){
 			for(Selection s : enquireDTO.getJmesaDto().getAllSelections()){
 				if(s.isChecked()){					
 					for(TalentDTO dto : talentDtos){
 						if(s.getKey().equals(dto.getTalentID())){
-							repo = new ProjectCandidateRepositoryDTO();
+							repo = new CandidateDTO();
 							repo.setProjectDto(projectDto);
 							repo.setTalentDto(dto);
 							repoDtos.add(repo);
@@ -393,8 +393,193 @@ public class CandidateRepositoryController extends BaseController{
 		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
 		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
 		
-		handlePagedSearch(request , mv , enquireDto);
+		handleCandidateRepositorySeach(request , mv , enquireDto);
+		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
+	}
+
+	private void handleCandidateRepositorySeach(final HttpServletRequest request,ModelAndView mv,final TalentEnquireDTO enquireDto) {
+		TableModel model = new TableModel("_jmesa_cddts", request);
+		model.autoFilterAndSort(false);
+		model.setStateAttr("restore");
+		
+		model.setItems(new PageItems() {
+			
+			@Override
+			public int getTotalRows(Limit limit) {
+				return cddtRepoService.getCandidateRepositoryCountByProjectID(TalentConvertor.toPagedCriteria(enquireDto));
+			}
+			
+			@Override
+			public Collection<CandidateDTO> getItems(Limit limit) {
+				TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+				
+				int rowStart = limit.getRowSelect().getRowStart();
+				int rowEnd = limit.getRowSelect().getRowEnd();
+				
+				pagedCriteria.getPageFilter().setRowStart(rowStart);
+				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
+				
+				return cddtRepoService.getCandidateRepositoryByProjectID(pagedCriteria);
+			}
+		});
+		model.setTable(getCandidateRepositoryHtml(request ,enquireDto.getJmesaDto()));
+		
+		mv.addObject(SessionAttributeConstant.LIST_OF_CANDIDATE_REPOSITORY, model.render());
+	}
+
+	private Table getCandidateRepositoryHtml(final HttpServletRequest request,final JmesaCheckBoxDTO jmesaDto) {
+		Table table = new HtmlTable().width("100%");
+		
+		HtmlRow row = new HtmlRow();
+		row.setFilterable(false);
+		row.setSortable(false);
+		table.setRow(row);
+		
+
+		HtmlColumn select = new HtmlColumn("select");
+		select.setWidth("5%");
+		select.setStyle("align:center");
+		select.setHeaderEditor(new HeaderEditor() {
+			
+			@Override
+			public Object getValue() {
+				HtmlBuilder builder = new HtmlBuilder();
+				
+				String checkbox = null;
+				if(jmesaDto.isSelectAll()){
+					checkbox = "<input type=\"checkbox\" style=\"align:left\" onclick=\"javascript:selectAllByTableId('_jmesa_cddts')\" checked=\"checked\"/>";
+				}else {
+					checkbox = "<input type=\"checkbox\" style=\"align:left\" onclick=\"javascript:selectAllByTableId('_jmesa_cddts')\" />";
+				}
+				
+				return builder.append(checkbox).toString();
+			}
+		});
+		select.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				
+				StringBuffer checkbox = new StringBuffer();
+				if(jmesaDto.isSelectAll() || jmesaDto.isSelected(dto.getTalentDto().getTalentID())){	
+					checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" checked=\"checked\" value=\"");
+				}else {
+					checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" value=\"");
+				}
+				checkbox.append(dto.getTalentDto().getTalentID());
+				checkbox.append("\" />");
+				checkbox.append("<input name=\"jmesaDto.currSelect\" type=\"checkbox\" value=\"");
+				checkbox.append(dto.getTalentDto().getTalentID());
+				checkbox.append("\" checked=\"checked\" style=\"display:none\" />&nbsp;&nbsp;");
+				
+				return checkbox.toString();
+			}
+		});
+		row.addColumn(select);
+		
+		HtmlColumn talentId = new HtmlColumn("talentID");
+		talentId.setWidth("width:20% nowrap");
+		talentId.setTitle("人才编号");
+		talentId.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				StringBuffer url = new StringBuffer();
+				url.append(request.getContextPath());
+				url.append("/talent/viewTalentDetail.do?_id=");
+				url.append(dto.getTalentDto().getTalentID());
+				
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append("<a href=\"");
+				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
+				buffer.append("\">");
+				buffer.append(dto.getTalentDto().getTalentID());
+				buffer.append("</a>");
+				return buffer.toString();
+			}
+		});
+		row.addColumn(talentId);
+		
+		HtmlColumn name = new HtmlColumn("name");
+		name.setWidth("width:20% nowrap");
+		name.setTitle("中文名/英文名");
+		name.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(dto.getTalentDto().getCnName());
+				
+				if(!StringUtils.isEmpty(dto.getTalentDto().getEnName())){
+					buffer.append("&nbsp;(");
+					buffer.append(dto.getTalentDto().getEnName());
+					buffer.append(")");
+				}
+				return  buffer.toString();
+			}
+		});
+		row.addColumn(name);
+		
+		HtmlColumn degree = new HtmlColumn("degree");
+		degree.setWidth("width:20% nowrap");
+		degree.setTitle("学历/学位");
+		degree.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				
+				if(dto.getTalentDto().getDegreeDto() != null){
+					return dto.getTalentDto().getDegreeDto().getDisplayName();
+				}else {
+					return StringUtils.EMPTY_STRING;
+				}
+			}
+		});
+		row.addColumn(degree);
+		
+		HtmlColumn place = new HtmlColumn("place");
+		place.setWidth("width:32% nowrap");
+		place.setTitle("现居地");
+		place.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				
+				if(!StringUtils.isEmpty(dto.getTalentDto().getNowLivePlace())){
+					return dto.getTalentDto().getNowLivePlace();
+				}else {
+					return StringUtils.EMPTY_STRING;
+				}
+			}
+		});
+		row.addColumn(place);
+		
+		HtmlColumn status = new HtmlColumn("candidateStatus");
+		status.setWidth("");
+		status.setTitle("状态");
+		status.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CandidateDTO dto = (CandidateDTO)item;
+				
+				if(!StringUtils.isEmpty(dto.getCandidateStatus())){
+					return dto.getCandidateStatus();
+				}else {
+					return StringUtils.EMPTY_STRING;
+				}
+			}
+		});
+		row.addColumn(status);
+		
+		return table;
 	}
 }

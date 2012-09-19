@@ -17,20 +17,6 @@
 				<td class="pageTitle">项目人才库</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							    <input class="standardButton" type="button" value="新增" onclick="location.href='${addCandiateUrl}'"/>&nbsp;
-								<input class="standardButton" type="button" value="返回">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
@@ -58,7 +44,7 @@
 				</tbody>
 		</table>
 		<div class="emptyBlock"></div>
-		<div>${listOfCandidate }</div>
+		<div>${listOfCandidateRepository }</div>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -67,6 +53,7 @@
 						<tr>
 							<td>
 							    <input class="standardButton" type="button" value="新增" onclick="location.href='${addCandiateUrl}'"/>&nbsp;
+								<input class="standardButton" type="button" value="移除">
 								<input class="standardButton" type="button" value="返回">
 							</td>
 						</tr>
