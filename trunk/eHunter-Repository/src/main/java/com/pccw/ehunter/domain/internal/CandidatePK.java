@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class ProjectCandidateRepositoryPK implements Serializable{
+public class CandidatePK implements Serializable{
 	private static final long serialVersionUID = 4763464926958786281L;
 	
 	private Project project;

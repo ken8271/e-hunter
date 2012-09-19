@@ -9,18 +9,18 @@ import com.pccw.ehunter.domain.BaseEntity;
 
 @Entity
 @Table(name="T_PRJ_TLNT_LIB")
-public class ProjectCandidateRepository extends BaseEntity {
+public class Candidate extends BaseEntity {
 	private static final long serialVersionUID = -3104559413553551205L;
 
-	private ProjectCandidateRepositoryPK pk;
+	private CandidatePK pk;
 	private String candidateStatus;
 
 	@EmbeddedId
-	public ProjectCandidateRepositoryPK getPk() {
+	public CandidatePK getPk() {
 		return pk;
 	}
 
-	public void setPk(ProjectCandidateRepositoryPK pk) {
+	public void setPk(CandidatePK pk) {
 		this.pk = pk;
 	}
 
