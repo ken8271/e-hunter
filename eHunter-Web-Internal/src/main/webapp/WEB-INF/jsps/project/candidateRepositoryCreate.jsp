@@ -200,12 +200,9 @@ function submitForm(actionFlagStr){
 							<c:forEach items="${listOfDegree }" var="dgre">
 								<form:option value="${dgre.degreeCode }" label="${dgre.displayName }"></form:option>
 							</c:forEach>
-						</form:select> <common:errorSign id="degree" path="degree"></common:errorSign></td>
-					<td class="labelColumn">是否统招全日制：</td>
-					<td>
-					    <form:radiobutton id="ftEduIndicator_Y" path="ftEduIndicator" value="Y" />是&nbsp;&nbsp;&nbsp; 
-					    <form:radiobutton id="ftEduIndicator_N" path="ftEduIndicator" value="N" /> 不限&nbsp; 
+						</form:select> <common:errorSign id="degree" path="degree"></common:errorSign>
 					</td>
+					<td colspan="2"></td>
 				</tr>
 			</tbody>
 		</table>
