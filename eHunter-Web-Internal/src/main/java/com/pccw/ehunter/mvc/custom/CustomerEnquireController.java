@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
 import com.pccw.ehunter.convertor.ProjectConvertor;
@@ -241,11 +242,12 @@ public class CustomerEnquireController extends BaseController{
 				
 				StringBuffer builder = new StringBuffer();
 				builder.append("<a href=\"");
-				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/viewProjectDetail.do?_id=" + dto.getSystemProjectRefNum()));
+				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/viewProjectDetail.do?_id=" + dto.getSystemProjectRefNum() + "&" +UrlConstant.BACK_URL_PARAM + "=" + UrlConstant.CUSTOMER_VIEW));
 				builder.append("\" >");
 				builder.append(dto.getSystemProjectRefNum());
 				builder.append("</a>");
-				return null;
+				
+				return builder.toString();
 			}
 		});
 		row.addColumn(projectId);

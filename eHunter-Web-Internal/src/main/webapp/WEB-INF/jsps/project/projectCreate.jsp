@@ -64,6 +64,11 @@ function getSelectedCustomer(){
 		alert('请至少选择一项');
 	}
 }
+
+function clearInput(){
+	$('#projectName').val('');
+	$('#systemCustRefNum').val('');
+}
 </script>
 </head>
 <body>
@@ -86,8 +91,8 @@ function getSelectedCustomer(){
 						<tr>
 							<td>							   
 							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
@@ -154,8 +159,8 @@ function getSelectedCustomer(){
 						<tr>
 							<td>
 							   <input class="standardButton" type="submit" value="下一步 " />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>

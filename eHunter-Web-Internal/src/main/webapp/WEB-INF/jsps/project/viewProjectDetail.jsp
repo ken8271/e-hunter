@@ -9,7 +9,7 @@
 </head>
 <body>
     <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
-    <hdiv-c:url value="/project/viewCandidateRepository.do" var="viewCandidateRepositoryUrl"></hdiv-c:url>
+    <hdiv-c:url value="/project/viewCandidateRepository.do?back=${back }" var="viewCandidateRepositoryUrl"></hdiv-c:url>
 	<table border="0" width="100%">
 		<tr>
 			<td class="pageTitle">项目详细资料</td>

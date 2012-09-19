@@ -9,6 +9,7 @@
 </head>
 <body>
         <hdiv-c:url value="/project/initProjectCandidateRepository.do" var="addCandiateUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&back=${back }" var="backUrl"></hdiv-c:url>
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>
@@ -54,7 +55,7 @@
 							<td>
 							    <input class="standardButton" type="button" value="新增" onclick="location.href='${addCandiateUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="移除">
-								<input class="standardButton" type="button" value="返回">
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
 							</td>
 						</tr>
 					</table>

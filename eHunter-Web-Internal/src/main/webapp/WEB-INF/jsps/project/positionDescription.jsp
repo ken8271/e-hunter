@@ -179,13 +179,23 @@ function loadPositions(){
 				alert('系统错误');
 			}
 		});
+	}else {
+		var subSelector = document.getElementById("subPostSelector");
+		clearSelector(subSelector);
+		subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 	}
 }
 
-function clearSelector(selector){
-	while(selector.childNodes.length>0){
-		selector.removeChild(selector.childNodes[0]);
-	}
+function clearInput(){
+	$("#positionSelector").val('');
+	loadPositions();
+	$(":text").val('');
+	$(":checkbox").attr('checked',false);
+	$("#dutyDescription").val('');
+	$("#cities").val('');
+	$('#expectCitiesDisplay span').remove();
+	clearSelectedCities();
+	clearSelector(document.getElementById('citySelector'));
 }
 </script>
 </head>
@@ -210,7 +220,7 @@ function clearSelector(selector){
 						<tr>
 							<td>							   
 							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
@@ -404,7 +414,7 @@ function clearSelector(selector){
 						<tr>
 							<td>
 							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>

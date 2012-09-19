@@ -88,3 +88,9 @@ function setCheckedIndicator(prefix , tokens){
 		}
 	}
 }
+
+function clearSelector(selector){
+	while(selector.childNodes.length>0){
+		selector.removeChild(selector.childNodes[0]);
+	}
+}
