@@ -14,7 +14,7 @@ public class ProjectDTO extends BaseDTO {
 	private PositionDescriptionDTO postDescDto;
 	private PositionRequirementDTO postRequireDto;
 	
-	private List<ProjectCandidateRepositoryDTO> cddtRepoDtos;
+	private List<CandidateDTO> cddtRepoDtos;
 
 	public String getSystemProjectRefNum() {
 		return systemProjectRefNum;
@@ -72,11 +72,11 @@ public class ProjectDTO extends BaseDTO {
 		this.postRequireDto = postRequireDto;
 	}
 
-	public List<ProjectCandidateRepositoryDTO> getCddtRepoDtos() {
+	public List<CandidateDTO> getCddtRepoDtos() {
 		return cddtRepoDtos;
 	}
 
-	public void setCddtRepoDtos(List<ProjectCandidateRepositoryDTO> cddtRepoDtos) {
+	public void setCddtRepoDtos(List<CandidateDTO> cddtRepoDtos) {
 		this.cddtRepoDtos = cddtRepoDtos;
 	}
 

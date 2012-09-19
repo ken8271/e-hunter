@@ -1,6 +1,6 @@
 package com.pccw.ehunter.dto;
 
-public class ProjectCandidateRepositoryDTO extends BaseDTO {
+public class CandidateDTO extends BaseDTO {
 	private static final long serialVersionUID = -4551330524096114734L;
 
 	private ProjectDTO projectDto;
