@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
@@ -111,6 +112,8 @@ public class ProjectEnquireController extends BaseController{
 				url.append(request.getContextPath());
 				url.append("/project/viewProjectDetail.do?_id=");
 				url.append(dto.getSystemProjectRefNum());
+				url.append("&" + UrlConstant.BACK_URL_PARAM + "=");
+				url.append(UrlConstant.PROJECT_SEARCH);
 				
 				StringBuffer buffer = new StringBuffer();
 				
@@ -193,6 +196,23 @@ public class ProjectEnquireController extends BaseController{
 		
 		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
 		
+		String back = request.getParameter(UrlConstant.BACK_URL_PARAM);
+		
+		if(StringUtils.isEmpty(back)){
+			back = (String)request.getSession(false).getAttribute(UrlConstant.BACK_URL_PARAM);
+		}else {
+			request.getSession(false).setAttribute(UrlConstant.BACK_URL_PARAM, back);
+		}
+		
+		if(UrlConstant.CUSTOMER_VIEW.equals(back)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/customer/viewCustomerDetail.do?_id=" + projectDto.getCustomerDto().getSystemCustRefNum()));
+		}else if(UrlConstant.PROJECT_CREATE.equals(back)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/completeProjectRegistration.do"));
+		}else if(UrlConstant.PROJECT_SEARCH.equals(back)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/projectsSearch.do"));
+		}
+		
+		mv.addObject(UrlConstant.BACK_URL_PARAM, back);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}

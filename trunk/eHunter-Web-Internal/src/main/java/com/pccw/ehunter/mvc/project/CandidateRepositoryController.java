@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
+import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
 import com.pccw.ehunter.dto.CandidateDTO;
@@ -192,7 +193,7 @@ public class CandidateRepositoryController extends BaseController{
 
 	@RequestMapping("/project/assignCandidates2Project.do")
 	public ModelAndView assignCandidate2Project(HttpServletRequest request ,@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
-		ModelAndView mv = new ModelAndView("project/candidateRepositoryView");
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/viewCandidateRepository.do", true));
 		
 		cddtRepoService.saveCandidateRepository(projectDto.getCddtRepoDtos());
 		
@@ -390,11 +391,20 @@ public class CandidateRepositoryController extends BaseController{
 	public ModelAndView viewCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryView");
 		
+		String back = request.getParameter(UrlConstant.BACK_URL_PARAM);
+		
+		if(StringUtils.isEmpty(back)){
+			back = (String)request.getSession(false).getAttribute(UrlConstant.BACK_URL_PARAM);
+		}else {
+			request.getSession(false).setAttribute(UrlConstant.BACK_URL_PARAM, back);
+		}
+		
 		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
 		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
 		
 		handleCandidateRepositorySeach(request , mv , enquireDto);
 		
+		mv.addObject(UrlConstant.BACK_URL_PARAM, back);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}

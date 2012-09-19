@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
+    <hdiv-c:url value="/project/backToPositionRequirement.do" var="backUrl"></hdiv-c:url>
 	<form:form method="post" name="projectDto" action="${ctx}/project/submitProject.do">
 		<table border="0" width="100%">
 			<tr>
@@ -23,7 +24,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回" >
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
 					</table>
@@ -238,8 +239,8 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回">
-							</td>
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
+							</td> 
 						</tr>
 					</table>
 				</td>

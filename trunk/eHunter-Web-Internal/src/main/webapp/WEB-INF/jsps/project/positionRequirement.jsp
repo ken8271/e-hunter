@@ -146,6 +146,23 @@ function loadIndustries(){
 		});
 	}
 }
+
+function clearInput(){
+	$("#ageFromStr").val('');
+	$("#ageToStr").val('');
+	$("#gender").val('');
+	$("#majorCategory").val('');
+	$("#degree").val('');
+	$(":text").val('');
+	$(":checkbox").attr('checked',false);
+	$(":radio").attr('checked',false);
+	$("#duty").val('');
+	$("#remark").val('');
+	$("#expectIndustries").val('');
+	$('#expectIndustriesDisplay span').remove();
+	clearSelectedIndustries();
+	clearSelector(document.getElementById('industrySelector'));
+}
 </script>
 </head>
 <body>
@@ -166,7 +183,7 @@ function loadIndustries(){
 						<tr>
 							<td>							   
 							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();"/>&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
@@ -331,7 +348,7 @@ function loadIndustries(){
 						<tr>
 							<td>
 							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" />&nbsp;
+							   <input class="standardButton" type="reset" value="重置" onclick="clearInput();"/>&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>

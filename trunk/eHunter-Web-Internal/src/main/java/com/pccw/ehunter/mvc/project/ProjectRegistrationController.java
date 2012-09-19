@@ -322,6 +322,19 @@ public class ProjectRegistrationController extends BaseController{
 		return mv;
 	}
 	
+	@RequestMapping("/project/backToPositionRequirement.do")
+	public ModelAndView backToPositionRequirement(HttpServletRequest request ,
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
+			@ModelAttribute(SessionAttributeConstant.POSITION_REQUIREMENT_DTO)PositionRequirementDTO postRequireDto){
+		ModelAndView mv = new ModelAndView("project/positionRequirement");
+		
+		initializePositionRequirement(request , mv);
+		
+		mv.addObject(SessionAttributeConstant.POSITION_REQUIREMENT_DTO, postRequireDto);
+		
+		return mv;
+	}
+	
 	@RequestMapping("/project/submitProject.do")
 	public ModelAndView submitProject(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/completeProjectRegistration.do", true));
