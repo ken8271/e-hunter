@@ -65,6 +65,8 @@ public class ProjectCommonServiceImpl implements ProjectCommonService{
 				usr.setCnName(StringUtils.isEmpty((String)objs[4]) ? "" : (String)objs[4]);
 				dto.setAdviserDto(usr);
 				
+				dto.setStatus(StringUtils.isEmpty((String)objs[5]) ? "" : (String)objs[5]);
+				
 				projects.add(dto);
 			}
 		}
