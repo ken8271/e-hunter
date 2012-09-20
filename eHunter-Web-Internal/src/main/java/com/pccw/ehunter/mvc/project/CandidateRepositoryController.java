@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
+import com.pccw.ehunter.constant.StatusCode;
 import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
@@ -38,6 +39,7 @@ import com.pccw.ehunter.dto.TalentEnquireDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CandidateRepositoryService;
+import com.pccw.ehunter.service.ProjectRegistrationService;
 import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
@@ -55,6 +57,9 @@ public class CandidateRepositoryController extends BaseController{
 	
 	@Autowired
 	private CandidateRepositoryService cddtRepoService;
+	
+	@Autowired
+	private ProjectRegistrationService projectRegtService;
 	
 	@RequestMapping("/project/initProjectCandidateRepository.do")
 	public ModelAndView initProjectCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
@@ -197,6 +202,12 @@ public class CandidateRepositoryController extends BaseController{
 		
 		cddtRepoService.saveCandidateRepository(projectDto.getCddtRepoDtos());
 		
+		
+		if(StatusCode.INITIALIZED.equals(projectDto.getStatus())){
+			projectDto.setStatus(StatusCode.PROCESSING);
+			projectRegtService.updateProjectStatus(projectDto);
+		}
+		
 		return mv;
 	}
 	
@@ -240,9 +251,6 @@ public class CandidateRepositoryController extends BaseController{
 				
 				int rowStart = limit.getRowSelect().getRowStart();
 				int rowEnd = limit.getRowSelect().getRowEnd();
-				
-				logger.info(">>>>>row start : " + rowStart);
-				logger.info(">>>>>row end : " + rowEnd);
 				
 				pagedCriteria.getPageFilter().setRowStart(rowStart);
 				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
@@ -308,7 +316,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(select);
 		
 		HtmlColumn talentId = new HtmlColumn("talentID");
-		talentId.setWidth("width:20% nowrap");
+		talentId.setWidth("20%");
 		talentId.setTitle("人才编号");
 		talentId.setCellEditor(new CellEditor() {
 			
@@ -334,7 +342,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(talentId);
 		
 		HtmlColumn name = new HtmlColumn("name");
-		name.setWidth("width:20% nowrap");
+		name.setWidth("20%");
 		name.setTitle("姓名");
 		name.setCellEditor(new CellEditor() {
 			
@@ -355,7 +363,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(name);
 		
 		HtmlColumn degree = new HtmlColumn("degree");
-		degree.setWidth("width:20% nowrap");
+		degree.setWidth("20%");
 		degree.setTitle("最高学历");
 		degree.setCellEditor(new CellEditor() {
 			
@@ -373,7 +381,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(degree);
 		
 		HtmlColumn place = new HtmlColumn("place");
-		place.setWidth("width:32% nowrap");
+		place.setWidth("32%");
 		place.setTitle("现居地");
 		place.setCellEditor(new CellEditor() {
 			
@@ -450,7 +458,7 @@ public class CandidateRepositoryController extends BaseController{
 
 		HtmlColumn select = new HtmlColumn("select");
 		select.setWidth("5%");
-		select.setStyle("align:center");
+		select.setStyle("width:5%;align:center");
 		select.setHeaderEditor(new HeaderEditor() {
 			
 			@Override
@@ -491,7 +499,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(select);
 		
 		HtmlColumn talentId = new HtmlColumn("talentID");
-		talentId.setWidth("width:20% nowrap");
+		talentId.setWidth("15%");
 		talentId.setTitle("人才编号");
 		talentId.setCellEditor(new CellEditor() {
 			
@@ -500,7 +508,7 @@ public class CandidateRepositoryController extends BaseController{
 				CandidateDTO dto = (CandidateDTO)item;
 				StringBuffer url = new StringBuffer();
 				url.append(request.getContextPath());
-				url.append("/talent/viewTalentDetail.do?_id=");
+				url.append("/talent/viewCandidateContactHistory.do?_id=");
 				url.append(dto.getTalentDto().getTalentID());
 				
 				StringBuffer buffer = new StringBuffer();
@@ -516,7 +524,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(talentId);
 		
 		HtmlColumn name = new HtmlColumn("name");
-		name.setWidth("width:20% nowrap");
+		name.setWidth("15%");
 		name.setTitle("中文名/英文名");
 		name.setCellEditor(new CellEditor() {
 			
@@ -537,7 +545,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(name);
 		
 		HtmlColumn degree = new HtmlColumn("degree");
-		degree.setWidth("width:20% nowrap");
+		degree.setWidth("15%");
 		degree.setTitle("学历/学位");
 		degree.setCellEditor(new CellEditor() {
 			
@@ -555,7 +563,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(degree);
 		
 		HtmlColumn place = new HtmlColumn("place");
-		place.setWidth("width:32% nowrap");
+		place.setWidth("30%");
 		place.setTitle("现居地");
 		place.setCellEditor(new CellEditor() {
 			
@@ -573,7 +581,7 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(place);
 		
 		HtmlColumn status = new HtmlColumn("candidateStatus");
-		status.setWidth("");
+		status.setWidth("15%");
 		status.setTitle("状态");
 		status.setCellEditor(new CellEditor() {
 			
@@ -589,6 +597,33 @@ public class CandidateRepositoryController extends BaseController{
 			}
 		});
 		row.addColumn(status);
+		
+		HtmlColumn view = new HtmlColumn("view");
+		view.setWidth("5%");
+		view.setStyle("width:5%;align:center");
+		view.setTitle("查看");
+		view.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				//<img src="${imagePath }/icon/tips.gif" title="查看项目资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+				CandidateDTO dto = (CandidateDTO)item;
+				
+				StringBuffer viewUrl = new StringBuffer();
+				viewUrl.append(request.getContextPath());
+				viewUrl.append("/talent/viewTalentDetail.do?_id=");
+				viewUrl.append(dto.getTalentDto().getTalentID());
+				
+				StringBuffer html = new StringBuffer();
+				html.append("<img src=\"" + request.getContextPath() + "/images/icon/tips.gif\" ");
+				html.append("title=\"查看候选人资料\" ");
+				html.append("style=\"vertical-align: middle; cursor: pointer;\" ");
+				html.append("onclick=\"var customerInfoWindow = window.open('" + URLUtils.getHDIVUrl(request, viewUrl.toString())+ "','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');\" ");
+				
+				return html.toString();
+			}
+		});
+		row.addColumn(view);
 		
 		return table;
 	}

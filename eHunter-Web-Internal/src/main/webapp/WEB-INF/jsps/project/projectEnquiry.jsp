@@ -73,6 +73,18 @@ function clearInput(){
 				   <td class="labelColumn">客户名称：</td>
 				   <td><form:input path="customerName" cssClass="standardInputText"></form:input></td>
 			    </tr>
+			    <tr>
+				   <td class="labelColumn">项目状态：</td>
+				   <td>
+				      <form:select path="projectStatus"  cssClass="standardSelect">
+						      <form:option value="" label="--- 请选择  ---"></form:option>
+						      <c:forEach items="${listOfProjectStatus }" var="ps">
+						         <form:option value="${ps.statusCode }" label="${ps.displayName }"></form:option>
+						      </c:forEach>
+					  </form:select>
+				   </td>
+				   <td colspan="2"></td>
+			    </tr>
 			</tbody>
 		</table>
 		<div class="emptyBlock"></div>

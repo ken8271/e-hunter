@@ -13,6 +13,7 @@
 		<mapping class="com.pccw.ehunter.domain.common.IndustryCategory" />
 		<mapping class="com.pccw.ehunter.domain.common.Position" />
 		<mapping class="com.pccw.ehunter.domain.common.PositionCategory" />
+		<mapping class="com.pccw.ehunter.domain.common.ProjectStatus" />
 		<mapping class="com.pccw.ehunter.domain.common.Province" />
 		<mapping class="com.pccw.ehunter.domain.common.ResidentialWelfare"/>
 		<mapping class="com.pccw.ehunter.domain.common.SalaryCategory"/>

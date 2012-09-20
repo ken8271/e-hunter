@@ -23,10 +23,13 @@ import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
+import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
+import com.pccw.ehunter.dto.ProjectStatusDTO;
+import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.ProjectCommonService;
 import com.pccw.ehunter.utility.DateUtils;
@@ -43,10 +46,14 @@ public class ProjectEnquireController extends BaseController{
 	@Autowired
 	private ProjectCommonService projectCommonService;
 	
+	@Autowired
+	private CodeTableHelper codeTableHelper;
+	
 	@RequestMapping("/project/initProjectsSearch.do")
 	public ModelAndView initProjectsSearch(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("project/projectEnquiry");
 		
+		mv.addObject(WebConstant.LIST_OF_PROJECT_STATUS, codeTableHelper.getProjectStatus(request));
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
 	}
@@ -101,7 +108,7 @@ public class ProjectEnquireController extends BaseController{
 		table.setRow(row);
 		
 		HtmlColumn projectID = new HtmlColumn("systemProjectRefNum");
-		projectID.setWidth("width:10% nowrap");
+		projectID.setWidth("15%");
 		projectID.setTitle("项目编号");
 		projectID.setCellEditor(new CellEditor() {
 			
@@ -128,12 +135,12 @@ public class ProjectEnquireController extends BaseController{
 		row.addColumn(projectID);
 		
 		HtmlColumn projectName = new HtmlColumn("projectName");
-		projectName.setWidth("width:30% nowrap");
+		projectName.setWidth("20%");
 		projectName.setTitle("项目名称");
 		row.addColumn(projectName);
 		
 		HtmlColumn customerName = new HtmlColumn("customerName");
-		customerName.setWidth("width:40% nowrap");
+		customerName.setWidth("35%");
 		customerName.setTitle("客户公司");
 		customerName.setCellEditor(new CellEditor() {
 			
@@ -151,7 +158,7 @@ public class ProjectEnquireController extends BaseController{
 		row.addColumn(customerName);
 		
 		HtmlColumn advisr = new HtmlColumn("advisr");
-		advisr.setWidth("width:10% nowrap");
+		advisr.setWidth("10%");
 		advisr.setTitle("项目顾问");
 		advisr.setCellEditor(new CellEditor() {
 			
@@ -168,8 +175,27 @@ public class ProjectEnquireController extends BaseController{
 		});
 		row.addColumn(advisr);
 		
+		HtmlColumn status = new HtmlColumn("status");
+		status.setWidth("5%");
+		status.setTitle("项目状态");
+		status.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				ProjectDTO dto = (ProjectDTO)item;
+				
+				ProjectStatusDTO statusDto = codeTableHelper.getProjectStatusByCode(request, dto.getStatus());
+				
+				if(statusDto != null){
+					return statusDto.getDisplayName();
+				}
+				return StringUtils.EMPTY_STRING;
+			}
+		});
+		row.addColumn(status);
+		
 		HtmlColumn createDate = new HtmlColumn("createDate");
-		createDate.setWidth("width:10% nowrap");
+		createDate.setWidth("15%");
 		createDate.setTitle("创建时间");
 		createDate.setCellEditor(new CellEditor() {
 			
