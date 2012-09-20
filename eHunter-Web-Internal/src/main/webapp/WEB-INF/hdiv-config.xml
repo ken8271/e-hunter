@@ -95,6 +95,8 @@
 						<value>jmesaDto.select</value>
 						<value>actionFlag</value>
 						<value>_id</value>
+						<value>_pid</value>
+						<value>_tid</value>
 						<value>expsList</value>
 						<value>type</value>
 						<value>_name</value>
