@@ -8,6 +8,7 @@ public class ProjectDTO extends BaseDTO {
 	private String systemProjectRefNum;
 	private String projectName;
 	private String systemCustRefNum;
+	private String status;
 	private InternalUserDTO adviserDto;
 	private CustomerDTO customerDto;
 
@@ -78,6 +79,14 @@ public class ProjectDTO extends BaseDTO {
 
 	public void setCddtRepoDtos(List<CandidateDTO> cddtRepoDtos) {
 		this.cddtRepoDtos = cddtRepoDtos;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pccw.ehunter.constant.IDNumberKeyConstant;
+import com.pccw.ehunter.constant.StatusCode;
 import com.pccw.ehunter.constant.TransactionIndicator;
 import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dao.ProjectRegistrationDAO;
@@ -32,6 +33,7 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 		if(projectDto != null){		
 			String projectID = idGenerator.generateID(IDNumberKeyConstant.PROJECT_SEQUENCE_KEY, "P", 9);
 			projectDto.setSystemProjectRefNum(projectID);
+			projectDto.setStatus(StatusCode.INITIALIZED);
 			BaseDtoUtility.setCommonProperties(projectDto, TransactionIndicator.INSERT);
 			
 			PositionDescriptionDTO pdDto = projectDto.getPostDescDto();
@@ -52,4 +54,19 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 		projectRegtDao.saveProject(project);
 	}
 
+	@Override
+	@Transactional
+	public void updateProject(ProjectDTO projectDto) {
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateProjectStatus(ProjectDTO projectDTO) {
+		if(projectDTO == null) return ;
+		
+		BaseDtoUtility.setCommonProperties(projectDTO, TransactionIndicator.UPDATE);
+		
+		projectRegtDao.updateProjectStatus(ProjectConvertor.toPo(projectDTO, TransactionIndicator.UPDATE));
+	}
 }

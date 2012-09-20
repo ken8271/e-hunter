@@ -53,7 +53,7 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT pr.SYS_REF_PRJ , pr.PRJ_NM , cc.CO_NM , pr.CR_DTTM , usr.CNM ");
+				buffer.append(" SELECT pr.SYS_REF_PRJ , pr.PRJ_NM , cc.CO_NM , pr.CR_DTTM , usr.CNM , pr.PRJ_ST ");
 				buffer.append(" FROM T_PRJ pr , T_CUST_CO cc , T_INT_USR usr ");
 				buffer.append(" WHERE 1=1 ");
 				buffer.append(getSQLFilter(pagedCriteria));
@@ -97,6 +97,10 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 			filter.append(" AND (UPPER(cc.CO_NM) LIKE CONCAT('%',UPPER(:custName),'%') OR UPPER(cc.CO_SHRT_NM) LIKE CONCAT('%',UPPER(:custName),'%')) ");
 		}
 		
+		if(!StringUtils.isEmpty(pagedCriteria.getProjectStatus())){
+			filter.append(" AND UPPER(pr.PRJ_ST) = UPPER(:status) ");
+		}
+		
 		return filter;
 	}
 	
@@ -123,6 +127,10 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getCustomerName())){
 			query.setString("custName", pagedCriteria.getCustomerName().trim());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getProjectStatus())){
+			query.setString("status", pagedCriteria.getProjectStatus().trim());
 		}
 		
 	}
