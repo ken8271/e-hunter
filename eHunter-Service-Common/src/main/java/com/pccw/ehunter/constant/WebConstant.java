@@ -18,4 +18,5 @@ public class WebConstant {
 	public static final String LIST_OF_ANNUAL_LEAVE_WELFARE = "listOfAnnualLeaveWelfare";
 	public static final String LIST_OF_RESIDENTIAL_WELFARE = "listOfResidentialWelfare";
 	public static final String LIST_OF_SOCIETY_WELFARE = "listOfSocietyWelfare";
+	public static final String LIST_OF_PROJECT_STATUS = "listOfProjectStatus";
 }

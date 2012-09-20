@@ -23,6 +23,7 @@ import com.pccw.ehunter.dto.IndustryDTO;
 import com.pccw.ehunter.dto.LanguageCategoryDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.dto.ProjectStatusDTO;
 import com.pccw.ehunter.dto.ProvinceDTO;
 import com.pccw.ehunter.dto.ResidentialWelfareDTO;
 import com.pccw.ehunter.dto.SalaryCategoryDTO;
@@ -37,6 +38,7 @@ import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
 import com.pccw.ehunter.service.LanguageCommonService;
 import com.pccw.ehunter.service.PositionCommonService;
+import com.pccw.ehunter.service.ProjectStatusService;
 import com.pccw.ehunter.service.RegionCommonService;
 import com.pccw.ehunter.service.SkillCategoryService;
 import com.pccw.ehunter.service.SkillLevelService;
@@ -81,6 +83,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private WelfareCommonService welfareCommonService;
+	
+	@Autowired
+	private ProjectStatusService projectStatusService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -590,6 +595,36 @@ public class CodeTableHelper {
 		SocietyWelfareDTO dto = new SocietyWelfareDTO();
 		dto.setWelfareCode(code);
 		
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ProjectStatusDTO> getProjectStatus(HttpServletRequest request){
+		List<ProjectStatusDTO> statuses = (List<ProjectStatusDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_PROJECT_STATUS);
+		
+		if(CollectionUtils.isEmpty(statuses)){
+			statuses = projectStatusService.getProjectStatus();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_PROJECT_STATUS, statuses);
+		}else{
+			logger.debug("retrieved from cache.");
+		}
+		
+		return statuses;
+	}
+	
+	public ProjectStatusDTO getProjectStatusByCode(HttpServletRequest request , String code){
+		List<ProjectStatusDTO> statuses = getProjectStatus(request);
+		
+		if(!CollectionUtils.isEmpty(statuses)){
+			for(ProjectStatusDTO dto : statuses){
+				if(code.equals(dto.getStatusCode())){
+					return dto;
+				}
+			}
+		}
+		
+		ProjectStatusDTO dto = new ProjectStatusDTO();
+		dto.setStatusCode(code);
 		return dto;
 	}
 }
