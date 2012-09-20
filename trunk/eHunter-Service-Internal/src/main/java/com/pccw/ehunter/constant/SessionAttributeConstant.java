@@ -32,5 +32,7 @@ public class SessionAttributeConstant {
 	public static final String PROJECT_ENQUIRE_DTO = "prjEnquireDto";
 	public static final String LIST_OF_CANDIDATE_REPOSITORY = "listOfCandidateRepository";
 	
+	public static final String LIST_OF_PARTICIPATED_PROJECT = "listOfParticipatedProject";
+	
 	public static final String BACK_URL = "backUrl";
 }

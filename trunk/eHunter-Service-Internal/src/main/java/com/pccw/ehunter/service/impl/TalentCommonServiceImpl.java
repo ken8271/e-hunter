@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.dao.TalentCommonDAO;
+import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.helper.CodeTableHelper;
@@ -67,6 +68,27 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 	public List<TalentDTO> getCandidatesByCriteria(HttpServletRequest request,
 			TalentPagedCriteria pagedCriteria) {
 		return null;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<ProjectDTO> getParticipatedProjectByTalentID(String talentID) {
+		List<ProjectDTO> dtos = new ArrayList<ProjectDTO>();
+		List<Object> pos = talentCommonDao.getParticipatedProjectByTalentID(talentID);
+		
+		if(!CollectionUtils.isEmpty(pos)){
+			ProjectDTO dto = null;
+			for(Object o : pos){
+				dto = new ProjectDTO();
+				Object[] os = (Object[])o;
+				dto.setSystemProjectRefNum(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
+				dto.setProjectName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				
+				dtos.add(dto);
+			}
+		}
+		
+		return dtos;
 	}
 
 }
