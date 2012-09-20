@@ -410,14 +410,14 @@ public class CandidateRepositoryController extends BaseController{
 		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
 		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
 		
-		handleCandidateRepositorySeach(request , mv , enquireDto);
+		handleCandidateRepositorySeach(request , mv , enquireDto , projectDto);
 		
 		mv.addObject(UrlConstant.BACK_URL_PARAM, back);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}
 
-	private void handleCandidateRepositorySeach(final HttpServletRequest request,ModelAndView mv,final TalentEnquireDTO enquireDto) {
+	private void handleCandidateRepositorySeach(final HttpServletRequest request,ModelAndView mv,final TalentEnquireDTO enquireDto , ProjectDTO projectDto) {
 		TableModel model = new TableModel("_jmesa_cddts", request);
 		model.autoFilterAndSort(false);
 		model.setStateAttr("restore");
@@ -442,12 +442,12 @@ public class CandidateRepositoryController extends BaseController{
 				return cddtRepoService.getCandidateRepositoryByProjectID(pagedCriteria);
 			}
 		});
-		model.setTable(getCandidateRepositoryHtml(request ,enquireDto.getJmesaDto()));
+		model.setTable(getCandidateRepositoryHtml(request ,enquireDto.getJmesaDto() , projectDto));
 		
 		mv.addObject(SessionAttributeConstant.LIST_OF_CANDIDATE_REPOSITORY, model.render());
 	}
 
-	private Table getCandidateRepositoryHtml(final HttpServletRequest request,final JmesaCheckBoxDTO jmesaDto) {
+	private Table getCandidateRepositoryHtml(final HttpServletRequest request,final JmesaCheckBoxDTO jmesaDto , final ProjectDTO projectDto) {
 		Table table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
@@ -508,8 +508,10 @@ public class CandidateRepositoryController extends BaseController{
 				CandidateDTO dto = (CandidateDTO)item;
 				StringBuffer url = new StringBuffer();
 				url.append(request.getContextPath());
-				url.append("/talent/viewCandidateContactHistory.do?_id=");
+				url.append("/talent/viewCandidateContactHistory.do?_tid=");
 				url.append(dto.getTalentDto().getTalentID());
+				url.append("&_pid=");
+				url.append(projectDto.getSystemProjectRefNum());
 				
 				StringBuffer buffer = new StringBuffer();
 				

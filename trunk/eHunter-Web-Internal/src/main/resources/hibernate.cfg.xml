@@ -55,5 +55,6 @@
 		<mapping class="com.pccw.ehunter.domain.internal.SelfEvaluation" />
 		<mapping class="com.pccw.ehunter.domain.internal.Resume" />
 		<mapping class="com.pccw.ehunter.domain.internal.Talent" />
+		<mapping class="com.pccw.ehunter.domain.internal.CandidateContactHistory" />
 	</session-factory>
 </hibernate-configuration>
