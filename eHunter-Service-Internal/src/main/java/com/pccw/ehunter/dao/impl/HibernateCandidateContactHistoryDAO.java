@@ -62,7 +62,7 @@ public class HibernateCandidateContactHistoryDAO implements CandidateContactHist
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT tch.SYS_REF_CONT_HST , tch.SYS_REF_TLNT , tlnt.ENM , tlnt.CNM , tch.SYS_REF_PRJ , prj.PRJ_NM , tch.CONT_TY , tch.CONT_REC , CONT_RMRK , tch.CONT_ADVSR , usr.CNM , tch.CR_DTTM ");
+				buffer.append(" SELECT tch.SYS_REF_CONT_HST , tch.SYS_REF_TLNT , tlnt.ENM AS tEnm , tlnt.CNM AS tCnm , tch.SYS_REF_PRJ , prj.PRJ_NM , tch.CONT_TY , tch.CONT_REC , CONT_RMRK , tch.CONT_ADVSR , usr.CNM AS uCnm , tch.CR_DTTM ");
 				buffer.append(" FROM T_TLNT_CONT_HST tch , T_PRJ prj , T_TLNT_BS_INF tlnt , T_INT_USR usr ");
 				buffer.append(" WHERE tch.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
 				buffer.append(" AND tch.SYS_REF_PRJ = prj.SYS_REF_PRJ ");

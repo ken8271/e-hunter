@@ -10,6 +10,7 @@ import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.IDNumberKeyConstant;
 import com.pccw.ehunter.constant.TransactionIndicator;
 import com.pccw.ehunter.convertor.TalentConvertor;
+import com.pccw.ehunter.dao.TalentCommonDAO;
 import com.pccw.ehunter.dao.TalentRegistrationDAO;
 import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
@@ -26,6 +27,7 @@ import com.pccw.ehunter.helper.IDGeneratorImpl;
 import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.TalentRegistrationService;
 import com.pccw.ehunter.utility.BaseDtoUtility;
+import com.pccw.ehunter.utility.StringUtils;
 
 @Service("talentRegtService")
 @Transactional
@@ -36,6 +38,9 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 	
 	@Autowired
 	private IDGeneratorImpl idGenerator;
+	
+	@Autowired
+	private TalentCommonDAO talentCommonDao;
 	
 	private SimpleHibernateTemplate<Talent, String> commonDao;
 	
@@ -146,7 +151,22 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 	}
 
 	@Override
-	public TalentDTO getTalentByID(String id) {
-		return TalentConvertor.toDto(commonDao.findUniqueByProperty("talentID", id));
+	@Transactional
+	public TalentDTO getTalentByID(String id , boolean byHibernate) {
+		if(byHibernate){			
+			return TalentConvertor.toDto(commonDao.findUniqueByProperty("talentID", id));
+		}else {
+			TalentDTO dto = new TalentDTO();
+			Object o = talentCommonDao.getTalentByID(id);
+			
+			if(null != o){
+				Object[] os = (Object[])o;
+				dto.setTalentID(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
+				dto.setCnName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				dto.setEnName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+			}
+			
+			return dto;
+		}
 	}
 }

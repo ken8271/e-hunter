@@ -6,5 +6,5 @@ public interface TalentRegistrationService {
 	public int getCountByPhoneNumber(String phone);
 	public int getCountByEmail(String email);
 	public void completeTalentRegistration(TalentDTO dto);
-	public TalentDTO getTalentByID(String id);
+	public TalentDTO getTalentByID(String id , boolean byHibernate);
 }

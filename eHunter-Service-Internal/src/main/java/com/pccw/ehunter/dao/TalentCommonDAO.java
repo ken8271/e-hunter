@@ -10,4 +10,5 @@ public interface TalentCommonDAO {
 	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<Object> getCandidatesByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<Object> getParticipatedProjectByTalentID(String talentID);
+	public Object getTalentByID(String talentID);
 }
