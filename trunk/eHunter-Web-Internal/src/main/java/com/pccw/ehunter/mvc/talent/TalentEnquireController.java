@@ -243,7 +243,7 @@ public class TalentEnquireController extends BaseController{
 		String id = request.getParameter("_id");
 		String type = request.getParameter("type");
 		
-		TalentDTO talentDto = talentRegtService.getTalentByID(id);
+		TalentDTO talentDto = talentRegtService.getTalentByID(id , true);
 		
 		TalentSourceDTO src = codeTableHelper.getTalentSource(request, talentDto.getTalentSrc());
 		talentDto.setTalentSrcDto(src);
