@@ -104,6 +104,8 @@
 						<value>cities</value>
 						<value>expectIndustries</value>
 						<value>back</value>
+						<value>talentDto.talentID</value>
+						<value>projectDto.systemProjectRefNum</value>
 					</list>
 				</entry>
 				

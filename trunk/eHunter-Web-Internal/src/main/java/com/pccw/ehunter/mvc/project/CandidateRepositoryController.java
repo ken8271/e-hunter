@@ -439,7 +439,7 @@ public class CandidateRepositoryController extends BaseController{
 				pagedCriteria.getPageFilter().setRowStart(rowStart);
 				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
 				
-				return cddtRepoService.getCandidateRepositoryByProjectID(pagedCriteria);
+				return cddtRepoService.getCandidateRepositoryByProjectID(request , pagedCriteria);
 			}
 		});
 		model.setTable(getCandidateRepositoryHtml(request ,enquireDto.getJmesaDto() , projectDto));
@@ -592,7 +592,7 @@ public class CandidateRepositoryController extends BaseController{
 				CandidateDTO dto = (CandidateDTO)item;
 				
 				if(!StringUtils.isEmpty(dto.getCandidateStatus())){
-					return dto.getCandidateStatus();
+					return dto.getCandidateStatusDto().getDisplayName();
 				}else {
 					return StringUtils.EMPTY_STRING;
 				}

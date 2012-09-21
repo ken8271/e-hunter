@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 <hdiv-c:url value="/talent/loadContactHistories.do" var="loadContactHistoriesUrl"></hdiv-c:url>
+<hdiv-c:url value="/talent/viewContactHistoryDetail.do" var="viewContactHistoryDetailUrl"></hdiv-c:url>
 <script type="text/javascript">
 $().ready(function(){
 	$("#projectSelector").val('${projectID}');
@@ -50,7 +51,7 @@ function loadHistories(){
 					          + "<td>" + contactCategory + "</td>"
 					          + "<td>" + adviser + "</td>"
 					          + "<td>" + contactDate + "</td>"
-					          + "<td align='center'><img src='${imagePath}/icon/tips.gif' title='查看联系记录' style='vertical-align: middle; cursor: pointer;'/></td>"
+					          + "<td align='center'><img src='${imagePath}/icon/tips.gif' title='查看联系记录' style='vertical-align: middle; cursor: pointer;' onclick='popUpContactDetail(" + systemContactRefNum +");'/></td>"
 					          + "</tr>";
 				});
 				
@@ -65,6 +66,77 @@ function loadHistories(){
 	}else{
 		clearHistories();
 	}
+}
+
+function initialize(){
+	var projectName = '';
+	var projectSelector = document.getElementById("projectSelector");
+	if(projectSelector != null && projectSelector.selectedIndex != 0){
+		projectName = projectSelector.options[projectSelector.selectedIndex].text;
+		document.getElementById('projectDto.systemProjectRefNum').value = projectSelector.options[projectSelector.selectedIndex].value;
+	}
+	
+	document.getElementById('projectName').innerHTML = projectName;
+	document.getElementById('talentDto.talentID').value = '${talentDto.talentID }';
+}
+
+function popUpSelector(){
+	var projectSelector = document.getElementById("projectSelector");
+	if(projectSelector == null || projectSelector.selectedIndex == 0){
+		alert('请选择已参与项目');
+		return ;
+	}
+	
+	initialize();
+	setPopUpFramePosition(600,270);
+	setOverlayDimension('fade');	
+	popUpFrame('light','fade');
+}
+
+function popUpContactDetail(systemContactRefNum){
+	if(systemContactRefNum == null || systemContactRefNum == '') return ;
+	
+	$.ajax({
+		type:'post',
+		url:'${viewContactHistoryDetailUrl}',
+		dataType:'xml',
+		data:{'_id':systemContactRefNum},
+		success:function(xml){	
+			$(xml).find('history').each(function(i , element){
+				document.getElementById('candidateName').innerHTML = $(this).find("candidateName").text();
+				document.getElementById('systemProjectRefNum').innerHTML = $(this).find("systemProjectRefNum").text() + '&nbsp;/&nbsp;' +$(this).find("projectName").text();
+				document.getElementById('adviser').innerHTML = $(this).find("adviser").text();
+				document.getElementById('contactDate').innerHTML = $(this).find("contactDate").text();
+				document.getElementById('view_contactCategory').innerHTML = $(this).find("contactCategory").text();
+				document.getElementById('view_record').innerHTML = $(this).find("record").text();
+				document.getElementById('view_remark').innerHTML = $(this).find("remark").text();
+			});	
+		},
+		error:function(){
+			alert('系统错误');
+		}
+	});
+	
+	//setPopUpFramePosition(600,270);
+	var leftOffset = (getClientWidth() - 600) / 2;
+	var topOffset = (getClientHeight() - 270) / 2;
+	$('#view_light').css( {
+		"position" : "absolute",
+		"height" : 270 + "px",
+		"width" : 600 + "px",
+		"left" : leftOffset + "px",
+		"top" : topOffset + "px"
+	});
+	setOverlayDimension('view_fade');	
+	popUpFrame('view_light','view_fade');
+}
+
+function submitContactHistory(){
+	$("#newContactHistoryForm").ajaxSubmit({
+		success:function(){
+			loadHistories();
+		}
+	});
 }
 </script>
 </head>
@@ -123,14 +195,15 @@ function loadHistories(){
 		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
+		<jsp:include page="candidateContactRecordCreate_pop.jsp"></jsp:include>
+		<jsp:include page="candidateContactRecordView_pop.jsp"></jsp:include>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							    <input class="standardButton" type="button" value="新增" onclick="location.href='${addCandiateUrl}'"/>&nbsp;
-								<input class="standardButton" type="button" value="移除">
+							    <input class="standardButton" type="button" value="新增" onclick="popUpSelector();"/>&nbsp;
 								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'">
 							</td>
 						</tr>
