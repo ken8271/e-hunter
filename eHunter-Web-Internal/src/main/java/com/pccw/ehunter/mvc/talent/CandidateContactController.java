@@ -58,7 +58,7 @@ public class CandidateContactController extends BaseController{
 		String talentID = request.getParameter("_tid");
 		String projectID = request.getParameter("_pid");
 		
-		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentRegtService.getTalentByID(talentID));
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentRegtService.getTalentByID(talentID , false));
 		mv.addObject(SessionAttributeConstant.LIST_OF_PARTICIPATED_PROJECT, talentCommonService.getParticipatedProjectByTalentID(talentID));
 		mv.addObject("projectID", projectID);
 		
