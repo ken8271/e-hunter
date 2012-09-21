@@ -9,4 +9,5 @@ public interface CandidateRepositoryDAO {
 	public void saveCandidateRepository(List<Candidate> repos);
 	public int getCandidateRepositoryCountByProjectID(TalentPagedCriteria pagedCriteria);
 	public List<Object> getCandidateRepositoryByProjectID(TalentPagedCriteria pagedCriteria);
+	public void updateCandidateStatus(Candidate po);
 }

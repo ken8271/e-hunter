@@ -6,6 +6,7 @@ public class CandidateDTO extends BaseDTO {
 	private ProjectDTO projectDto;
 	private TalentDTO talentDto;
 	private String candidateStatus;
+	private CandidateStatusDTO candidateStatusDto;
 
 	public ProjectDTO getProjectDto() {
 		return projectDto;
@@ -29,6 +30,14 @@ public class CandidateDTO extends BaseDTO {
 
 	public void setCandidateStatus(String candidateStatus) {
 		this.candidateStatus = candidateStatus;
+	}
+
+	public CandidateStatusDTO getCandidateStatusDto() {
+		return candidateStatusDto;
+	}
+
+	public void setCandidateStatusDto(CandidateStatusDTO candidateStatusDto) {
+		this.candidateStatusDto = candidateStatusDto;
 	}
 
 }
