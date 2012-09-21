@@ -90,5 +90,35 @@ public class HibernateCandidateRepositoryDAO implements CandidateRepositoryDAO{
 		return list;
 	}
 
+	@Override
+	public void updateCandidateStatus(final Candidate po) {
+		hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" UPDATE T_PRJ_TLNT_LIB ");
+				buffer.append(" SET TLNT_ST = :status , LST_UPD_BY = :updateBy , LST_UPD_DTTM = :updateDate , LST_TX_ACTN = :action ");
+				buffer.append(" WHERE 1 = 1 ");
+				buffer.append(" AND SYS_REF_TLNT = :talentID ");
+				buffer.append(" AND SYS_REF_PRJ = :projectID ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("status", po.getCandidateStatus());
+				query.setString("updateBy", po.getLastUpdateBy());
+				query.setDate("updateDate", po.getLastUpdateDateTime());
+				query.setString("action", po.getLastTransactionIndicator());
+				query.setString("talentID", po.getPk().getTalent().getTalentID());
+				query.setString("projectID", po.getPk().getProject().getSystemProjectRefNum());
+				
+				query.executeUpdate();
+				
+				return null;
+			}
+		});
+	}
+
 
 }

@@ -34,5 +34,7 @@ public class SessionAttributeConstant {
 	
 	public static final String LIST_OF_PARTICIPATED_PROJECT = "listOfParticipatedProject";
 	
+	public static final String CANDIDATE_CONTACT_HISTORY = "candidateContactHistoryDto";
+	
 	public static final String BACK_URL = "backUrl";
 }

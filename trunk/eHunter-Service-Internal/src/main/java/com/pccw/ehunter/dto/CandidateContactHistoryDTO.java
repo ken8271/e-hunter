@@ -11,6 +11,7 @@ public class CandidateContactHistoryDTO extends BaseDTO {
 	private TalentDTO talentDto;
 	private ProjectDTO projectDto;
 	private InternalUserDTO adviserDto;
+	private CandidateStatusDTO contactCategoryDto;
 
 	public String getSystemContactRefNum() {
 		return systemContactRefNum;
@@ -66,6 +67,14 @@ public class CandidateContactHistoryDTO extends BaseDTO {
 
 	public void setAdviserDto(InternalUserDTO adviserDto) {
 		this.adviserDto = adviserDto;
+	}
+
+	public CandidateStatusDTO getContactCategoryDto() {
+		return contactCategoryDto;
+	}
+
+	public void setContactCategoryDto(CandidateStatusDTO contactCategoryDto) {
+		this.contactCategoryDto = contactCategoryDto;
 	}
 
 }

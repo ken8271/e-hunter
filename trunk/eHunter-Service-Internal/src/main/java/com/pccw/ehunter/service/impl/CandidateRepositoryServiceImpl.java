@@ -3,6 +3,8 @@ package com.pccw.ehunter.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
+import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.service.CandidateRepositoryService;
 import com.pccw.ehunter.utility.BaseDtoUtility;
 import com.pccw.ehunter.utility.StringUtils;
@@ -25,6 +28,9 @@ public class CandidateRepositoryServiceImpl implements CandidateRepositoryServic
 	
 	@Autowired
 	private CandidateRepositoryDAO cddtRepoDao;
+	
+	@Autowired
+	private CodeTableHelper codeTableHelper;
 
 	@Override
 	@Transactional
@@ -46,7 +52,7 @@ public class CandidateRepositoryServiceImpl implements CandidateRepositoryServic
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CandidateDTO> getCandidateRepositoryByProjectID(TalentPagedCriteria pagedCriteria) {
+	public List<CandidateDTO> getCandidateRepositoryByProjectID(HttpServletRequest request , TalentPagedCriteria pagedCriteria) {
 		List<CandidateDTO> dtos = new ArrayList<CandidateDTO>();
 		List<Object> list = cddtRepoDao.getCandidateRepositoryByProjectID(pagedCriteria);
 		
@@ -72,6 +78,7 @@ public class CandidateRepositoryServiceImpl implements CandidateRepositoryServic
 				cddt.setTalentDto(tlnt);
 				
 				cddt.setCandidateStatus(StringUtils.isEmpty((String)os[6]) ? "" : (String)os[6]);
+				cddt.setCandidateStatusDto(codeTableHelper.getCandidateStatusByCode(request, cddt.getCandidateStatus()));
 				
 				dtos.add(cddt);
 			}
