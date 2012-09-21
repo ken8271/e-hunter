@@ -10,4 +10,5 @@ public class IDNumberKeyConstant {
 	public static final String TALENT_RESUME_SEQUENCE_KEY = "SEQ_TLNT_RSUM";
 	
 	public static final String PROJECT_SEQUENCE_KEY = "SEQ_PRJ";
+	public static final String CANDIDATE_CONTACT_SEQUENCE_KEY = "SEQ_TLNT_CONT";
 }
