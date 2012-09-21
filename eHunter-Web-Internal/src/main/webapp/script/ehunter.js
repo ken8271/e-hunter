@@ -21,8 +21,8 @@ function getClientHeight(){
 	return winHeight;
 }
 
-function setOverlayDimension (){
-	 var overlay = document.getElementById('fade');
+function setOverlayDimension (fade_id){
+	 var overlay = document.getElementById(fade_id);
 	 var _11 = AJS.getWindowSize();
 		if (AJS.isMozilla() || AJS.isOpera()) {
 			AJS.setWidth(overlay, "100%");
