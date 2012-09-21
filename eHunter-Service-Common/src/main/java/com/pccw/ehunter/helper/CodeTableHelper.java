@@ -14,6 +14,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
+import com.pccw.ehunter.dto.CandidateStatusDTO;
 import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.CompanyCategoryDTO;
 import com.pccw.ehunter.dto.CompanySizeDTO;
@@ -33,6 +34,7 @@ import com.pccw.ehunter.dto.SocietyWelfareDTO;
 import com.pccw.ehunter.dto.SubjectDTO;
 import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
+import com.pccw.ehunter.service.CandidateStatusService;
 import com.pccw.ehunter.service.CompanyCategoryService;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
@@ -45,6 +47,7 @@ import com.pccw.ehunter.service.SkillLevelService;
 import com.pccw.ehunter.service.SubjectCommonService;
 import com.pccw.ehunter.service.TalentSourceService;
 import com.pccw.ehunter.service.WelfareCommonService;
+import com.pccw.ehunter.utility.StringUtils;
 
 @Component("codeTableHelper")
 public class CodeTableHelper {
@@ -86,6 +89,9 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private ProjectStatusService projectStatusService;
+	
+	@Autowired
+	private CandidateStatusService candidateStatusService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -625,6 +631,37 @@ public class CodeTableHelper {
 		
 		ProjectStatusDTO dto = new ProjectStatusDTO();
 		dto.setStatusCode(code);
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CandidateStatusDTO> getCandidateStatuses(HttpServletRequest request){
+		List<CandidateStatusDTO> statuses = (List<CandidateStatusDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_CANDIDATE_STATUS);
+		
+		if(CollectionUtils.isEmpty(statuses)){
+			statuses = candidateStatusService.getCandidateStatus();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_CANDIDATE_STATUS, statuses);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return statuses;
+	}
+	
+	public CandidateStatusDTO getCandidateStatusByCode(HttpServletRequest request , String code){
+		List<CandidateStatusDTO> statuses = getCandidateStatuses(request);
+		
+		if(!CollectionUtils.isEmpty(statuses)){
+			for(CandidateStatusDTO dto : statuses){
+				if(code.equals(dto.getStatusCode())){
+					return dto;
+				}
+			}
+		}
+		
+		CandidateStatusDTO dto = new CandidateStatusDTO();
+		dto.setStatusCode(code);
+		dto.setDisplayName(StringUtils.EMPTY_STRING);
 		return dto;
 	}
 }
