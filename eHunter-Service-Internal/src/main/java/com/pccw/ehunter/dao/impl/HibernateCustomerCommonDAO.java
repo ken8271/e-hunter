@@ -199,7 +199,7 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT cr.RP_NM , cr.RP_TEL , cr.RP_EMAIL , cr.RP_STAT , pt.DISP_NM AS TOP_POST , ps.DISP_NM AS SUB_POST , cr.RP_POST ");
+				buffer.append(" SELECT cr.SYS_REF_RP , cr.RP_NM , cr.RP_TEL , cr.RP_EMAIL , cr.RP_STAT , pt.DISP_NM AS TOP_POST , ps.DISP_NM AS SUB_POST , cr.RP_POST ");
 				buffer.append(" FROM T_CUST_RP cr , T_POST_TY pt , T_POST_TY_SUB ps ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(" AND cr.RP_POST_TY = ps.TY_CD ");

@@ -36,5 +36,9 @@ public class SessionAttributeConstant {
 	
 	public static final String CANDIDATE_CONTACT_HISTORY = "candidateContactHistoryDto";
 	
+	public static final String CUSTOMER_CONTACT_HISTORY_DTO = "customerContactHistoryDto";
+	public static final String LIST_OF_CUSTOMER_CONTACT_HISTORY = "listOfCustomerContactHistory";
+	public static final String LIST_OF_RESPONSE_PERSON = "listOfResponsePerson";
+	
 	public static final String BACK_URL = "backUrl";
 }

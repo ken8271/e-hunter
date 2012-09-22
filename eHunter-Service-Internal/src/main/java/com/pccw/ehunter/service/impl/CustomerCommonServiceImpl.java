@@ -142,4 +142,28 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 		return dto;
 	}
 
+	@Override
+	public List<CustomerResponsePersonDTO> getResponsePersonsByCustomerID(String customerID) {
+		List<CustomerResponsePersonDTO> dtos = new ArrayList<CustomerResponsePersonDTO>();
+		List<Object> list = customerDao.getCustomerRespPersonsByCustID(customerID);
+		
+		if(!CollectionUtils.isEmpty(list)){
+			CustomerResponsePersonDTO dto = null;
+			for(Object o : list){
+				dto = new CustomerResponsePersonDTO();
+				Object[] os = (Object[])o;
+				//cr.RP_NM , cr.RP_TEL , cr.RP_EMAIL , cr.RP_STAT , pt.DISP_NM AS TOP_POST , ps.DISP_NM AS SUB_POST , cr.RP_POST
+				dto.setSystemRespRefNum(StringUtils.isEmpty((String)os[0]) ? "" : ((String)os[0]));
+				dto.setName(StringUtils.isEmpty((String)os[1]) ? "" : ((String)os[1]));
+				dto.setTelephoneDto(MobilePhoneConvertor.toDto(StringUtils.isEmpty((String)os[2]) ? "" : ((String)os[2])));
+				dto.setEmail(StringUtils.isEmpty((String)os[3]) ? "" : ((String)os[3]));
+				dto.setStatus(StringUtils.isEmpty((String)os[4]) ? "" : ((String)os[4]));
+				
+				dtos.add(dto);
+			}
+		}
+		
+		return dtos;
+	}
+
 }
