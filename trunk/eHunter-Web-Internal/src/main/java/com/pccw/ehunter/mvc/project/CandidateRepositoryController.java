@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.StatusCode;
-import com.pccw.ehunter.constant.UrlConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
 import com.pccw.ehunter.dto.CandidateDTO;
@@ -66,6 +66,13 @@ public class CandidateRepositoryController extends BaseController{
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryCreate");
 		
 		String systemProjectRefNum = request.getParameter(ParameterConstant.P_ID);
+		String type = request.getParameter("type");
+		
+		if(StringUtils.isEmpty(type)){
+			type = (String)request.getSession(false).getAttribute("type");
+		}else {
+			request.getSession(false).setAttribute("type", type);
+		}
 		
 		mv.addObject("systemProjectRefNum", systemProjectRefNum);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
@@ -399,20 +406,11 @@ public class CandidateRepositoryController extends BaseController{
 	public ModelAndView viewCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryView");
 		
-		String back = request.getParameter(UrlConstant.BACK_URL_PARAM);
-		
-		if(StringUtils.isEmpty(back)){
-			back = (String)request.getSession(false).getAttribute(UrlConstant.BACK_URL_PARAM);
-		}else {
-			request.getSession(false).setAttribute(UrlConstant.BACK_URL_PARAM, back);
-		}
-		
 		TalentEnquireDTO enquireDto = new TalentEnquireDTO();
 		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
 		
 		handleCandidateRepositorySeach(request , mv , enquireDto , projectDto);
 		
-		mv.addObject(UrlConstant.BACK_URL_PARAM, back);
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}
@@ -512,6 +510,7 @@ public class CandidateRepositoryController extends BaseController{
 				url.append(dto.getTalentDto().getTalentID());
 				url.append("&_pid=");
 				url.append(projectDto.getSystemProjectRefNum());
+				url.append("&module=" + ModuleIndicator.PROJECT_CANDIDATE_REPOSITORY);
 				
 				StringBuffer buffer = new StringBuffer();
 				

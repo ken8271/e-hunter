@@ -16,9 +16,14 @@ function resetForm(){
 	$("#status").val('');
 }
 </script>
+<common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
 <form:form commandName="enquireDto" action="${ctx}/customer/customersSearch.do">
+        <div style="display: none">
+			<input type="hidden" id="actionFlag" name="actionFlag" />
+			<input type="hidden" name="module" value="${module }"/>
+		</div>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司查询</td>

@@ -8,7 +8,7 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 </head>
 <body>
-        <hdiv-c:url value="/project/initProjectCandidateRepository.do" var="addCandiateUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/initProjectCandidateRepository.do?type=1" var="addCandiateUrl"></hdiv-c:url>
         <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&back=${back }" var="backUrl"></hdiv-c:url>
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />

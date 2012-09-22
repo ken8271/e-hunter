@@ -64,10 +64,10 @@ function popUpFrame(lightDivId, fadeDivId) {
 	document.getElementById(fadeDivId).style.display = 'block'
 }
 
-function setPopUpFramePosition(width , height) {
+function setPopUpFramePosition(lightDivId , width , height) {
 	var leftOffset = (getClientWidth() - width) / 2;
 	var topOffset = (getClientHeight() - height) / 2;
-	$('#light').css( {
+	$('#' + lightDivId).css( {
 		"position" : "absolute",
 		"height" : height + "px",
 		"width" : width + "px",

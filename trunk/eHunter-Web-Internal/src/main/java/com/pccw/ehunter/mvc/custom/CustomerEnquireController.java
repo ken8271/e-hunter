@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pccw.ehunter.constant.UrlConstant;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
 import com.pccw.ehunter.convertor.ProjectConvertor;
@@ -52,7 +52,7 @@ public class CustomerEnquireController extends BaseController{
 		CustomerEnquireDTO enquireDto = new CustomerEnquireDTO();
 		reuqest.getSession(false).setAttribute(SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO, enquireDto);
 		mv.addObject(SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO, enquireDto);
-		
+		mv.addObject(ModuleIndicator.MODULE, reuqest.getParameter(ModuleIndicator.MODULE));
 		return mv;
 	}
 	
@@ -64,6 +64,8 @@ public class CustomerEnquireController extends BaseController{
 	}
 
 	private void handlePagedSearch(HttpServletRequest request,final CustomerEnquireDTO enquireDto , ModelAndView mv) {
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		
 		TableModel model = new TableModel("_jmesa_custs", request);
 		model.autoFilterAndSort(false);
 		model.setStateAttr("restore");
@@ -89,13 +91,13 @@ public class CustomerEnquireController extends BaseController{
 			}
 		});
 		
-		model.setTable(getHtmlTable(request));
+		model.setTable(getHtmlTable(request , module));
 		
 		mv.addObject(SessionAttributeConstant.LIST_OF_CUSTOMERS, model.render());
 		mv.addObject(SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO , enquireDto);
 	}
 
-	private Table getHtmlTable(final HttpServletRequest request) {
+	private Table getHtmlTable(final HttpServletRequest request ,final String module) {
 		Table table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
@@ -114,10 +116,16 @@ public class CustomerEnquireController extends BaseController{
 				
 				StringBuffer builder = new StringBuffer();
 				builder.append("<a href=\"");
-				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/customer/viewCustomerDetail.do?_id=" + dto.getSystemCustRefNum()));
+							
+				if(ModuleIndicator.CUSTOMER_CONTACT_HISTORY.equals(module)){
+					builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/customer/viewCustomerContactHistory.do?_id=" + dto.getSystemCustRefNum()));
+				}else {
+					builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/customer/viewCustomerDetail.do?_id=" + dto.getSystemCustRefNum()));
+				}
+				
 				builder.append("\">");
 				builder.append(dto.getSystemCustRefNum());
-				builder.append("</a>");
+				builder.append("</a>");		
 				
 				return builder.toString();
 			}
@@ -242,7 +250,7 @@ public class CustomerEnquireController extends BaseController{
 				
 				StringBuffer builder = new StringBuffer();
 				builder.append("<a href=\"");
-				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/viewProjectDetail.do?_id=" + dto.getSystemProjectRefNum() + "&" +UrlConstant.BACK_URL_PARAM + "=" + UrlConstant.CUSTOMER_VIEW));
+				builder.append(URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/viewProjectDetail.do?_id=" + dto.getSystemProjectRefNum() + "&module=" + ModuleIndicator.CUSTOMER_ENQUIRY));
 				builder.append("\" >");
 				builder.append(dto.getSystemProjectRefNum());
 				builder.append("</a>");

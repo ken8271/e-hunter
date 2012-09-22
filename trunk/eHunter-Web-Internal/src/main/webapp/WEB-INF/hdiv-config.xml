@@ -60,8 +60,10 @@
 				<value>/customer/initCustomersSearch.do</value>
 				<value>/talent/initAddTalent.do</value>
 				<value>/talent/initTalentsSearch.do</value>
+				<value>/talent/initCandidateContact.do</value>
 				<value>/project/initNewProject.do</value>
 				<value>/project/initProjectsSearch.do</value>
+				<value>/customer/initCustomerContactHistorySearch.do</value>
 			</list>			
 		</property>
 
@@ -103,9 +105,11 @@
 						<value>position</value>
 						<value>cities</value>
 						<value>expectIndustries</value>
-						<value>back</value>
 						<value>talentDto.talentID</value>
 						<value>projectDto.systemProjectRefNum</value>
+						<value>module</value>
+						<value>customerDto.systemCustRefNum</value>
+						<value>responsePersonDto.systemRespRefNum</value>
 					</list>
 				</entry>
 				

@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
-        <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&back=20" var="viewProjectDetailUrl"></hdiv-c:url>
-        <hdiv-c:url value="/project/initProjectCandidateRepository.do?_id=${projectDto.systemProjectRefNum }" var="tlntAsgnUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&module=7" var="viewProjectDetailUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/initProjectCandidateRepository.do?_id=${projectDto.systemProjectRefNum }&type=2" var="tlntAsgnUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">成功创建猎头项目</td>

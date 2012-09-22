@@ -78,6 +78,7 @@ function submitForm(actionFlagStr){
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
+    <hdiv-c:url value="/project/viewCandidateRepository.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="enquireDto" action="${ctx}/project/appendCandidateRepositoryActions.do" method="post">
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
@@ -95,7 +96,12 @@ function submitForm(actionFlagStr){
 							<td>
 							    <input class="standardButton" type="button" value="查询" onclick="submitForm('1')"/>&nbsp;
 								<input class="standardButton" type="reset" value="重置">&nbsp;
-								<input class="standardButton" type="button" value="结束">
+								<c:if test="${type == '1'}">
+								   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
+								</c:if>
+								<c:if test="${type == '2' }">
+								   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+								</c:if>
 							</td>
 						</tr>
 					</table>
@@ -214,7 +220,12 @@ function submitForm(actionFlagStr){
 						<tr>
 							<td><input class="standardButton" type="button" value="查询" onclick="submitForm(1);"/>&nbsp;
 								<input class="standardButton" type="reset" value="重置">&nbsp;
-								<input class="standardButton" type="button" value="结束">
+								<c:if test="${type == '1'}">
+								   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
+								</c:if>
+								<c:if test="${type == '2' }">
+								   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+								</c:if>
 							</td>
 						</tr>
 					</table>

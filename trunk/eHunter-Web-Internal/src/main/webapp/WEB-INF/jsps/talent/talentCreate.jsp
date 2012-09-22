@@ -9,7 +9,7 @@
 function popUpSelector(){
 	setOverlayDimension('fade');
 	hideAllObject();
-	setPopUpFramePosition(400,150);
+	setPopUpFramePosition('light',400,150);
 	popUpFrame('light','fade');
 }
 </script>
