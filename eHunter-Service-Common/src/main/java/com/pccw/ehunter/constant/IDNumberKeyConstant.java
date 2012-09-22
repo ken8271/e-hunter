@@ -11,4 +11,5 @@ public class IDNumberKeyConstant {
 	
 	public static final String PROJECT_SEQUENCE_KEY = "SEQ_PRJ";
 	public static final String CANDIDATE_CONTACT_SEQUENCE_KEY = "SEQ_TLNT_CONT";
+	public static final String CUSTOMER_CONTACT_SEQUENCE_KEY = "SEQ_CUST_CONT";
 }
