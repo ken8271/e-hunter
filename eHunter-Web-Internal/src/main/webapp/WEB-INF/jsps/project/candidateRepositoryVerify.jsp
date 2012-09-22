@@ -9,6 +9,7 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 </head>
 <body>
+    <hdiv-c:url value="/project/appendCandidateRepositoryActions.do?actionFlag=1" var="backUrl"></hdiv-c:url>
 	<form:form commandName="projectDto" action="${ctx}/project/assignCandidates2Project.do" method="post">
 		<table border="0" width="100%">
 			<tr>
@@ -22,7 +23,7 @@
 						<tr>
 							<td>
 							    <input class="standardButton" type="submit" value="确认"/>&nbsp;
-								<input class="standardButton" type="button" value="返回">
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
 					</table>
@@ -88,7 +89,7 @@
 						<tr>
 							<td>
 							    <input class="standardButton" type="submit" value="确认"/>&nbsp;
-								<input class="standardButton" type="button" value="返回">
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
 					</table>

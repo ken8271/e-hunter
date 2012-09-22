@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 function popUpSelector(){
 	$('#citySelector').hide();
-	setPopUpFramePosition(600,300);
+	setPopUpFramePosition('light',600,300);
 	setOverlayDimension('fade');	
 	popUpFrame('light','fade');
 }

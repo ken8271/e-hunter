@@ -9,14 +9,12 @@
 function resetForm(){
 	$("#talentID").val('');
 	$("#name").val('');
-	$("#gender").val('');
-	$("#talentSrc").val('');
 }
 </script>
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
-<form:form commandName="enquireDto" action="${ctx}/talent/talentsSearch.do">
+<form:form commandName="enquireDto" action="${ctx}/talent/candidatesSearch.do">
         <div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>
@@ -46,7 +44,10 @@ function resetForm(){
 				<tr >
 				   <td class="labelColumn">人才编号：</td>
 				   <td><form:input path="talentID" cssClass="standardInputText"></form:input></td>
-				   <td colspan="2">&nbsp;</td>
+				   <td class="labelColumn">中文名/英文名：</td>
+				   <td>
+				      <form:input path="name" cssClass="standardInputText"></form:input>
+				   </td>
 			    </tr>
 			</tbody>
 		</table>
@@ -55,31 +56,11 @@ function resetForm(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr >
-						<td class="labelColumn">中文名/英文名：</td>
+						<td class="labelColumn">项目编号：</td>
 						<td>
-						<form:input path="name" cssClass="standardInputText"></form:input>
+						<form:input path="systemProjectRefNum" cssClass="standardInputText"></form:input>
 						</td>
-						<td class="labelColumn">性别：</td>
-						<td>
-						   <form:select path="gender" cssClass="standardSelect">
-						      <form:option value="" label="--- 请选择  ---"></form:option>
-						      <form:option value="M" label="男"></form:option>
-						      <form:option value="F" label="女"></form:option>
-						   </form:select>
-					    </td>
-					</tr>
-					<tr >
-						<td class="labelColumn">人才来源：</td>
-						<td>
-						   <form:select path="talentSrc"  cssClass="standardSelect">
-						      <form:option value="" label="--- 请选择  ---"></form:option>
-						      <c:forEach items="${listOfTalentSource }" var="src">
-						         <form:option value="${src.sourceId }" label="${src.displayName }"></form:option>
-						      </c:forEach>
-						   </form:select>
-						</td>
-					    <td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td colspan="2"></td>
 					</tr>
 				</tbody>
 		</table>

@@ -6,9 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-CUST-0102]</title>
+<common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
         <hdiv-c:url value="/customer/editCustomer.do" var="editCustomerUrl"></hdiv-c:url>
+        <div style="display: none">
+			<input type="hidden" id="actionFlag" name="actionFlag" />
+		</div>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司详细资料</td>
@@ -20,7 +24,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
 							</td>
@@ -168,7 +172,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
 							</td>

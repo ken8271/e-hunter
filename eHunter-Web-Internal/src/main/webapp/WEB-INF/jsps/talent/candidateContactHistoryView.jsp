@@ -78,6 +78,10 @@ function initialize(){
 	
 	document.getElementById('projectName').innerHTML = projectName;
 	document.getElementById('talentDto.talentID').value = '${talentDto.talentID }';
+	
+	$("#contactCategory").val('');
+	$("#record").val('');
+	$("#remark").val('');
 }
 
 function popUpSelector(){
@@ -88,7 +92,7 @@ function popUpSelector(){
 	}
 	
 	initialize();
-	setPopUpFramePosition(600,270);
+	setPopUpFramePosition('light',600,270);
 	setOverlayDimension('fade');	
 	popUpFrame('light','fade');
 }
@@ -141,6 +145,12 @@ function submitContactHistory(){
 </script>
 </head>
 <body>
+        <c:if test="${module == '9' }">
+           <hdiv-c:url value="/project/viewCandidateRepository.do" var="backUrl"></hdiv-c:url>
+        </c:if>
+        <c:if test="${module == '6' }">
+           <hdiv-c:url value="/talent/candidatesSearch.do" var="backUrl"></hdiv-c:url>
+        </c:if>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">候选人联系记录</td>
