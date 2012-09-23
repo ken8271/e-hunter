@@ -94,3 +94,18 @@ function clearSelector(selector){
 		selector.removeChild(selector.childNodes[0]);
 	}
 }
+
+function validateStringlength(s , maxlength){
+	var arr = s.match(/[^\x00-\xff]/ig);
+	
+	var length = s.length;
+	if(arr != null){
+		length = s.length + arr.length;
+	}
+	
+	if(length > maxlength){
+		return true;
+	}else{
+		return false;
+	}
+}

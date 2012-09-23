@@ -12,6 +12,13 @@ function popUpSelector(){
 	setPopUpFramePosition('light',400,150);
 	popUpFrame('light','fade');
 }
+
+function clearInput(){
+	$('#talentSrc').val('');
+	$('#highestDegree').val('');
+	$(":text").val('');
+	$(":radio").attr('checked',false);
+}
 </script>
 </head>
 <body>
@@ -34,8 +41,8 @@ function popUpSelector(){
 						<tr>
 							<td>							   
 							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
@@ -201,8 +208,8 @@ function popUpSelector(){
 						<tr>
 							<td>
 							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>

@@ -92,11 +92,38 @@ function popUpContactDetail(systemContactRefNum){
 }
 
 function submitContactHistory(){
+	var rp = document.getElementById('responsePersonDto.systemRespRefNum');
+	if(rp == null || rp.value == ''){
+		alert('必须选择一位客户公司联系人！');
+		return ;
+	}
+	
+	var content = document.getElementById('content');
+	if(content == null || content.value == ''){
+		alert('必须填写详细记录');
+		return ;
+	}
+	
+	if(validateStringlength(content.value , 4000)){
+		alert('详细记录已超过最大长度4000字节，请修改！');
+		return ;
+	}
+	
+	var remark = document.getElementById('remark');
+	if(validateStringlength(remark.value , 300)){
+		alert('备注已超过最大长度300字节，请修改！');
+		return ;
+	}
+	
 	$("#newContactHistoryForm").ajaxSubmit({
 		success:function(){
 			loadContactHistories();
 		}
 	});
+	
+	document.getElementById('create_light').style.display = 'none';
+	document.getElementById('create_fade').style.display = 'none';
+	showAllObject();
 }
 
 function initialize(){	

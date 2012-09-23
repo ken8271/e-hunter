@@ -118,6 +118,9 @@
 					alert('系统错误');
 				}
 			});
+		}else {
+			clearSelector(document.getElementById("subPostSelector"));
+			subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 		}
 	}
 	
@@ -133,6 +136,19 @@
 			}
 		}
 	}
+	
+function clearInput(){
+	$("#custType").val('');
+	changeCustType();
+	$("#type").val('');
+	$("#size").val('');
+	$("#grade").val('');
+	$("#status").val('');
+	$("#postSelector").val('');
+	loadPositions();
+	document.getElementById('custRespPerson.status').value='';
+	$(":text").val('');
+}
 </script>
 </head>
 <body>
@@ -152,8 +168,8 @@
 						<tr>
 							<td>							   
 							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
@@ -401,8 +417,8 @@
 						<tr>
 							<td>
 							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置">&nbsp;
-							   <input class="standardButton" type="button" value="结束">
+							   <input class="standardButton" type="reset" value="重置" onclick="clearInput();" />&nbsp;
+							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
