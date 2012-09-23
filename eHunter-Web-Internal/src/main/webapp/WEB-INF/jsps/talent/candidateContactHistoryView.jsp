@@ -136,11 +136,38 @@ function popUpContactDetail(systemContactRefNum){
 }
 
 function submitContactHistory(){
+	var cc = document.getElementById('contactCategory');
+	if(cc == null || cc.value == ''){
+		alert('必须选择联系类型！');
+		return ;
+	}
+	
+	var record = document.getElementById('record');
+	if(record == null || record.value == ''){
+		alert('必须填写详细记录');
+		return ;
+	}
+	
+	if(validateStringlength(record.value , 4000)){
+		alert('详细记录已超过最大长度4000字节，请修改！');
+		return ;
+	}
+	
+	var remark = document.getElementById('remark');
+	if(validateStringlength(remark.value , 300)){
+		alert('备注已超过最大长度300字节，请修改！');
+		return ;
+	}
+	
 	$("#newContactHistoryForm").ajaxSubmit({
 		success:function(){
 			loadHistories();
 		}
 	});
+	
+	document.getElementById('light').style.display = 'none';
+	document.getElementById('fade').style.display = 'none';
+	showAllObject();
 }
 </script>
 </head>

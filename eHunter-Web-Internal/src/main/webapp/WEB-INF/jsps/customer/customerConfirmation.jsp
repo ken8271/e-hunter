@@ -17,7 +17,7 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -79,7 +79,7 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
