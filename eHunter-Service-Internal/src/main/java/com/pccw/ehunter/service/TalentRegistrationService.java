@@ -7,4 +7,5 @@ public interface TalentRegistrationService {
 	public int getCountByEmail(String email);
 	public void completeTalentRegistration(TalentDTO dto);
 	public TalentDTO getTalentByID(String id , boolean byHibernate);
+	public void udpateTalent(TalentDTO talentDto);
 }

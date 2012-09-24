@@ -169,4 +169,12 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 			return dto;
 		}
 	}
+
+	@Override
+	@Transactional
+	public void udpateTalent(TalentDTO talentDto) {
+		BaseDtoUtility.setCommonProperties(talentDto, TransactionIndicator.UPDATE);
+		
+		talentRegtDao.updateTalent(TalentConvertor.toPo(talentDto));
+	}
 }
