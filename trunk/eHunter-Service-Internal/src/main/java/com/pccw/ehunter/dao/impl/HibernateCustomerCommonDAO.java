@@ -31,7 +31,7 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT COUNT(cc.SYS_REF_CUST) ");
-				buffer.append(" FROM T_CUST_CO cc , T_CUST_GP cg , T_CUST_GRDE gd , T_CUST_STAT cs ");
+				buffer.append(" FROM T_CUST_CO cc LEFT JOIN T_CUST_GP cg ON cc.SYS_REF_GP = cg.SYS_REF_GP , T_CUST_GRDE gd , T_CUST_STAT cs ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFiter(pagedCriteria));
 				
@@ -54,7 +54,7 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT cc.SYS_REF_CUST , cc.CO_NM , cc.CO_SHRT_NM , gd.DISP_NM as GD_DISP_NM , cs.DISP_NM as STAT_DISP_NM ");
-				buffer.append(" FROM T_CUST_CO cc , T_CUST_GP cg , T_CUST_GRDE gd , T_CUST_STAT cs ");
+				buffer.append(" FROM T_CUST_CO cc LEFT JOIN T_CUST_GP cg ON cc.SYS_REF_GP = cg.SYS_REF_GP , T_CUST_GRDE gd , T_CUST_STAT cs ");
 				buffer.append(" WHERE 1=1 ");
 				buffer.append(getSQLFiter(pagedCriteria));
 				buffer.append(" ORDER BY cc.SYS_REF_CUST ");
@@ -78,7 +78,6 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		StringBuffer filter = new StringBuffer();
 		filter.append(" AND cc.CUST_GRDE = gd.GEDE_CD ");
 		filter.append(" AND cc.CUST_STAT = cs.STAT_CD ");
-		filter.append(" AND cc.SYS_REF_GP = cg.SYS_REF_GP ");
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getSystemCustRefNum())){
 			filter.append(" AND UPPER(cc.SYS_REF_CUST) LIKE CONCAT('%',UPPER(:sysCustRefNum),'%') ");

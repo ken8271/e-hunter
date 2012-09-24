@@ -124,6 +124,11 @@ public class HibernateCustomerRegistrationDAO implements CustomerRegistrationDAO
 			}
 		});
 	}
+
+	@Override
+	public void updateCustomer(CustomerCompany customer) {
+		hibernateTemplate.update(customer);
+	}
 	
 	
 

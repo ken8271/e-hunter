@@ -16,4 +16,6 @@ public interface CustomerRegistrationDAO {
 	public void saveCustomerResponsablePerson(CustomerResponsablePerson customerResponsablePerson);
 	
 	public void updateCustomerByProperty(String property , String value , String id);
+	
+	public void updateCustomer(CustomerCompany customer);
 }

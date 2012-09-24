@@ -11,4 +11,5 @@ public interface CustomerRegistrationService {
 	public int getCountOfGroupsByFullName(String fullName);
 	public void completeCustRegistration(CustomerDTO customerDto);
 	public void updateSubsidiaryInfo(String systemGroupRefNum , String systemCustRefNum);
+	public void updateCustomerInfo(CustomerDTO customerDto);
 }
