@@ -7,11 +7,15 @@ public class CustomerDTO extends BaseDTO {
 	private String shortName;
 	private String fullName;
 	private String grade;
+	private CustomerGradeDTO gradeDto;
 	private String status;
+	private CustomerStatusDTO statusDto;
 	private String offcialSite;
 	private TelephoneDTO telExchangeDto;
 	private String type;
+	private CompanyCategoryDTO typeDto;
 	private String size;
+	private CompanySizeDTO sizeDto;
 	private String groupIndicator;
 	
 	private CustomerGroupDTO custGroup;
@@ -111,5 +115,37 @@ public class CustomerDTO extends BaseDTO {
 
 	public void setCustGroup(CustomerGroupDTO custGroup) {
 		this.custGroup = custGroup;
+	}
+
+	public CustomerGradeDTO getGradeDto() {
+		return gradeDto;
+	}
+
+	public void setGradeDto(CustomerGradeDTO gradeDto) {
+		this.gradeDto = gradeDto;
+	}
+
+	public CustomerStatusDTO getStatusDto() {
+		return statusDto;
+	}
+
+	public void setStatusDto(CustomerStatusDTO statusDto) {
+		this.statusDto = statusDto;
+	}
+
+	public CompanyCategoryDTO getTypeDto() {
+		return typeDto;
+	}
+
+	public void setTypeDto(CompanyCategoryDTO typeDto) {
+		this.typeDto = typeDto;
+	}
+
+	public CompanySizeDTO getSizeDto() {
+		return sizeDto;
+	}
+
+	public void setSizeDto(CompanySizeDTO sizeDto) {
+		this.sizeDto = sizeDto;
 	}
 }

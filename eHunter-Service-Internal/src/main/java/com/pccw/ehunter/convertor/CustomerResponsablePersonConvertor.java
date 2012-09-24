@@ -24,6 +24,7 @@ public class CustomerResponsablePersonConvertor {
 		
 		MobilePhoneDTO mobile = new MobilePhoneDTO();
 		mobile.setPhoneNumber(po.getTelephone());
+		dto.setTelephoneDto(mobile);
 		
 		return dto;
 	}

@@ -5,7 +5,10 @@ public class CustomerResponsePersonDTO extends BaseDTO {
 
 	private String systemRespRefNum;
 	private String name;
+	private String positionCategory;
+	private PositionCategoryDTO positionCategoryDto;
 	private String positionType;
+	private PositionDTO positionTypeDto;
 	private String positionName;
 	private MobilePhoneDTO telephoneDto;
 	private String email;
@@ -65,6 +68,30 @@ public class CustomerResponsePersonDTO extends BaseDTO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getPositionCategory() {
+		return positionCategory;
+	}
+
+	public void setPositionCategory(String positionCategory) {
+		this.positionCategory = positionCategory;
+	}
+
+	public PositionCategoryDTO getPositionCategoryDto() {
+		return positionCategoryDto;
+	}
+
+	public void setPositionCategoryDto(PositionCategoryDTO positionCategoryDto) {
+		this.positionCategoryDto = positionCategoryDto;
+	}
+
+	public PositionDTO getPositionTypeDto() {
+		return positionTypeDto;
+	}
+
+	public void setPositionTypeDto(PositionDTO positionTypeDto) {
+		this.positionTypeDto = positionTypeDto;
 	}
 
 }

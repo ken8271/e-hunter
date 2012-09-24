@@ -56,7 +56,10 @@ public class CustomerConvertor {
 		
 		BeanUtils.copyProperties(dto, po);
 		
-		po.setTelExchange(dto.getTelExchangeDto().toString());
+		if(!StringUtils.isEmpty(dto.getTelExchangeDto().getRegionCode()) && !StringUtils.isEmpty(dto.getTelExchangeDto().getPhoneNumber())){			
+			po.setTelExchange(dto.getTelExchangeDto().toString());
+		}
+		
 		po.setGroup(CustomerGroupConvertor.toPo(dto.getCustGroup()));
 		
 		List<CustomerResponsablePerson> rps = new ArrayList<CustomerResponsablePerson>();

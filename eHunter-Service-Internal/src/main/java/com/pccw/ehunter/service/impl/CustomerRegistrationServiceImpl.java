@@ -3,7 +3,6 @@ package com.pccw.ehunter.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.helper.IDGeneratorImpl;
-import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.utility.BaseEntityUtility;
 import com.pccw.ehunter.utility.DateUtils;
@@ -37,14 +35,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	
 	@Autowired
 	private IDGeneratorImpl idGenerator;
-	
-	private SimpleHibernateTemplate<CustomerCompany, String> simpleCustRegtDao;
-	
-	@Autowired
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		simpleCustRegtDao = new SimpleHibernateTemplate<CustomerCompany, String>(sessionFactory, CustomerCompany.class);
-	}
-	
+
 	@Override
 	@Transactional(readOnly=true)
 	public CustomerGroupDTO loadCustGroupByID(String systemGroupRefNum) {
@@ -106,5 +97,28 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 		if(!StringUtils.isEmpty(systemGroupRefNum)){
 			custRegtDao.updateCustomerByProperty("SYS_REF_GP", systemGroupRefNum, systemCustRefNum);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void updateCustomerInfo(CustomerDTO customerDto) {
+		
+		CustomerCompany po = CustomerConvertor.toPo(customerDto);
+		
+		if(po != null){
+			BaseEntityUtility.setCommonProperties(po, TransactionIndicator.UPDATE);
+			
+			if(po.getGroup() != null && CustomerIndicator.CUSTOMER_GROUP.equals(po.getGroupIndicator())){
+				BaseEntityUtility.setCommonProperties(po.getGroup(), TransactionIndicator.UPDATE);
+			}
+			
+			if(!CollectionUtils.isEmpty(po.getCustRespPersons())){
+				for(CustomerResponsablePerson rp : po.getCustRespPersons()){
+					BaseEntityUtility.setCommonProperties(rp, TransactionIndicator.UPDATE);
+				}
+			}
+		}
+		
+		custRegtDao.updateCustomer(po);
 	}
 }
