@@ -18,6 +18,8 @@ import com.pccw.ehunter.dto.CandidateStatusDTO;
 import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.CompanyCategoryDTO;
 import com.pccw.ehunter.dto.CompanySizeDTO;
+import com.pccw.ehunter.dto.CustomerGradeDTO;
+import com.pccw.ehunter.dto.CustomerStatusDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.IndustryDTO;
@@ -36,6 +38,8 @@ import com.pccw.ehunter.dto.SubjectCategoryDTO;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.service.CandidateStatusService;
 import com.pccw.ehunter.service.CompanyCategoryService;
+import com.pccw.ehunter.service.CustomerGradeService;
+import com.pccw.ehunter.service.CustomerStatusService;
 import com.pccw.ehunter.service.DegreeService;
 import com.pccw.ehunter.service.IndustryCommonService;
 import com.pccw.ehunter.service.LanguageCommonService;
@@ -92,6 +96,12 @@ public class CodeTableHelper {
 	
 	@Autowired
 	private CandidateStatusService candidateStatusService;
+	
+	@Autowired
+	private CustomerGradeService customerGradeService;
+	
+	@Autowired
+	private CustomerStatusService customerStatusService;
 	
 	@SuppressWarnings("unchecked")
 	public List<SubjectCategoryDTO> getAllSubjectTypes(HttpServletRequest request){
@@ -660,6 +670,68 @@ public class CodeTableHelper {
 		}
 		
 		CandidateStatusDTO dto = new CandidateStatusDTO();
+		dto.setStatusCode(code);
+		dto.setDisplayName(StringUtils.EMPTY_STRING);
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CustomerGradeDTO> getCustomerGrades(HttpServletRequest request){
+		List<CustomerGradeDTO> grades = (List<CustomerGradeDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_CUSTOMER_GRADE);
+		
+		if(CollectionUtils.isEmpty(grades)){
+			grades = customerGradeService.getCustomerGrades();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_CUSTOMER_GRADE, grades);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return grades;
+	}
+	
+	public CustomerGradeDTO getCustomerGradeByCode(HttpServletRequest request , String code){
+		List<CustomerGradeDTO> grades = getCustomerGrades(request);
+		
+		if(!CollectionUtils.isEmpty(grades)){
+			for(CustomerGradeDTO dto : grades){
+				if(code.equals(dto.getGradeCode())){
+					return dto;
+				}
+			}
+		}
+		
+		CustomerGradeDTO dto = new CustomerGradeDTO();
+		dto.setGradeCode(code);
+		dto.setDisplayName(StringUtils.EMPTY_STRING);
+		return dto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CustomerStatusDTO> getCustomerStatuses(HttpServletRequest request){
+		List<CustomerStatusDTO> statuses = (List<CustomerStatusDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_CUSTOMER_STATUS);
+		
+		if(CollectionUtils.isEmpty(statuses)){
+			statuses = customerStatusService.getCustomerStatuses();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_CUSTOMER_STATUS, statuses);
+		}else {
+			logger.debug("retrieved from cache.");
+		}
+		
+		return statuses;
+	}
+	
+	public CustomerStatusDTO getCustomerStatusByCode(HttpServletRequest request , String code){
+		List<CustomerStatusDTO> statuses = getCustomerStatuses(request);
+		
+		if(!CollectionUtils.isEmpty(statuses)){
+			for(CustomerStatusDTO dto : statuses){
+				if(code.equals(dto.getStatusCode())){
+					return dto;
+				}
+			}
+		}
+		
+		CustomerStatusDTO dto = new CustomerStatusDTO();
 		dto.setStatusCode(code);
 		dto.setDisplayName(StringUtils.EMPTY_STRING);
 		return dto;

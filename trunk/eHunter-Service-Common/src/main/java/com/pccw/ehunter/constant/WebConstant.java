@@ -20,4 +20,6 @@ public class WebConstant {
 	public static final String LIST_OF_SOCIETY_WELFARE = "listOfSocietyWelfare";
 	public static final String LIST_OF_PROJECT_STATUS = "listOfProjectStatus";
 	public static final String LIST_OF_CANDIDATE_STATUS = "listOfCandidateStatus";
+	public static final String LIST_OF_CUSTOMER_GRADE = "listOfCustomerGrade";
+	public static final String LIST_OF_CUSTOMER_STATUS = "listOfCustomerStatus";
 }
