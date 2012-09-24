@@ -6,4 +6,5 @@ public interface TalentRegistrationDAO {
 	public int getTalentCountByPhoneNumber(String phone);
 	public int getTalentCountByEmail(String email);
 	public void saveTalent(Talent talent);
+	public void updateTalent(Talent talent);
 }

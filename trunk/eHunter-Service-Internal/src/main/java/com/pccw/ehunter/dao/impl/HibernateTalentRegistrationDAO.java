@@ -73,4 +73,9 @@ public class HibernateTalentRegistrationDAO implements TalentRegistrationDAO{
 		hibernateTemplate.save(talent);
 	}
 
+	@Override
+	public void updateTalent(Talent talent) {
+		hibernateTemplate.update(talent);
+	}
+
 }
