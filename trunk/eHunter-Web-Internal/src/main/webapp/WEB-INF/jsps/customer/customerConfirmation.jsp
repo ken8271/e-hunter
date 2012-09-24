@@ -55,17 +55,12 @@
 				</td>
 				<td align="center">
 				<span class="showCh">
-				<c:if test="${customerDto.grade == 'IR' }">有需求有意向</c:if>
-				<c:if test="${customerDto.grade == 'NI' }">有需求无意向</c:if>
-				<c:if test="${customerDto.grade == 'NR' }">无需求有意向</c:if>
-				<c:if test="${customerDto.grade == 'NN' }">无需求无意向</c:if>
+				   <c:out value="${customerDto.gradeDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 				<td align="center">
 				<span class="showCh">
-				<c:if test="${customerDto.status == 'SGN' }">已签约客户</c:if>
-				<c:if test="${customerDto.status == 'PTL' }">潜力客户</c:if>
-				<c:if test="${customerDto.status == 'OTH' }">其他</c:if>
+				   <c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 				<td>

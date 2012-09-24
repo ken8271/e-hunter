@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
+    <hdiv-c:url value="/customer/backToCustomerInfo.do" var="backUrl"></hdiv-c:url>
 	<form:form method="post" name="customerDto" action="${ctx}/customer/submitCustomer.do">
 		<table border="0" width="100%">
 			<tr>
@@ -23,7 +24,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回" >
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
 					</table>
@@ -72,34 +73,26 @@
 				<td><span class="textCh8">官网地址</span></td>
 				<td><span class="showCh"><c:out value="${customerDto.offcialSite}" escapeXml="true" /> </span></td>
 				<td><span class="textCh8">公司总机</span><br /></td>
-				<td><span class="showCh"><c:out value="${customerDto.telExchangeDto.regionCode}" escapeXml="true" />&nbsp;&nbsp;-&nbsp;<c:out value="${customerDto.telExchangeDto.phoneNumber }" escapeXml="true"></c:out> </span></td>
+				<td>
+				   <span class="showCh">
+				      <c:if test="${not empty customerDto.telExchangeDto.regionCode && not empty customerDto.telExchangeDto.phoneNumber}">
+				      <c:out value="${customerDto.telExchangeDto.regionCode}" escapeXml="true" />&nbsp;&nbsp;-&nbsp;
+				      <c:out value="${customerDto.telExchangeDto.phoneNumber }" escapeXml="true"></c:out> 
+				      </c:if>
+				   </span>
+				</td>
 			</tr>
 			<tr>
 				<td><span class="textCh8">公司性质</span><br /></td>
 				<td>  
 				<span class="showCh">
-				<c:if test="${customerDto.type == 'SE'}">国有企业</c:if>
-				<c:if test="${customerDto.type == 'EF'}">外商独资/外企办事处</c:if>
-				<c:if test="${customerDto.type == 'JV'}">中外合营(合资/合作)</c:if>
-				<c:if test="${customerDto.type == 'IE'}">私营/名营企业</c:if>
-				<c:if test="${customerDto.type == 'NA'}">政府机关/非盈利机构</c:if>
-				<c:if test="${customerDto.type == 'JE'}">股份制企业</c:if>
-				<c:if test="${customerDto.type == 'QC'}">上市公司</c:if>
-				<c:if test="${customerDto.type == 'PI'}">事业单位</c:if>
-				<c:if test="${customerDto.type == 'OT'}">其他</c:if>
+				   <c:out value="${customerDto.typeDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 				<td><span class="textCh8">公司规模</span></td>
 				<td>
 				<span class="showCh">
-				<c:if test="${customerDto.size == '001' }">1-49人</c:if>
-				<c:if test="${customerDto.size == '002' }">50-99人</c:if>
-				<c:if test="${customerDto.size == '003' }">100-499人</c:if>
-				<c:if test="${customerDto.size == '004' }">500-999人</c:if>
-				<c:if test="${customerDto.size == '005' }">1000-2000人</c:if>
-				<c:if test="${customerDto.size == '006' }">2000-5000人</c:if>
-				<c:if test="${customerDto.size == '007' }">5000-10000人</c:if>
-				<c:if test="${customerDto.size == '008' }">10000人以上</c:if>
+				   <c:out value="${customerDto.sizeDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 			</tr>
@@ -107,18 +100,13 @@
 				<td><span class="textCh8">客户等级</span></td>
 				<td>
 				<span class="showCh">
-				<c:if test="${customerDto.grade == 'IR' }">有需求有意向</c:if>
-				<c:if test="${customerDto.grade == 'NI' }">有需求无意向</c:if>
-				<c:if test="${customerDto.grade == 'NR' }">无需求有意向</c:if>
-				<c:if test="${customerDto.grade == 'NN' }">无需求无意向</c:if>
+				   <c:out value="${customerDto.gradeDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 				<td><span class="textCh8">客户状态</span></td>
 				<td>
 				<span class="showCh">
-				<c:if test="${customerDto.status == 'SGN' }">已签约客户</c:if>
-				<c:if test="${customerDto.status == 'PTL' }">潜力客户</c:if>
-				<c:if test="${customerDto.status == 'OTH' }">其他</c:if>
+				   <c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 			</tr>
@@ -162,7 +150,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回">
+								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
 					</table>

@@ -29,6 +29,7 @@ import com.pccw.ehunter.dto.CustomerPagedCriteria;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
+import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.service.ProjectCommonService;
@@ -36,7 +37,10 @@ import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.utility.URLUtils;
 
 @Controller
-@SessionAttributes({SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO})
+@SessionAttributes({
+	SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO,
+	SessionAttributeConstant.CUSTOMER_DTO
+})
 public class CustomerEnquireController extends BaseController{
 	
 	@Autowired
@@ -44,6 +48,9 @@ public class CustomerEnquireController extends BaseController{
 	
 	@Autowired
 	private ProjectCommonService projectCommonService;
+	
+	@Autowired
+	private CodeTableHelper codeTableHelper;
 	
 	@RequestMapping(value="/customer/initCustomersSearch.do")
 	public ModelAndView initCustomersSearch(HttpServletRequest reuqest){
@@ -180,6 +187,17 @@ public class CustomerEnquireController extends BaseController{
 		
 		String id = request.getParameter("_id");
 		CustomerDTO customerDto = custCommonService.getCustomerByID(id);
+		customerDto.setTypeDto(codeTableHelper.getCompanyCategoryByCode(request, customerDto.getType()));
+		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
+		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
+		customerDto.setStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getStatus()));
+		
+		if(customerDto.getCustRespPerson() != null){
+			customerDto.getCustRespPerson().setPositionTypeDto(codeTableHelper.getPositionByCode(customerDto.getCustRespPerson().getPositionType()));
+			customerDto.getCustRespPerson().setPositionCategory(customerDto.getCustRespPerson().getPositionTypeDto().getTopType());
+			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionTypeDto().getTopType()));
+		}
+		
 		mv.addObject("customerDto", customerDto);
 		
 		ProjectEnquireDTO enquireDto = new ProjectEnquireDTO();

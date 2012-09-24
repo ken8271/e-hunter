@@ -110,6 +110,8 @@
 						<value>module</value>
 						<value>customerDto.systemCustRefNum</value>
 						<value>responsePersonDto.systemRespRefNum</value>
+						<value>custRespPerson.positionCategory</value>
+						<value>custRespPerson.positionType</value>
 					</list>
 				</entry>
 				

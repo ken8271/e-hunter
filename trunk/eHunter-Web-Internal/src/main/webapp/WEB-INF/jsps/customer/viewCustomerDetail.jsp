@@ -9,7 +9,7 @@
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
-        <hdiv-c:url value="/customer/editCustomer.do" var="editCustomerUrl"></hdiv-c:url>
+        <hdiv-c:url value="/customer/preEditCustomerInfo.do" var="editCustomerUrl"></hdiv-c:url>
         <div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>
@@ -99,21 +99,23 @@
 						<td><a href="http://${customerDto.offcialSite}" target="_blank"><c:out value="${customerDto.offcialSite }" escapeXml="true"></c:out></a></td>
 						<td class="labelColumn">公司总机：</td>
 						<td>
-						   <c:out value="${customerDto.telExchangeDto.regionCode }" escapeXml="true"></c:out>&nbsp;&nbsp;-&nbsp;
-						   <c:out value="${customerDto.telExchangeDto.phoneNumber }" escapeXml="true"></c:out>
+						   <c:if test="${not empty customerDto.telExchangeDto.regionCode && not empty customerDto.telExchangeDto.phoneNumber}">
+				              <c:out value="${customerDto.telExchangeDto.regionCode}" escapeXml="true" />&nbsp;&nbsp;-&nbsp;
+				              <c:out value="${customerDto.telExchangeDto.phoneNumber }" escapeXml="true"></c:out> 
+				           </c:if>
 					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">公司性质：</td>
-						<td><c:out value="${customerDto.type }" escapeXml="true"></c:out></td>
+						<td><c:out value="${customerDto.typeDto.displayName }" escapeXml="true"></c:out></td>
 					    <td class="labelColumn">公司规模：</td>
-						<td><c:out value="${customerDto.size }" escapeXml="true"></c:out></td>
+						<td><c:out value="${customerDto.sizeDto.displayName }" escapeXml="true"></c:out></td>
 					</tr>
 					<tr >
 						<td class="labelColumn">客户等级：</td>
-						<td><c:out value="${customerDto.grade }" escapeXml="true"></c:out></td>
+						<td><c:out value="${customerDto.gradeDto.displayName }" escapeXml="true"></c:out></td>
 						<td class="labelColumn">客户状态：</td>
-						<td><c:out value="${customerDto.status }" escapeXml="true"></c:out></td>
+						<td><c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out></td>
 					</tr>
 				</tbody>
 			</table>
@@ -142,7 +144,7 @@
 					</tr>
 					<tr >
 						<td class="labelColumn">职位类型：</td>
-						<td colspan="2"><c:out value="${customerDto.custRespPerson.positionType }" escapeXml="true"></c:out></td>
+						<td colspan="2"><c:out value="${customerDto.custRespPerson.positionTypeDto.displayName }" escapeXml="true"></c:out></td>
 						<td >&nbsp;</td>
 					</tr>
 					<tr >
@@ -158,7 +160,14 @@
 					</tr>	
 					<tr >
 						<td class="labelColumn">状态：</td>
-						<td><c:out value="${customerDto.custRespPerson.status }" escapeXml="true"></c:out> </td>
+						<td>
+						   <c:if test="${customerDto.custRespPerson.status == 'IS'}">
+						      <c:out value="在职" escapeXml="true"></c:out>
+						   </c:if> 
+						   <c:if test="${customerDto.custRespPerson.status == 'OS'}">
+						      <c:out value="离职" escapeXml="true"></c:out>
+						   </c:if>
+						</td>
 						<td colspan="2">
 					</tr>				
 				</tbody>
