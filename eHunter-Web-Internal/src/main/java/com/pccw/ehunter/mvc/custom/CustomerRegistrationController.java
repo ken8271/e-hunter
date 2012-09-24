@@ -167,6 +167,16 @@ public class CustomerRegistrationController extends BaseController{
 			return mv;
 		}
 		
+		customerDto.setTypeDto(codeTableHelper.getCompanyCategoryByCode(request, customerDto.getType()));
+		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
+		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
+		customerDto.setStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getStatus()));
+		
+		if(customerDto.getCustRespPerson() != null){
+			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionCategory()));
+			customerDto.getCustRespPerson().setPositionTypeDto(codeTableHelper.getPositionByCode(customerDto.getCustRespPerson().getPositionType()));
+		}
+		
 		mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
 		return mv;
 	}
@@ -175,6 +185,17 @@ public class CustomerRegistrationController extends BaseController{
 	public ModelAndView verify(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("customer/verifyInfo");
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, request.getSession(false).getAttribute(SessionAttributeConstant.CUSTOMER_DTO));
+		return mv;
+	}
+	
+	@RequestMapping(value="/customer/backToCustomerInfo.do")
+	public ModelAndView backToCustomerInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		ModelAndView mv = new ModelAndView("customer/customerCreate");
+		
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+		mv.addObject(SessionAttributeConstant.LIST_OF_GROUPS, CustomerGroupConvertor.toSelectOptions(custRegtService.loadCustGroups()));
+		
+		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, codeTableHelper.getPositionCategories(request));
 		return mv;
 	}
 	

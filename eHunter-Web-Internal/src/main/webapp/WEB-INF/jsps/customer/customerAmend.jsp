@@ -9,7 +9,6 @@
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
 	$(document).ready(function(){
-		changeCustType();
 		
 		if('SUB' == '${customerDto.groupIndicator}'){			
 		   $('#group').val('${customerDto.custGroup.systemGroupRefNum}');
@@ -19,40 +18,6 @@
 		
 		loadPositions();
 	});
-
-	function changeCustType(){
-		var custType = document.getElementById("custType");
-		if(custType != null){
-			var selectedIndex = custType.selectedIndex;
-			if(selectedIndex == 1){
-				//group
-				$('#group').hide();
-				$('#group').val('');
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#systemGroupRefNum').val('');
-				$('#groupFullName').attr('readonly' , false);
-				$('#groupShortName').attr('readonly' , false);
-			}else if (selectedIndex == 2){
-				//sub
-				$('#group').show();
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#group').val('');
-				$('#groupFullName').attr('readonly' , true);
-				$('#groupShortName').attr('readonly' , true);
-			}else {
-				$('#group').hide();
-				$('#group').val('');
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#systemGroupRefNum').val('');
-				$('#groupFullName').attr('readonly' , true);
-				$('#groupShortName').attr('readonly' , true);
-			}
-		}
-	
-	}
 
 	function clearSelector(selector){
 		while(selector.childNodes.length>0){
@@ -141,26 +106,14 @@
 			}
 		}
 	}
-	
-function clearInput(){
-	$("#custType").val('');
-	changeCustType();
-	$("#type").val('');
-	$("#size").val('');
-	$("#grade").val('');
-	$("#status").val('');
-	$("#postSelector").val('');
-	loadPositions();
-	document.getElementById('custRespPerson.status').value='';
-	$(":text").val('');
-}
 </script>
 </head>
 <body>
-	<form:form commandName="customerDto" action="${ctx}/customer/saveCustCoInfo.do" method="post">
+    <hdiv-c:url value="/customer/viewCustomerDetail.do?_id=${customerDto.systemCustRefNum }"  var="backUrl"></hdiv-c:url>
+	<form:form commandName="customerDto" action="${ctx}/customer/updateCustomerInfo.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">客户公司资料填写</td>
+				<td class="pageTitle">客户公司资料编辑</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="customerDto"></common:errorTable></td>
@@ -172,9 +125,8 @@ function clearInput(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
-							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+							   <input class="standardButton" type="submit" value="更新" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
 					</table>
@@ -183,12 +135,23 @@ function clearInput(){
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
+			<tbody>
+				<common:standardTableRow />
+				<tr >
+				   <td class="labelColumn">客户编号：</td>
+				   <td><c:out value="${customerDto.systemCustRefNum }" escapeXml="true"></c:out></td>
+				   <td colspan="2">&nbsp;</td>
+			    </tr>
+			</tbody>
+		</table>
+		<div class="emptyBlock"></div>
+		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
 						<td class="labelColumn">客户类型：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select id="custType" cssClass="standardSelect" onchange="changeCustType();" path="groupIndicator">
+						   <form:select id="custType" cssClass="standardSelect" onchange="changeCustType();" path="groupIndicator" disabled="true">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <form:option value="GRP" label="集团客户"></form:option>
 						      <form:option value="SUB" label="非集团客户（集团旗下子公司）"></form:option>
@@ -197,7 +160,7 @@ function clearInput(){
 						</td>
 						<td>
 						   &nbsp;
-						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none">
+						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none" disabled="disabled">
 						      <option>--- 请选择 ---</option>
 						      <c:forEach items="${listOfGroups}" var="group">
 						        <c:choose>
@@ -259,7 +222,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn" >公司名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						<form:input path="fullName" cssClass="standardInputText"></form:input>
+						<form:input path="fullName" cssClass="standardInputText" onblur="isChanged('${customerDto.fullName }','fullName')"></form:input>
 						<common:errorSign id="fullName" path="fullName"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
@@ -267,7 +230,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">公司简称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						<form:input path="shortName" cssClass="standardInputText"></form:input>
+						<form:input path="shortName" cssClass="standardInputText" onblur="isChanged('${customerDto.shortName }','shortName')"></form:input>
 						<common:errorSign id="shortName" path="shortName"></common:errorSign>
 						</td>
 					    <td>&nbsp;</td>
@@ -275,20 +238,20 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">官方网址：</td>
 						<td>
-						<form:input path="offcialSite" cssClass="standardInputText"></form:input>
+						<form:input path="offcialSite" cssClass="standardInputText" onblur="isChanged('${customerDto.offcialSite }','offcialSite')"></form:input>
 						<common:errorSign id="offcialSite" path="offcialSite"></common:errorSign>
 						</td>
 						<td class="labelColumn">公司总机：</td>
 						<td>
-						   <form:input path="telExchangeDto.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4"/> - 
-					       <form:input path="telExchangeDto.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8"/>
+						   <form:input path="telExchangeDto.regionCode" cssClass="standardInputTextNoWidth" maxlength="4" size="4" onblur="isChanged('${customerDto.telExchangeDto.regionCode }','telExchangeDto.regionCode')"/> - 
+					       <form:input path="telExchangeDto.phoneNumber" cssClass="standardInputTextNoWidth" maxlength="8" size="8" onblur="isChanged('${customerDto.telExchangeDto.phoneNumber }','telExchangeDto.phoneNumber')"/>
 					        <common:errorSign id="telExchangeDto.phoneNumber" path="telExchangeDto.phoneNumber"></common:errorSign>
 					    </td>
 					</tr>
 					<tr >
 						<td class="labelColumn">公司性质：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="type" cssClass="standardSelect">
+						   <form:select path="type" cssClass="standardSelect" onblur="isChanged('${customerDto.type }','type')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SE" label="国有企业"></form:option>
 						      <form:option value="EF" label="外商独资/外企办事处"></form:option>
@@ -304,7 +267,7 @@ function clearInput(){
 						</td>
 					    <td class="labelColumn">公司规模：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="size" cssClass="standardSelect">
+						   <form:select path="size" cssClass="standardSelect" onblur="isChanged('${customerDto.size }','size')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="001" label="1-49人"></form:option>
 						      <form:option value="002" label="50-99人"></form:option>
@@ -321,7 +284,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">客户等级：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="grade" cssClass="standardSelect">
+						   <form:select path="grade" cssClass="standardSelect" onblur="isChanged('${customerDto.grade }','grade')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="IR" label="有需求有意向"></form:option>
 						      <form:option value="NI" label="有需求无意向"></form:option>
@@ -332,7 +295,7 @@ function clearInput(){
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="status" cssClass="standardSelect">
+						   <form:select path="status" cssClass="standardSelect" onblur="isChanged('${customerDto.status }','status')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SGN" label="已签约客户"></form:option>
 						      <form:option value="PTL" label="潜力客户"></form:option>
@@ -357,14 +320,14 @@ function clearInput(){
 				    <tr >
 						<td class="labelColumn">姓名：<span class="mandatoryField">*</span></td>
 						<td colspan="3">
-						<form:input path="custRespPerson.name" cssClass="standardInputText"></form:input>
+						<form:input path="custRespPerson.name" cssClass="standardInputText" onblur="isChanged('${customerDto.custRespPerson.name }','custRespPerson.name')"></form:input>
 						<common:errorSign id="custRespPerson.name" path="custRespPerson.name"></common:errorSign>
 						</td>
 					</tr>
 					<tr >
 						<td class="labelColumn">职位类型：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select id="postSelector" path="custRespPerson.positionCategory" cssClass="standardSelect" onchange="loadPositions();">
+						   <form:select id="postSelector" path="custRespPerson.positionCategory" cssClass="standardSelect" onchange="loadPositions();" onblur="isChanged('${customerDto.custRespPerson.positionCategory }','postSelector')">
 						   <option value="">--- 请选择 ---</option>
 						   <c:forEach items="${listOfPositionCategory}" var="positionCategory">
 						      <form:option value="${positionCategory.typeCode }" label="${positionCategory.displayName }"></form:option>
@@ -372,7 +335,7 @@ function clearInput(){
 						   </form:select>
 						</td>
 						<td>
-						   <form:select id="subPostSelector" path="custRespPerson.positionType" cssClass="standardSelect">
+						   <form:select id="subPostSelector" path="custRespPerson.positionType" cssClass="standardSelect" onblur="isChanged('${customerDto.custRespPerson.positionType }','subPostSelector')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						   </form:select>
 						   <common:errorSign id="custRespPerson.positionType" path="custRespPerson.positionType"></common:errorSign>
@@ -382,7 +345,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">职位名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						<form:input path="custRespPerson.positionName" cssClass="standardInputText"></form:input>
+						<form:input path="custRespPerson.positionName" cssClass="standardInputText" onblur="isChanged('${customerDto.custRespPerson.positionName }','custRespPerson.positionName')"></form:input>
 						<common:errorSign id="custRespPerson.positionName" path="custRespPerson.positionName"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
@@ -390,19 +353,19 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText" maxlength="11"></form:input>
-						<common:errorSign id="custRespPerson.telephoneDto.phoneNumber" path="custRespPerson.telephoneDto.phoneNumber"></common:errorSign>
+						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText" maxlength="11" onblur="isChanged('${customerDto.custRespPerson.telephoneDto.phoneNumber }','custRespPerson.telephoneDto.phoneNumber')"></form:input>
+						<common:errorSign id="custRespPerson.telephoneDto.phoneNumber" path="custRespPerson.telephoneDto.phoneNumber" ></common:errorSign>
 						</td>
 						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
 						<td>
-						<form:input path="custRespPerson.email" cssClass="standardInputText" maxlength="50"></form:input>
+						<form:input path="custRespPerson.email" cssClass="standardInputText" maxlength="50" onblur="isChanged('${customerDto.custRespPerson.email }','custRespPerson.email')"></form:input>
 						<common:errorSign id="custRespPerson.email" path="custRespPerson.email"></common:errorSign>
 						</td>
 					</tr>	
 					<tr >
 						<td class="labelColumn">状态：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="custRespPerson.status" cssClass="standardSelect">
+						   <form:select path="custRespPerson.status" cssClass="standardSelect" onblur="isChanged('${customerDto.custRespPerson.status }','custRespPerson.status')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="IS" label="在职"></form:option>
 						      <form:option value="OS" label="已离职"></form:option>
@@ -421,9 +384,8 @@ function clearInput(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="提交" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" onclick="clearInput();" />&nbsp;
-							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+							   <input class="standardButton" type="submit" value="更新" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
 					</table>

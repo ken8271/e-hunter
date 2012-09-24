@@ -109,3 +109,13 @@ function validateStringlength(s , maxlength){
 		return false;
 	}
 }
+
+function isChanged(expectValue , fieldId){
+	var f = document.getElementById(fieldId);
+	
+	if(f == null) return ;
+	
+	if(f.value != expectValue){
+		f.style.color = '#ff0000';
+	}
+}
