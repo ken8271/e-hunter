@@ -9,6 +9,7 @@
 </head>
 <body>
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/fillTalentResume.do" var="editResumeUrl"></hdiv-c:url>
 	<table border="0" width="100%">
 		<tr>
 			<td class="pageTitle">人才详细资料</td>
@@ -20,7 +21,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" type="button" value="新增简历">&nbsp;
+						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
 							<input class="standardButton" type="button" value="添加到项目">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
@@ -168,7 +169,6 @@
 		            <td align="center"> 
 		              <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
 		              <input class="standardButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>&nbsp;
-		              <input class="standardButton" type="button" value="编辑"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>
@@ -181,7 +181,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" type="button" value="新增简历">&nbsp;
+						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
 							<input class="standardButton" type="button" value="添加到项目">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回"  onclick="location.href='${backUrl}'" />
