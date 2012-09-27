@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
-        <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }&type=2" var="viewTalentDetailUrl"></hdiv-c:url>
+        <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }&module=4" var="viewTalentDetailUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才资料预览</td>

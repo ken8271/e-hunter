@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
@@ -27,7 +27,7 @@ import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.service.TalentRegistrationService;
-import com.pccw.ehunter.utility.URLUtils;
+import com.pccw.ehunter.utility.StringUtils;
 
 @Controller
 @SessionAttributes({
@@ -102,7 +102,13 @@ public class TalentEnquireController extends BaseCandidateController{
 		ModelAndView mv = new ModelAndView("talent/viewTalentDetail");
 		
 		String id = request.getParameter("_id");
-		String type = request.getParameter("type");
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
 		
 		TalentDTO talentDto = talentRegtService.getTalentByID(id , true);
 		
@@ -111,12 +117,8 @@ public class TalentEnquireController extends BaseCandidateController{
 		
 		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
 		talentDto.setDegreeDto(degreeDto);
-		
-		if(ActionFlag.CREATE.equals(type)){
-			mv.addObject("backUrl", URLUtils.getHDIVUrl(request, request.getContextPath() + "/talent/completeTalentRegistration.do"));
-		}else if(ActionFlag.SEARCH.equals(type)){
-			mv.addObject("backUrl", URLUtils.getHDIVUrl(request, request.getContextPath() + "/talent/talentsSearch.do"));
-		}
+
+		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}

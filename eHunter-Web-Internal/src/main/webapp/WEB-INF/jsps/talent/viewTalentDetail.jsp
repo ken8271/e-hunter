@@ -9,7 +9,13 @@
 </head>
 <body>
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
-    <hdiv-c:url value="/talent/fillTalentResume.do" var="editResumeUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/fillTalentResume.do?module=5" var="editResumeUrl"></hdiv-c:url>
+    <c:if test="${module == '4' }">
+       <hdiv-c:url value="/talent/completeTalentRegistration.do" var="backUrl"></hdiv-c:url>
+    </c:if>
+    <c:if test="${module == '5' }">
+       <hdiv-c:url value="/talent/talentsSearch.do" var="backUrl"></hdiv-c:url>
+    </c:if>
 	<table border="0" width="100%">
 		<tr>
 			<td class="pageTitle">人才详细资料</td>
