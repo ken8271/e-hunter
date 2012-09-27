@@ -75,7 +75,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 				for(ResumeDTO resumeDto : dto.getResumeDtos()){
 					resumeDto.setItemNumber(index++);
 					resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + talentId, 12));
-					setCommonPropertiesForInsert(resumeDto);
+					setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.INSERT);
 				}
 			}	
 		}
@@ -85,26 +85,26 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		talentRegtDao.saveTalent(talent);
 	}
 
-	private void setCommonPropertiesForInsert(ResumeDTO resumeDto) {
-		BaseDtoUtility.setCommonProperties(resumeDto, TransactionIndicator.INSERT);
+	private void setCommonPropertiesByIndicator(ResumeDTO resumeDto , String transactionIndicator) {
+		BaseDtoUtility.setCommonProperties(resumeDto, transactionIndicator);
 		
 		SelfEvaluationDTO se = resumeDto.getSelfEvaluationDto();
 		if(se != null){
 			se.setResumeID(resumeDto.getResumeID());
-			BaseDtoUtility.setCommonProperties(se, TransactionIndicator.INSERT);
+			BaseDtoUtility.setCommonProperties(se, transactionIndicator);
 		}
 		
 		JobIntentionDTO ji = resumeDto.getIntentionDto();
 		if(ji != null){
 			ji.setResumeID(resumeDto.getResumeID());
-			BaseDtoUtility.setCommonProperties(ji, TransactionIndicator.INSERT);
+			BaseDtoUtility.setCommonProperties(ji, transactionIndicator);
 		}
 		
 		int itemNumber = 1;
 		if(!CollectionUtils.isEmpty(resumeDto.getEduExpDtos())){
 			for(EducationExperienceDTO eduExpDto : resumeDto.getEduExpDtos()){
 				eduExpDto.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(eduExpDto, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(eduExpDto, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
@@ -112,7 +112,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		if(!CollectionUtils.isEmpty(resumeDto.getJobExpDtos())){
 			for(JobExperienceDTO jobExpDto : resumeDto.getJobExpDtos()){
 				jobExpDto.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(jobExpDto, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(jobExpDto, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
@@ -120,7 +120,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		if(!CollectionUtils.isEmpty(resumeDto.getLanguageDtos())){
 			for(LanguageAbilityDTO language : resumeDto.getLanguageDtos()){
 				language.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(language, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(language, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
@@ -128,7 +128,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		if(!CollectionUtils.isEmpty(resumeDto.getPrjExpDtos())){
 			for(ProjectExperienceDTO prjExpDto : resumeDto.getPrjExpDtos()){
 				prjExpDto.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(prjExpDto, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(prjExpDto, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
@@ -136,7 +136,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		if(!CollectionUtils.isEmpty(resumeDto.getSkillDtos())){
 			for(ProfessionalSkillDTO skillDto : resumeDto.getSkillDtos()){
 				skillDto.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(skillDto, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(skillDto, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
@@ -144,12 +144,12 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		if(!CollectionUtils.isEmpty(resumeDto.getTrnExpDtos())){
 			for(TrainingExperienceDTO trnExpDto : resumeDto.getTrnExpDtos()){
 				trnExpDto.setItemNumber(itemNumber++);
-				BaseDtoUtility.setCommonProperties(trnExpDto, TransactionIndicator.INSERT);
+				BaseDtoUtility.setCommonProperties(trnExpDto, transactionIndicator);
 			}
 			itemNumber = 1;
 		}
 	}
-
+	
 	@Override
 	@Transactional
 	public TalentDTO getTalentByID(String id , boolean byHibernate) {
@@ -176,5 +176,31 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		BaseDtoUtility.setCommonProperties(talentDto, TransactionIndicator.UPDATE);
 		
 		talentRegtDao.updateTalent(TalentConvertor.toPo(talentDto));
+	}
+
+	@Override
+	@Transactional
+	public void submitResumes(TalentDTO dto) {
+		if(dto != null){
+			BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+			
+			String resumeSubfix = dto.getTalentID().substring(1, dto.getTalentID().length());
+			if(!CollectionUtils.isEmpty(dto.getResumeDtos())){
+				int index = 1;
+				for(ResumeDTO resumeDto : dto.getResumeDtos()){
+					resumeDto.setItemNumber(index++);
+					
+					if(StringUtils.isEmpty(resumeDto.getResumeID())){						
+						resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + resumeSubfix, 12));
+						setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.INSERT);
+					}else {
+						setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.UPDATE);
+					}
+				}
+			}	
+		}
+		
+		Talent talent = TalentConvertor.toPo(dto);
+		talentRegtDao.updateTalent(talent);
 	}
 }
