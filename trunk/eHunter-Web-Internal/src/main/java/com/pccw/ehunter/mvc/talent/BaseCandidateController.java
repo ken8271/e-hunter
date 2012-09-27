@@ -95,7 +95,7 @@ public class BaseCandidateController extends BaseController{
 					url.append(request.getContextPath());
 					url.append("/talent/viewTalentDetail.do?_id=");
 					url.append(dto.getTalentID());
-					url.append("&type=1");		
+					url.append("&module="+ModuleIndicator.TALENT_ENQUIRY);		
 				}
 				
 				StringBuffer buffer = new StringBuffer();

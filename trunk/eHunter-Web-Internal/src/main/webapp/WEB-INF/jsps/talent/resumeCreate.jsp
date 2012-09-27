@@ -54,9 +54,14 @@ function checkFilled(){
 </script>
 </head>
 <body>
-    <hdiv-c:url value="/talent/backToPreviousStep.do" var="backToFillTalentInfoUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/backToFillResume.do" var="backToFillResumeUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/clearCurrResume.do" var="clearUrl"></hdiv-c:url>
+    <c:if test="${module == '4' }">
+       <hdiv-c:url value="/talent/backToPreviousStep.do" var="backUrl"></hdiv-c:url>
+    </c:if>
+    <c:if test="${module == '5' }">
+       <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }" var="backUrl"></hdiv-c:url>
+    </c:if>
 	<form:form id="resumeForm" commandName="talentDto" action="${ctx}/talent/addResumeActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
@@ -77,7 +82,7 @@ function checkFilled(){
 						<tr>
 							<td>
 							   <input id="submitButton_top" class="standardButton" type="button" value="提交" onclick="submitForm('6')"/>&nbsp;
-							   <input id="backButton_top_add" class="standardButton" type="button" value="返回" onclick="location.href='${backToFillTalentInfoUrl}'" />
+							   <input id="backButton_top_add" class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							   <input id="confirmButton_top" class="standardButton" type="button" value="确定" onclick="submitForm('3')" />
 							   <input id="backButton_top_edit" class="standardButton" type="button" value="返回" onclick="location.href='${backToFillResumeUrl}'"/>
 							</td>
@@ -389,7 +394,7 @@ function checkFilled(){
 						<tr>
 							<td>
 							   <input class="standardButton" type="button" value="提交" onclick="submitForm('6')"/>&nbsp;
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backToFillTalentInfoUrl}'"/>
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
 							</td>
 						</tr>
 					</table>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
@@ -102,6 +103,7 @@ public class TalentRegistrationController extends BaseController{
 		TalentSourceDTO src = codeTableHelper.getTalentSource(request, talentDto.getTalentSrc());
 		talentDto.setTalentSrcDto(src);
 		
+		mv.addObject(ModuleIndicator.MODULE, ModuleIndicator.TALENT_REGISTRATION);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
@@ -110,8 +112,17 @@ public class TalentRegistrationController extends BaseController{
 	public ModelAndView fillTalentResume(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		ModelAndView mv = new ModelAndView("talent/resumeCreate");
 		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
 		ResumeDTO resumeDto = new ResumeDTO();
 		talentDto.setResumeDto(resumeDto);
+		
+		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;
 	}
@@ -125,6 +136,8 @@ public class TalentRegistrationController extends BaseController{
 		}else {
 			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
 		}
+		
+		String module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
 		
 		if(ActionFlag.SUBMIT.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/addResume.do", true));
@@ -145,6 +158,9 @@ public class TalentRegistrationController extends BaseController{
 		}else if(ActionFlag.CERT.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/fillCert.do", true));
 		}else if(ActionFlag.COMPLETE.equals(actionFlag)){
+			if(ModuleIndicator.TALENT_ENQUIRY.equals(module)){
+				return new ModelAndView(new RedirectViewExt("/talent/submitResumes.do", true));
+			}
 			return new ModelAndView(new RedirectViewExt("/talent/saveResumes.do", true));
 		}else if(ActionFlag.UPDATE.equals(actionFlag)){
 			return new ModelAndView(new RedirectViewExt("/talent/completeEditResume.do", true));
