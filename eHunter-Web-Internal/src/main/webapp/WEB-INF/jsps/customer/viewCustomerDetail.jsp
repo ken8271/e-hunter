@@ -6,6 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-CUST-0102]</title>
+<script type="text/javascript">
+function popUpInput(){
+	$('#projectName').val('');
+	setPopUpFramePosition('light',300,100);
+	setOverlayDimension('fade');	
+	popUpFrame('light','fade');
+}
+</script>
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
@@ -24,7 +32,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
+							    <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
 							</td>
@@ -117,6 +125,10 @@
 						<td class="labelColumn">客户状态：</td>
 						<td><c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out></td>
 					</tr>
+					<tr >
+						<td class="labelColumn">客户介绍：</td>
+						<td><c:out value="${customerDto.customerDescription }" escapeXml="true"></c:out></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -174,6 +186,7 @@
 			</table>
 		</div>	
 		<div class="emptyBlock"></div>
+		<div><jsp:include page="newProject_pop.jsp"></jsp:include></div>
 		<div>${listOfProject}</div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -181,7 +194,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
+							    <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
 								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
 							</td>

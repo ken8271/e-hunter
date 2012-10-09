@@ -39,6 +39,7 @@ import com.pccw.ehunter.dto.TalentEnquireDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CandidateRepositoryService;
+import com.pccw.ehunter.service.ProjectCommonService;
 import com.pccw.ehunter.service.ProjectRegistrationService;
 import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
@@ -48,7 +49,8 @@ import com.pccw.ehunter.utility.URLUtils;
 @Controller
 @SessionAttributes({
 	SessionAttributeConstant.TALENT_ENQUIRE_DTO,
-	SessionAttributeConstant.PROJECT_DTO
+	SessionAttributeConstant.PROJECT_DTO,
+	SessionAttributeConstant.TALENT_DTO
 })
 public class CandidateRepositoryController extends BaseController{
 	
@@ -60,6 +62,9 @@ public class CandidateRepositoryController extends BaseController{
 	
 	@Autowired
 	private ProjectRegistrationService projectRegtService;
+	
+	@Autowired
+	private ProjectCommonService projectCommonService;
 	
 	@RequestMapping("/project/initProjectCandidateRepository.do")
 	public ModelAndView initProjectCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
@@ -175,6 +180,24 @@ public class CandidateRepositoryController extends BaseController{
 		}
 		
 		projectDto.setCddtRepoDtos(repoDtos);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		return mv;
+	}
+	
+	@RequestMapping("/project/singleCandidateAsgnVerify.do")
+	public ModelAndView singleCandidateAsgnVerify(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("project/candidateRepositoryVerify");
+		String id = request.getParameter("_id");
+		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
+		
+		List<CandidateDTO> cddtDtos = new ArrayList<CandidateDTO>();
+		CandidateDTO cddt = new CandidateDTO();
+		cddt.setProjectDto(projectDto);
+		cddt.setTalentDto(talentDto);
+		cddtDtos.add(cddt);
+		
+		projectDto.setCddtRepoDtos(cddtDtos);
 		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;

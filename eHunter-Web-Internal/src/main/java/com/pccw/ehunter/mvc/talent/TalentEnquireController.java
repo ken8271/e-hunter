@@ -20,6 +20,7 @@ import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentEnquireDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
@@ -32,7 +33,8 @@ import com.pccw.ehunter.utility.StringUtils;
 @Controller
 @SessionAttributes({
 	SessionAttributeConstant.TALENT_DTO,
-	SessionAttributeConstant.TALENT_ENQUIRE_DTO
+	SessionAttributeConstant.TALENT_ENQUIRE_DTO,
+	SessionAttributeConstant.PROJECT_ENQUIRE_DTO
 })
 public class TalentEnquireController extends BaseCandidateController{
 	
@@ -120,6 +122,7 @@ public class TalentEnquireController extends BaseCandidateController{
 
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
 	}
 }

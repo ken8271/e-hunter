@@ -10,6 +10,8 @@
 <body>
     <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
     <hdiv-c:url value="/project/viewCandidateRepository.do" var="viewCandidateRepositoryUrl"></hdiv-c:url>
+    <hdiv-c:url value="/project/preEditPositionDescription.do" var="editPostDescUrl"></hdiv-c:url>
+    <hdiv-c:url value="/project/preEditPositionRequirement.do" var="editPostRequireUrl"></hdiv-c:url>
 	<table border="0" width="100%">
 		<tr>
 			<td class="pageTitle">项目详细资料</td>
@@ -22,7 +24,8 @@
 					<tr>
 						<td>
 							<input class="standardButton" type="button" value="项目人才库" onclick="location.href='${viewCandidateRepositoryUrl}'">&nbsp;
-						    <input class="standardButton" type="button" value="编辑" />&nbsp;
+						    <input class="standardButton" type="button" value="职位描述修改" onclick="location.href='${editPostDescUrl}'"/>&nbsp;
+						    <input class="standardButton" type="button" value="职位要求修改" onclick="location.href='${editPostRequireUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 						</td>
 					</tr>
@@ -57,7 +60,7 @@
 			</tr>
 			<tr>
 				<td class="labelColumn">项目状态：</td>
-				<td><c:out value="" escapeXml="true"></c:out></td>
+				<td><c:out value="${projectDto.statusDto.displayName }" escapeXml="true"></c:out></td>
 				<td class="labelColumn">创建时间：</td>
 				<td><fmt:formatDate type="both" value="${projectDto.createDateTime}" pattern="yyyy-MM-dd"/></td>
 			</tr>
@@ -177,7 +180,7 @@
 				       5. 学历要求：<c:out value="${not empty projectDto.postRequireDto.degreeDto.displayName ? projectDto.postRequireDto.degreeDto.displayName : '不限'}" escapeXml="true" /><br/>
 				       6. 是否统招全日制：<c:out value="${projectDto.postRequireDto.ftEduIndicator == 'Y' ? '是' : '不限' }" escapeXml="true" /><br>
 				       7. 语言要求：
-				       <c:forEach items="${projectDto.postRequireDto.language }" var="languageCode">
+				       <c:forEach items="${projectDto.postRequireDto.languageStr }" var="languageCode">
 				          <c:if test="${languageCode == 'EN' }">英语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 				          <c:if test="${languageCode == 'JP' }">日语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 				          <c:if test="${languageCode == 'FR' }">法语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
@@ -214,7 +217,8 @@
 					<tr>
 						<td>
 							<input class="standardButton" type="button" value="项目人才库" onclick="location.href='${viewCandidateRepositoryUrl}'">&nbsp;
-						    <input class="standardButton" type="button" value="编辑" />&nbsp;
+						    <input class="standardButton" type="button" value="职位描述修改" onclick="location.href='${editPostDescUrl}'"/>&nbsp;
+						    <input class="standardButton" type="button" value="职位要求修改" onclick="location.href='${editPostRequireUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回"  onclick="location.href='${backUrl}'" />
 						</td>
 					</tr>

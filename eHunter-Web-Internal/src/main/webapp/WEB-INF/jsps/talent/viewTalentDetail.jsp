@@ -6,6 +6,56 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
+<hdiv-c:url value="/project/singleCandidateAsgnVerify.do" var="asgn2prjUrl"></hdiv-c:url>
+<script type="text/javascript">
+$().ready(function(){
+	$('#systemTalentRefNum').val('${talentDto.talentID}');
+	clearResult();
+});
+
+function popUpSelector(){
+	clearResult();
+	setPopUpFramePosition('light',600,300);
+	setOverlayDimension('fade');	
+	popUpFrame('light','fade');
+}
+
+function clearResult(){
+	$('#resultTable tr.contentTableRow').remove();
+	$('#resultTable').hide();
+}
+
+function loadProjectsByAjax(){
+	clearResult();
+	$('#projectSelectorForm').ajaxSubmit({
+		success:function(xml){
+			var str = '';
+			$(xml).find('project').each(function(i , element){
+				var systemProjectRefNum = $(this).find("systemProjectRefNum").text();
+				var projectName = $(this).find("projectName").text();
+				var customerName = $(this).find("customerName").text();
+				var status = $(this).find("projectStatus").text();
+				str = str + "<tr class='contentTableRow'><td align='center'><input type='radio' name='type' value='" + systemProjectRefNum + "' onclick='asgnCandidate2SelectedProject(this);'/></td>"
+				        + "<td>" + systemProjectRefNum + "</td>"
+				        + "<td>" + projectName + "</td>"
+				        + "<td>" + customerName + "</td>"
+				        + "<td align='center'>" + status + "</td>";
+			});
+			$(str).appendTo('#resultTable');
+			$('#resultTable').show();
+		},
+		error:function(){
+			alert('系统错误，请稍后重试！');
+		}	
+	});
+}
+
+function asgnCandidate2SelectedProject(c){
+	if(c.checked == true){		
+	  window.location.href = '${asgn2prjUrl}&_id=' + c.value;
+	}
+}
+</script>
 </head>
 <body>
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
@@ -28,7 +78,7 @@
 					<tr>
 						<td>
 						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
-							<input class="standardButton" type="button" value="添加到项目">&nbsp;
+							<input class="standardButton" type="button" value="添加到项目" onclick="popUpSelector();">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 						</td>
@@ -181,6 +231,7 @@
 		   </c:if>
 	</table>
 	<div class="emptyBlock"></div>
+	<div><jsp:include page="projectSelector_pop.jsp"></jsp:include></div>
 	<table id="bg2" border="0" width="100%">
 		<tr>
 			<td class="functionMenuBar">
@@ -188,7 +239,7 @@
 					<tr>
 						<td>
 						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
-							<input class="standardButton" type="button" value="添加到项目">&nbsp;
+							<input class="standardButton" type="button" value="添加到项目" onclick="popUpSelector();">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
 							<input class="standardButton" type="button" value="返回"  onclick="location.href='${backUrl}'" />
 						</td>
