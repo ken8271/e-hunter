@@ -17,6 +17,7 @@ public class CustomerValidator extends AbstractValidator{
 	@Autowired
 	private CustomerRegistrationService custRegtService;
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean supports(Class clazz) {
 		return CustomerDTO.class.equals(clazz);
@@ -60,6 +61,9 @@ public class CustomerValidator extends AbstractValidator{
 		validateRequired(errors, "size", customerDto.getSize(), "公司规模");
 		validateRequired(errors, "grade", customerDto.getGrade(), "客户等级");
 		validateRequired(errors, "status", customerDto.getStatus(), "客户状态");
+		
+		validateRequired(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍");
+		validateStringLength(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍", 4000);
 		
 		validateCustomerResponsePerson(rpDto,errors);
 	}

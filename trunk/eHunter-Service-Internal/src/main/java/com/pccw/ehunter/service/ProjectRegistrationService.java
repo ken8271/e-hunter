@@ -6,4 +6,6 @@ public interface ProjectRegistrationService {
 	public void submitProject(ProjectDTO projectDto);
 	public void updateProject(ProjectDTO projectDto);
 	public void updateProjectStatus(ProjectDTO projectDTO);
+	public void updatePositionDescription(ProjectDTO dto);
+	public void updatePositionRequirement(ProjectDTO dto);
 }

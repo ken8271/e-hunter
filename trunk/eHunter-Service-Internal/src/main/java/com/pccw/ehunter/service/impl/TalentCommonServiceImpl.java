@@ -1,6 +1,7 @@
 package com.pccw.ehunter.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,7 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 				tlnt.setEnName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
 				tlnt.setDegreeDto(codeTableHelper.getDegreeByCode(request, StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]));
 				tlnt.setNowLivePlace(StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]);
+				tlnt.setCreateDateTime(os[5]==null ? (new Date()) : ((Date)os[5]));
 				
 				dtos.add(tlnt);
 			}

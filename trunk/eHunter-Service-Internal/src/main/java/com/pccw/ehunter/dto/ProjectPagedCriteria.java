@@ -10,6 +10,8 @@ public class ProjectPagedCriteria extends PagedCriteria {
 	private String systemCustRefNum;
 	private String customerName;
 	private String projectStatus;
+	
+	private String systemTalentRefNum;
 
 	private Date fromDate;
 	private Date toDate;
@@ -69,4 +71,13 @@ public class ProjectPagedCriteria extends PagedCriteria {
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
+
+	public String getSystemTalentRefNum() {
+		return systemTalentRefNum;
+	}
+
+	public void setSystemTalentRefNum(String systemTalentRefNum) {
+		this.systemTalentRefNum = systemTalentRefNum;
+	}
+	
 }

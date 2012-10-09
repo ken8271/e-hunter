@@ -9,4 +9,5 @@ public interface ProjectCommonService {
 	public int getProjectsCountByCriteria(ProjectPagedCriteria pagedCriteria);
 	public List<ProjectDTO> getProjectsByCriteria(ProjectPagedCriteria pagedCriteria);
 	public ProjectDTO getProjectByID(String id);
+	public List<ProjectDTO> getUnassignedProjectsByCriteria(ProjectPagedCriteria pagedCriteria);
 }

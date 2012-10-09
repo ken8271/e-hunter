@@ -17,6 +17,7 @@ public class CustomerDTO extends BaseDTO {
 	private String size;
 	private CompanySizeDTO sizeDto;
 	private String groupIndicator;
+	private String customerDescription;
 	
 	private CustomerGroupDTO custGroup;
 	private CustomerResponsePersonDTO custRespPerson;
@@ -147,5 +148,13 @@ public class CustomerDTO extends BaseDTO {
 
 	public void setSizeDto(CompanySizeDTO sizeDto) {
 		this.sizeDto = sizeDto;
+	}
+
+	public String getCustomerDescription() {
+		return customerDescription;
+	}
+
+	public void setCustomerDescription(String customerDescription) {
+		this.customerDescription = customerDescription;
 	}
 }

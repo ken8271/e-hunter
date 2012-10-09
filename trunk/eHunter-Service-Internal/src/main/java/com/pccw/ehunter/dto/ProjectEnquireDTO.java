@@ -10,6 +10,7 @@ public class ProjectEnquireDTO implements Serializable {
 	private String systemCustRefNum;
 	private String customerName;
 	private String projectStatus;
+	private String systemTalentRefNum;
 
 	private SimpleDateDTO fromDateDto;
 	private SimpleDateDTO toDateDto;
@@ -80,4 +81,11 @@ public class ProjectEnquireDTO implements Serializable {
 		this.toDateDto = toDateDto;
 	}
 
+	public String getSystemTalentRefNum() {
+		return systemTalentRefNum;
+	}
+
+	public void setSystemTalentRefNum(String systemTalentRefNum) {
+		this.systemTalentRefNum = systemTalentRefNum;
+	}
 }
