@@ -57,7 +57,7 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT tlnt.SYS_REF_TLNT , tlnt.CNM , tlnt.ENM ,tlnt.HGST_DGRE , tlnt.NW_LV_PLCE ");
+				buffer.append(" SELECT tlnt.SYS_REF_TLNT , tlnt.CNM , tlnt.ENM ,tlnt.HGST_DGRE , tlnt.NW_LV_PLCE ,tlnt.CR_DTTM ");
 				buffer.append(" FROM T_TLNT_BS_INF tlnt ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFilter(pagedCriteria));

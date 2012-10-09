@@ -9,6 +9,7 @@ public class ProjectDTO extends BaseDTO {
 	private String projectName;
 	private String systemCustRefNum;
 	private String status;
+	private ProjectStatusDTO statusDto;
 	private InternalUserDTO adviserDto;
 	private CustomerDTO customerDto;
 
@@ -87,6 +88,14 @@ public class ProjectDTO extends BaseDTO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public ProjectStatusDTO getStatusDto() {
+		return statusDto;
+	}
+
+	public void setStatusDto(ProjectStatusDTO statusDto) {
+		this.statusDto = statusDto;
 	}
 
 }

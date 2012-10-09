@@ -133,6 +133,37 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 			query.setString("status", pagedCriteria.getProjectStatus().trim());
 		}
 		
+		if(!StringUtils.isEmpty(pagedCriteria.getSystemTalentRefNum())){
+			query.setString("tlnt", pagedCriteria.getSystemTalentRefNum());
+		}
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> getUnassignedProjectsByCriteria(final ProjectPagedCriteria pagedCriteria) {
+		List<Object> list = (List<Object>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT pr.SYS_REF_PRJ , pr.PRJ_NM , cc.CO_NM , pr.CR_DTTM , usr.CNM , pr.PRJ_ST ");
+				buffer.append(" FROM T_PRJ pr , T_CUST_CO cc , T_INT_USR usr ");
+				buffer.append(" WHERE 1=1 ");
+				buffer.append(getSQLFilter(pagedCriteria));
+				buffer.append(" AND pr.SYS_REF_PRJ NOT IN ( ");
+				buffer.append(" SELECT sub.SYS_REF_PRJ FROM T_PRJ sub , T_PRJ_TLNT_LIB ptl WHERE sub.SYS_REF_PRJ = ptl.SYS_REF_PRJ AND ptl.SYS_REF_TLNT = :tlnt ");
+				buffer.append(" ) ");
+				buffer.append(" ORDER BY pr.SYS_REF_PRJ ");
+
+				Query query = session.createSQLQuery(buffer.toString());
+				setParameters(query, pagedCriteria);
+				
+				return query.list();
+			}
+		});
+		return list;
 	}
 
 

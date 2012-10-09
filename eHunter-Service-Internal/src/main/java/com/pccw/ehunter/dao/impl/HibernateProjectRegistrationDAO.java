@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pccw.ehunter.dao.ProjectRegistrationDAO;
+import com.pccw.ehunter.domain.internal.PositionDescription;
 import com.pccw.ehunter.domain.internal.Project;
 
 @Component("projectRegtDao")
@@ -54,6 +55,11 @@ public class HibernateProjectRegistrationDAO implements ProjectRegistrationDAO{
 				return null;
 			}
 		});
+	}
+
+	@Override
+	public void updatePositionDescription(PositionDescription pd) {
+		hibernateTemplate.update(pd);
 	}
 
 }

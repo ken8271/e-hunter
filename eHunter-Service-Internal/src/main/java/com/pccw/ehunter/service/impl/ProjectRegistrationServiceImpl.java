@@ -69,4 +69,36 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 		
 		projectRegtDao.updateProjectStatus(ProjectConvertor.toPo(projectDTO, TransactionIndicator.UPDATE));
 	}
+
+	@Override
+	@Transactional
+	public void updatePositionDescription(ProjectDTO dto) {
+		if(dto == null) return ;
+		
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+		
+		PositionDescriptionDTO pdDto = dto.getPostDescDto();
+		if(pdDto != null){
+			BaseDtoUtility.setCommonProperties(pdDto, TransactionIndicator.UPDATE);
+		}
+		
+		projectRegtDao.updateProject(ProjectConvertor.toPo(dto, TransactionIndicator.UPDATE));
+
+	}
+
+	@Override
+	@Transactional
+	public void updatePositionRequirement(ProjectDTO dto) {
+		if(dto == null) return ;
+		
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+		
+		PositionRequirementDTO prDto = dto.getPostRequireDto();
+		
+		if(prDto != null){
+			BaseDtoUtility.setCommonProperties(prDto, TransactionIndicator.UPDATE);
+		}
+		
+		projectRegtDao.updateProject(ProjectConvertor.toPo(dto, TransactionIndicator.INSERT));
+	}
 }

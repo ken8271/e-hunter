@@ -80,4 +80,37 @@ public class ProjectCommonServiceImpl implements ProjectCommonService{
 		return ProjectConvertor.toDto(simpleDao.findUniqueByProperty("systemProjectRefNum", id));
 	}
 
+	@Override
+	@Transactional(readOnly=true)
+	public List<ProjectDTO> getUnassignedProjectsByCriteria(ProjectPagedCriteria pagedCriteria) {
+		List<ProjectDTO> projects = new ArrayList<ProjectDTO>();
+		List<Object> list = projectCommonDao.getUnassignedProjectsByCriteria(pagedCriteria);
+		if(!CollectionUtils.isEmpty(list)){
+			ProjectDTO dto = null;
+			for(Object o : list){
+				dto = new ProjectDTO();
+				Object[] objs = (Object[])o;
+				
+				dto.setSystemProjectRefNum(StringUtils.isEmpty((String)objs[0]) ? "" : (String)objs[0]);
+				dto.setProjectName(StringUtils.isEmpty((String)objs[1]) ? "" : (String)objs[1]);
+				
+				CustomerDTO cust = new CustomerDTO();
+				cust.setFullName(StringUtils.isEmpty((String)objs[2]) ? "" : (String)objs[2]);
+				dto.setCustomerDto(cust);
+				
+				dto.setCreateDateTime((Date)objs[3]);
+				
+				InternalUserDTO usr = new InternalUserDTO();
+				usr.setCnName(StringUtils.isEmpty((String)objs[4]) ? "" : (String)objs[4]);
+				dto.setAdviserDto(usr);
+				
+				dto.setStatus(StringUtils.isEmpty((String)objs[5]) ? "" : (String)objs[5]);
+				
+				projects.add(dto);
+			}
+		}
+		
+		return projects;
+	}
+
 }
