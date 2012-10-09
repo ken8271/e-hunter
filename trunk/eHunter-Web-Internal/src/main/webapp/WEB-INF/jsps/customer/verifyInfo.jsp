@@ -110,6 +110,14 @@
 				</span>
 				</td>
 			</tr>
+			<tr>
+				<td><span class="textCh8">客户介绍</span></td>
+				<td colspan="3">
+				<span class="showCh">
+				   <c:out value="${customerDto.customerDescription }" escapeXml="true"></c:out>
+				</span>
+				</td>
+			</tr>
 		</table>
 		<br />
 		<div>

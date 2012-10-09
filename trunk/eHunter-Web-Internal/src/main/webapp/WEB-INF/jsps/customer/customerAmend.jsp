@@ -304,6 +304,13 @@
 						   <common:errorSign id="status" path="status"></common:errorSign>
 						</td>
 					</tr>
+					<tr>
+					    <td class="labelColumn">客户介绍：<span class="mandatoryField">*</span></td>
+					    <td colspan="3">
+					       <form:textarea path="customerDescription" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px"  cssClass="standardInputText"/>
+						   <common:errorSign id="customerDescription" path="customerDescription"></common:errorSign>
+					    </td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

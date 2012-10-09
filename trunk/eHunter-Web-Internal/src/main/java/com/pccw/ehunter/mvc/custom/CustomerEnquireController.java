@@ -26,6 +26,7 @@ import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
+import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
@@ -33,13 +34,15 @@ import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.service.ProjectCommonService;
+import com.pccw.ehunter.utility.SecurityUtils;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.utility.URLUtils;
 
 @Controller
 @SessionAttributes({
 	SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO,
-	SessionAttributeConstant.CUSTOMER_DTO
+	SessionAttributeConstant.CUSTOMER_DTO,
+	SessionAttributeConstant.PROJECT_DTO
 })
 public class CustomerEnquireController extends BaseController{
 	
@@ -198,7 +201,18 @@ public class CustomerEnquireController extends BaseController{
 			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionTypeDto().getTopType()));
 		}
 		
+		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
+		
+		if(internalUserDto == null){
+			internalUserDto = new InternalUserDTO();
+		}
+		
+		ProjectDTO projectDto = new ProjectDTO();
+		projectDto.setAdviserDto(internalUserDto);
+		projectDto.setCustomerDto(customerDto);
+		projectDto.setSystemCustRefNum(customerDto.getSystemCustRefNum());
 		mv.addObject("customerDto", customerDto);
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		
 		ProjectEnquireDTO enquireDto = new ProjectEnquireDTO();
 		enquireDto.setSystemCustRefNum(id);

@@ -202,7 +202,7 @@
 				       5. 学历要求：<c:out value="${not empty projectDto.postRequireDto.degreeDto.displayName ? projectDto.postRequireDto.degreeDto.displayName : '不限'}" escapeXml="true" /><br/>
 				       6. 是否统招全日制：<c:out value="${projectDto.postRequireDto.ftEduIndicator == 'Y' ? '是' : '不限' }" escapeXml="true" /><br>
 				       7. 语言要求：
-				       <c:forEach items="${projectDto.postRequireDto.language }" var="languageCode">
+				       <c:forEach items="${projectDto.postRequireDto.languageStr }" var="languageCode">
 				          <c:if test="${languageCode == 'EN' }">英语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 				          <c:if test="${languageCode == 'JP' }">日语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 				          <c:if test="${languageCode == 'FR' }">法语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>

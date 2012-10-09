@@ -1,9 +1,18 @@
 package com.pccw.ehunter.mvc.project;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
@@ -14,21 +23,31 @@ import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.ProjectConvertor;
+import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
+import com.pccw.ehunter.dto.CityDTO;
+import com.pccw.ehunter.dto.IndustryDTO;
+import com.pccw.ehunter.dto.PositionDescriptionDTO;
+import com.pccw.ehunter.dto.PositionRequirementDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.ProjectPagedCriteria;
 import com.pccw.ehunter.dto.ProjectStatusDTO;
+import com.pccw.ehunter.dto.ResidentialWelfareDTO;
+import com.pccw.ehunter.dto.SalaryCategoryDTO;
+import com.pccw.ehunter.dto.SocietyWelfareDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.ProjectCommonService;
@@ -221,6 +240,73 @@ public class ProjectEnquireController extends BaseController{
 		
 		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
 		
+		projectDto.setStatusDto(codeTableHelper.getProjectStatusByCode(request, projectDto.getStatus()));
+		
+		if(projectDto.getPostDescDto() != null){
+			PositionDescriptionDTO postDescDto = projectDto.getPostDescDto();
+			
+			postDescDto.setPositionDto(codeTableHelper.getPositionByCode(projectDto.getPostDescDto().getPosition()));
+			postDescDto.setPositionCategory(projectDto.getPostDescDto().getPositionDto().getTopType());
+			postDescDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, projectDto.getPostDescDto().getPositionCategory()));
+			
+			List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+			if(!StringUtils.isEmpty(postDescDto.getCities())){
+				String[] cities = StringUtils.tokenize(postDescDto.getCities(), CommonConstant.COMMA);
+				if(cities != null && cities.length != 0){
+					for(String cityCode : cities){
+						cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+					}
+				}
+			}
+			postDescDto.setCityDtos(cityDtos);
+			
+			List<SalaryCategoryDTO> scDtos = postDescDto.getSalaryCategoryDtos();
+			String[] scs = StringUtils.tokenize(postDescDto.getSalaryCategoryStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(scs)){
+				for(String sc : scs){
+					scDtos.add(codeTableHelper.getSalaryCategoryByCode(request, sc));
+				}
+			}
+			
+			List<SocietyWelfareDTO> swDtos = postDescDto.getScoitetyWelfareDtos();
+			String[] sws = StringUtils.tokenize(postDescDto.getSocietyWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(sws)){
+				for(String sw : sws){
+					swDtos.add(codeTableHelper.getSocietyWelfareByCode(request, sw));
+				}
+			}
+			
+			List<ResidentialWelfareDTO> rwDtos = postDescDto.getResidentialWelfareDtos();
+			String[] rws = StringUtils.tokenize(postDescDto.getResidentialWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(rws)){
+				for(String rw : rws){
+					rwDtos.add(codeTableHelper.getResidentialWelfareByCode(request, rw));
+				}
+			}
+			
+			List<AnnualLeaveWelfareDTO> awDtos = postDescDto.getAnnualLeaveWelfareDtos();
+			String[] aws = StringUtils.tokenize(postDescDto.getAnnualLeaveWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(aws)){
+				for(String aw : aws){
+					awDtos.add(codeTableHelper.getAnnualLeaveWelfareByCode(request, aw));
+				}
+			}
+		}
+		
+		if(projectDto.getPostRequireDto() != null){
+			PositionRequirementDTO postRequireDto = projectDto.getPostRequireDto();
+			List<IndustryDTO> industryDtos = new ArrayList<IndustryDTO>();
+			if(!StringUtils.isEmpty(postRequireDto.getExpectIndustries())){
+				String[] industries = StringUtils.tokenize(postRequireDto.getExpectIndustries(), CommonConstant.COMMA);
+				if(industries != null && industries.length != 0){
+					for(String industryCode : industries){
+						industryDtos.add(codeTableHelper.getIndustryByCode(industryCode));
+					}
+				}
+			}
+			postRequireDto.setExpectIndustryDtos(industryDtos);
+		}
+		
 		String module = request.getParameter(ModuleIndicator.MODULE);
 		
 		if(StringUtils.isEmpty(module)){
@@ -239,5 +325,46 @@ public class ProjectEnquireController extends BaseController{
 		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
+	}
+	
+	@RequestMapping("/project/loadUnassignedProjects.do")
+	public void loadUnassignedProjects(HttpServletRequest request , HttpServletResponse response , @ModelAttribute(SessionAttributeConstant.PROJECT_ENQUIRE_DTO)ProjectEnquireDTO prjEnquireDto){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		try {
+			System.out.println("--------------------------");
+			response.setContentType("text/xml;charset=UTF-8");
+			out = response.getWriter();
+			System.out.println(prjEnquireDto.getSystemTalentRefNum());
+			List<ProjectDTO> dtos = projectCommonService.getUnassignedProjectsByCriteria(ProjectConvertor.toPagedCriteria(prjEnquireDto));
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			if(!CollectionUtils.isEmpty(dtos)){
+				for(ProjectDTO dto : dtos){
+					dto.setStatusDto(codeTableHelper.getProjectStatusByCode(request, dto.getStatus()));
+					Element project = root.addElement("project");
+					project.addElement("systemProjectRefNum").setText(dto.getSystemProjectRefNum());
+					project.addElement("projectName").setText(dto.getProjectName());
+					project.addElement("customerName").setText(dto.getCustomerDto().getFullName());
+					project.addElement("projectStatus").setText(dto.getStatusDto().getDisplayName());
+				}
+			}
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			writer = new XMLWriter(out, format);
+			writer.write(doc);
+			
+			if(null != writer){
+				writer.close();
+			}
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched (loadUnassignedProjects) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
 	}
 }
