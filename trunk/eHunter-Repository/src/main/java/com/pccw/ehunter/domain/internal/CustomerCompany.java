@@ -29,6 +29,7 @@ public class CustomerCompany extends BaseEntity {
 	private String type;
 	private String size;
 	private String groupIndicator;
+	private String customerDescription;
 
 	private CustomerGroup group;
 	private List<CustomerResponsablePerson> custRespPersons;
@@ -155,6 +156,15 @@ public class CustomerCompany extends BaseEntity {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}
+
+	@Column(name="CUST_DESC")
+	public String getCustomerDescription() {
+		return customerDescription;
+	}
+
+	public void setCustomerDescription(String customerDescription) {
+		this.customerDescription = customerDescription;
 	}
 
 }

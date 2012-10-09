@@ -49,7 +49,7 @@ public class PositionDescription extends BaseEntity {
 	}
 
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.MERGE)
 	@PrimaryKeyJoinColumn(name = "SYS_REF_POST", referencedColumnName = "SYS_REF_PRJ")
 	public Project getProject() {
 		return project;
