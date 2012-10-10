@@ -260,7 +260,7 @@ public class CustomerRegistrationController extends BaseController{
 		}
 		
 		if(ActionFlag.COMPLETE.equals(actionFlag) && isNothingInput(responsePersonDto)){
-			mv = new ModelAndView(new RedirectViewExt("/customer/saveMultiResponsePerson.do", true));
+			mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
 			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
 			return mv;
 		}
@@ -276,7 +276,7 @@ public class CustomerRegistrationController extends BaseController{
 		}
 		
 		if(ActionFlag.COMPLETE.equals(actionFlag)){
-			mv = new ModelAndView(new RedirectViewExt("/customer/saveMultiResponsePerson.do", true));
+			mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
 			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
 			return mv;
 		}
@@ -296,11 +296,71 @@ public class CustomerRegistrationController extends BaseController{
 		return mv ;
 	}
 	
-	@RequestMapping("/customer/saveResponsePerson.do")
-	public ModelAndView saveResponsePerson(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto , BindingResult errors){
-		ModelAndView mv = null;
+	@RequestMapping("/customer/preEditResponsePerson.do")
+	public ModelAndView preEditResponsePerson(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		ModelAndView mv = new ModelAndView("customer/responsePersonAmend");
 		
-		mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
+		String id = request.getParameter("_id");
+		request.getSession(false).setAttribute("_response_person_id", id);
+		
+		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
+		
+		CustomerResponsePersonDTO responsePersonDto = null;
+		if(!CollectionUtils.isEmpty(rps)){
+			responsePersonDto = rps.get(Integer.valueOf(id));
+		}
+		
+		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON,responsePersonDto);
+		return mv;
+	}
+	
+	@RequestMapping("/customer/updateResponsePerson.do")
+	public ModelAndView updateResponsePerson(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto,
+			@ModelAttribute(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON)CustomerResponsePersonDTO responsePersonDto,
+			BindingResult errors){
+		ModelAndView mv = new ModelAndView("customer/responsePersonCreate");
+		
+		customerValidator.validateCustomerResponsePerson(responsePersonDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("customer/responsePersonAmend");
+			mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, responsePersonDto);
+			return mv;
+		}
+		
+		String id = (String)request.getSession(false).getAttribute("_response_person_id");
+		
+		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
+		
+		if(!CollectionUtils.isEmpty(rps)){
+			rps.set(Integer.valueOf(id), responsePersonDto);
+		}
+		
+		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+		mv.addObject("clearField", CommonConstant.YES);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/customer/deleteResponsePerson.do")
+	public ModelAndView deleteResponsePerson(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/fillMultiResponsePerson.do", true));
+		
+		String id = request.getParameter("_id");
+		
+		List<CustomerResponsePersonDTO> rpDtos = customerDto.getMultiResponsePerson();
+		List<CustomerResponsePersonDTO> removedDtos = new ArrayList<CustomerResponsePersonDTO>(0);
+		
+		if(!CollectionUtils.isEmpty(rpDtos)){
+			removedDtos.add(rpDtos.get(Integer.parseInt(id)));
+			rpDtos.removeAll(removedDtos);
+		}
+		
+		customerDto.setMultiResponsePerson(rpDtos);
+		
+		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 		return mv;
 	}

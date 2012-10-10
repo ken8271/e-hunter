@@ -20,6 +20,7 @@ import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
+import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
 import com.pccw.ehunter.helper.IDGeneratorImpl;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.utility.BaseEntityUtility;
@@ -68,9 +69,11 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 				}
 			}
 			
-//			if(customerDto.getCustRespPerson() != null){
-//				customerDto.getCustRespPerson().setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
-//			}
+			if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
+				for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
+					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+				}
+			}
 		}
 		
 		CustomerCompany po = CustomerConvertor.toPo(customerDto);
