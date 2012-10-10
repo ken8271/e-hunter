@@ -27,7 +27,6 @@ public class CustomerValidator extends AbstractValidator{
 	public void validate(Object object, Errors errors) {
 		CustomerDTO customerDto = (CustomerDTO)object;
 		CustomerGroupDTO groupDto = customerDto.getCustGroup();
-		CustomerResponsePersonDTO rpDto = customerDto.getCustRespPerson();
 		
 		String custIndicator = customerDto.getGroupIndicator();
 		
@@ -65,25 +64,24 @@ public class CustomerValidator extends AbstractValidator{
 		validateRequired(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍");
 		validateStringLength(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍", 4000);
 		
-		validateCustomerResponsePerson(rpDto,errors);
 	}
 
-	private void validateCustomerResponsePerson(CustomerResponsePersonDTO rpDto, Errors errors) {
-		validateRequired(errors, "custRespPerson.name", rpDto.getName(), "联系人姓名");
-		validateStringLength(errors, "custRespPerson.name", rpDto.getName(), "联系人姓名", 30);
+	public void validateCustomerResponsePerson(CustomerResponsePersonDTO rpDto, Errors errors) {
+		validateRequired(errors, "name", rpDto.getName(), "联系人姓名");
+		validateStringLength(errors, "name", rpDto.getName(), "联系人姓名", 30);
 		
-		validateRequired(errors, "custRespPerson.positionType", rpDto.getPositionType(), "联系人职位类型");
+		validateRequired(errors, "positionType", rpDto.getPositionType(), "联系人职位类型");
 		
-		validateRequired(errors, "custRespPerson.positionName", rpDto.getPositionName(), "联系人职位");
-		validateStringLength(errors, "custRespPerson.positionName", rpDto.getPositionName(), "联系人职位", 50);
+		validateRequired(errors, "positionName", rpDto.getPositionName(), "联系人职位");
+		validateStringLength(errors, "positionName", rpDto.getPositionName(), "联系人职位", 50);
 		
-		validateRequired(errors, "custRespPerson.telephoneDto.phoneNumber", rpDto.getTelephoneDto().getPhoneNumber(), "联系人手机");
-		validateOnlyNumberic(errors, "custRespPerson.telephoneDto.phoneNumber", rpDto.getTelephoneDto().getPhoneNumber() , "联系人手机");
+		validateRequired(errors, "telephoneDto.phoneNumber", rpDto.getTelephoneDto().getPhoneNumber(), "联系人手机");
+		validateOnlyNumberic(errors, "telephoneDto.phoneNumber", rpDto.getTelephoneDto().getPhoneNumber() , "联系人手机");
 		
-		validateRequired(errors, "custRespPerson.email", rpDto.getEmail(), "联系人邮箱");
-		validateEmail(errors, "custRespPerson.email", rpDto.getEmail() , "联系人邮箱");
+		validateRequired(errors, "email", rpDto.getEmail(), "联系人邮箱");
+		validateEmail(errors, "email", rpDto.getEmail() , "联系人邮箱");
 		
-		validateRequired(errors, "custRespPerson.status", rpDto.getStatus(), "联系人状态");
+		validateRequired(errors, "status", rpDto.getStatus(), "联系人状态");
 	}
 
 }

@@ -40,9 +40,9 @@ public class CustomerConvertor {
 		dto.setTelExchangeDto(tel);
 		dto.setCustGroup(CustomerGroupConvertor.toDto(po.getGroup()));
 		
-		if(!CollectionUtils.isEmpty(po.getCustRespPersons())){
-			dto.setCustRespPerson(CustomerResponsablePersonConvertor.toDto(po.getCustRespPersons().get(0)));
-		}
+//		if(!CollectionUtils.isEmpty(po.getCustRespPersons())){
+//			dto.setCustRespPerson(CustomerResponsablePersonConvertor.toDto(po.getCustRespPersons().get(0)));
+//		}
 		
 		return dto;
 	}
@@ -63,9 +63,9 @@ public class CustomerConvertor {
 		po.setGroup(CustomerGroupConvertor.toPo(dto.getCustGroup()));
 		
 		List<CustomerResponsablePerson> rps = new ArrayList<CustomerResponsablePerson>();
-		if(null != dto.getCustRespPerson()){
-			rps.add(CustomerResponsablePersonConvertor.toPo(dto.getCustRespPerson()));
-		}
+//		if(null != dto.getCustRespPerson()){
+//			rps.add(CustomerResponsablePersonConvertor.toPo(dto.getCustRespPerson()));
+//		}
 		po.setCustRespPersons(rps);
 		
 		return po;
