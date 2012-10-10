@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
 </head>
 <body>
-    <hdiv-c:url value="/customer/backToCustomerInfo.do" var="backUrl"></hdiv-c:url>
+    <hdiv-c:url value="/customer/fillMultiResponsePerson.do" var="backUrl"></hdiv-c:url>
 	<form:form method="post" name="customerDto" action="${ctx}/customer/submitCustomer.do">
 		<table border="0" width="100%">
 			<tr>

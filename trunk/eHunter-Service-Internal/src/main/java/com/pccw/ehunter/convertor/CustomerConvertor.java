@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.CustomerCompany;
-import com.pccw.ehunter.domain.internal.CustomerResponsablePerson;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
@@ -40,9 +39,7 @@ public class CustomerConvertor {
 		dto.setTelExchangeDto(tel);
 		dto.setCustGroup(CustomerGroupConvertor.toDto(po.getGroup()));
 		
-//		if(!CollectionUtils.isEmpty(po.getCustRespPersons())){
-//			dto.setCustRespPerson(CustomerResponsablePersonConvertor.toDto(po.getCustRespPersons().get(0)));
-//		}
+		dto.setMultiResponsePerson(CustomerResponsablePersonConvertor.toDtos(po.getCustRespPersons()));
 		
 		return dto;
 	}
@@ -62,11 +59,7 @@ public class CustomerConvertor {
 		
 		po.setGroup(CustomerGroupConvertor.toPo(dto.getCustGroup()));
 		
-		List<CustomerResponsablePerson> rps = new ArrayList<CustomerResponsablePerson>();
-//		if(null != dto.getCustRespPerson()){
-//			rps.add(CustomerResponsablePersonConvertor.toPo(dto.getCustRespPerson()));
-//		}
-		po.setCustRespPersons(rps);
+		po.setCustRespPersons(CustomerResponsablePersonConvertor.toPos(dto.getMultiResponsePerson()));
 		
 		return po;
 	}
