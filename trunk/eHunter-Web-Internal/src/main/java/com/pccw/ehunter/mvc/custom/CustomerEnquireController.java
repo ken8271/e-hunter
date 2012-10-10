@@ -195,11 +195,11 @@ public class CustomerEnquireController extends BaseController{
 		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
 		customerDto.setStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getStatus()));
 		
-		if(customerDto.getCustRespPerson() != null){
-			customerDto.getCustRespPerson().setPositionTypeDto(codeTableHelper.getPositionByCode(customerDto.getCustRespPerson().getPositionType()));
-			customerDto.getCustRespPerson().setPositionCategory(customerDto.getCustRespPerson().getPositionTypeDto().getTopType());
-			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionTypeDto().getTopType()));
-		}
+//		if(customerDto.getCustRespPerson() != null){
+//			customerDto.getCustRespPerson().setPositionTypeDto(codeTableHelper.getPositionByCode(customerDto.getCustRespPerson().getPositionType()));
+//			customerDto.getCustRespPerson().setPositionCategory(customerDto.getCustRespPerson().getPositionTypeDto().getTopType());
+//			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionTypeDto().getTopType()));
+//		}
 		
 		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
 		
