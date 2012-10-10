@@ -1,5 +1,8 @@
 package com.pccw.ehunter.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
@@ -20,8 +23,8 @@ public class CustomerDTO extends BaseDTO {
 	private String customerDescription;
 	
 	private CustomerGroupDTO custGroup;
-	private CustomerResponsePersonDTO custRespPerson;
-
+	private List<CustomerResponsePersonDTO> multiResponsePerson = new ArrayList<CustomerResponsePersonDTO>();
+	
 	public String getSystemCustRefNum() {
 		return systemCustRefNum;
 	}
@@ -102,12 +105,12 @@ public class CustomerDTO extends BaseDTO {
 		this.groupIndicator = groupIndicator;
 	}
 
-	public CustomerResponsePersonDTO getCustRespPerson() {
-		return custRespPerson;
+	public List<CustomerResponsePersonDTO> getMultiResponsePerson() {
+		return multiResponsePerson;
 	}
 
-	public void setCustRespPerson(CustomerResponsePersonDTO custRespPerson) {
-		this.custRespPerson = custRespPerson;
+	public void setMultiResponsePerson(List<CustomerResponsePersonDTO> multiResponsePerson) {
+		this.multiResponsePerson = multiResponsePerson;
 	}
 
 	public CustomerGroupDTO getCustGroup() {

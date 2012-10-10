@@ -10,7 +10,7 @@ public class CustomerResponsePersonDTO extends BaseDTO {
 	private String positionType;
 	private PositionDTO positionTypeDto;
 	private String positionName;
-	private MobilePhoneDTO telephoneDto;
+	private MobilePhoneDTO telephoneDto = new MobilePhoneDTO();
 	private String email;
 	private String status;
 

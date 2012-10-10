@@ -68,9 +68,9 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 				}
 			}
 			
-			if(customerDto.getCustRespPerson() != null){
-				customerDto.getCustRespPerson().setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
-			}
+//			if(customerDto.getCustRespPerson() != null){
+//				customerDto.getCustRespPerson().setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+//			}
 		}
 		
 		CustomerCompany po = CustomerConvertor.toPo(customerDto);
