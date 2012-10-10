@@ -131,25 +131,27 @@
 				<td align="center" width="25%"><span class="textCh8">邮箱</span><br /><br /></td>
 				<td align="center" width="15%"><span class="textCh8">状态</span><br /><br /></td>
 			</tr>
+			<c:forEach items="${customerDto.multiResponsePerson }" var="rp" varStatus="status">
 			<tr>
-				<td align="center" width="2%"><span class="textEn8">1</span></td>
-				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.name }"></c:out></span></td>
-				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.positionName }"></c:out></span></td>
-				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.telephoneDto.phoneNumber }"></c:out></span></td>
-				<td><span class="textCn8"><c:out value="${customerDto.custRespPerson.email }"></c:out></span></td>
+				<td align="center" width="2%"><span class="textEn8">${status.index+1 }</span></td>
+				<td><span class="textCn8"><c:out value="${rp.name }"></c:out></span></td>
+				<td><span class="textCn8"><c:out value="${rp.positionName }"></c:out></span></td>
+				<td><span class="textCn8"><c:out value="${rp.telephoneDto.phoneNumber }"></c:out></span></td>
+				<td><span class="textCn8"><c:out value="${rp.email }"></c:out></span></td>
 				<td>
 					<table frame="void">
 						<tr>
-							<td><customer:checkSign comparisonValue="IS" actualValue="${customerDto.custRespPerson.status}" ></customer:checkSign> </td>
+							<td><customer:checkSign comparisonValue="IS" actualValue="${rp.status}" ></customer:checkSign> </td>
 							<td><span class="showCh">在职</span></td>
 						</tr>
 						<tr>
-							<td><customer:checkSign comparisonValue="OS" actualValue="${customerDto.custRespPerson.status}"></customer:checkSign> </td>
+							<td><customer:checkSign comparisonValue="OS" actualValue="${rp.status}"></customer:checkSign> </td>
 							<td><span class="showCh">已离职</span></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
+			</c:forEach>
 		</table>
 		<br />
 		<table id="bg2" border="0" width="100%">
