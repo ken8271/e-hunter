@@ -23,7 +23,7 @@ public class CustomerCompany extends BaseEntity {
 	private String shortName;
 	private String fullName;
 	private String grade;
-	private String status;
+	private String customerStatus;
 	private String offcialSite;
 	private String telExchange;
 	private String type;
@@ -73,12 +73,12 @@ public class CustomerCompany extends BaseEntity {
 	}
 
 	@Column(name = "CUST_STAT")
-	public String getStatus() {
-		return status;
+	public String getCustomerStatus() {
+		return customerStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCustomerStatus(String customerStatus) {
+		this.customerStatus = customerStatus;
 	}
 
 	@Column(name = "OFCL_SITE")
