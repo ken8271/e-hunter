@@ -54,7 +54,7 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 				dto.setFullName(StringUtils.isEmpty((String)objs[1]) ? "" : (String)objs[1]);
 				dto.setShortName(StringUtils.isEmpty((String)objs[2]) ? "" : (String)objs[2]);
 				dto.setGrade(StringUtils.isEmpty((String)objs[3]) ? "" : (String)objs[3]);
-				dto.setStatus(StringUtils.isEmpty((String)objs[4]) ? "" : (String)objs[4]);
+				dto.setCustomerStatus(StringUtils.isEmpty((String)objs[4]) ? "" : (String)objs[4]);
 				
 				customers.add(dto);
 			}
@@ -86,6 +86,24 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 				dto.setEmail(StringUtils.isEmpty((String)os[3]) ? "" : ((String)os[3]));
 				dto.setStatus(StringUtils.isEmpty((String)os[4]) ? "" : ((String)os[4]));
 				
+				dtos.add(dto);
+			}
+		}
+		
+		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<CustomerDTO> getCustomersByCompanyName(String name , String indicator) {
+		List<CustomerDTO> dtos = new ArrayList<CustomerDTO>();
+		List<String> list = customerDao.getCustomersByCompanyName(name, indicator);
+		
+		if(!CollectionUtils.isEmpty(list)){
+			CustomerDTO dto = null;
+			for(String s : list){
+				dto = new CustomerDTO();
+				dto.setSystemCustRefNum(StringUtils.isEmpty(s) ? "" : s);
 				dtos.add(dto);
 			}
 		}

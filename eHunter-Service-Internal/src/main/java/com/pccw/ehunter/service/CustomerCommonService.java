@@ -11,4 +11,5 @@ public interface CustomerCommonService {
 	public List<CustomerDTO> getCustomersByCriteria(CustomerPagedCriteria pagedCriteria);
 	public CustomerDTO getCustomerByID(String customerId);
 	public List<CustomerResponsePersonDTO> getResponsePersonsByCustomerID(String customerID);
+	public List<CustomerDTO> getCustomersByCompanyName(String name , String indicator);
 }

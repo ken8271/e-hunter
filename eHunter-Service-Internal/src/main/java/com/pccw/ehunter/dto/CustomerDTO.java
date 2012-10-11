@@ -11,8 +11,8 @@ public class CustomerDTO extends BaseDTO {
 	private String fullName;
 	private String grade;
 	private CustomerGradeDTO gradeDto;
-	private String status;
-	private CustomerStatusDTO statusDto;
+	private String customerStatus;
+	private CustomerStatusDTO customerStatusDto;
 	private String offcialSite;
 	private TelephoneDTO telExchangeDto;
 	private String type;
@@ -57,12 +57,12 @@ public class CustomerDTO extends BaseDTO {
 		this.grade = grade;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getCustomerStatus() {
+		return customerStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCustomerStatus(String customerStatus) {
+		this.customerStatus = customerStatus;
 	}
 
 	public String getOffcialSite() {
@@ -129,12 +129,12 @@ public class CustomerDTO extends BaseDTO {
 		this.gradeDto = gradeDto;
 	}
 
-	public CustomerStatusDTO getStatusDto() {
-		return statusDto;
+	public CustomerStatusDTO getCustomerStatusDto() {
+		return customerStatusDto;
 	}
 
-	public void setStatusDto(CustomerStatusDTO statusDto) {
-		this.statusDto = statusDto;
+	public void setCustomerStatusDto(CustomerStatusDTO customerStatusDto) {
+		this.customerStatusDto = customerStatusDto;
 	}
 
 	public CompanyCategoryDTO getTypeDto() {

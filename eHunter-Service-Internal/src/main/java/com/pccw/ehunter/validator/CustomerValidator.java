@@ -1,13 +1,17 @@
 package com.pccw.ehunter.validator;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Errors;
 
 import com.pccw.ehunter.constant.CustomerIndicator;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
+import com.pccw.ehunter.service.CustomerCommonService;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -16,6 +20,9 @@ public class CustomerValidator extends AbstractValidator{
 	
 	@Autowired
 	private CustomerRegistrationService custRegtService;
+	
+	@Autowired
+	private CustomerCommonService custCommonService;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -49,7 +56,15 @@ public class CustomerValidator extends AbstractValidator{
 		validateRequired(errors, "fullName", customerDto.getFullName(), "公司名称");
 		validateStringLength(errors, "fullName", customerDto.getFullName() , "公司名称", 50);
 		
+		//validation for the unique of company name
+		if(!isValidCustomer(customerDto, customerDto.getFullName(), "F")){
+			errors.rejectValue("fullName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
+		}
+		
 		validateStringLength(errors, "shortName", customerDto.getShortName() , "公司简称", 20);
+		if(!isValidCustomer(customerDto, customerDto.getShortName(), "S")){
+			errors.rejectValue("shortName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
+		}
 
 		validateStringLength(errors, "offcialSite", customerDto.getOffcialSite(), "官方网址", 50);
 		
@@ -59,7 +74,7 @@ public class CustomerValidator extends AbstractValidator{
 		validateRequired(errors, "type", customerDto.getType(), "公司性质");
 		validateRequired(errors, "size", customerDto.getSize(), "公司规模");
 		validateRequired(errors, "grade", customerDto.getGrade(), "客户等级");
-		validateRequired(errors, "status", customerDto.getStatus(), "客户状态");
+		validateRequired(errors, "customerStatus", customerDto.getCustomerStatus(), "客户状态");
 		
 		validateRequired(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍");
 		validateStringLength(errors, "customerDescription", customerDto.getCustomerDescription(), "客户介绍", 4000);
@@ -82,6 +97,21 @@ public class CustomerValidator extends AbstractValidator{
 		validateEmail(errors, "email", rpDto.getEmail() , "联系人邮箱");
 		
 		validateRequired(errors, "status", rpDto.getStatus(), "联系人状态");
+	}
+	
+	private boolean isValidCustomer(CustomerDTO target , String name , String indicator){
+		boolean isValid = true;
+		List<CustomerDTO> custs = custCommonService.getCustomersByCompanyName(name, indicator);
+		
+		if(!CollectionUtils.isEmpty(custs)){
+			for(CustomerDTO dto : custs){
+				if(!dto.getSystemCustRefNum().equals(target.getSystemCustRefNum())){
+					isValid = false;
+					break;
+				}
+			}
+		}
+		return isValid;
 	}
 
 }

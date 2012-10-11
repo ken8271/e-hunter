@@ -105,6 +105,13 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	@Override
 	@Transactional
 	public void updateCustomerInfo(CustomerDTO customerDto) {
+		if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
+			for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
+				if(StringUtils.isEmpty(rpDto.getSystemRespRefNum())){					
+					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+				}
+			}
+		}
 		
 		CustomerCompany po = CustomerConvertor.toPo(customerDto);
 		
