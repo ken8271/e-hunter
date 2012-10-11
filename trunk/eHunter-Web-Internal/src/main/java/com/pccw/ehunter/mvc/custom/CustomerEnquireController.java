@@ -14,6 +14,7 @@ import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -26,6 +27,7 @@ import com.pccw.ehunter.convertor.ProjectConvertor;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerEnquireDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
+import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
@@ -176,7 +178,7 @@ public class CustomerEnquireController extends BaseController{
 			
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
-				return ((CustomerDTO)item).getStatus();
+				return ((CustomerDTO)item).getCustomerStatus();
 			}
 		});
 		row.addColumn(status);
@@ -193,13 +195,15 @@ public class CustomerEnquireController extends BaseController{
 		customerDto.setTypeDto(codeTableHelper.getCompanyCategoryByCode(request, customerDto.getType()));
 		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
 		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
-		customerDto.setStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getStatus()));
+		customerDto.setCustomerStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getCustomerStatus()));
 		
-//		if(customerDto.getCustRespPerson() != null){
-//			customerDto.getCustRespPerson().setPositionTypeDto(codeTableHelper.getPositionByCode(customerDto.getCustRespPerson().getPositionType()));
-//			customerDto.getCustRespPerson().setPositionCategory(customerDto.getCustRespPerson().getPositionTypeDto().getTopType());
-//			customerDto.getCustRespPerson().setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, customerDto.getCustRespPerson().getPositionTypeDto().getTopType()));
-//		}
+		if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
+			for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
+				rpDto.setPositionTypeDto(codeTableHelper.getPositionByCode(rpDto.getPositionType()));
+				rpDto.setPositionCategory(rpDto.getPositionTypeDto().getTopType());
+				rpDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, rpDto.getPositionTypeDto().getTopType()));
+			}
+		}
 		
 		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
 		

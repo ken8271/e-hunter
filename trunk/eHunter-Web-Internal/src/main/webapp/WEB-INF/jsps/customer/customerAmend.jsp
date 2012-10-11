@@ -9,7 +9,7 @@
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
 	$(document).ready(function(){
-		
+		changeCustType();
 		if('SUB' == '${customerDto.groupIndicator}'){			
 		   $('#group').val('${customerDto.custGroup.systemGroupRefNum}');
 		}
@@ -18,6 +18,40 @@
 		
 		loadPositions();
 	});
+
+	function changeCustType(){
+		var custType = document.getElementById("custType");
+		if(custType != null){
+			var selectedIndex = custType.selectedIndex;
+			if(selectedIndex == 1){
+				//group
+				$('#group').hide();
+				$('#group').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#systemGroupRefNum').val('');
+				$('#groupFullName').attr('readonly' , false);
+				$('#groupShortName').attr('readonly' , false);
+			}else if (selectedIndex == 2){
+				//sub
+				$('#group').show();
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#group').val('');
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
+			}else {
+				$('#group').hide();
+				$('#group').val('');
+				$('#groupFullName').val('');
+				$('#groupShortName').val('');
+				$('#systemGroupRefNum').val('');
+				$('#groupFullName').attr('readonly' , true);
+				$('#groupShortName').attr('readonly' , true);
+			}
+		}
+	
+	}
 
 	function clearSelector(selector){
 		while(selector.childNodes.length>0){
@@ -59,41 +93,6 @@
 		
 	}
 	
-	function loadPositions(){
-		var postSelector = document.getElementById("postSelector");
-		if(postSelector != null && postSelector.selectedIndex != 0){
-			$().progressDialog.showDialog("");
-			var code = postSelector.options[postSelector.selectedIndex].value;
-			$.ajax({
-				type:'post',
-				url:'${loadPositions}',
-				dataType:'xml',
-				data:{'code':code},
-				success:function(xml){
-					$().progressDialog.hideDialog("");
-					var subSelector = document.getElementById("subPostSelector");
-					clearSelector(subSelector);
-					subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
-					$(xml).find('position').each(function(i , element){
-						var label = $(this).find("label").text();
-						var val = ''+$(this).children("value").text()+'';
-						subSelector.options[subSelector.length] = new Option(label, val);
-					});
-
-					$("#subPostSelector").val('${customerDto.custRespPerson.positionType}');
-				},
-				error:function(){
-					$().progressDialog.hideDialog("");
-					alert('系统错误');
-				}
-			});
-		}else {
-			subSelector = document.getElementById("subPostSelector");
-			clearSelector(subSelector);
-			subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
-		}
-	}
-	
 	function submitRegtForm(){
 		var custType = document.getElementById("custType");
 		if(custType != null){
@@ -125,7 +124,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="更新" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>
@@ -176,8 +175,7 @@
 						</td>
 						<td>						   
 						<form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssStyle="display:none" />
-						<common:errorSign path="custGroup.systemGroupRefNum" id="custGroup.systemGroupRefNum">
-						</common:errorSign>
+						<common:errorSign path="custGroup.systemGroupRefNum" id="custGroup.systemGroupRefNum"></common:errorSign>
 						</td>
 					</tr>
 				</tbody>
@@ -295,13 +293,13 @@
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="status" cssClass="standardSelect" onblur="isChanged('${customerDto.status }','status')">
+						   <form:select path="customerStatus" cssClass="standardSelect" onblur="isChanged('${customerDto.customerStatus }','customerStatus')">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SGN" label="已签约客户"></form:option>
 						      <form:option value="PTL" label="潜力客户"></form:option>
 						      <form:option value="OTH" label="其它"></form:option>
 						   </form:select>
-						   <common:errorSign id="status" path="status"></common:errorSign>
+						   <common:errorSign id="customerStatus" path="customerStatus"></common:errorSign>
 						</td>
 					</tr>
 					<tr>
@@ -314,76 +312,6 @@
 				</tbody>
 			</table>
 		</div>
-		<table width="100%">
-			<tr>
-				<td width=44><font face="Arial" size="2"><b>Part III</b></font></td>
-				<td width="703"><font face="Arial" size="2"><b>客户联系人资料</b></font></td>
-			</tr>
-		</table>
-		<div class="contentTableBody">
-			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-				<tbody>
-				    <common:standardTableRow />
-				    <tr >
-						<td class="labelColumn">姓名：<span class="mandatoryField">*</span></td>
-						<td colspan="3">
-						<form:input path="custRespPerson.name" cssClass="standardInputText" onblur="isChanged('${customerDto.custRespPerson.name }','custRespPerson.name')"></form:input>
-						<common:errorSign id="custRespPerson.name" path="custRespPerson.name"></common:errorSign>
-						</td>
-					</tr>
-					<tr >
-						<td class="labelColumn">职位类型：<span class="mandatoryField">*</span></td>
-						<td>
-						   <form:select id="postSelector" path="custRespPerson.positionCategory" cssClass="standardSelect" onchange="loadPositions();" onblur="isChanged('${customerDto.custRespPerson.positionCategory }','postSelector')">
-						   <option value="">--- 请选择 ---</option>
-						   <c:forEach items="${listOfPositionCategory}" var="positionCategory">
-						      <form:option value="${positionCategory.typeCode }" label="${positionCategory.displayName }"></form:option>
-						   </c:forEach>
-						   </form:select>
-						</td>
-						<td>
-						   <form:select id="subPostSelector" path="custRespPerson.positionType" cssClass="standardSelect" onblur="isChanged('${customerDto.custRespPerson.positionType }','subPostSelector')">
-						      <form:option value="" label="--- 请选择 ---"></form:option>
-						   </form:select>
-						   <common:errorSign id="custRespPerson.positionType" path="custRespPerson.positionType"></common:errorSign>
-						</td>
-						<td >&nbsp;</td>
-					</tr>
-					<tr >
-						<td class="labelColumn">职位名称：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
-						<form:input path="custRespPerson.positionName" cssClass="standardInputText" onblur="isChanged('${customerDto.custRespPerson.positionName }','custRespPerson.positionName')"></form:input>
-						<common:errorSign id="custRespPerson.positionName" path="custRespPerson.positionName"></common:errorSign>
-						</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr >
-						<td class="labelColumn">手机：<span class="mandatoryField">*</span></td>
-						<td>
-						<form:input path="custRespPerson.telephoneDto.phoneNumber" cssClass="standardInputText" maxlength="11" onblur="isChanged('${customerDto.custRespPerson.telephoneDto.phoneNumber }','custRespPerson.telephoneDto.phoneNumber')"></form:input>
-						<common:errorSign id="custRespPerson.telephoneDto.phoneNumber" path="custRespPerson.telephoneDto.phoneNumber" ></common:errorSign>
-						</td>
-						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
-						<td>
-						<form:input path="custRespPerson.email" cssClass="standardInputText" maxlength="50" onblur="isChanged('${customerDto.custRespPerson.email }','custRespPerson.email')"></form:input>
-						<common:errorSign id="custRespPerson.email" path="custRespPerson.email"></common:errorSign>
-						</td>
-					</tr>	
-					<tr >
-						<td class="labelColumn">状态：<span class="mandatoryField">*</span></td>
-						<td>
-						   <form:select path="custRespPerson.status" cssClass="standardSelect" onblur="isChanged('${customerDto.custRespPerson.status }','custRespPerson.status')">
-						      <form:option value="" label="--- 请选择 ---"></form:option>
-						      <form:option value="IS" label="在职"></form:option>
-						      <form:option value="OS" label="已离职"></form:option>
-						   </form:select>
-						   <common:errorSign id="custRespPerson.status" path="custRespPerson.status"></common:errorSign>
-						</td>
-						<td colspan="2">
-					</tr>				
-				</tbody>
-			</table>
-		</div>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
@@ -391,7 +319,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="更新" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
 							</td>
 						</tr>

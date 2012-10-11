@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pccw.ehunter.constant.ActionFlag;
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.CustomerIndicator;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerGroupConvertor;
@@ -176,7 +177,7 @@ public class CustomerRegistrationController extends BaseController{
 		customerDto.setTypeDto(codeTableHelper.getCompanyCategoryByCode(request, customerDto.getType()));
 		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
 		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
-		customerDto.setStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getStatus()));
+		customerDto.setCustomerStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getCustomerStatus()));
 		
 		mv = new ModelAndView(new RedirectViewExt("/customer/fillMultiResponsePerson.do", true));
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
@@ -185,7 +186,7 @@ public class CustomerRegistrationController extends BaseController{
 	
 	@RequestMapping("/customer/fillMultiResponsePerson.do")
 	public ModelAndView fillMultiResponsePerson(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
-		ModelAndView mv = new ModelAndView("customer/responsePersonCreate");
+		ModelAndView mv = new ModelAndView("customer/multiResponsePersonCreate");
 		
 		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
 		if(CollectionUtils.isEmpty(rps)){
@@ -204,10 +205,82 @@ public class CustomerRegistrationController extends BaseController{
 			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/addResponsePerson.do", true));
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
-		
+		String module = request.getParameter(ModuleIndicator.MODULE);
 		mv.addObject(ActionFlag.ACTION_FLAG, actionFlag);
+		mv.addObject(ModuleIndicator.MODULE, module);
 		
 		return mv;
+	}	
+	
+	@RequestMapping("/customer/addResponsePerson.do")
+	public ModelAndView addResponsePerson(HttpServletRequest request ,
+			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto,
+			@ModelAttribute(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON)CustomerResponsePersonDTO responsePersonDto,
+			BindingResult errors){
+		ModelAndView mv = null;
+		
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		if(StringUtils.isEmpty(actionFlag)){
+			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
+		}else {
+			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		}
+		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		if(ActionFlag.COMPLETE.equals(actionFlag) && isNothingInput(responsePersonDto)){
+			if(ModuleIndicator.CUSTOMER_REGISTRATION.equals(module)){				
+				mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
+			}else {
+				mv = new ModelAndView(new RedirectViewExt("/customer/updateCustomer.do", true));
+			}
+			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
+			return mv;
+		}
+		
+		customerValidator.validateCustomerResponsePerson(responsePersonDto, errors);
+		if(errors.hasErrors()){
+			if(ModuleIndicator.CUSTOMER_REGISTRATION.equals(module)){				
+				mv = new ModelAndView("customer/multiResponsePersonCreate");
+			}else {
+				mv = new ModelAndView("customer/multiResponsePersonAmend");
+			}
+			mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, responsePersonDto);
+			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO	, customerDto);
+			mv.addObject("clearField", CommonConstant.NO);
+			return mv;
+		}
+		if(ActionFlag.COMPLETE.equals(actionFlag)){
+			if(ModuleIndicator.CUSTOMER_REGISTRATION.equals(module)){				
+				mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
+			}else {
+				mv = new ModelAndView(new RedirectViewExt("/customer/updateCustomer.do", true));
+			}
+			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
+			return mv;
+		}
+		
+		if(ModuleIndicator.CUSTOMER_REGISTRATION.equals(module)){				
+			mv = new ModelAndView("customer/multiResponsePersonCreate");
+		}else {
+			mv = new ModelAndView("customer/multiResponsePersonAmend");
+		}
+		responsePersonDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, responsePersonDto.getPositionCategory()));
+		responsePersonDto.setPositionTypeDto(codeTableHelper.getPositionByCode(responsePersonDto.getPositionType()));
+		
+		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
+		rps.add(responsePersonDto);
+		
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
+		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, codeTableHelper.getPositionCategories(request));
+		mv.addObject("clearField", CommonConstant.YES);
+		return mv ;
 	}
 	
 	private boolean isNothingInput(CustomerResponsePersonDTO rpDto){
@@ -242,127 +315,6 @@ public class CustomerRegistrationController extends BaseController{
 		}
 		
 		return isNothingInput;
-	}
-	
-	@RequestMapping("/customer/addResponsePerson.do")
-	public ModelAndView addResponsePerson(HttpServletRequest request ,
-			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto,
-			@ModelAttribute(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON)CustomerResponsePersonDTO responsePersonDto,
-			BindingResult errors){
-		ModelAndView mv = null;
-		
-		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
-		
-		if(StringUtils.isEmpty(actionFlag)){
-			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
-		}else {
-			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
-		}
-		
-		if(ActionFlag.COMPLETE.equals(actionFlag) && isNothingInput(responsePersonDto)){
-			mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
-			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
-			return mv;
-		}
-		
-		customerValidator.validateCustomerResponsePerson(responsePersonDto, errors);
-		
-		if(errors.hasErrors()){
-			mv = new ModelAndView("customer/responsePersonCreate");
-			mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, responsePersonDto);
-			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO	, customerDto);
-			mv.addObject("clearField", CommonConstant.NO);
-			return mv;
-		}
-		
-		if(ActionFlag.COMPLETE.equals(actionFlag)){
-			mv = new ModelAndView(new RedirectViewExt("/customer/verify.do", true));
-			mv.addObject(SessionAttributeConstant.CUSTOMER_DTO , customerDto);
-			return mv;
-		}
-		
-		mv = new ModelAndView("customer/responsePersonCreate");
-		
-		responsePersonDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, responsePersonDto.getPositionCategory()));
-		responsePersonDto.setPositionTypeDto(codeTableHelper.getPositionByCode(responsePersonDto.getPositionType()));
-		
-		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
-		rps.add(responsePersonDto);
-		
-		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
-		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
-		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, codeTableHelper.getPositionCategories(request));
-		mv.addObject("clearField", CommonConstant.YES);
-		return mv ;
-	}
-	
-	@RequestMapping("/customer/preEditResponsePerson.do")
-	public ModelAndView preEditResponsePerson(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
-		ModelAndView mv = new ModelAndView("customer/responsePersonAmend");
-		
-		String id = request.getParameter("_id");
-		request.getSession(false).setAttribute("_response_person_id", id);
-		
-		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
-		
-		CustomerResponsePersonDTO responsePersonDto = null;
-		if(!CollectionUtils.isEmpty(rps)){
-			responsePersonDto = rps.get(Integer.valueOf(id));
-		}
-		
-		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON,responsePersonDto);
-		return mv;
-	}
-	
-	@RequestMapping("/customer/updateResponsePerson.do")
-	public ModelAndView updateResponsePerson(HttpServletRequest request , 
-			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto,
-			@ModelAttribute(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON)CustomerResponsePersonDTO responsePersonDto,
-			BindingResult errors){
-		ModelAndView mv = new ModelAndView("customer/responsePersonCreate");
-		
-		customerValidator.validateCustomerResponsePerson(responsePersonDto, errors);
-		
-		if(errors.hasErrors()){
-			mv = new ModelAndView("customer/responsePersonAmend");
-			mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, responsePersonDto);
-			return mv;
-		}
-		
-		String id = (String)request.getSession(false).getAttribute("_response_person_id");
-		
-		List<CustomerResponsePersonDTO> rps = customerDto.getMultiResponsePerson();
-		
-		if(!CollectionUtils.isEmpty(rps)){
-			rps.set(Integer.valueOf(id), responsePersonDto);
-		}
-		
-		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
-		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
-		mv.addObject("clearField", CommonConstant.YES);
-		
-		return mv;
-	}
-	
-	@RequestMapping("/customer/deleteResponsePerson.do")
-	public ModelAndView deleteResponsePerson(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/customer/fillMultiResponsePerson.do", true));
-		
-		String id = request.getParameter("_id");
-		
-		List<CustomerResponsePersonDTO> rpDtos = customerDto.getMultiResponsePerson();
-		List<CustomerResponsePersonDTO> removedDtos = new ArrayList<CustomerResponsePersonDTO>(0);
-		
-		if(!CollectionUtils.isEmpty(rpDtos)){
-			removedDtos.add(rpDtos.get(Integer.parseInt(id)));
-			rpDtos.removeAll(removedDtos);
-		}
-		
-		customerDto.setMultiResponsePerson(rpDtos);
-		
-		mv.addObject(SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON, new CustomerResponsePersonDTO());
-		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
-		return mv;
 	}
 	
 	@RequestMapping(value="/customer/verify.do")

@@ -123,7 +123,7 @@ function popUpInput(){
 						<td class="labelColumn">客户等级：</td>
 						<td><c:out value="${customerDto.gradeDto.displayName }" escapeXml="true"></c:out></td>
 						<td class="labelColumn">客户状态：</td>
-						<td><c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out></td>
+						<td><c:out value="${customerDto.customerStatusDto.displayName }" escapeXml="true"></c:out></td>
 					</tr>
 					<tr >
 						<td class="labelColumn">客户介绍：</td>
@@ -148,44 +148,45 @@ function popUpInput(){
 		</table>
 		<div class="contentTableBody">
 			<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-				<tbody>
-				    <common:standardTableRow />
-				    <tr >
-						<td class="labelColumn">姓名：</td>
-						<td colspan="3"><c:out value="${customerDto.custRespPerson.name }" escapeXml="true"></c:out></td>
-					</tr>
-					<tr >
-						<td class="labelColumn">职位类型：</td>
-						<td colspan="2"><c:out value="${customerDto.custRespPerson.positionTypeDto.displayName }" escapeXml="true"></c:out></td>
-						<td >&nbsp;</td>
-					</tr>
-					<tr >
-						<td class="labelColumn">职位名称：</td>
-						<td colspan="2"><c:out value="${customerDto.custRespPerson.positionName }"></c:out></td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr >
-						<td class="labelColumn">手机：</td>
-						<td><c:out value="${customerDto.custRespPerson.telephoneDto.phoneNumber }" escapeXml="true"></c:out></td>
-						<td class="labelColumn">邮箱：</td>
-						<td><c:out value="${customerDto.custRespPerson.email }" escapeXml="true"></c:out></td>
-					</tr>	
-					<tr >
-						<td class="labelColumn">状态：</td>
-						<td>
-						   <c:if test="${customerDto.custRespPerson.status == 'IS'}">
-						      <c:out value="在职" escapeXml="true"></c:out>
-						   </c:if> 
-						   <c:if test="${customerDto.custRespPerson.status == 'OS'}">
-						      <c:out value="离职" escapeXml="true"></c:out>
-						   </c:if>
-						</td>
-						<td colspan="2">
-					</tr>				
-				</tbody>
+			   <tr class="contentTableTitle">
+			      <td align="center" width="5%">序号</td>
+				  <td width="15%">姓名</td>
+				  <td width="25%">职位类型/职位</td>
+				  <td width="15%">手机</td>
+				  <td width="30%">邮箱</td>
+				  <td align="center" width="10%">状态</td>
+			   </tr>
+			   <c:if test="${not empty customerDto.multiResponsePerson }">
+			      <c:forEach items="${customerDto.multiResponsePerson }" var="rp" varStatus="status">
+				     <tr class="contentTableRow">
+				        <td align="center" width="2%">${status.index+1 }</td>
+				        <td><c:out value="${rp.name }"></c:out></td>
+				        <td><c:out value="${rp.positionName }"></c:out></td>
+				        <td><c:out value="${rp.telephoneDto.phoneNumber }"></c:out></td>
+				        <td><c:out value="${rp.email }"></c:out></td>
+				        <td align="center">
+				           <c:if test="${rp.status == 'IS' }"><c:out value="在职" escapeXml="true"></c:out></c:if>
+				           <c:if test="${rp.status == 'OS' }"><c:out value="离职" escapeXml="true"></c:out></c:if>
+				        </td>
+					 </tr>
+				  </c:forEach>
+			   </c:if>
 			</table>
 		</div>	
 		<div class="emptyBlock"></div>
+		<table width="100%">
+			<tr>
+		    <c:choose>
+			<c:when test="${customerDto.groupIndicator == 'GRP' || customerDto.groupIndicator == 'SUB'}">
+				<td width="10%"><font face="Arial" size="2"><b>第四部分：</b></font></td>
+			</c:when>
+			<c:otherwise>
+			    <td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
+			</c:otherwise>
+			</c:choose>
+				<td width="90%"><font face="Arial" size="2"><b>客户公司猎头项目</b></font></td>
+			</tr>
+		</table>
 		<div><jsp:include page="newProject_pop.jsp"></jsp:include></div>
 		<div>${listOfProject}</div>
 		<table id="bg2" border="0" width="100%">
