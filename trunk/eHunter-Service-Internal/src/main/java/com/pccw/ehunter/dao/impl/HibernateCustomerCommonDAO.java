@@ -216,4 +216,36 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		return rps;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getCustomersByCompanyName(final String name, final String indicator) {
+		List<String> list = (List<String>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT SYS_REF_CUST ");
+				buffer.append(" FROM T_CUST_CO ");
+				buffer.append(" WHERE 1 = 1 ");
+				
+				//F represents as Full name
+				if("F".equals(indicator)){
+					buffer.append(" AND CO_NM = :name ");
+				}
+				
+				//S represents as Short Name
+				if("S".equals(indicator)){
+					buffer.append(" AND CO_SHRT_NM = :name ");
+				}
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				query.setString("name", name);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
+
 }

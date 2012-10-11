@@ -10,4 +10,5 @@ public interface CustomerCommonDAO {
 	public Object getCustomerByID(String systemCustRefNum);
 	public Object getCustomerGroupByID(String groupId);
 	public List<Object> getCustomerRespPersonsByCustID(String custId);
+	public List<String> getCustomersByCompanyName(String name , String indicator);
 }
