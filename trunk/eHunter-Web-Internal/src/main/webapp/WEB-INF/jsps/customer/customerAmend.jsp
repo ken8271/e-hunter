@@ -26,26 +26,15 @@
 			if(selectedIndex == 1){
 				//group
 				$('#group').hide();
-				$('#group').val('');
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#systemGroupRefNum').val('');
 				$('#groupFullName').attr('readonly' , false);
 				$('#groupShortName').attr('readonly' , false);
 			}else if (selectedIndex == 2){
 				//sub
 				$('#group').show();
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#group').val('');
 				$('#groupFullName').attr('readonly' , true);
 				$('#groupShortName').attr('readonly' , true);
 			}else {
 				$('#group').hide();
-				$('#group').val('');
-				$('#groupFullName').val('');
-				$('#groupShortName').val('');
-				$('#systemGroupRefNum').val('');
 				$('#groupFullName').attr('readonly' , true);
 				$('#groupShortName').attr('readonly' , true);
 			}

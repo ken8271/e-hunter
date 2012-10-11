@@ -48,7 +48,7 @@ public class CustomerAmendController extends BaseController{
 	@RequestMapping("/customer/preEditCustomerInfo.do")
 	public ModelAndView preEditCustomerInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
 		ModelAndView mv = new ModelAndView("customer/customerAmend");
-		
+		System.out.println("-----2-----" + customerDto.getCustGroup().getSystemGroupRefNum());
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 		mv.addObject(SessionAttributeConstant.LIST_OF_GROUPS, CustomerGroupConvertor.toSelectOptions(custRegtService.loadCustGroups()));
 		

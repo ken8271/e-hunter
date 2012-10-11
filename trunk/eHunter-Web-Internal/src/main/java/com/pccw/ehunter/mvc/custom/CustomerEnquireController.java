@@ -196,7 +196,7 @@ public class CustomerEnquireController extends BaseController{
 		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
 		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
 		customerDto.setCustomerStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getCustomerStatus()));
-		
+		System.out.println("-----1-----" + customerDto.getCustGroup().getSystemGroupRefNum());
 		if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
 			for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
 				rpDto.setPositionTypeDto(codeTableHelper.getPositionByCode(rpDto.getPositionType()));
