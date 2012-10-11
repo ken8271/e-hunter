@@ -10,7 +10,11 @@
 <hdiv-c:url value="/customer/loadPositions.do" var="loadPositions"></hdiv-c:url>
 <script type="text/javascript">
 $().ready(function(){
-	loadPositions();
+	if('${clearField}' == 'Y'){
+		clearInput();
+	}else if('${clearField}' == 'N'){
+		loadPositions();
+	}
 });
 
 function loadPositions(){
@@ -47,32 +51,40 @@ function loadPositions(){
 		subSelector.options[subSelector.length] = new Option("--- 请选择 ---", "");
 	}
 }
+
+function complete(actionFlagStr){
+	var actionFlag = document.getElementById('actionFlag');
+	if(actionFlag != 'undefined' && actionFlagStr != ""){
+		actionFlag.value = actionFlagStr;
+	}
+	var form = document.getElementById('rpForm');
+	form.submit();
+}
+
+function clearInput(){
+	$('#name').val('');
+	$('#postSelector').val('');
+	loadPositions();
+	$('#positionName').val('');
+	document.getElementById('telephoneDto.phoneNumber').value = '';
+	$('#email').val('');
+	$('#status').val('');
+}
 </script>
 </head>
 <body>
-    <hdiv-c:url value="/customer/fillMultiResponsePerson.do" var="backUrl"></hdiv-c:url>
-	<form:form id="rpForm" commandName="responsePersonDto" action="${ctx}/customer/updateResponsePerson.do" method="post">
+    <hdiv-c:url value="/customer/preEditCustomerInfo.do" var="backUrl"></hdiv-c:url>
+	<form:form id="rpForm" commandName="responsePersonDto" action="${ctx}/customer/addResponsePersonActions.do" method="post">
+		<div style="display: none">
+			<input type="hidden" id="actionFlag" name="actionFlag" />
+			<input type="hidden" name="module" value="2" />
+		</div>
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">客户联系人资料修改</td>
+				<td class="pageTitle">客户联系人资料填写</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="responsePersonDto"></common:errorTable></td>
-			</tr>
-		</table>
-		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="submit" value="确定" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -144,7 +156,53 @@ function loadPositions(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="确定" />&nbsp;
+							   <input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp; 
+							   <input class="standardButton" type="button" value="清除" onclick="clearInput();" />&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	    <div class="emptyBlock"></div>
+	    <table class="contentTableBody2" cellspacing="1" width="100%">
+			<tr class="contentTableTitle">
+			    <td width="5%" align="center">序号</td>
+				<td width="15%">姓名</td>
+				<td width="20%">职位类型/职位</td>
+				<td width="15%">手机</td>
+				<td width="25%">邮箱</td>
+				<td width="5%">状态</td>
+				<td align="center" width="15%">操作</td>
+			</tr>
+			<c:if test="${not empty customerDto.multiResponsePerson }">
+				<c:forEach items="${customerDto.multiResponsePerson }" var="rp" varStatus="status">
+					<tr class="contentTableRow">
+				       <td align="center" width="2%">${status.index+1 }</td>
+				       <td><c:out value="${rp.name }"></c:out></td>
+				       <td><c:out value="${rp.positionName }"></c:out></td>
+				       <td><c:out value="${rp.telephoneDto.phoneNumber }"></c:out></td>
+				       <td><c:out value="${rp.email }"></c:out></td>
+				       <td>
+				          <c:if test="${rp.status == 'IS' }"><c:out value="在职" escapeXml="true"></c:out></c:if>
+				          <c:if test="${rp.status == 'OS' }"><c:out value="离职" escapeXml="true"></c:out></c:if>
+				       </td>
+					   <td align="center">
+					      <hdiv-c:url value="/customer/preEditResponsePerson.do?_id=${status.index }&module=2" var="editUrl"></hdiv-c:url> 
+					      <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'" />&nbsp;
+					   </td>
+					</tr>
+				</c:forEach>
+			</c:if>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="100%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							   <input class="standardButton" type="button" value="提交" onclick="complete('6');" />&nbsp;
 							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
 							</td>
 						</tr>

@@ -106,7 +106,7 @@
 				<td><span class="textCh8">客户状态</span></td>
 				<td>
 				<span class="showCh">
-				   <c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out>
+				   <c:out value="${customerDto.customerStatusDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 			</tr>

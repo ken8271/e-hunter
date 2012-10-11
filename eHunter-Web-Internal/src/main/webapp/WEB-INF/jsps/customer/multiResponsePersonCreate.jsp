@@ -77,6 +77,7 @@ function clearInput(){
 	<form:form id="rpForm" commandName="responsePersonDto" action="${ctx}/customer/addResponsePersonActions.do" method="post">
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
+			<input type="hidden" name="module" value="1" />
 		</div>
 		<table border="0" width="100%">
 			<tr>
@@ -187,7 +188,7 @@ function clearInput(){
 				          <c:if test="${rp.status == 'OS' }"><c:out value="离职" escapeXml="true"></c:out></c:if>
 				       </td>
 					   <td align="center">
-					      <hdiv-c:url value="/customer/preEditResponsePerson.do?_id=${status.index }" var="editUrl"></hdiv-c:url> 
+					      <hdiv-c:url value="/customer/preEditResponsePerson.do?_id=${status.index }&module=1" var="editUrl"></hdiv-c:url> 
 					      <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'" />&nbsp;
 					      <hdiv-c:url value="/customer/deleteResponsePerson.do?_id=${status.index }" var="deleteUrl"></hdiv-c:url> 
 					      <input class="standardButton" type="button" value="删除" onclick="location.href='${deleteUrl}'" />&nbsp;

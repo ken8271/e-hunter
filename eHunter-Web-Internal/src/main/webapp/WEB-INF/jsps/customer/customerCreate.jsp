@@ -296,13 +296,13 @@ function clearInput(){
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="status" cssClass="standardSelect">
+						   <form:select path="customerStatus" cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SGN" label="已签约客户"></form:option>
 						      <form:option value="PTL" label="潜力客户"></form:option>
 						      <form:option value="OTH" label="其它"></form:option>
 						   </form:select>
-						   <common:errorSign id="status" path="status"></common:errorSign>
+						   <common:errorSign id="customerStatus" path="customerStatus"></common:errorSign>
 						</td>
 					</tr>
 					<tr>

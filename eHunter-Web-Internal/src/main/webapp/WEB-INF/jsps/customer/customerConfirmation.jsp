@@ -60,7 +60,7 @@
 				</td>
 				<td align="center">
 				<span class="showCh">
-				   <c:out value="${customerDto.statusDto.displayName }" escapeXml="true"></c:out>
+				   <c:out value="${customerDto.customerStatusDto.displayName }" escapeXml="true"></c:out>
 				</span>
 				</td>
 				<td>

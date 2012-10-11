@@ -376,7 +376,7 @@ public class ProjectRegistrationController extends BaseController{
 					cust.addElement("id").setText(dto.getSystemCustRefNum());
 					cust.addElement("name").setText(dto.getFullName() + "(" + dto.getShortName() + ")");
 					cust.addElement("grade").setText(dto.getGrade());
-					cust.addElement("status").setText(dto.getStatus());
+					cust.addElement("status").setText(dto.getCustomerStatus());
 				}
 			}
 			
