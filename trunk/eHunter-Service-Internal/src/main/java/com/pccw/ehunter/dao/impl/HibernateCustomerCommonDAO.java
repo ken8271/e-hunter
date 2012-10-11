@@ -248,4 +248,35 @@ public class HibernateCustomerCommonDAO implements CustomerCommonDAO{
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getCustomerGroupByName(final String name,final String indicator) {
+		List<String> list = (List<String>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT SYS_REF_GP ");
+				buffer.append(" FROM T_CUST_GP ");
+				buffer.append(" WHERE 1 = 1 ");
+				
+				if("F".equals(indicator)){
+					buffer.append(" AND GP_NM = :name ");
+				}
+				
+				if("S".equals(indicator)){
+					buffer.append(" AND GP_SHRT_NM = :name ");
+				}
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("name", name);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
+
 }

@@ -12,14 +12,10 @@ import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
 import com.pccw.ehunter.service.CustomerCommonService;
-import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.utility.StringUtils;
 
 @Component("customerValidator")
 public class CustomerValidator extends AbstractValidator{
-	
-	@Autowired
-	private CustomerRegistrationService custRegtService;
 	
 	@Autowired
 	private CustomerCommonService custCommonService;
@@ -46,7 +42,7 @@ public class CustomerValidator extends AbstractValidator{
 			validateRequired(errors, "custGroup.shortName", groupDto.getShortName(), "集团简称");
 			validateStringLength(errors, "custGroup.shortName", groupDto.getShortName() , "集团简称", 20);
 			
-			if(!StringUtils.isEmpty(groupDto.getFullName()) &&  custRegtService.getCountOfGroupsByFullName(groupDto.getFullName())>0){
+			if(!StringUtils.isEmpty(groupDto.getFullName()) && !isValidGroup(groupDto, groupDto.getFullName(), "F")){
 				errors.rejectValue("custGroup.fullName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
 			}
 		}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(custIndicator)){
@@ -106,6 +102,21 @@ public class CustomerValidator extends AbstractValidator{
 		if(!CollectionUtils.isEmpty(custs)){
 			for(CustomerDTO dto : custs){
 				if(!dto.getSystemCustRefNum().equals(target.getSystemCustRefNum())){
+					isValid = false;
+					break;
+				}
+			}
+		}
+		return isValid;
+	}
+	
+	private boolean isValidGroup(CustomerGroupDTO target , String name , String indicator){
+		boolean isValid = true;
+		System.out.println("+++++" + target.getSystemGroupRefNum());
+		List<CustomerGroupDTO> gps = custCommonService.getCustomerGroupByName(name, indicator);
+		if(!CollectionUtils.isEmpty(gps)){
+			for(CustomerGroupDTO dto : gps){
+				if(!dto.getSystemGroupRefNum().equals(target.getSystemGroupRefNum())){
 					isValid = false;
 					break;
 				}
