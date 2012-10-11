@@ -14,6 +14,7 @@ import com.pccw.ehunter.convertor.MobilePhoneConvertor;
 import com.pccw.ehunter.dao.CustomerCommonDAO;
 import com.pccw.ehunter.domain.internal.CustomerCompany;
 import com.pccw.ehunter.dto.CustomerDTO;
+import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.dto.CustomerPagedCriteria;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
 import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
@@ -108,6 +109,23 @@ public class CustomerCommonServiceImpl implements CustomerCommonService{
 			}
 		}
 		
+		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<CustomerGroupDTO> getCustomerGroupByName(String name,String indicator) {
+		List<CustomerGroupDTO> dtos = new ArrayList<CustomerGroupDTO>();
+		List<String> list = customerDao.getCustomerGroupByName(name, indicator);
+		
+		if(!CollectionUtils.isEmpty(list)){
+			CustomerGroupDTO gp = null;
+			for(String str : list){
+				gp = new CustomerGroupDTO();
+				gp.setSystemGroupRefNum(StringUtils.isEmpty(str) ? "" : str);
+				dtos.add(gp);
+			}
+		}
 		return dtos;
 	}
 
