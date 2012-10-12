@@ -1,5 +1,7 @@
 package com.pccw.ehunter.dto;
 
+import java.util.List;
+
 public class JobIntentionDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
@@ -12,6 +14,7 @@ public class JobIntentionDTO extends BaseDTO {
 
 	private PositionCategoryDTO expectPositionDto;
 	private IndustryCategoryDTO expectIndustryDto;
+	private List<CityDTO> expectCityDtos;
 
 	public String getResumeID() {
 		return resumeID;
@@ -77,4 +80,11 @@ public class JobIntentionDTO extends BaseDTO {
 		this.expectIndustryDto = expectIndustryDto;
 	}
 
+	public List<CityDTO> getExpectCityDtos() {
+		return expectCityDtos;
+	}
+
+	public void setExpectCityDtos(List<CityDTO> expectCityDtos) {
+		this.expectCityDtos = expectCityDtos;
+	}
 }
