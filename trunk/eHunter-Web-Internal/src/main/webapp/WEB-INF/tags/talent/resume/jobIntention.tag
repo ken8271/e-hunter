@@ -27,7 +27,9 @@
 		<div class="resumesLookDetails">
 			<div class="detailsName">工作地区：</div>
 			<div class="detailsMain">
-				<c:out value="${resumeDto.intentionDto.expectAddress }" escapeXml="true" />
+			    <c:forEach items="${resumeDto.intentionDto.expectCityDtos }" var="expectCityDto">
+			       <c:out value="${expectCityDto.displayName }" escapeXml="true" />&nbsp;&nbsp;
+			    </c:forEach>
 			</div>
 		</div>
 		<div class="resumesLookDetails">

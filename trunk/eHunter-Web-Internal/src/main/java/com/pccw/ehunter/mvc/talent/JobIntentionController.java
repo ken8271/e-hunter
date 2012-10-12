@@ -1,5 +1,6 @@
 package com.pccw.ehunter.mvc.talent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.IndustryCategoryDTO;
 import com.pccw.ehunter.dto.JobIntentionDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
+import com.pccw.ehunter.dto.ProvinceDTO;
 import com.pccw.ehunter.dto.ResumeDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
@@ -59,6 +63,17 @@ public class JobIntentionController extends BaseController{
 			intentionDto = new JobIntentionDTO();
 		}
 		
+		List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+		if(!StringUtils.isEmpty(intentionDto.getExpectAddress())){
+			String[] cities = StringUtils.tokenize(intentionDto.getExpectAddress(), CommonConstant.COMMA);
+			if(cities != null && cities.length != 0){
+				for(String cityCode : cities){
+					cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+				}
+			}
+		}
+		intentionDto.setExpectCityDtos(cityDtos);
+		
 		mv.addObject(SessionAttributeConstant.TALENT_RESUME_DTO, resumeDto);
 		mv.addObject(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO,intentionDto);
 		return mv;
@@ -67,9 +82,11 @@ public class JobIntentionController extends BaseController{
 	private void initJobIntention(HttpServletRequest request, ModelAndView mv) {
 		List<PositionCategoryDTO> positionCategories = codeTableHelper.getPositionCategories(request);
 		List<IndustryCategoryDTO> industryCategories = codeTableHelper.getIndustryCategories(request);
+		List<ProvinceDTO> provinces = codeTableHelper.getProvinces(request);
 
 		mv.addObject(WebConstant.LIST_OF_POSITION_CATEGORY, positionCategories);
 		mv.addObject(WebConstant.LIST_OF_INDUSTRY_CATEGORY, industryCategories);
+		mv.addObject(WebConstant.LIST_OF_PROVINCE, provinces);
 	}
 	
 	@RequestMapping("/talent/completeAddJobIntention.do")
@@ -84,6 +101,17 @@ public class JobIntentionController extends BaseController{
 			mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 			return mv;
 		}
+		
+		List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+		if(!StringUtils.isEmpty(intentionDto.getExpectAddress())){
+			String[] cities = StringUtils.tokenize(intentionDto.getExpectAddress(), CommonConstant.COMMA);
+			if(cities != null && cities.length != 0){
+				for(String cityCode : cities){
+					cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+				}
+			}
+		}
+		intentionDto.setExpectCityDtos(cityDtos);
 		
 		intentionValidator.validate(intentionDto, errors);
 		

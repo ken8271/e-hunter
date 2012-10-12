@@ -1,5 +1,6 @@
 package com.pccw.ehunter.mvc.talent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
+import com.pccw.ehunter.dto.CityDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
 import com.pccw.ehunter.dto.JobExperienceDTO;
@@ -335,6 +338,18 @@ public class TalentRegistrationController extends BaseController{
 	private void initializeResume(HttpServletRequest request , ResumeDTO resume) {
 		if(resume.getIntentionDto() != null){
 			JobIntentionDTO intentionDto = resume.getIntentionDto();
+			
+			List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+			if(!StringUtils.isEmpty(intentionDto.getExpectAddress())){
+				String[] cities = StringUtils.tokenize(intentionDto.getExpectAddress(), CommonConstant.COMMA);
+				if(cities != null && cities.length != 0){
+					for(String cityCode : cities){
+						cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+					}
+				}
+			}
+			intentionDto.setExpectCityDtos(cityDtos);
+			
 			if(intentionDto.getExpectIndustryDto() == null){
 				intentionDto.setExpectIndustryDto(codeTableHelper.getIndustryCategoryByCode(request, intentionDto.getExpectIndustry()));
 			}

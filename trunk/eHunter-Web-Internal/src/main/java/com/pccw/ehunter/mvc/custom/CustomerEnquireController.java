@@ -196,7 +196,6 @@ public class CustomerEnquireController extends BaseController{
 		customerDto.setSizeDto(codeTableHelper.getCompanySizeByCode(request, customerDto.getSize()));
 		customerDto.setGradeDto(codeTableHelper.getCustomerGradeByCode(request, customerDto.getGrade()));
 		customerDto.setCustomerStatusDto(codeTableHelper.getCustomerStatusByCode(request, customerDto.getCustomerStatus()));
-		System.out.println("-----1-----" + customerDto.getCustGroup().getSystemGroupRefNum());
 		if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
 			for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
 				rpDto.setPositionTypeDto(codeTableHelper.getPositionByCode(rpDto.getPositionType()));
@@ -232,6 +231,18 @@ public class CustomerEnquireController extends BaseController{
 		String id = request.getParameter("_id");
 		CustomerDTO customerDto = custCommonService.getCustomerByID(id);
 		mv.addObject("customerDto", customerDto);
+		
+		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
+		
+		if(internalUserDto == null){
+			internalUserDto = new InternalUserDTO();
+		}
+		
+		ProjectDTO projectDto = new ProjectDTO();
+		projectDto.setAdviserDto(internalUserDto);
+		projectDto.setCustomerDto(customerDto);
+		projectDto.setSystemCustRefNum(customerDto.getSystemCustRefNum());
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		
 		return mv;
 	}
