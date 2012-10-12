@@ -143,6 +143,7 @@ function popUpSelector(){
 </head>
 <body>
         <hdiv-c:url value="/customer/customersSearch.do?module=3" var="backUrl"></hdiv-c:url>
+        <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${customerDto.systemCustRefNum }" var="viewCustomerDetail"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司联系记录</td>
@@ -156,7 +157,7 @@ function popUpSelector(){
 					    <td class="labelColumn">客户编号：</td>
 						<td colspan="3">
 						     <c:out value="${customerDto.systemCustRefNum }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
-						     <img src="${imagePath }/icon/tips.gif" title="查看客户资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewCustomerUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+						     <common:tips title="查看客户资料" url="${viewCustomerUrl }"></common:tips>
 						</td>
 					</tr>
 					<tr>

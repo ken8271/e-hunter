@@ -41,7 +41,7 @@
 				<td class="labelColumn">客户公司：</td>
 				<td colspan="3">
 				   <c:out value="${projectDto.customerDto.fullName }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp;
-				   <img src="${imagePath }/icon/tips.gif" title="查看客户公司信息" style="vertical-align: middle;cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewCustomerUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>
+				   <common:tips url="${viewCustomerUrl }" title="查看客户公司资料"></common:tips>
 				</td>
 			</tr>
 		</tbody>

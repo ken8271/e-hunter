@@ -125,4 +125,31 @@ public class TalentEnquireController extends BaseCandidateController{
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
 	}
+	
+	@RequestMapping("/talent/pop/viewTalentDetail.do")
+	public ModelAndView viewPopUpTalentDetail(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("common/talentDetail_pop");
+		
+		String id = request.getParameter("_id");
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
+		TalentDTO talentDto = talentRegtService.getTalentByID(id , true);
+		
+		TalentSourceDTO src = codeTableHelper.getTalentSource(request, talentDto.getTalentSrc());
+		talentDto.setTalentSrcDto(src);
+		
+		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
+		talentDto.setDegreeDto(degreeDto);
+
+		mv.addObject(ModuleIndicator.MODULE, module);
+		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
+		return mv;
+	}
 }
