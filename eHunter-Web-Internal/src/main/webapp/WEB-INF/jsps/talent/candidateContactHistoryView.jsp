@@ -178,6 +178,7 @@ function submitContactHistory(){
         <c:if test="${module == '6' }">
            <hdiv-c:url value="/talent/candidatesSearch.do" var="backUrl"></hdiv-c:url>
         </c:if>
+        <hdiv-c:url value="/talent/pop/viewTalentDetail.do_id=${talentDto.talentID }" var="viewCandidateUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">候选人联系记录</td>
@@ -191,7 +192,7 @@ function submitContactHistory(){
 					    <td class="labelColumn">人才编号：</td>
 						<td colspan="3">
 						     <c:out value="${talentDto.talentID }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
-						     <img src="${imagePath }/icon/tips.gif" title="查看人才资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+						     <common:tips url="${viewCandidateUrl }" title="查看人才资料"></common:tips>
 						</td>
 					</tr>
 					<tr>

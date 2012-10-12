@@ -4,6 +4,7 @@
 		<pattern>/commons/*</pattern>
 		<pattern>/talent/pop/*</pattern>
 		<pattern>/customer/pop/*</pattern>
+		<pattern>/project/pop/*</pattern>
 	</excludes>
 	
 	<decorator name="main" page="main.jsp">

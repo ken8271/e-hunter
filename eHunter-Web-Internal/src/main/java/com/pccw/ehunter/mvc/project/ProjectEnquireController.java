@@ -365,4 +365,99 @@ public class ProjectEnquireController extends BaseController{
 			}
 		}
 	}
+	
+	@RequestMapping(value="/project/pop/viewProjectDetail.do")
+	public ModelAndView viewPopUpProjectDetail(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("common/projectDetail_pop");
+		
+		String id = request.getParameter(ParameterConstant.P_ID);
+		
+		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
+		
+		projectDto.setStatusDto(codeTableHelper.getProjectStatusByCode(request, projectDto.getStatus()));
+		
+		if(projectDto.getPostDescDto() != null){
+			PositionDescriptionDTO postDescDto = projectDto.getPostDescDto();
+			
+			postDescDto.setPositionDto(codeTableHelper.getPositionByCode(projectDto.getPostDescDto().getPosition()));
+			postDescDto.setPositionCategory(projectDto.getPostDescDto().getPositionDto().getTopType());
+			postDescDto.setPositionCategoryDto(codeTableHelper.getPositionCategoryByCode(request, projectDto.getPostDescDto().getPositionCategory()));
+			
+			List<CityDTO> cityDtos = new ArrayList<CityDTO>();
+			if(!StringUtils.isEmpty(postDescDto.getCities())){
+				String[] cities = StringUtils.tokenize(postDescDto.getCities(), CommonConstant.COMMA);
+				if(cities != null && cities.length != 0){
+					for(String cityCode : cities){
+						cityDtos.add(codeTableHelper.getCityByCode(cityCode));
+					}
+				}
+			}
+			postDescDto.setCityDtos(cityDtos);
+			
+			List<SalaryCategoryDTO> scDtos = postDescDto.getSalaryCategoryDtos();
+			String[] scs = StringUtils.tokenize(postDescDto.getSalaryCategoryStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(scs)){
+				for(String sc : scs){
+					scDtos.add(codeTableHelper.getSalaryCategoryByCode(request, sc));
+				}
+			}
+			
+			List<SocietyWelfareDTO> swDtos = postDescDto.getScoitetyWelfareDtos();
+			String[] sws = StringUtils.tokenize(postDescDto.getSocietyWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(sws)){
+				for(String sw : sws){
+					swDtos.add(codeTableHelper.getSocietyWelfareByCode(request, sw));
+				}
+			}
+			
+			List<ResidentialWelfareDTO> rwDtos = postDescDto.getResidentialWelfareDtos();
+			String[] rws = StringUtils.tokenize(postDescDto.getResidentialWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(rws)){
+				for(String rw : rws){
+					rwDtos.add(codeTableHelper.getResidentialWelfareByCode(request, rw));
+				}
+			}
+			
+			List<AnnualLeaveWelfareDTO> awDtos = postDescDto.getAnnualLeaveWelfareDtos();
+			String[] aws = StringUtils.tokenize(postDescDto.getAnnualLeaveWelfareStr(), CommonConstant.COMMA);
+			if(!StringUtils.isEmpty(aws)){
+				for(String aw : aws){
+					awDtos.add(codeTableHelper.getAnnualLeaveWelfareByCode(request, aw));
+				}
+			}
+		}
+		
+		if(projectDto.getPostRequireDto() != null){
+			PositionRequirementDTO postRequireDto = projectDto.getPostRequireDto();
+			List<IndustryDTO> industryDtos = new ArrayList<IndustryDTO>();
+			if(!StringUtils.isEmpty(postRequireDto.getExpectIndustries())){
+				String[] industries = StringUtils.tokenize(postRequireDto.getExpectIndustries(), CommonConstant.COMMA);
+				if(industries != null && industries.length != 0){
+					for(String industryCode : industries){
+						industryDtos.add(codeTableHelper.getIndustryByCode(industryCode));
+					}
+				}
+			}
+			postRequireDto.setExpectIndustryDtos(industryDtos);
+		}
+		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
+		if(ModuleIndicator.CUSTOMER_ENQUIRY.equals(module)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/customer/viewCustomerDetail.do?_id=" + projectDto.getCustomerDto().getSystemCustRefNum()));
+		}else if(ModuleIndicator.PROJECT_REGISTRATION.equals(module)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/completeProjectRegistration.do"));
+		}else if(ModuleIndicator.PROJECT_ENQUIRY.equals(module)){
+			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/projectsSearch.do"));
+		}
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		return mv;
+	}
 }

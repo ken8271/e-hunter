@@ -10,6 +10,8 @@
 <body>
         <hdiv-c:url value="/project/initProjectCandidateRepository.do?type=1" var="addCandiateUrl"></hdiv-c:url>
         <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&back=${back }" var="backUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/pop/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }" var="viewProjectUrl"></hdiv-c:url>
+        <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>
@@ -26,14 +28,14 @@
 						<td class="labelColumn">项目编号：</td>
 						<td colspan="3">
 						   <c:out value="${projectDto.systemProjectRefNum }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
-						   <img src="${imagePath }/icon/tips.gif" title="查看项目资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+						   <common:tips url="${viewProjectUrl }" title="查看项目资料"></common:tips>
 						</td>
 					</tr>
 					<tr>
 					    <td class="labelColumn">客户公司：</td>
 						<td colspan="3">
 						     <c:out value="${projectDto.customerDto.fullName }" escapeXml="true"></c:out>&nbsp;&nbsp;&nbsp;&nbsp; 
-						     <img src="${imagePath }/icon/tips.gif" title="查看客户公司资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
+						     <common:tips url="${viewCustomerUrl }" title="查看客户公司资料"></common:tips>
 						</td>
 					</tr>
 					<tr>
