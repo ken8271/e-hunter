@@ -43,7 +43,11 @@ public class CustomerValidator extends AbstractValidator{
 			validateStringLength(errors, "custGroup.shortName", groupDto.getShortName() , "集团简称", 20);
 			
 			if(!StringUtils.isEmpty(groupDto.getFullName()) && !isValidGroup(groupDto, groupDto.getFullName(), "F")){
-				errors.rejectValue("custGroup.fullName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
+				errors.rejectValue("custGroup.fullName", "EHT-E-0005", new String[]{"集团名称"} , "The group company has been registed.[EHT-E-0005]");
+			}
+			
+			if(!StringUtils.isEmpty(groupDto.getShortName()) && !isValidGroup(groupDto, groupDto.getShortName(), "S")){
+				errors.rejectValue("custGroup.shortName", "EHT-E-0005", new String[]{"集团简称"} , "The group company has been registed.[EHT-E-0005]");
 			}
 		}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(custIndicator)){
 			validateRequired(errors, "custGroup.systemGroupRefNum", groupDto.getSystemGroupRefNum(), "所属集团");
@@ -54,12 +58,12 @@ public class CustomerValidator extends AbstractValidator{
 		
 		//validation for the unique of company name
 		if(!isValidCustomer(customerDto, customerDto.getFullName(), "F")){
-			errors.rejectValue("fullName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
+			errors.rejectValue("fullName", "EHT-E-0005", new String[]{"公司名称"} , "The group full name is existed.[EHT-E-0005]");
 		}
 		
 		validateStringLength(errors, "shortName", customerDto.getShortName() , "公司简称", 20);
 		if(!isValidCustomer(customerDto, customerDto.getShortName(), "S")){
-			errors.rejectValue("shortName", "EHT-E-0005", null , "The group full name is existed.[EHT-E-0005]");
+			errors.rejectValue("shortName", "EHT-E-0005", new String[]{"公司简称"} , "The group full name is existed.[EHT-E-0005]");
 		}
 
 		validateStringLength(errors, "offcialSite", customerDto.getOffcialSite(), "官方网址", 50);
@@ -112,7 +116,6 @@ public class CustomerValidator extends AbstractValidator{
 	
 	private boolean isValidGroup(CustomerGroupDTO target , String name , String indicator){
 		boolean isValid = true;
-		System.out.println("+++++" + target.getSystemGroupRefNum());
 		List<CustomerGroupDTO> gps = custCommonService.getCustomerGroupByName(name, indicator);
 		if(!CollectionUtils.isEmpty(gps)){
 			for(CustomerGroupDTO dto : gps){
