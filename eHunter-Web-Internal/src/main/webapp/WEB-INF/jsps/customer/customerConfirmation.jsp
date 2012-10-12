@@ -4,6 +4,14 @@
 <html>
 <head>
 <link rel="stylesheet" href="${ctx}/style/verify.css" type="text/css" />
+<script type="text/javascript">
+function popUpInput(){
+	$('#projectName').val('');
+	setPopUpFramePosition('light',300,100);
+	setOverlayDimension('fade');	
+	popUpFrame('light','fade');
+}
+</script>
 </head>
 <body>
         <hdiv-c:url value="/customer/viewCustomerDetail.do?_id=${customerDto.systemCustRefNum }" var="viewCustomerDetailUrl"></hdiv-c:url>
@@ -17,7 +25,7 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
+							<td><input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -69,12 +77,13 @@
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
+		<div><jsp:include page="newProject_pop.jsp"></jsp:include></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="location.href='${ctx}/project/initNewProject.do'"/>&nbsp;
+							<td><input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>

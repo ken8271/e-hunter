@@ -5,6 +5,148 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-TLNT-0001]</title>
+<hdiv-c:url value="/project/loadCities.do" var="loadCities"></hdiv-c:url>
+<script type="text/javascript" src="${scriptPath }/multiSelector.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	getSelectedCities();
+	displaySelectedCities(document.getElementById('citySelector'));
+	
+	getSelectedIndustries();
+	displaySelectedIndustries(document.getElementById('industrySelector'));
+});
+
+function popUpCitySelector(){
+	$('#citySelector').hide();
+	setPopUpFramePosition('city_light',600,300);
+	setOverlayDimension('city_fade');	
+	popUpFrame('city_light','city_fade');
+}
+
+function getSelectedCities(){
+	var citySelector = document.getElementById('citySelector');
+	
+	var displayStr = "<span>";
+	var displayValue = '';
+	for(var i=0 ;  i<citySelector.length ; i++){
+		displayStr = displayStr + citySelector.options[i].text + "&nbsp;&nbsp;&nbsp;&nbsp;";
+		
+		if(i == citySelector.length-1){
+			displayValue = displayValue + citySelector.options[i].value;
+		}else {
+			displayValue = displayValue + citySelector.options[i].value + ',';
+		}
+	}
+	displayStr = displayStr + "</span>";
+	
+	$('#expectCitiesDisplay span').remove();
+	$(displayStr).appendTo('#expectCitiesDisplay');
+	
+	$('#expectAddress').val(displayValue);
+}
+
+function displaySelectedCities(citySelector){
+	var str = '';
+	for(var i=0 ; i<5 ; i++){
+		if(i < citySelector.length){
+			str = str + "<td><input type='checkbox' value='" + citySelector.options[i].value + "' checked onclick='handleUnselect(this)'/>" + citySelector.options[i].text +"</td>";
+		}else {
+			str = str + "<td>&nbsp;</td>";
+		}
+	}
+	
+	clearSelectedCities();
+	$(str).appendTo('#selectedCities');
+}
+
+function clearCities(){
+	$('#cityDisplayPanel tr').remove();
+}
+
+function clearSelectedCities(){
+	$('#selectedCities td:gt(0)').remove();
+}
+
+function handleUnselect(c){
+	var citySelector = document.getElementById('citySelector');
+	if(!c.checked){
+		removeByCode(citySelector , c.value);
+		
+		var city = $('#cityDisplayPanel [value='+ c.value + ']');
+		if(city != null && city[0] != null){
+			city[0].checked = false;
+		}
+		
+		displaySelectedCities(citySelector);
+	}
+}
+
+function handleSelect(city){
+	var citySelector = document.getElementById('citySelector');
+	var c = $(city).children();
+	var label = $(city).text();
+	c[0].checked = !c[0].checked;
+	
+	if(c[0].checked){
+		if(citySelector.length >= 5){
+			alert('最多可添加5个地区');
+			c[0].checked = false;
+			return ;
+		}
+		
+		if(!hasBeenSelect(citySelector , c[0].value)){			
+		   citySelector.options[citySelector.length] = new Option(label, c[0].value);
+		}else {
+		   c[0].checked = false;
+		   removeByCode(citySelector,c[0].value);
+		}
+	}else {		
+		removeByCode(citySelector,c[0].value);
+	}
+	
+	displaySelectedCities(citySelector);
+}
+
+function loadCities(){
+	clearCities();
+	var provinceSelector = document.getElementById("provinceSelector");
+	if(provinceSelector != null && provinceSelector.selectedIndex != 0){
+		$().progressDialog.showDialog("");
+		var code = provinceSelector.options[provinceSelector.selectedIndex].value;
+		$.ajax({
+			type:'post',
+			url:'${loadCities}',
+			dataType:'xml',
+			data:{'_id':code},
+			success:function(xml){
+				var str = '';
+				var count = 0;
+				$(xml).find('city').each(function(i , element){
+					count++;
+					var cityCode = $(this).find("value").text();
+					var cityName = $(this).find("label").text();
+					if(count%5 == 1){
+						str = str + "<tr height='30px'>";
+					}
+					
+					str = str + "<td style='cursor:pointer; width: 20%; padding-left: 1px;' onclick='handleSelect(this);'><input style='display:none' type='checkbox' value='" + cityCode + "'/>&nbsp;" + cityName +"</td>";
+
+					if(count%5 == 0){
+						str = str + "</tr>";
+					}
+				});
+				
+				$(str).appendTo('#cityDisplayPanel');
+				$().progressDialog.hideDialog("");
+			},
+			error:function(){
+				$().progressDialog.hideDialog("");
+				alert('系统错误');
+			}
+		});
+	}
+}
+</script>
 </head>
 <body>
     <hdiv-c:url value="/talent/backWithNothingFilled.do" var="backUrl"></hdiv-c:url>
@@ -49,11 +191,12 @@
 					</tr>
 				    <tr >
 						<td class="labelColumn">期望工作地点：<span class="mandatoryField">*</span></td>
-						<td colspan="2">
-						   <form:input path="expectAddress" cssClass="standardInputText"  /> 
-					       <common:errorSign id="expectAddress" path="expectAddress"></common:errorSign>
+						<td>
+					       <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpCitySelector();">
+						   <form:hidden path="expectAddress"/>
+						   <common:errorSign id="expectAddress" path="expectAddress"></common:errorSign>
 						</td>
-						<td>&nbsp;</td>
+						<td id="expectCitiesDisplay" colspan="2"></td>
 					</tr>
 					<tr >
 						<td class="labelColumn">期望从事职业：<span class="mandatoryField">*</span></td>
@@ -104,6 +247,7 @@
 				</td>
 			</tr>
 		</table>
+		<jsp:include page="citySelector_pop.jsp"></jsp:include>
 	</form:form>
 </body>
 </html>

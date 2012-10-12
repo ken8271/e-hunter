@@ -32,13 +32,16 @@ import com.pccw.ehunter.convertor.CustomerGroupConvertor;
 import com.pccw.ehunter.dto.CustomerDTO;
 import com.pccw.ehunter.dto.CustomerGroupDTO;
 import com.pccw.ehunter.dto.CustomerResponsePersonDTO;
+import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.PositionCategoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
+import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CustomerRegistrationService;
 import com.pccw.ehunter.service.PositionCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
+import com.pccw.ehunter.utility.SecurityUtils;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.CustomerValidator;
 
@@ -46,6 +49,7 @@ import com.pccw.ehunter.validator.CustomerValidator;
 @SessionAttributes({
 	SessionAttributeConstant.CUSTOMER_DTO,
 	SessionAttributeConstant.CUSTOMER_RESPONSE_PERSON,
+	SessionAttributeConstant.PROJECT_DTO,
 	SessionAttributeConstant.LIST_OF_GROUPS
 })
 public class CustomerRegistrationController extends BaseController{
@@ -351,6 +355,17 @@ public class CustomerRegistrationController extends BaseController{
 	@RequestMapping(value="/customer/completeCustRegistration.do")
 	public ModelAndView completeCustRegistration(HttpServletRequest request ,@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
 		ModelAndView mv = new ModelAndView("customer/customerConfirmation");
+		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
+		
+		if(internalUserDto == null){
+			internalUserDto = new InternalUserDTO();
+		}
+		
+		ProjectDTO projectDto = new ProjectDTO();
+		projectDto.setAdviserDto(internalUserDto);
+		projectDto.setCustomerDto(customerDto);
+		projectDto.setSystemCustRefNum(customerDto.getSystemCustRefNum());
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 		return mv;
 	}

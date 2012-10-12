@@ -112,6 +112,7 @@
 						<value>responsePersonDto.systemRespRefNum</value>
 						<value><![CDATA[.*positionCategory.*]]></value>
 						<value><![CDATA[.*positionType.*]]></value>
+						<value>expectAddress</value>
 					</list>
 				</entry>
 				

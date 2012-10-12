@@ -332,10 +332,8 @@ public class ProjectEnquireController extends BaseController{
 		PrintWriter out = null;
 		XMLWriter writer = null;
 		try {
-			System.out.println("--------------------------");
 			response.setContentType("text/xml;charset=UTF-8");
 			out = response.getWriter();
-			System.out.println(prjEnquireDto.getSystemTalentRefNum());
 			List<ProjectDTO> dtos = projectCommonService.getUnassignedProjectsByCriteria(ProjectConvertor.toPagedCriteria(prjEnquireDto));
 			
 			Document doc = DocumentHelper.createDocument();
