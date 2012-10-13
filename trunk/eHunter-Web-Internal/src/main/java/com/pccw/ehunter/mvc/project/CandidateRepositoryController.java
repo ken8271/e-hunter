@@ -50,7 +50,7 @@ import com.pccw.ehunter.utility.URLUtils;
 @SessionAttributes({
 	SessionAttributeConstant.TALENT_ENQUIRE_DTO,
 	SessionAttributeConstant.PROJECT_DTO,
-	SessionAttributeConstant.TALENT_DTO
+	SessionAttributeConstant.TALENT_DTO,
 })
 public class CandidateRepositoryController extends BaseController{
 	
@@ -435,6 +435,20 @@ public class CandidateRepositoryController extends BaseController{
 		handleCandidateRepositorySeach(request , mv , enquireDto , projectDto);
 		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
+		return mv;
+	}
+	
+	@RequestMapping("/project/handleCandidatePagedSearch.do")
+	public ModelAndView handleCandidatePagedSearch(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDto,
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView("project/candidateRepositoryView");
+		
+		handleCandidateRepositorySeach(request , mv , enquireDto , projectDto);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
 		return mv;
 	}
 
@@ -635,7 +649,7 @@ public class CandidateRepositoryController extends BaseController{
 				
 				StringBuffer viewUrl = new StringBuffer();
 				viewUrl.append(request.getContextPath());
-				viewUrl.append("/talent/viewTalentDetail.do?_id=");
+				viewUrl.append("/talent/pop/viewTalentDetail.do?_id=");
 				viewUrl.append(dto.getTalentDto().getTalentID());
 				
 				StringBuffer html = new StringBuffer();

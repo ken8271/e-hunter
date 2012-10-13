@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-PRJ-0001]</title>
+<common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
         <hdiv-c:url value="/project/initProjectCandidateRepository.do?type=1" var="addCandiateUrl"></hdiv-c:url>
@@ -47,7 +48,9 @@
 				</tbody>
 		</table>
 		<div class="emptyBlock"></div>
+		<form:form commandName="enquireDto" action="${ctx }/project/handleCandidatePagedSearch.do" method="post">
 		<div>${listOfCandidateRepository }</div>
+		</form:form>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
