@@ -188,7 +188,9 @@ function popUpInput(){
 			</tr>
 		</table>
 		<div><jsp:include page="newProject_pop.jsp"></jsp:include></div>
+		<form:form commandName="prjEnquireDto" action="${ctx }/customer/projectsSearch.do" method="post">
 		<div>${listOfProject}</div>
+		</form:form>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">

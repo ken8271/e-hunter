@@ -47,7 +47,8 @@ import com.pccw.ehunter.utility.URLUtils;
 @SessionAttributes({
 	SessionAttributeConstant.CUSTOMER_ENQUIRE_DTO,
 	SessionAttributeConstant.CUSTOMER_DTO,
-	SessionAttributeConstant.PROJECT_DTO
+	SessionAttributeConstant.PROJECT_DTO,
+	SessionAttributeConstant.PROJECT_ENQUIRE_DTO
 })
 public class CustomerEnquireController extends BaseController{
 	
@@ -224,6 +225,21 @@ public class CustomerEnquireController extends BaseController{
 		enquireDto.setSystemCustRefNum(id);
 		
 		handleProjectsSearch(request , enquireDto , mv);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, enquireDto);
+		return mv;
+	}
+	
+	@RequestMapping("/customer/projectsSearch.do")
+	public ModelAndView projectsSearch(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.PROJECT_ENQUIRE_DTO)ProjectEnquireDTO prjEnquireDto,
+			@ModelAttribute(SessionAttributeConstant.CUSTOMER_DTO)CustomerDTO customerDto){
+		ModelAndView mv = new ModelAndView("customer/viewCustomerDetail");
+		
+		handleProjectsSearch(request , prjEnquireDto , mv);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, prjEnquireDto);
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 		return mv;
 	}
 	
@@ -245,23 +261,7 @@ public class CustomerEnquireController extends BaseController{
 			}
 		}
 		
-		InternalUserDTO internalUserDto = (InternalUserDTO)SecurityUtils.getUser();
-		
-		if(internalUserDto == null){
-			internalUserDto = new InternalUserDTO();
-		}
-		
-		ProjectDTO projectDto = new ProjectDTO();
-		projectDto.setAdviserDto(internalUserDto);
-		projectDto.setCustomerDto(customerDto);
-		projectDto.setSystemCustRefNum(customerDto.getSystemCustRefNum());
-		mv.addObject("customerDto", customerDto);
-		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
-		
-		ProjectEnquireDTO enquireDto = new ProjectEnquireDTO();
-		enquireDto.setSystemCustRefNum(id);
-		
-		handleProjectsSearch(request , enquireDto , mv);
+		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
 		return mv;
 	}
 
