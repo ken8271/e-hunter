@@ -173,7 +173,7 @@ function submitDelete(listName){
 						<td class="labelColumn">至：<span class="mandatoryField">*</span></td>
 						<td>
 						<common:inputDate dateYY="toDateDto.year" dateMON="toDateDto.month" dateDD="toDateDto.day" ></common:inputDate>
-						<common:errorSign id="toDateDto.day" path="toDateDto.day"></common:errorSign>
+						<common:errorSign id="toDateDto.day" path="toDateDto.day"></common:errorSign>(结束时间不填表示至今)
 					    </td>
 					</tr>
 				    <tr >
@@ -306,9 +306,13 @@ function submitDelete(listName){
 		            <c:out value="${jobExp.fromDateDto.year }" escapeXml="true"/>/
 		            <c:out value="${jobExp.fromDateDto.month }" escapeXml="true"/>/
 		            <c:out value="${jobExp.fromDateDto.day }" escapeXml="true"/>&nbsp;-&nbsp;
-		            <c:out value="${jobExp.toDateDto.year }" escapeXml="true"/>/
-		            <c:out value="${jobExp.toDateDto.month }" escapeXml="true"/>/
-		            <c:out value="${jobExp.toDateDto.day }" escapeXml="true"/>
+		            
+		            <c:if test="${empty jobExp.toDateDto.day }"><c:out value="至今" escapeXml="true"/></c:if>
+		            <c:if test="${not empty jobExp.toDateDto.day }">
+		               <c:out value="${jobExp.toDateDto.year }" escapeXml="true"/>/
+		               <c:out value="${jobExp.toDateDto.month }" escapeXml="true"/>/
+		               <c:out value="${jobExp.toDateDto.day }" escapeXml="true"/>
+		            </c:if>
 		            </td>
 		            <td><c:out value="${jobExp.industryDto.displayName }" escapeXml="true"></c:out></td>
 		            <td>
