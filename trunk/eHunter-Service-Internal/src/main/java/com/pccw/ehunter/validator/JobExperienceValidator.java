@@ -29,11 +29,11 @@ public class JobExperienceValidator extends AbstractValidator{
 		
 		validateDate(errors, "fromDateDto.day", dto.getFromDateDto(), "起始时间");
 		
-		if(dto.getToDateDto() != null){
-			validateRequired(errors, "toDateDto.day", dto.getToDateDto().getDay(), "结束时间");			
-		}else {
-			errors.rejectValue("toDateDto.day", "EHT-E-0002", new String[]{"结束时间"}, "End Time is required. [EHT-E-0002]");
-		}
+//		if(dto.getToDateDto() != null){
+//			validateRequired(errors, "toDateDto.day", dto.getToDateDto().getDay(), "结束时间");			
+//		}else {
+//			errors.rejectValue("toDateDto.day", "EHT-E-0002", new String[]{"结束时间"}, "End Time is required. [EHT-E-0002]");
+//		}
 		
 		validateDate(errors, "toDateDto.day", dto.getToDateDto(), "结束时间");
 		
