@@ -18,7 +18,7 @@ public class EmploymentHistory extends BaseEntity {
 	private Date beginTime;
 	private Date endTime;
 	private String companyName;
-	private String industryCategory;
+	private String industry;
 	private String positions;
 
 	@EmbeddedId
@@ -58,12 +58,12 @@ public class EmploymentHistory extends BaseEntity {
 	}
 
 	@Column(name="IND_TY")
-	public String getIndustryCategory() {
-		return industryCategory;
+	public String getIndustry() {
+		return industry;
 	}
 
-	public void setIndustryCategory(String industryCategory) {
-		this.industryCategory = industryCategory;
+	public void setIndustry(String industry) {
+		this.industry = industry;
 	}
 
 	@Column(name="POST_TY")
