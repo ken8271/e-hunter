@@ -10,9 +10,11 @@ public class EmploymentHistoryDTO extends BaseDTO {
 	private SimpleDateDTO endTimeDto;
 	private String companyName;
 	private String industryCategory;
+	private String industry;
 	private String positions;
 
 	private IndustryCategoryDTO industryCategoryDto;
+	private IndustryDTO industryDto;
 	private List<PositionDTO> positionDtos;
 
 	public int getItemNumber() {
@@ -77,6 +79,22 @@ public class EmploymentHistoryDTO extends BaseDTO {
 
 	public void setPositionDtos(List<PositionDTO> positionDtos) {
 		this.positionDtos = positionDtos;
+	}
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+
+	public IndustryDTO getIndustryDto() {
+		return industryDto;
+	}
+
+	public void setIndustryDto(IndustryDTO industryDto) {
+		this.industryDto = industryDto;
 	}
 
 }

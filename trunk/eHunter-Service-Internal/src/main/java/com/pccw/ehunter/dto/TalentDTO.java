@@ -30,6 +30,9 @@ public class TalentDTO extends BaseDTO {
 	private DegreeDTO degreeDto;
 	private ResumeDTO resumeDto;
 	private List<ResumeDTO> resumeDtos = new ArrayList<ResumeDTO>(0);
+	
+	private EmploymentHistoryDTO employmentHistoryDto;
+	private List<EmploymentHistoryDTO> employmentHistoryDtos = new ArrayList<EmploymentHistoryDTO>();
 
 	public String getTalentID() {
 		return talentID;
@@ -197,5 +200,22 @@ public class TalentDTO extends BaseDTO {
 
 	public void setTalentSrcDto(TalentSourceDTO talentSrcDto) {
 		this.talentSrcDto = talentSrcDto;
+	}
+
+	public List<EmploymentHistoryDTO> getEmploymentHistoryDtos() {
+		return employmentHistoryDtos;
+	}
+
+	public void setEmploymentHistoryDtos(
+			List<EmploymentHistoryDTO> employmentHistoryDtos) {
+		this.employmentHistoryDtos = employmentHistoryDtos;
+	}
+
+	public EmploymentHistoryDTO getEmploymentHistoryDto() {
+		return employmentHistoryDto;
+	}
+
+	public void setEmploymentHistoryDto(EmploymentHistoryDTO employmentHistoryDto) {
+		this.employmentHistoryDto = employmentHistoryDto;
 	}
 }

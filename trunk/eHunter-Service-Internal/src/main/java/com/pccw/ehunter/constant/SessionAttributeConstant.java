@@ -13,6 +13,7 @@ public class SessionAttributeConstant {
 	
 	public static final String TALENT_DTO = "talentDto";
 	public static final String TALENT_RESUME_DTO = "resumeDto";
+	public static final String TALENT_EMPLOYMENT_HISTORY_DTO = "employmentHistoryDto";
 	
 	public static final String TALENT_EDUCATION_EXPERIENCE_DTO = "eduExpDto";
 	public static final String TALENT_JOB_EXPERIENCE_DTO = "jobExpDto";
