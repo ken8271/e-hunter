@@ -113,6 +113,8 @@
 						<value><![CDATA[.*positionCategory.*]]></value>
 						<value><![CDATA[.*positionType.*]]></value>
 						<value>expectAddress</value>
+						<value>industry</value>
+						<value>positions</value>
 					</list>
 				</entry>
 				

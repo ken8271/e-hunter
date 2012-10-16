@@ -40,7 +40,7 @@ function clearInput(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
 							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
@@ -207,7 +207,7 @@ function clearInput(){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="button" value="填写简历" onclick="popUpSelector();" />&nbsp;
+							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
 							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
 							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>

@@ -60,5 +60,7 @@
 		<mapping class="com.pccw.ehunter.domain.internal.Talent" />
 		<mapping class="com.pccw.ehunter.domain.internal.CandidateContactHistory" />
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerContactHistory" />
+		<mapping class="com.pccw.ehunter.domain.internal.EmploymentHistoryPK" />
+		<mapping class="com.pccw.ehunter.domain.internal.EmploymentHistory" />
 	</session-factory>
 </hibernate-configuration>
