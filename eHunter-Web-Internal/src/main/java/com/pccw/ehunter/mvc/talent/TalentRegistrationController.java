@@ -82,14 +82,14 @@ public class TalentRegistrationController extends BaseController{
 	
 	@RequestMapping("/talent/saveTalentInfo.do")
 	public ModelAndView saveTalentInfo(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
-		String type = request.getParameter("type");
+//		String type = request.getParameter("type");
 		
-		ModelAndView mv = null;
-		if(ActionFlag.BATCH_IMPORT_RESUME.equals(type)){			
-			mv= new ModelAndView(new RedirectViewExt("/talent/batchImportResume.do", true));
-		}else {
-			mv= new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
-		}
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/fillEmploymentHistory.do", true));
+//		if(ActionFlag.BATCH_IMPORT_RESUME.equals(type)){			
+//			mv= new ModelAndView(new RedirectViewExt("/talent/batchImportResume.do", true));
+//		}else {
+//			mv= new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
+//		}
 		
 		talentBaseInfoValidator.validate(talentDto, errors);
 		
