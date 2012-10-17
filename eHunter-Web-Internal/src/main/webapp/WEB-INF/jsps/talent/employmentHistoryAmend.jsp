@@ -10,27 +10,10 @@
 <script type="text/javascript" src="${scriptPath }/multiSelector.js"></script>
 <script type="text/javascript">
 $().ready(function(){
-	if('${clearField}' == 'Y'){
-		clearInputFields();
-	}else if('${clearField}' == 'N'){
-		loadIndustries();
-		getSelectedPositions();
-		displaySelectedPositions(document.getElementById('positionSelector'));
-	}
+	loadIndustries();
+	getSelectedPositions();
+	displaySelectedPositions(document.getElementById('positionSelector'));
 });
-
-function clearInputFields(){
-	document.getElementById('beginTimeDto.year').value='';
-	document.getElementById('beginTimeDto.month').value='';
-	document.getElementById('beginTimeDto.day').value='';
-	document.getElementById('endTimeDto.year').value='';
-	document.getElementById('endTimeDto.month').value='';
-	document.getElementById('endTimeDto.day').value='';
-	document.getElementById('companyName').value='';
-	document.getElementById('industrySelector').value='';
-	document.getElementById('industry').value='';
-	document.getElementById('positions').value='';
-}
 
 function loadIndustries(){
 	var industrySelector = document.getElementById("industrySelector");
@@ -52,9 +35,8 @@ function loadIndustries(){
 					var val = ''+$(this).children("value").text()+'';
 					industry.options[industry.length] = new Option(label, val);
 				});
-				if('${clearField}' == 'N'){
-					document.getElementById('industry').value = '${employmentHistoryDto.industry}';
-				}
+				
+				document.getElementById('industry').value = '${employmentHistoryDto.industry}';
 			},
 			error:function(){
 				$().progressDialog.hideDialog("");
@@ -199,29 +181,32 @@ function handleSelect(position){
 	
 	displaySelectedPositions(positionSelector);
 }
-
-function complete(actionFlagStr){
-	var actionFlag = document.getElementById('actionFlag');
-	if(actionFlag != 'undefined' && actionFlagStr != ""){
-		actionFlag.value = actionFlagStr;
-	}
-	var form = document.getElementById('empHistoryForm');
-	form.submit();
-}
 </script>
 </head>
 <body>
-    <hdiv-c:url value="/talent/backToPreviousStep.do" var="backUrl"></hdiv-c:url>
-	<form:form id="empHistoryForm" commandName="employmentHistoryDto" action="${ctx}/talent/addEmploymentHistoryActions.do" method="post">
-	    <div style="display: none">
-	       <input type="hidden" id="actionFlag" name="actionFlag"/>
-	    </div>
+    <hdiv-c:url value="/talent/fillEmploymentHistory.do" var="backUrl"></hdiv-c:url>
+	<form:form id="empHistoryForm" commandName="employmentHistoryDto" action="${ctx}/talent/updateEmploymentHistory.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">职业概况</td>
+				<td class="pageTitle">编辑工作经历</td>
 			</tr>
 			<tr>
 				<td><common:errorTable path="employmentHistoryDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table id="bg2" border="0" width="100%">
+			<tr>
+				<td class="functionMenuBar">
+					<table align="right" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+							<input class="standardButton" type="submit" value="确认" />&nbsp;
+							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -287,64 +272,7 @@ function complete(actionFlagStr){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp;
-							<input class="standardButton" type="button" value="清除" onclick="clearInputFields();" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form:form>
-	<jsp:include page="positionSelector_pop.jsp"></jsp:include>
-	<div class="emptyBlock"></div>
-		<table class="contentTableBody2" cellspacing="1" width="100%">
-		   <tr class="contentTableTitle">
-		      <td width="5%" align="center">序号</td>
-		      <td width="25%">时间</td>
-		      <td width="20%">行业</td>
-		      <td width="20%">企业名称</td>
-		      <td width="20%">职位</td>
-		      <td width="10%" align="center">操作</td>
-		   </tr>
-		   <c:if test="${not empty talentDto.employmentHistoryDtos }">
-		      <c:forEach items="${talentDto.employmentHistoryDtos }" var="history" varStatus="status">
-		         <tr class="contentTableRow">
-		            <td align="center">${status.index+1 }</td>
-		            <td>
-		            <c:out value="${history.beginTimeDto.year }" escapeXml="true"/>/
-		            <c:out value="${history.beginTimeDto.month }" escapeXml="true"/>&nbsp;-&nbsp;
-		            <c:if test="${empty history.endTimeDto.day }"><c:out value="至今" escapeXml="true"/></c:if>
-		            <c:if test="${not empty history.endTimeDto.day }">
-		               <c:out value="${history.endTimeDto.year }" escapeXml="true"/>/
-		               <c:out value="${history.endTimeDto.month }" escapeXml="true"/>/
-		            </c:if>
-		            </td>
-		            <td><c:out value="${history.industryDto.displayName }" escapeXml="true"></c:out></td>
-		            <td>
-		               <c:out value="${history.companyName }" escapeXml="true"></c:out>
-		            </td>
-		            <td>
-		               <c:forEach items="${history.positionDtos }" var="positionDto">
-		                 <c:out value="${positionDto.displayName }" escapeXml="true" /><br/> 
-		               </c:forEach>
-		            </td>
-		            <td align="center"> 
-		            <hdiv-c:url value="/talent/preEditEmploymentHistory.do?_id=${status.index }" var="editUrl"></hdiv-c:url>
-		            <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'" />&nbsp;
-		            </td>
-		         </tr>
-		      </c:forEach>
-		   </c:if>
-		</table>
-		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							<input class="standardButton" type="button" value="下一步" onclick="complete('6');" />&nbsp;
+							<input class="standardButton" type="submit" value="确认" />&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
 							</td>
 						</tr>
@@ -352,5 +280,7 @@ function complete(actionFlagStr){
 				</td>
 			</tr>
 		</table>
+	<jsp:include page="positionSelector_pop.jsp"></jsp:include>
+	</form:form>
 </body>
 </html>
