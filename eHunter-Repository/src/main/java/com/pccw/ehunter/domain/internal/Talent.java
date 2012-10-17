@@ -38,6 +38,7 @@ public class Talent extends BaseEntity {
 	private String homeAddress;
 	
 	private List<Resume> resumes;
+	private List<EmploymentHistory> employmentHistories;
 
 	@Id
 	@Column(name="SYS_REF_TLNT")
@@ -200,6 +201,15 @@ public class Talent extends BaseEntity {
 
 	public void setResumes(List<Resume> resumes) {
 		this.resumes = resumes;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="pk.talent" , cascade = CascadeType.ALL)
+	public List<EmploymentHistory> getEmploymentHistories() {
+		return employmentHistories;
+	}
+
+	public void setEmploymentHistories(List<EmploymentHistory> employmentHistories) {
+		this.employmentHistories = employmentHistories;
 	}
 
 }
