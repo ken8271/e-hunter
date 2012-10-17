@@ -1,6 +1,10 @@
 package com.pccw.ehunter.convertor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.EmploymentHistory;
 import com.pccw.ehunter.domain.internal.EmploymentHistoryPK;
@@ -42,5 +46,29 @@ public class EmploymentHistoryConvertor {
 		po.setEndTime(SimpleDateConvertor.toDate(dto.getEndTimeDto()));
 		
 		return po;
+	}
+	
+	public static List<EmploymentHistory> toPos(List<EmploymentHistoryDTO> dtos){
+		if(CollectionUtils.isEmpty(dtos)) return null;
+		
+		List<EmploymentHistory> pos = new ArrayList<EmploymentHistory>();
+		
+		for(EmploymentHistoryDTO dto : dtos){
+			pos.add(toPo(dto));
+		}
+		
+		return pos;
+	}
+	
+	public static List<EmploymentHistoryDTO> toDtos(List<EmploymentHistory> pos){
+		if(CollectionUtils.isEmpty(pos)) return null;
+		
+		List<EmploymentHistoryDTO> dtos = new ArrayList<EmploymentHistoryDTO>();
+		
+		for(EmploymentHistory po : pos){
+			dtos.add(toDto(po));
+		}
+		
+		return dtos;
 	}
 }
