@@ -14,6 +14,7 @@ import com.pccw.ehunter.dao.TalentCommonDAO;
 import com.pccw.ehunter.dao.TalentRegistrationDAO;
 import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.EducationExperienceDTO;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.JobIntentionDTO;
 import com.pccw.ehunter.dto.LanguageAbilityDTO;
@@ -77,7 +78,15 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 					resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + talentId, 12));
 					setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.INSERT);
 				}
-			}	
+			}
+			
+			if(!CollectionUtils.isEmpty(dto.getEmploymentHistoryDtos())){
+				int index = 1;
+				for(EmploymentHistoryDTO historyDto : dto.getEmploymentHistoryDtos()){
+					historyDto.setItemNumber(index++);
+					BaseDtoUtility.setCommonProperties(historyDto, TransactionIndicator.INSERT);
+				}
+			}
 		}
 		
 		Talent talent = TalentConvertor.toPo(dto);

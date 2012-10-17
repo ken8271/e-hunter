@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.domain.internal.EmploymentHistory;
 import com.pccw.ehunter.domain.internal.Resume;
 import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -27,6 +28,7 @@ public class TalentConvertor {
 		dto.setMobilePhoneDto2(MobilePhoneConvertor.toDto(po.getMobilePhone2()));
 		
 		dto.setResumeDtos(ResumeConvertor.toDtos(po.getResumes()));
+		dto.setEmploymentHistoryDtos(EmploymentHistoryConvertor.toDtos(po.getEmploymentHistories()));
 		
 		return dto;
 	}
@@ -50,6 +52,14 @@ public class TalentConvertor {
 				resume.setTalent(po);
 			}
 			po.setResumes(resumes);
+		}
+		
+		List<EmploymentHistory> histories = EmploymentHistoryConvertor.toPos(dto.getEmploymentHistoryDtos());
+		if(!CollectionUtils.isEmpty(histories)){
+			for(EmploymentHistory history : histories){
+				history.getPk().setTalent(po);
+			}
+			po.setEmploymentHistories(histories);
 		}
 		
 		return po;
