@@ -1,7 +1,9 @@
 package com.pccw.ehunter.mvc.talent;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,16 +12,20 @@ import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.DegreeDTO;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentEnquireDTO;
@@ -119,11 +125,38 @@ public class TalentEnquireController extends BaseCandidateController{
 		
 		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
 		talentDto.setDegreeDto(degreeDto);
+		
+		List<EmploymentHistoryDTO> historyDtos = talentDto.getEmploymentHistoryDtos();
+		if(!CollectionUtils.isEmpty(historyDtos)){
+			for(EmploymentHistoryDTO historyDto : historyDtos){
+				initEmploymentHistory(request, historyDto);
+			}
+			EmploymentHistoryDTO dto = historyDtos.get(0);
+			if(dto.getEndTimeDto() == null || StringUtils.isEmpty(dto.getEndTimeDto().getYear())){				
+				talentDto.setEmploymentHistoryDto(dto);
+			}
+		}
 
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
+	}
+	
+	private void initEmploymentHistory(HttpServletRequest request , EmploymentHistoryDTO historyDto){
+		historyDto.setIndustryDto(codeTableHelper.getIndustryByCode(historyDto.getIndustry()));
+		historyDto.setIndustryCategory(historyDto.getIndustryDto().getCategoryCode());
+		historyDto.setIndustryCategoryDto(codeTableHelper.getIndustryCategoryByCode(request, historyDto.getIndustryCategory()));
+		List<PositionDTO> positionDtos = new ArrayList<PositionDTO>();
+		if(!StringUtils.isEmpty(historyDto.getPositions())){
+			String[] positions = StringUtils.tokenize(historyDto.getPositions(), CommonConstant.COMMA);
+			if(positions != null && positions.length != 0){
+				for(String code : positions){
+					positionDtos.add(codeTableHelper.getPositionByCode(code));
+				}
+			}
+		}
+		historyDto.setPositionDtos(positionDtos);
 	}
 	
 	@RequestMapping("/talent/pop/viewTalentDetail.do")
@@ -146,6 +179,17 @@ public class TalentEnquireController extends BaseCandidateController{
 		
 		DegreeDTO degreeDto = codeTableHelper.getDegreeByCode(request, talentDto.getHighestDegree());
 		talentDto.setDegreeDto(degreeDto);
+		
+		List<EmploymentHistoryDTO> historyDtos = talentDto.getEmploymentHistoryDtos();
+		if(!CollectionUtils.isEmpty(historyDtos)){
+			for(EmploymentHistoryDTO historyDto : historyDtos){
+				initEmploymentHistory(request, historyDto);
+			}
+			EmploymentHistoryDTO dto = historyDtos.get(0);
+			if(dto.getEndTimeDto() == null || StringUtils.isEmpty(dto.getEndTimeDto().getYear())){				
+				talentDto.setEmploymentHistoryDto(dto);
+			}
+		}
 
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);

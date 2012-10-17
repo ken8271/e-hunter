@@ -152,7 +152,47 @@
 		</table>
 		<br />
 		<div>
-			<span class="titleCh10">&nbsp;第三部分：</span><span class="titleCh10">人才简历</span>
+			<span class="titleCh10">&nbsp;第三部分：</span> <span class="titleCh10">职业概况</span>
+		</div>
+		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" cellSpacing="0" width="100%" cellpadding="5px">
+			<tr>
+			  <td width="5%" align="center">序号</td>
+		      <td width="25%">时间</td>
+		      <td width="20%">行业</td>
+		      <td width="20%">企业名称</td>
+		      <td width="20%">职位</td>
+			</tr>
+			<c:if test="${not empty talentDto.employmentHistoryDtos }">
+			<c:forEach items="${talentDto.employmentHistoryDtos }" var="history" varStatus="status">
+			<tr>
+				<td><span class="textCn8"><c:out value="${status.index + 1 }"></c:out></span></td>
+				<td>
+				   <span class="textCn8">
+				    <c:out value="${history.beginTimeDto.year }" escapeXml="true"/>/
+		            <c:out value="${history.beginTimeDto.month }" escapeXml="true"/>&nbsp;-&nbsp;
+		            <c:if test="${empty history.endTimeDto.day }"><c:out value="至今" escapeXml="true"/></c:if>
+		            <c:if test="${not empty history.endTimeDto.day }">
+		               <c:out value="${history.endTimeDto.year }" escapeXml="true"/>/
+		               <c:out value="${history.endTimeDto.month }" escapeXml="true"/>
+		            </c:if>
+				   </span>
+				</td>
+				<td><span class="textCn8"><c:out value="${history.industryDto.displayName }" escapeXml="true"></c:out></span></td>
+				<td><span class="textCn8"><c:out value="${history.companyName }" escapeXml="true"></c:out></span></td>
+				<td>
+				   <span class="textCn8"> 
+				      <c:forEach items="${history.positionDtos }" var="positionDto">
+		                 <c:out value="${positionDto.displayName }" escapeXml="true" /><br/> 
+		              </c:forEach>
+		           </span>
+		        </td>
+			</tr>
+			</c:forEach>
+			</c:if>
+		</table>
+		<br />
+		<div>
+			<span class="titleCh10">&nbsp;第四部分：</span><span class="titleCh10">人才简历</span>
 		</div>
 		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" cellSpacing="0" width="100%" cellpadding="5px">
 			<tr>

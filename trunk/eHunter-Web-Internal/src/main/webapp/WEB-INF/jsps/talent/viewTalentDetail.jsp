@@ -202,6 +202,45 @@ function asgnCandidate2SelectedProject(c){
 	<table width="100%">
 		<tr>
 			<td width="10%"><font face="Arial" size="2"><b>第三部分：</b></font></td>
+			<td width="90%"><font face="Arial" size="2"><b>职业概况</b></font></td>
+		</tr>
+	</table>
+	<table class="contentTableBody2" cellspacing="1" width="100%">
+	   <tr class="contentTableTitle">
+	      <td width="15%" align="center">时间</td>
+		  <td width="30%">公司名称</td>
+		  <td width="50%">曾任职位</td>
+		  <td width="5%" align="center">查看</td>
+	   </tr>
+	   <c:forEach items="${talentDto.employmentHistoryDtos }" var="historyDto" varStatus="status">
+	         <tr class="contentTableRow">
+		            <td>
+		            <c:out value="${historyDto.beginTimeDto.year }" escapeXml="true"/>/
+		            <c:out value="${historyDto.beginTimeDto.month }" escapeXml="true"/>&nbsp;-&nbsp;
+		            <c:if test="${empty historyDto.endTimeDto.day }"><c:out value="至今" escapeXml="true"/></c:if>
+		            <c:if test="${not empty historyDto.endTimeDto.day }">
+		               <c:out value="${historyDto.endTimeDto.year }" escapeXml="true"/>/
+		               <c:out value="${historyDto.endTimeDto.month }" escapeXml="true"/>
+		            </c:if>
+		            </td>
+		            <td>
+		               <c:out value="${historyDto.companyName }" escapeXml="true"></c:out>
+		            </td>
+		            <td>
+		               <c:forEach items="${historyDto.positionDtos }" var="positionDto">
+		                 <c:out value="${positionDto.displayName }" escapeXml="true" /><br/> 
+		               </c:forEach>
+		            </td>
+		            <td align="center">
+		               <common:tips url="${viewProjectUrl }" title="查看项目资料"></common:tips>
+		            </td>
+		     </tr>
+	   </c:forEach>
+    </table>
+	<div class="emptyBlock"></div>
+	<table width="100%">
+		<tr>
+			<td width="10%"><font face="Arial" size="2"><b>第四部分：</b></font></td>
 			<td width="90%"><font face="Arial" size="2"><b>人才简历</b></font></td>
 		</tr>
 	</table>
