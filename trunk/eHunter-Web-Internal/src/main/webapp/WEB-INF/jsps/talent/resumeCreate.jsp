@@ -57,7 +57,7 @@ function checkFilled(){
     <hdiv-c:url value="/talent/backToFillResume.do" var="backToFillResumeUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/clearCurrResume.do" var="clearUrl"></hdiv-c:url>
     <c:if test="${module == '4' }">
-       <hdiv-c:url value="/talent/backToPreviousStep.do" var="backUrl"></hdiv-c:url>
+       <hdiv-c:url value="/talent/fillEmploymentHistory.do" var="backUrl"></hdiv-c:url>
     </c:if>
     <c:if test="${module == '5' }">
        <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }" var="backUrl"></hdiv-c:url>
