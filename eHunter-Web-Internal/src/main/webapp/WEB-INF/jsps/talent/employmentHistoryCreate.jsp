@@ -317,7 +317,7 @@ function complete(actionFlagStr){
 		            <c:if test="${empty history.endTimeDto.day }"><c:out value="至今" escapeXml="true"/></c:if>
 		            <c:if test="${not empty history.endTimeDto.day }">
 		               <c:out value="${history.endTimeDto.year }" escapeXml="true"/>/
-		               <c:out value="${history.endTimeDto.month }" escapeXml="true"/>/
+		               <c:out value="${history.endTimeDto.month }" escapeXml="true"/>
 		            </c:if>
 		            </td>
 		            <td><c:out value="${history.industryDto.displayName }" escapeXml="true"></c:out></td>
