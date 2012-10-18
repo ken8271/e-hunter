@@ -194,6 +194,14 @@ function asgnCandidate2SelectedProject(c){
 					<td><c:out value="${talentDto.email }" escapeXml="true"></c:out></td>
 				</tr>
 				<tr>
+					<td class="labelColumn">QQ：</td>
+					<td>
+					   <c:out value="${talentDto.QQ }" escapeXml="true"></c:out><br/>
+					</td>
+					<td class="labelColumn">MSN：</td>
+					<td><c:out value="${talentDto.msn }" escapeXml="true"></c:out></td>
+				</tr>
+				<tr>
 					<td class="labelColumn">家庭地址：</td>
 					<td colspan="3"><c:out value="${talentDto.homeAddress }"></c:out></td>
 				</tr>

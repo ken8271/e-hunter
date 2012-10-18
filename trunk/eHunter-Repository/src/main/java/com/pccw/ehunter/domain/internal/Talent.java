@@ -34,6 +34,8 @@ public class Talent extends BaseEntity {
 	private String companyNumber;
 	private String mobilePhone1;
 	private String mobilePhone2;
+	private String QQ;
+	private String msn;
 	private String email;
 	private String homeAddress;
 	
@@ -210,6 +212,24 @@ public class Talent extends BaseEntity {
 
 	public void setEmploymentHistories(List<EmploymentHistory> employmentHistories) {
 		this.employmentHistories = employmentHistories;
+	}
+
+	@Column(name="QQ_NBR")
+	public String getQQ() {
+		return QQ;
+	}
+
+	public void setQQ(String qQ) {
+		QQ = qQ;
+	}
+
+	@Column(name="MSN")
+	public String getMsn() {
+		return msn;
+	}
+
+	public void setMsn(String msn) {
+		this.msn = msn;
 	}
 
 }
