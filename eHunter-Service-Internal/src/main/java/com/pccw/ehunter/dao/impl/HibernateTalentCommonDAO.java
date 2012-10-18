@@ -271,4 +271,27 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		
 		return o;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> getEmploymentHistoriesByTalentID(final String talentID) {
+		List<Object> list = (List<Object>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT BEGN_DTTM , LEV_DTTM , CO_NM , POST_TY ");
+				buffer.append(" FROM T_TLNT_EMP_HST ");
+				buffer.append(" WHERE SYS_REF_TLNT = :talentID ");
+				buffer.append(" ORDER BY SEQ_NBR ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				query.setString("talentID", talentID);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

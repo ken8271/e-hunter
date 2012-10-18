@@ -183,7 +183,12 @@ public class TalentRegistrationController extends BaseController{
 			return mv;
 		}
 		
-		List<ResumeDTO> resumes = talentDto.getResumeDtos();		
+		List<ResumeDTO> resumes = talentDto.getResumeDtos();	
+		if(CollectionUtils.isEmpty(resumes)){
+			resumes = new ArrayList<ResumeDTO>();
+			talentDto.setResumeDtos(resumes);
+		}
+		
 		resumes.add(talentDto.getResumeDto());
 		
 		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_JOB_INTENTION_DTO);

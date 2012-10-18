@@ -211,10 +211,16 @@ function complete(actionFlagStr){
 </script>
 </head>
 <body>
-    <hdiv-c:url value="/talent/backToPreviousStep.do" var="backUrl"></hdiv-c:url>
+    <c:if test="${module == '4' }">
+       <hdiv-c:url value="/talent/backToPreviousStep.do" var="backUrl"></hdiv-c:url>
+    </c:if>
+    <c:if test="${module == '5' }">
+       <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }&module=5" var="backUrl"></hdiv-c:url>
+    </c:if>
 	<form:form id="empHistoryForm" commandName="employmentHistoryDto" action="${ctx}/talent/addEmploymentHistoryActions.do" method="post">
 	    <div style="display: none">
 	       <input type="hidden" id="actionFlag" name="actionFlag"/>
+	       <input type="hidden" name="module" value="${module }" />
 	    </div>
 		<table border="0" width="100%">
 			<tr>
@@ -287,7 +293,7 @@ function complete(actionFlagStr){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp;
+							<input class="standardButton" type="button" value="添加" onclick="complete('5');" />&nbsp;
 							<input class="standardButton" type="button" value="清除" onclick="clearInputFields();" />&nbsp;
 							</td>
 						</tr>
@@ -344,7 +350,12 @@ function complete(actionFlagStr){
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="下一步" onclick="complete('6');" />&nbsp;
+							<c:if test="${module == '4' }">
+							   <input class="standardButton" type="button" value="下一步" onclick="complete('6');" />&nbsp;
+							</c:if>
+							<c:if test="${module == '5' }">
+							   <input class="standardButton" type="button" value="更新" onclick="complete('6');" />&nbsp;
+							</c:if>
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
 							</td>
 						</tr>

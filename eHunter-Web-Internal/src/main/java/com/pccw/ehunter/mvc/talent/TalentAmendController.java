@@ -153,5 +153,13 @@ public class TalentAmendController extends BaseController{
 		mv.addObject("_id", talentDto.getTalentID());
 		return mv;
 	}
+	
+	@RequestMapping("/talent/updateEmploymentHistories.do")
+	public ModelAndView updateEmploymentHistories(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto , BindingResult errors){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
+		talentRegtService.updateEmploymentHistories(talentDto);
+		mv.addObject("_id", talentDto.getTalentID());
+		return mv;
+	}
 
 }

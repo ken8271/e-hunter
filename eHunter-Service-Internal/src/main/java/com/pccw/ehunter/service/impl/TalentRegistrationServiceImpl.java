@@ -212,4 +212,27 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 		Talent talent = TalentConvertor.toPo(dto);
 		talentRegtDao.updateTalent(talent);
 	}
+
+	@Override
+	@Transactional
+	public void updateEmploymentHistories(TalentDTO dto) {
+		if(dto != null){
+			BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+			
+			if(!CollectionUtils.isEmpty(dto.getEmploymentHistoryDtos())){
+				int index = 1;
+				for(EmploymentHistoryDTO historyDto : dto.getEmploymentHistoryDtos()){
+					if(historyDto.getItemNumber() == 0){
+						BaseDtoUtility.setCommonProperties(historyDto, TransactionIndicator.INSERT);						
+					}else {
+						BaseDtoUtility.setCommonProperties(historyDto, TransactionIndicator.UPDATE);
+					}
+					historyDto.setItemNumber(index++);
+				}
+			}
+		}
+		
+		Talent talent = TalentConvertor.toPo(dto);
+		talentRegtDao.updateTalent(talent);
+	}
 }
