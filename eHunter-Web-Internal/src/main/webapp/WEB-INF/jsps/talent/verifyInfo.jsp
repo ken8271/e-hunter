@@ -142,6 +142,20 @@
 				</td>
 			</tr>
 			<tr>
+				<td><span class="textCh8">QQ</span></td>
+				<td>
+				   <span class="showCh">
+				      <c:out value="${talentDto.QQ}" escapeXml="true" />
+				   </span>
+				</td>
+				<td><span class="textCh8">MSN</span><br /></td>
+				<td>
+				   <span class="showCh">
+				     <c:out value="${talentDto.msn}" escapeXml="true" />
+				   </span>
+				</td>
+			</tr>
+			<tr>
 				<td><span class="textCh8">家庭地址</span><br /></td>
 				<td colspan="3">  
 				<span class="showCh">

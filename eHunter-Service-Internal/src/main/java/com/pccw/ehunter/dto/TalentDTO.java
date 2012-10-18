@@ -21,6 +21,8 @@ public class TalentDTO extends BaseDTO {
 	private TelephoneDTO companyNumberDto;
 	private MobilePhoneDTO mobilePhoneDto1;
 	private MobilePhoneDTO mobilePhoneDto2;
+	private String QQ;
+	private String msn;
 	private String email;
 	private String homeAddress;
 	
@@ -217,5 +219,21 @@ public class TalentDTO extends BaseDTO {
 
 	public void setEmploymentHistoryDto(EmploymentHistoryDTO employmentHistoryDto) {
 		this.employmentHistoryDto = employmentHistoryDto;
+	}
+
+	public String getQQ() {
+		return QQ;
+	}
+
+	public void setQQ(String qQ) {
+		QQ = qQ;
+	}
+
+	public String getMsn() {
+		return msn;
+	}
+
+	public void setMsn(String msn) {
+		this.msn = msn;
 	}
 }
