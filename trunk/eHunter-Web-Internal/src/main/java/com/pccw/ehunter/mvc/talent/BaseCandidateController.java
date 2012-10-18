@@ -1,5 +1,7 @@
 package com.pccw.ehunter.mvc.talent;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.jmesa.view.component.Table;
@@ -9,9 +11,12 @@ import org.jmesa.view.html.HtmlBuilder;
 import org.jmesa.view.html.component.HtmlColumn;
 import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.constant.ModuleIndicator;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.utility.StringUtils;
@@ -77,7 +82,7 @@ public class BaseCandidateController extends BaseController{
 		}
 		
 		HtmlColumn talentId = new HtmlColumn("talentID");
-		talentId.setWidth("width:20% nowrap");
+		talentId.setWidth("15%");
 		talentId.setTitle("人才编号");
 		talentId.setCellEditor(new CellEditor() {
 			
@@ -111,7 +116,7 @@ public class BaseCandidateController extends BaseController{
 		row.addColumn(talentId);
 		
 		HtmlColumn name = new HtmlColumn("name");
-		name.setWidth("width:20% nowrap");
+		name.setWidth("10%");
 		name.setTitle("姓名");
 		name.setCellEditor(new CellEditor() {
 			
@@ -130,27 +135,27 @@ public class BaseCandidateController extends BaseController{
 			}
 		});
 		row.addColumn(name);
-		
-		HtmlColumn degree = new HtmlColumn("degree");
-		degree.setWidth("width:20% nowrap");
-		degree.setTitle("最高学历");
-		degree.setCellEditor(new CellEditor() {
-			
-			@Override
-			public Object getValue(Object item, String property, int rowcount) {
-				TalentDTO dto = (TalentDTO)item;
-				
-				if(dto.getDegreeDto() != null){
-					return dto.getDegreeDto().getDisplayName();
-				}else {
-					return "";
-				}
-			}
-		});
-		row.addColumn(degree);
+
+//		HtmlColumn degree = new HtmlColumn("degree");
+//		degree.setWidth("width:20% nowrap");
+//		degree.setTitle("最高学历");
+//		degree.setCellEditor(new CellEditor() {
+//			
+//			@Override
+//			public Object getValue(Object item, String property, int rowcount) {
+//				TalentDTO dto = (TalentDTO)item;
+//				
+//				if(dto.getDegreeDto() != null){
+//					return dto.getDegreeDto().getDisplayName();
+//				}else {
+//					return "";
+//				}
+//			}
+//		});
+//		row.addColumn(degree);
 		
 		HtmlColumn place = new HtmlColumn("place");
-		place.setWidth("width:32% nowrap");
+		place.setWidth("10%");
 		place.setTitle("现居地");
 		place.setCellEditor(new CellEditor() {
 			
@@ -160,6 +165,68 @@ public class BaseCandidateController extends BaseController{
 			}
 		});
 		row.addColumn(place);
+		
+		HtmlColumn lastestEmployment = new HtmlColumn("lastestEmployment");
+		lastestEmployment.setWidth("30%");
+		lastestEmployment.setTitle("现任职公司");
+		lastestEmployment.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				TalentDTO dto = (TalentDTO)item;
+				List<EmploymentHistoryDTO> hsts = dto.getEmploymentHistoryDtos();
+				
+				if(!CollectionUtils.isEmpty(hsts)){
+					if(hsts.get(0) != null && hsts.get(0).getEndTimeDto() == null){
+						EmploymentHistoryDTO hst = hsts.get(0);
+						StringBuffer buffer = new StringBuffer();
+						buffer.append(hst.getCompanyName());
+						buffer.append("<br>");
+						
+						if(!CollectionUtils.isEmpty(hst.getPositionDtos())){
+							for(PositionDTO post : hst.getPositionDtos()){
+								buffer.append(post.getDisplayName() + ",");
+							}
+						}
+						return buffer.substring(0, buffer.length());
+					}
+				}
+				return StringUtils.EMPTY_STRING;
+			}
+		});
+		row.addColumn(lastestEmployment);
+		
+		HtmlColumn employmentHistory = new HtmlColumn("employmentHistory");
+		employmentHistory.setWidth("30%");
+		employmentHistory.setTitle("曾任职公司");
+		employmentHistory.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				TalentDTO dto = (TalentDTO)item;
+				
+				List<EmploymentHistoryDTO> hsts = dto.getEmploymentHistoryDtos();
+				
+				if(!CollectionUtils.isEmpty(hsts)){
+					StringBuffer buffer = new StringBuffer();
+					for(int i=1 ; i<hsts.size() ; i++){
+						EmploymentHistoryDTO hst = hsts.get(i);
+						buffer.append(hst.getCompanyName() + "&nbsp;&nbsp;");
+						
+						if(!CollectionUtils.isEmpty(hst.getPositionDtos())){
+							for(PositionDTO post : hst.getPositionDtos()){
+								buffer.append(post.getDisplayName() + ",");
+							}
+						}
+						buffer.append("<br>");
+					}
+					return buffer.toString();
+				}
+				
+				return StringUtils.EMPTY_STRING;
+			}
+		});
+		row.addColumn(employmentHistory);
 		
 		return table;
 	}

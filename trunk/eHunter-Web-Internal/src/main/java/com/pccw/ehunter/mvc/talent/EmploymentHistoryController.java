@@ -50,6 +50,13 @@ public class EmploymentHistoryController extends BaseController{
 	public ModelAndView fillEmploymentHistory(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		ModelAndView mv = new ModelAndView("talent/employmentHistoryCreate");
 		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
 		List<EmploymentHistoryDTO> dtos = talentDto.getEmploymentHistoryDtos();
 		
 		if(CollectionUtils.isEmpty(dtos)){
@@ -62,6 +69,7 @@ public class EmploymentHistoryController extends BaseController{
 		mv.addObject(SessionAttributeConstant.TALENT_EMPLOYMENT_HISTORY_DTO, new EmploymentHistoryDTO());
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject("clearField", CommonConstant.YES);
+		mv.addObject(ModuleIndicator.MODULE, module);
 		return mv;
 	}
 
@@ -80,8 +88,21 @@ public class EmploymentHistoryController extends BaseController{
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/addEmploymentHistory.do", true));
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
 		
-		mv.addObject(ActionFlag.ACTION_FLAG, actionFlag);
+		if(StringUtils.isEmpty(actionFlag)){
+			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
+		}else {
+			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		}
 		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
+		mv.addObject(ActionFlag.ACTION_FLAG, actionFlag);
+		mv.addObject(ModuleIndicator.MODULE, module);
 		return mv;
 	}
 	
@@ -131,8 +152,19 @@ public class EmploymentHistoryController extends BaseController{
 			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
 		}
 		
+		String module = request.getParameter(ModuleIndicator.MODULE);
+		if(StringUtils.isEmpty(module)){
+			module = (String)request.getSession(false).getAttribute(ModuleIndicator.MODULE);
+		}else {
+			request.getSession(false).setAttribute(ModuleIndicator.MODULE, module);
+		}
+		
 		if(ActionFlag.COMPLETE.equals(actionFlag) && isNothingInput(employmentHistoryDto)){
-			mv = new ModelAndView(new RedirectViewExt("/talent/saveEmploymentHistory.do", true));
+			if(ModuleIndicator.TALENT_REGISTRATION.equals(module)){				
+				mv = new ModelAndView(new RedirectViewExt("/talent/saveEmploymentHistory.do", true));
+			}else {
+				mv = new ModelAndView(new RedirectViewExt("/talent/updateEmploymentHistories.do", true));
+			}
 			mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
 			return mv;
 		}
@@ -157,14 +189,6 @@ public class EmploymentHistoryController extends BaseController{
 			mv.addObject("clearField", CommonConstant.NO);
 			return mv;
 		}
-		
-		if(ActionFlag.COMPLETE.equals(actionFlag)){
-			mv = new ModelAndView(new RedirectViewExt("/talent/saveEmploymentHistory.do", true));
-			mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
-			return mv;
-		}
-		
-		mv = new ModelAndView("talent/employmentHistoryCreate");
 		
 		employmentHistoryDto.setIndustryCategoryDto(codeTableHelper.getIndustryCategoryByCode(request, employmentHistoryDto.getIndustryCategory()));
 		employmentHistoryDto.setIndustryDto(codeTableHelper.getIndustryByCode(employmentHistoryDto.getIndustry()));
@@ -191,6 +215,18 @@ public class EmploymentHistoryController extends BaseController{
 				}
 			}
 		});
+		
+		if(ActionFlag.COMPLETE.equals(actionFlag)){
+			if(ModuleIndicator.TALENT_REGISTRATION.equals(module)){				
+				mv = new ModelAndView(new RedirectViewExt("/talent/saveEmploymentHistory.do", true));
+			}else {
+				mv = new ModelAndView(new RedirectViewExt("/talent/updateEmploymentHistories.do", true));
+			}
+			mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
+			return mv;
+		}
+		
+		mv = new ModelAndView("talent/employmentHistoryCreate");
 		
 		mv.addObject(SessionAttributeConstant.TALENT_EMPLOYMENT_HISTORY_DTO, new EmploymentHistoryDTO());
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);

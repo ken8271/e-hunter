@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.constant.CommonConstant;
+import com.pccw.ehunter.convertor.SimpleDateConvertor;
 import com.pccw.ehunter.dao.TalentCommonDAO;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
@@ -56,9 +60,50 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 				dtos.add(tlnt);
 			}
 		}
+		
+		if(!CollectionUtils.isEmpty(dtos)){
+			for(TalentDTO tlnt : dtos){
+				tlnt.setEmploymentHistoryDtos(getEmploymentHistoriesByTalentID(tlnt.getTalentID()));
+			}
+		}
 		return dtos;
 	}
-
+	
+	private List<EmploymentHistoryDTO> getEmploymentHistoriesByTalentID(String talentID){
+		List<Object> list = talentCommonDao.getEmploymentHistoriesByTalentID(talentID);
+		List<EmploymentHistoryDTO> histories = new ArrayList<EmploymentHistoryDTO>();
+		
+		if(!CollectionUtils.isEmpty(list)){
+			EmploymentHistoryDTO hst = null;
+			for(Object o : list){
+				hst = new EmploymentHistoryDTO();
+				Object[] os = (Object[])o;
+				hst.setBeginTimeDto(SimpleDateConvertor.toSimpleDate((Date)os[0]));
+				hst.setEndTimeDto(SimpleDateConvertor.toSimpleDate((Date)os[1]));
+				hst.setCompanyName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+				hst.setPositions(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+				initialPositionByCode(hst);
+				
+				histories.add(hst);
+			}
+		}
+		
+		return histories;
+	}
+	
+	private void initialPositionByCode(EmploymentHistoryDTO employmentHistoryDto){
+		List<PositionDTO> positionDtos = new ArrayList<PositionDTO>();
+		if(!StringUtils.isEmpty(employmentHistoryDto.getPositions())){
+			String[] positions = StringUtils.tokenize(employmentHistoryDto.getPositions(), CommonConstant.COMMA);
+			if(positions != null && positions.length != 0){
+				for(String code : positions){
+					positionDtos.add(codeTableHelper.getPositionByCode(code));
+				}
+			}
+		}
+		employmentHistoryDto.setPositionDtos(positionDtos);
+	}
+	
 	@Override
 	@Transactional(readOnly=true)
 	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria) {

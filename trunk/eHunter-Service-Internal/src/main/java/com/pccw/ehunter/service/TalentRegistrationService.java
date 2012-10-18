@@ -9,4 +9,5 @@ public interface TalentRegistrationService {
 	public TalentDTO getTalentByID(String id , boolean byHibernate);
 	public void udpateTalent(TalentDTO talentDto);
 	public void submitResumes(TalentDTO dto);
+	public void updateEmploymentHistories(TalentDTO dto);
 }
