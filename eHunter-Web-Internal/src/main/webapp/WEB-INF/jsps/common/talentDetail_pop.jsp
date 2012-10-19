@@ -96,6 +96,14 @@
 		   <td><c:out value="${talentDto.email }" escapeXml="true"></c:out></td>
 		</tr>
 		<tr class="contentTableRow1">
+		   <td>QQ：</td>
+		   <td>
+		      <c:out value="${talentDto.QQ }" escapeXml="true"></c:out><br/>
+		   </td>
+		   <td>MSN：</td>
+		   <td><c:out value="${talentDto.msn }" escapeXml="true"></c:out></td>
+		</tr>
+		<tr class="contentTableRow1">
 		   <td>家庭地址：</td>
 		   <td colspan="3"><c:out value="${talentDto.homeAddress }"></c:out></td>
 		</tr>

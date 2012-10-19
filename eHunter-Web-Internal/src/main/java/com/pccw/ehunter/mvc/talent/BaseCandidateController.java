@@ -82,7 +82,7 @@ public class BaseCandidateController extends BaseController{
 		}
 		
 		HtmlColumn talentId = new HtmlColumn("talentID");
-		talentId.setWidth("15%");
+		talentId.setWidth("10%");
 		talentId.setTitle("人才编号");
 		talentId.setCellEditor(new CellEditor() {
 			
@@ -105,7 +105,7 @@ public class BaseCandidateController extends BaseController{
 				
 				StringBuffer buffer = new StringBuffer();
 				
-				buffer.append("<a href=\"");
+				buffer.append("<a style='text-decoration:none' href=\"");
 				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
 				buffer.append("\">");
 				buffer.append(dto.getTalentID());
@@ -116,7 +116,7 @@ public class BaseCandidateController extends BaseController{
 		row.addColumn(talentId);
 		
 		HtmlColumn name = new HtmlColumn("name");
-		name.setWidth("10%");
+		name.setWidth("15%");
 		name.setTitle("姓名");
 		name.setCellEditor(new CellEditor() {
 			
@@ -188,7 +188,7 @@ public class BaseCandidateController extends BaseController{
 								buffer.append(post.getDisplayName() + ",");
 							}
 						}
-						return buffer.substring(0, buffer.length());
+						return buffer.substring(0, buffer.length()-1);
 					}
 				}
 				return StringUtils.EMPTY_STRING;
