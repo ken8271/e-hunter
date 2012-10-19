@@ -14,4 +14,6 @@ public interface TalentCommonService {
 	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<TalentDTO> getCandidatesByCriteria(HttpServletRequest request , TalentPagedCriteria pagedCriteria);
 	public List<ProjectDTO> getParticipatedProjectByTalentID(String talentID);
+	public List<TalentDTO> getTalentsByPhoneNumber(String phone);
+	public List<TalentDTO> getTalentsByEmail(String email);
 }

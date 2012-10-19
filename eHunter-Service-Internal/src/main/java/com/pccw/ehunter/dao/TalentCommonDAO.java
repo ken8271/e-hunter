@@ -12,4 +12,6 @@ public interface TalentCommonDAO {
 	public List<Object> getParticipatedProjectByTalentID(String talentID);
 	public Object getTalentByID(String talentID);
 	public List<Object> getEmploymentHistoriesByTalentID(String talentID);
+	public List<String> getTalentsByPhoneNumber(String phone);
+	public List<String> getTalentsByEmail(String email);
 }
