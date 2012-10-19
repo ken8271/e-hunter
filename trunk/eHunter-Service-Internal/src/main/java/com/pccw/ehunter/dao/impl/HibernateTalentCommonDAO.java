@@ -294,4 +294,55 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		});
 		return list;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getTalentsByPhoneNumber(final String phone) {
+		List<String> list = (List<String>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT SYS_REF_TLNT ");
+				buffer.append(" FROM T_TLNT_BS_INF ");
+				buffer.append(" WHERE 1 = 1 ");
+				buffer.append(" AND ( ");
+				buffer.append(" PRI_TEL_NBR1 = :phone ");
+				buffer.append(" OR PRI_TEL_NBR2 = :phone ");
+				buffer.append(" OR PRI_TEL_NBR3 = :phone ");
+				buffer.append(" ) ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("phone", phone);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getTalentsByEmail(final String email) {
+		List<String> list = (List<String>)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT SYS_REF_TLNT ");
+				buffer.append(" FROM T_TLNT_BS_INF ");
+				buffer.append(" WHERE EMAIL = :email ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("email", email);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

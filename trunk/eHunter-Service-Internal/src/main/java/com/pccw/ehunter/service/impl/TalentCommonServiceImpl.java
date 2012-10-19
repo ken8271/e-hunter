@@ -138,4 +138,40 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 		return dtos;
 	}
 
+	@Override
+	@Transactional(readOnly=true)
+	public List<TalentDTO> getTalentsByPhoneNumber(String phone) {
+		List<String> list = talentCommonDao.getTalentsByPhoneNumber(phone);
+		List<TalentDTO> tlnts = new ArrayList<TalentDTO>();
+		
+		if(!CollectionUtils.isEmpty(list)){
+			TalentDTO dto = null;
+			for(String str : list){
+				dto = new TalentDTO();
+				if(!StringUtils.isEmpty(str)) dto.setTalentID(str);
+				tlnts.add(dto);
+			}
+		}
+		
+		return tlnts;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<TalentDTO> getTalentsByEmail(String email) {
+		List<String> list = talentCommonDao.getTalentsByEmail(email);
+		List<TalentDTO> tlnts = new ArrayList<TalentDTO>();
+		
+		if(!CollectionUtils.isEmpty(list)){
+			TalentDTO dto = null;
+			for(String str : list){
+				dto = new TalentDTO();
+				if(!StringUtils.isEmpty(str)) dto.setTalentID(str);
+				tlnts.add(dto);
+			}
+		}
+		
+		return tlnts;
+	}
+
 }
