@@ -171,12 +171,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">QQ：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">QQ：</td>
 					    <td>
 							<form:input path="QQ" cssClass="standardInputText" maxlength="11"/>
 							<common:errorSign id="QQ" path="QQ"></common:errorSign>
 					    </td>
-						<td class="labelColumn">MSN：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">MSN：</td>
 						<td>
 						   <form:input path="msn" cssClass="standardInputText" maxlength="50" /> 
 					       <common:errorSign id="msn" path="msn"></common:errorSign>

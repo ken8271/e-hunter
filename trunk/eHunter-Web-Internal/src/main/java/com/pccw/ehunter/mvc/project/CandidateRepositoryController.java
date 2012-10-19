@@ -541,22 +541,34 @@ public class CandidateRepositoryController extends BaseController{
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
 				CandidateDTO dto = (CandidateDTO)item;
-				StringBuffer url = new StringBuffer();
-				url.append(request.getContextPath());
-				url.append("/talent/viewCandidateContactHistory.do?_tid=");
-				url.append(dto.getTalentDto().getTalentID());
-				url.append("&_pid=");
-				url.append(projectDto.getSystemProjectRefNum());
-				url.append("&module=" + ModuleIndicator.PROJECT_CANDIDATE_REPOSITORY);
+//				StringBuffer url = new StringBuffer();
+//				url.append(request.getContextPath());
+//				url.append("/talent/viewCandidateContactHistory.do?_tid=");
+//				url.append(dto.getTalentDto().getTalentID());
+//				url.append("&_pid=");
+//				url.append(projectDto.getSystemProjectRefNum());
+//				url.append("&module=" + ModuleIndicator.PROJECT_CANDIDATE_REPOSITORY);
+//				
+//				StringBuffer buffer = new StringBuffer();
+//				
+//				buffer.append("<a href=\"");
+//				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
+//				buffer.append("\">");
+//				buffer.append(dto.getTalentDto().getTalentID());
+//				buffer.append("</a>");
+								
+				StringBuffer viewUrl = new StringBuffer();
+				viewUrl.append(request.getContextPath());
+				viewUrl.append("/talent/pop/viewTalentDetail.do?_id=");
+				viewUrl.append(dto.getTalentDto().getTalentID());
 				
-				StringBuffer buffer = new StringBuffer();
-				
-				buffer.append("<a href=\"");
-				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
-				buffer.append("\">");
-				buffer.append(dto.getTalentDto().getTalentID());
-				buffer.append("</a>");
-				return buffer.toString();
+				StringBuffer html = new StringBuffer();
+				html.append(dto.getTalentDto().getTalentID() + "&nbsp;");
+				html.append("<img src=\"" + request.getContextPath() + "/images/icon/tips.gif\" ");
+				html.append("title=\"查看候选人资料\" ");
+				html.append("style=\"vertical-align: middle; cursor: pointer;\" ");
+				html.append("onclick=\"var customerInfoWindow = window.open('" + URLUtils.getHDIVUrl(request, viewUrl.toString())+ "','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');\" ");
+				return html.toString();
 			}
 		});
 		row.addColumn(talentId);
@@ -639,12 +651,11 @@ public class CandidateRepositoryController extends BaseController{
 		HtmlColumn view = new HtmlColumn("view");
 		view.setWidth("5%");
 		view.setStyle("width:5%;align:center");
-		view.setTitle("查看");
+		view.setTitle("联系记录");
 		view.setCellEditor(new CellEditor() {
 			
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
-				//<img src="${imagePath }/icon/tips.gif" title="查看项目资料" style="vertical-align: middle; cursor: pointer;" onclick="var customerInfoWindow = window.open('${viewProjectUrl}','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');" />
 				CandidateDTO dto = (CandidateDTO)item;
 				
 				StringBuffer viewUrl = new StringBuffer();
