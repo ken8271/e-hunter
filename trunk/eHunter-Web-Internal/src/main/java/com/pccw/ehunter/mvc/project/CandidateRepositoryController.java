@@ -541,21 +541,6 @@ public class CandidateRepositoryController extends BaseController{
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
 				CandidateDTO dto = (CandidateDTO)item;
-//				StringBuffer url = new StringBuffer();
-//				url.append(request.getContextPath());
-//				url.append("/talent/viewCandidateContactHistory.do?_tid=");
-//				url.append(dto.getTalentDto().getTalentID());
-//				url.append("&_pid=");
-//				url.append(projectDto.getSystemProjectRefNum());
-//				url.append("&module=" + ModuleIndicator.PROJECT_CANDIDATE_REPOSITORY);
-//				
-//				StringBuffer buffer = new StringBuffer();
-//				
-//				buffer.append("<a href=\"");
-//				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
-//				buffer.append("\">");
-//				buffer.append(dto.getTalentDto().getTalentID());
-//				buffer.append("</a>");
 								
 				StringBuffer viewUrl = new StringBuffer();
 				viewUrl.append(request.getContextPath());
@@ -640,7 +625,7 @@ public class CandidateRepositoryController extends BaseController{
 				CandidateDTO dto = (CandidateDTO)item;
 				
 				if(!StringUtils.isEmpty(dto.getCandidateStatus())){
-					return dto.getCandidateStatusDto().getDisplayName();
+					return "<span style='align:center'>" +dto.getCandidateStatusDto().getDisplayName() + "</span>";
 				}else {
 					return StringUtils.EMPTY_STRING;
 				}
@@ -650,7 +635,6 @@ public class CandidateRepositoryController extends BaseController{
 		
 		HtmlColumn view = new HtmlColumn("view");
 		view.setWidth("5%");
-		view.setStyle("width:5%;align:center");
 		view.setTitle("联系记录");
 		view.setCellEditor(new CellEditor() {
 			
@@ -658,16 +642,21 @@ public class CandidateRepositoryController extends BaseController{
 			public Object getValue(Object item, String property, int rowcount) {
 				CandidateDTO dto = (CandidateDTO)item;
 				
-				StringBuffer viewUrl = new StringBuffer();
-				viewUrl.append(request.getContextPath());
-				viewUrl.append("/talent/pop/viewTalentDetail.do?_id=");
-				viewUrl.append(dto.getTalentDto().getTalentID());
+				StringBuffer url = new StringBuffer();
+				url.append(request.getContextPath());
+				url.append("/talent/viewCandidateContactHistory.do?_tid=");
+				url.append(dto.getTalentDto().getTalentID());
+				url.append("&_pid=");
+				url.append(projectDto.getSystemProjectRefNum());
+				url.append("&module=" + ModuleIndicator.PROJECT_CANDIDATE_REPOSITORY);
 				
 				StringBuffer html = new StringBuffer();
-				html.append("<img src=\"" + request.getContextPath() + "/images/icon/tips.gif\" ");
-				html.append("title=\"查看候选人资料\" ");
+				html.append("<table width='100%' cellspacing='0' cellpadding='0'><tr><td align='center'>");
+				html.append("<img src=\"" + request.getContextPath() + "/images/icon/edit.gif\" ");
+				html.append("title=\"查看/编辑候选人联系记录\" ");
 				html.append("style=\"vertical-align: middle; cursor: pointer;\" ");
-				html.append("onclick=\"var customerInfoWindow = window.open('" + URLUtils.getHDIVUrl(request, viewUrl.toString())+ "','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');\" ");
+				html.append("onclick=\"location.href='" + URLUtils.getHDIVUrl(request, url.toString())+ "'\" />");
+				html.append("</td></tr></table>");
 				
 				return html.toString();
 			}

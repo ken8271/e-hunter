@@ -11,6 +11,7 @@
 			<h3 class="menuheader expandable">人才库管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx}/talent/initAddTalent.do">新增人才</a></li>
+			<li><a href="${ctx }/talent/initDraftBatchUpload.do">批量导入人才资料</a></li>
 			<li><a href="${ctx}/talent/initTalentsSearch.do">人才查询</a></li>
 			<li><a href="${ctx}/talent/initCandidateContact.do">人才联系记录</a></li>
 			</ul>
