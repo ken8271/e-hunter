@@ -42,5 +42,7 @@ public class SessionAttributeConstant {
 	public static final String LIST_OF_CUSTOMER_CONTACT_HISTORY = "listOfCustomerContactHistory";
 	public static final String LIST_OF_RESPONSE_PERSON = "listOfResponsePerson";
 	
+	public static final String BATCH_UPLOAD_DTO = "batchUploadDto";
+	
 	public static final String BACK_URL = "backUrl";
 }
