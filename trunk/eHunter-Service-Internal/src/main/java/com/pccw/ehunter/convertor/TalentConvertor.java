@@ -1,5 +1,6 @@
 package com.pccw.ehunter.convertor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -8,9 +9,11 @@ import org.springframework.util.CollectionUtils;
 import com.pccw.ehunter.domain.internal.EmploymentHistory;
 import com.pccw.ehunter.domain.internal.Resume;
 import com.pccw.ehunter.domain.internal.Talent;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentEnquireDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
+import com.pccw.ehunter.utility.StringUtils;
 
 public class TalentConvertor {
 	
@@ -80,6 +83,35 @@ public class TalentConvertor {
 		}
 		
 		return pagedCriteria;
+	}
+	
+	public static List<TalentDTO> toDtos(List<String[]> list){
+		if(CollectionUtils.isEmpty(list)) return null;
+		
+		List<TalentDTO> dtos = new ArrayList<TalentDTO>();
+		
+		TalentDTO dto = null;
+		EmploymentHistoryDTO hst = null;
+		for(String[] arr : list){
+			if(StringUtils.isEmpty(arr)) continue;
+			
+			dto = new TalentDTO();
+			hst = new EmploymentHistoryDTO();
+			for(int i=0 ; i<arr.length ; i++){
+				dto.setCnName(StringUtils.isEmpty(arr[0]) ? StringUtils.EMPTY_STRING : arr[0]);
+				dto.setEnName(StringUtils.isEmpty(arr[1]) ? StringUtils.EMPTY_STRING : arr[1]);
+				dto.setMobilePhoneDto1(MobilePhoneConvertor.toDto(StringUtils.isEmpty(arr[2]) ? StringUtils.EMPTY_STRING : arr[2]));
+				hst = new EmploymentHistoryDTO();
+				hst.setCompanyName(StringUtils.isEmpty(arr[3]) ? StringUtils.EMPTY_STRING : arr[3]);
+				hst.setPositions(StringUtils.isEmpty(arr[4]) ? StringUtils.EMPTY_STRING : arr[4]);
+				dto.getEmploymentHistoryDtos().add(hst);
+				dto.setNowLivePlace(StringUtils.isEmpty(arr[5]) ? StringUtils.EMPTY_STRING : arr[5]);
+			}
+			
+			dtos.add(dto);
+		}
+		
+		return dtos;
 	}
 	
 }
