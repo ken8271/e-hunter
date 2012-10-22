@@ -164,5 +164,11 @@
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-spring-mvc-2.5</artifactId>
 		</dependency>
+		
+		<!-- POI -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
 	</dependencies>
 </project>
