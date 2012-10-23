@@ -119,4 +119,16 @@ public class TalentBaseInfoValidator extends AbstractValidator{
 		return isValid;
 	}
 
+	public void validateCreateableForBatchUpload(TalentDTO target, Errors errors) {
+		validateRequired(errors, "cnName", target.getCnName(), "中文名");
+		validateStringLength(errors, "cnName", target.getCnName(), "中文名", 30);
+		
+		validateStringLength(errors, "enName", target.getEnName(), "英文名", 30);
+		
+		if(target.getMobilePhoneDto1() != null && !StringUtils.isEmpty(target.getMobilePhoneDto1().getPhoneNumber())){
+			if(!isValidPhoneNumber(target, target.getMobilePhoneDto1().getPhoneNumber())){
+				errors.rejectValue("mobilePhoneDto1.phoneNumber", "EHT-E-0006", new String[]{"手机号码"}, "The phone number has been regited [EHT-E-0006]");
+			}
+		}
+	}
 }
