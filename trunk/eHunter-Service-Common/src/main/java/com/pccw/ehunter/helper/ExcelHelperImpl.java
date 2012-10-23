@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.pccw.ehunter.utility.StringUtils;
+
 @Component("excel2003Helper")
 public class ExcelHelperImpl implements ExcelHelper{
 	
@@ -68,7 +70,7 @@ public class ExcelHelperImpl implements ExcelHelper{
 				rowData = new String[cols];
 				row = sheet.getRow(i);
 				for(int j=0 ; j<cols ; j++){
-					rowData[j] = row.getCell(j).getStringCellValue();
+					rowData[j] = getCellValue(row.getCell(j));
 				}
 				result.add(rowData);
 			}
@@ -78,6 +80,15 @@ public class ExcelHelperImpl implements ExcelHelper{
 		}
 		
 		return result;
+	}
+	
+	private String getCellValue(HSSFCell cell){
+		switch (cell.getCellType()) {
+		   case HSSFCell.CELL_TYPE_STRING: return cell.getStringCellValue();
+		   case HSSFCell.CELL_TYPE_NUMERIC: return Double.toString(cell.getNumericCellValue());
+		   case HSSFCell.CELL_TYPE_BOOLEAN: return Boolean.toString(cell.getBooleanCellValue());
+		   default:return StringUtils.EMPTY_STRING;
+		}
 	}
 
 }
