@@ -16,7 +16,7 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"></bean> 
 	
 	<!-- Multipart Resolver -->
-	<bean id="multipartResolver" class="org.hdiv.web.multipart.HDIVMultipartResolver" >
+	<bean id="multipartResolver" class="com.pccw.ehunter.hdiv.HDIVMultipartResolver" >
 	   <property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
