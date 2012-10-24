@@ -36,12 +36,12 @@
 			<artifactId>eHunter-Repository</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 		</dependency>
-		
+
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -164,11 +164,17 @@
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-spring-mvc-2.5</artifactId>
 		</dependency>
-		
+
 		<!-- POI -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
+		</dependency>
+
+		<!-- OpenOffice JOD -->
+		<dependency>
+			<groupId>com.artofsolving</groupId>
+			<artifactId>jodconverter</artifactId>
 		</dependency>
 	</dependencies>
 </project>
