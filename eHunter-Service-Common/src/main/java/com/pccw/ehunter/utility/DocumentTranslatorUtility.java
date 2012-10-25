@@ -1,65 +1,48 @@
 package com.pccw.ehunter.utility;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.ConnectException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+import com.pccw.ehunter.thread.ErrorStreamProcessThread;
+import com.pccw.ehunter.thread.InputStreamProcessThread;
 
 public class DocumentTranslatorUtility {
-
-	public static int convertPdf2Swf(String sourcePath, String destPath,
-			String fileName) {
+	
+	private static final Logger logger = LoggerFactory.getLogger(DocumentTranslatorUtility.class);
+	
+	public static int convertPdf2Swf(String command) {
 		Runtime r = null;
 		Process process = null;
 		try {
-			File dest = new File(destPath);
-			if (!dest.exists())
-				dest.mkdirs();
-			System.out.println("--------1--------");
-			File source = new File(sourcePath);
-			if (!source.exists())
-				return 0;
-			System.out.println("--------2--------");
-			String command = "C:/Program Files/SWFTools/pdf2swf.exe  -t \""
-					+ sourcePath
-					+ "\" -o  \""
-					+ destPath
-					+ "/test.swf\" -s flashversion=9 -s languagedir=D:/development-tools/xpdf/xpdf-chinese-simplified ";
-			System.out.println(command);
+//			File dest = new File(destPath);
+//			if (!dest.exists()) dest.mkdirs();
+//			
+//			File source = new File(sourcePath);
+//			if (!source.exists()) return 0;
+//
+
+			
 			r = Runtime.getRuntime();
 			process = r.exec(command);
-			System.out.println("--------3--------");
-			InputStream is2 = process.getErrorStream();
-			BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
-			StringBuilder buf = new StringBuilder(); // 保存输出结果流
-			String line = null;
-			while ((line = br2.readLine()) != null)
-				buf.append(line); // 循环等待ffmpeg进程结束
-			System.out.println("输出结果为：" + buf);
-			System.out.println("--------4--------");
-			while (br2.readLine() != null)
-				;
+			
+			new InputStreamProcessThread(process).start();
+			new ErrorStreamProcessThread(process).start();
 
-			try {
-				process.waitFor();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("--------5--------");
+			process.waitFor();
+			
 			return process.exitValue();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(
-					"Execute the command of convert pdf to swf is wrong!", e);
+			logger.error(">>>>> Exception Catched(convertPdf2swf) : " + e.getMessage());
 		}
+		
+		return 0;
 	}
 
 	public static File convertOffice2Pdf(int openOfficePort, String inputPath,
@@ -93,20 +76,5 @@ public class DocumentTranslatorUtility {
 			connection.disconnect();
 			connection = null;
 		}
-	}
-
-	public static void main(String[] args) {
-		String sourcePath = "D:/RHCE教程.pdf";
-		String destPath = "D:/test";
-		String fileName = "Javssa.swf";
-		try {
-			convertPdf2Swf(sourcePath, destPath, fileName);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("error");
-		}
-		System.out.println("success");
-
 	}
 }

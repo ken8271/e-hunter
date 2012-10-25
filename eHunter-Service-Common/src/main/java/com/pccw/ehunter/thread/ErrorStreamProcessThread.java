@@ -10,9 +10,13 @@ import com.pccw.ehunter.utility.StringUtils;
 
 public class ErrorStreamProcessThread extends Thread{
 	
-	private Logger logger = LoggerFactory.getLogger(ErrorStreamProcessThread.class);
+	private static final Logger logger = LoggerFactory.getLogger(ErrorStreamProcessThread.class);
 	
 	private Process process;
+
+	public ErrorStreamProcessThread(Process process) {
+		this.process = process;
+	}
 
 	public Process getProcess() {
 		return process;
@@ -31,16 +35,6 @@ public class ErrorStreamProcessThread extends Thread{
 			}
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			
-			while (true) {
-				String text = null;
-				if (process == null) {
-					logger.debug("process is complete!");
-					break;
-				}
-				
-				while((text = reader.readLine()) != null) logger.error(text);
-			}
 			
 			StringBuilder buffer = new StringBuilder();
 			String line = null;

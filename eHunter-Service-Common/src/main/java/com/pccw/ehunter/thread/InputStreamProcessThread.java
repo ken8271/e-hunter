@@ -13,6 +13,11 @@ public class InputStreamProcessThread extends Thread{
 	
 	private Process process ;
 
+	public InputStreamProcessThread(Process process) {
+		super();
+		this.process = process;
+	}
+
 	public Process getProcess() {
 		return process;
 	}
