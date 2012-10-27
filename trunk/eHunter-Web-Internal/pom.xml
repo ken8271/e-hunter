@@ -269,5 +269,11 @@
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-jstl-taglibs-1.1.2</artifactId>
 		</dependency>
+		
+		<!-- OpenOffice JOD -->
+		<dependency>
+			<groupId>com.artofsolving</groupId>
+			<artifactId>jodconverter</artifactId>
+		</dependency>
 	</dependencies>
 </project>
