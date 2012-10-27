@@ -25,4 +25,9 @@ public class CommonConstant {
 	public static final String PREFIX_TALENT_ID = "T";
 	public static final String PREFIX_PROJECT_ID = "P";
 	public static final String PREFIX_RESUME_ID = "R";
+	
+	public static final String SUFFIX_PDF = ".pdf";
+	
+	public static final String SUFFIX_SWF = ".swf";
+	
 }
