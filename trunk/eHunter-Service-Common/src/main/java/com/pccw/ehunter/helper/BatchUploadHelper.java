@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.utility.DocumentTranslatorUtility;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -25,7 +26,7 @@ public class BatchUploadHelper {
 	}
 	
 	public void upload(){
-		String command = getPdf2swfCommand("D:", "D:/test", "jbpm");
+		String command = getPdf2swfCommand("D:", "D:\\test", "RHCE教程");
 		System.out.println("+++COMMAND+++" + command);
 		DocumentTranslatorUtility.convertPdf2Swf(command);
 	}
@@ -39,8 +40,8 @@ public class BatchUploadHelper {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(pdf2swfPath);
-		buffer.append(" -t " + sourcePath + "/" + fileName + ".pdf");
-		buffer.append(" -o " + destPath + "/" +fileName + ".swf");
+		buffer.append(" -t " + sourcePath + File.separator + fileName + CommonConstant.SUFFIX_PDF);
+		buffer.append(" -o " + destPath + File.separator + fileName + CommonConstant.SUFFIX_SWF);
 		buffer.append(" -s flashversion=9 ");
 		buffer.append(" -s languagedir=" + xpdfPath);
 		
