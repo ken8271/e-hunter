@@ -27,8 +27,7 @@
 	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />
 
 	<!-- System parameter -->
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
@@ -37,6 +36,15 @@
 				</value>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="xmlProcessorConfig" class="java.util.Properties">
+	   <constructor-arg>
+	      <props>
+	         <prop key="convert.toSwf.xpdf">${convert.toSwf.xpdf}</prop>
+	         <prop key="convert.toSwf.pdf2swf">${convert.toSwf.pdf2swf}</prop>
+	      </props>
+	   </constructor-arg>
 	</bean>
 
 	<!-- Data Source -->
