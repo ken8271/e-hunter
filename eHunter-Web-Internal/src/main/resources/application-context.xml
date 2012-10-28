@@ -43,6 +43,8 @@
 	      <props>
 	         <prop key="convert.toSwf.xpdf">${convert.toSwf.xpdf}</prop>
 	         <prop key="convert.toSwf.pdf2swf">${convert.toSwf.pdf2swf}</prop>
+	         <prop key="resume.path.upload">${resume.path.upload}</prop>
+	         <prop key="resume.path.swf">${resume.path.swf}</prop>
 	      </props>
 	   </constructor-arg>
 	</bean>
