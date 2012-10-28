@@ -17,17 +17,22 @@ public class BatchUploadHelper {
 	private String xpdfPath ;
 	
 	private String pdf2swfPath ;
+	
+	private String uploadDirectory;
+	
+	private String swfDirectory;
 
 	@Autowired
 	@Qualifier("xmlProcessorConfig")
 	public void setProperties(Properties xmlProcessorConfig){
 		xpdfPath = xmlProcessorConfig.getProperty("convert.toSwf.xpdf");
 		pdf2swfPath = xmlProcessorConfig.getProperty("convert.toSwf.pdf2swf");
+		uploadDirectory = xmlProcessorConfig.getProperty("resume.path.upload");
+		swfDirectory = xmlProcessorConfig.getProperty("resume.path.swf");
 	}
 	
-	public void upload(){
-		String command = getPdf2swfCommand("D:", "D:\\test", "RHCE教程");
-		System.out.println("+++COMMAND+++" + command);
+	public void convertPdf2Swf(String fileName){
+		String command = getPdf2swfCommand(uploadDirectory, swfDirectory, fileName.substring(0, fileName.indexOf(".")));
 		DocumentTranslatorUtility.convertPdf2Swf(command);
 	}
 	
