@@ -20,15 +20,7 @@ public class DocumentTranslatorUtility {
 	public static int convertPdf2Swf(String command) {
 		Runtime r = null;
 		Process process = null;
-		try {
-//			File dest = new File(destPath);
-//			if (!dest.exists()) dest.mkdirs();
-//			
-//			File source = new File(sourcePath);
-//			if (!source.exists()) return 0;
-//
-
-			
+		try {			
 			r = Runtime.getRuntime();
 			process = r.exec(command);
 			
@@ -45,8 +37,7 @@ public class DocumentTranslatorUtility {
 		return 0;
 	}
 
-	public static File convertOffice2Pdf(int openOfficePort, String inputPath,
-			String outputPath) {
+	public static File convertOffice2Pdf(int openOfficePort, String inputPath,String outputPath) {
 		OpenOfficeConnection connection = null;
 		File inputFile = null;
 		File outputFile = null;
