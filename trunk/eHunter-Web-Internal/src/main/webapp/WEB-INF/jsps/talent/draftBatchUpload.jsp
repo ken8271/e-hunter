@@ -9,7 +9,7 @@
 </head>
 <body>
     <hdiv-c:url value="/talent/downloadBatchUploadTemplate.do" var="downloadUrl"></hdiv-c:url>
-	<form:form commandName="batchUploadDto" enctype="multipart/form-data" action="${ctx }/talent/submitBatchUploadDraft.do" method="post">
+	<form:form commandName="batchUploadDto" enctype="multipart/form-data" action="${ctx }/talent/submitAttachementUpload.do" method="post">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">批量导入候选人才资料</td>
