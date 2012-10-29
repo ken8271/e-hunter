@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/style/ehunter.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jmesa.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/style/jquery.validate.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/style/flexpaper.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/script/jscalendar/calendar-blue.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/script/greybox/gb_styles.css" />
 <script type="text/javascript">
@@ -24,6 +25,9 @@
 <script type="text/javascript" src="${ctx}/script/jquery.form.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery.validate.js"></script>
 <script type="text/javascript" src="${ctx}/script/progressbar/jquery.processing.plugin.js"></script>
+<script type="text/javascript" src="${ctx}/script/flexpaper/flexpaper.js"></script>
+<script type="text/javascript" src="${ctx}/script/flexpaper/flexpaper_handlers.js"></script>
+<script type="text/javascript" src="${ctx}/script/flexpaper/swfobject.js"></script>
 <script type="text/javascript" src="${ctx}/script/jmesa.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery.jmesa.js"></script>
 <script type="text/javascript" src="${ctx}/script/jscalendar/calendar.js"></script>

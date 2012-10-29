@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.dto.BatchUploadDTO;
-import com.pccw.ehunter.helper.BatchUploadHelper;
+import com.pccw.ehunter.helper.BatchUploadFileConvertor;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.utility.FileUtils;
 
@@ -28,7 +28,7 @@ public class ResumeUploadController extends BaseController{
 	private String uploadPath;
 	
 	@Autowired
-	private BatchUploadHelper batchUploadHelper;
+	private BatchUploadFileConvertor fileConvertor;
 	
 	@Autowired
 	@Qualifier("xmlProcessorConfig")
@@ -38,7 +38,7 @@ public class ResumeUploadController extends BaseController{
 
 	@RequestMapping("/talent/initAttachementUpload.do")
 	public ModelAndView initTalentBatchUpload(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("talent/draftBatchUpload");
+		ModelAndView mv = new ModelAndView("talent/resumeBatchUpload");
 		
 		mv.addObject(SessionAttributeConstant.BATCH_UPLOAD_DTO, new BatchUploadDTO());
 		return mv;
@@ -50,10 +50,18 @@ public class ResumeUploadController extends BaseController{
 		
 		try {
 			FileUtils.write2Disk(uploadPath, uploadFile.getOriginalFilename(), uploadFile.getInputStream());
-			batchUploadHelper.convertPdf2Swf(uploadFile.getOriginalFilename());
+			fileConvertor.convertPdf2Swf(uploadFile.getOriginalFilename());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return mv;
+	}
+	
+	@RequestMapping("/talent/ViewAttachmentOnline.do")
+	public ModelAndView ViewAttachmentOnline(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("common/viewAttachmentOnline");
+		//String attachmentID = request.getParameter("_id");
+		//read from DB
 		return mv;
 	}
 }

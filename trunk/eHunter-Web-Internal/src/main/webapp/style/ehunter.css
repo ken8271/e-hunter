@@ -524,3 +524,7 @@ A.button:hover {
 }
 /*--- standard form input end -----*/
 
+.flashContent {
+	display:none;
+}
+
