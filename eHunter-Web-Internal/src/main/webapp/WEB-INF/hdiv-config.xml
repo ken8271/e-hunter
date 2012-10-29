@@ -60,6 +60,7 @@
 				<value>/customer/initCustomersSearch.do</value>
 				<value>/talent/initAddTalent.do</value>
 				<value>/talent/initDraftBatchUpload.do</value>
+				<value>/talent/initAttachementUpload.do</value>
 				<value>/talent/initTalentsSearch.do</value>
 				<value>/talent/initCandidateContact.do</value>
 				<value>/project/initNewProject.do</value>
