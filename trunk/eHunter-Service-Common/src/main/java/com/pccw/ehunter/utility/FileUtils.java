@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 public class FileUtils {
 	
@@ -18,6 +19,8 @@ public class FileUtils {
 	public static final String PDF_FILE_EXT = ".pdf";
 	
 	public static final String WORD_FILE_EXT = ".doc";
+	
+	public static final String SWF_FILE_EXT = ".swf";
 	
 	public static boolean isPdfFile(String fileName){
 		return fileName.endsWith(PDF_FILE_EXT);
@@ -141,4 +144,17 @@ public class FileUtils {
 				dos.close();
 		}
 	}
+	
+	public static String getExtension(String filename){
+		if(filename.indexOf(StringUtils.DOT) != -1){
+			return filename.substring(filename.indexOf(StringUtils.DOT) , filename.length());
+		}
+		
+		return StringUtils.EMPTY_STRING;
+	}
+	
+	public static String genUUIDFileName(String extension){
+		return UUID.randomUUID().toString() + extension;
+	}
+	
 }

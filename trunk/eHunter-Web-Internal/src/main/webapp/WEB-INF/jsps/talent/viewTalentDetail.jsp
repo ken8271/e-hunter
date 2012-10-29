@@ -59,7 +59,7 @@ function asgnCandidate2SelectedProject(c){
 </head>
 <body>
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
-    <hdiv-c:url value="/talent/fillTalentResume.do?module=5" var="editResumeUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/initAttachementUpload.do?_id=${talentDto.talentID }" var="addCvUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/fillEmploymentHistory.do?module=5" var="editEmploymentHistoryUrl"></hdiv-c:url>
     <c:if test="${module == '4' }">
        <hdiv-c:url value="/talent/completeTalentRegistration.do" var="backUrl"></hdiv-c:url>
@@ -78,7 +78,7 @@ function asgnCandidate2SelectedProject(c){
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
+						    <input class="standardButton" type="button" value="新增简历" onclick="location.href='${addCvUrl}'" />&nbsp;
 						    <input class="standardButton" type="button" value="新增/编辑工作经历" onclick="location.href='${editEmploymentHistoryUrl}'" />&nbsp;
 							<input class="standardButton" type="button" value="添加到项目" onclick="popUpSelector();">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
@@ -287,7 +287,7 @@ function asgnCandidate2SelectedProject(c){
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" type="button" value="新增/编辑简历" onclick="location.href='${editResumeUrl}'" />&nbsp;
+						    <input class="standardButton" type="button" value="新增简历" onclick="location.href='${addCvUrl}'" />&nbsp;
 						    <input class="standardButton" type="button" value="新增/编辑工作经历" onclick="location.href='${editEmploymentHistoryUrl}'" />&nbsp;
 							<input class="standardButton" type="button" value="添加到项目" onclick="popUpSelector();">&nbsp;
 						    <input class="standardButton" type="button" value="编辑" onclick="location.href='${editUrl}'"/>&nbsp;
