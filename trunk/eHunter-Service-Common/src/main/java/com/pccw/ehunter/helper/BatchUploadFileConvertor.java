@@ -11,8 +11,8 @@ import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.utility.DocumentTranslatorUtility;
 import com.pccw.ehunter.utility.StringUtils;
 
-@Component("batchUploadHelper")
-public class BatchUploadHelper {
+@Component("fileConvertor")
+public class BatchUploadFileConvertor {
 	
 	private String xpdfPath ;
 	
