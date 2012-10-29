@@ -44,5 +44,7 @@ public class SessionAttributeConstant {
 	
 	public static final String BATCH_UPLOAD_DTO = "batchUploadDto";
 	
+	public static final String ATTACHMENT_CV_DTO = "cvDto";
+	
 	public static final String BACK_URL = "backUrl";
 }

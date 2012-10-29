@@ -8,12 +8,20 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 </head>
 <body>
-    <hdiv-c:url value="/talent/downloadBatchUploadTemplate.do" var="downloadUrl"></hdiv-c:url>
-	<form:form commandName="batchUploadDto" enctype="multipart/form-data" action="${ctx }/talent/submitAttachementUpload.do" method="post">
+	<form:form commandName="cvDto" enctype="multipart/form-data" action="${ctx }/talent/submitAttachementUpload.do" method="post">
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">批量导入候选人才资料</td>
 			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
+		   <tr>
+		      <td width="20%" class="labelColumn">人才编号：</td>
+		      <td>
+		         <c:out value="${cvDto.talentID }" escapeXml="true"></c:out>
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
@@ -31,7 +39,6 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							<input class="standardButton" type="button" value="获取模版" onclick="location.href='${downloadUrl}'" />&nbsp;
 							<input class="standardButton" type="submit" value="开始上传" />&nbsp;
 							<input class="standardButton" type="button" value="取消上传" />&nbsp;
 							</td>
