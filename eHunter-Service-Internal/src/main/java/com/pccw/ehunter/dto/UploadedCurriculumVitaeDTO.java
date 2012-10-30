@@ -2,22 +2,22 @@ package com.pccw.ehunter.dto;
 
 import java.io.File;
 
-import com.pccw.ehunter.utility.FileUtils;
-
-public class AttachmentCurriculumVitaeDTO extends BaseDTO {
+public class UploadedCurriculumVitaeDTO extends BaseDTO {
 	private static final long serialVersionUID = 6401596643520265519L;
 
+	private String cvID;
 	private String talentID;
-	private String originalFileName;
+	private String cvName;
 
 	private String baseUploadDir;
 	private String baseSwfDir;
 	private String relativeUploadPath;
 	private String relativeSwfPath;
-	
+
+	private String language;
 	private String size;
-	private boolean encrypted;
-	private boolean converted;
+	private String encrypted;
+	private String converted;
 
 	public String getTalentID() {
 		return talentID;
@@ -27,12 +27,12 @@ public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 		this.talentID = talentID;
 	}
 
-	public String getOriginalFileName() {
-		return originalFileName;
+	public String getCvName() {
+		return cvName;
 	}
 
-	public void setOriginalFileName(String originalFileName) {
-		this.originalFileName = originalFileName;
+	public void setCvName(String cvName) {
+		this.cvName = cvName;
 	}
 
 	public String getBaseUploadDir() {
@@ -75,19 +75,35 @@ public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 		this.size = size;
 	}
 
-	public boolean isEncrypted() {
+	public String getCvID() {
+		return cvID;
+	}
+
+	public void setCvID(String cvID) {
+		this.cvID = cvID;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getEncrypted() {
 		return encrypted;
 	}
 
-	public void setEncrypted(boolean encrypted) {
+	public void setEncrypted(String encrypted) {
 		this.encrypted = encrypted;
 	}
 
-	public boolean isConverted() {
+	public String getConverted() {
 		return converted;
 	}
 
-	public void setConverted(boolean converted) {
+	public void setConverted(String converted) {
 		this.converted = converted;
 	}
 
@@ -98,28 +114,28 @@ public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 	public String getSwfPath() {
 		return baseSwfDir + relativeSwfPath;
 	}
-	
-	private String getUploadDir(){
-		return baseUploadDir + relativeUploadPath.substring(0, relativeUploadPath.lastIndexOf(File.separator));
+
+	private String getUploadDir() {
+		return baseUploadDir + relativeUploadPath.substring(0,relativeUploadPath.lastIndexOf(File.separator));
 	}
-	
-	private String getSwfDir(){
-		return baseSwfDir + relativeSwfPath.substring(0 , relativeSwfPath.lastIndexOf(File.separator));
+
+	private String getSwfDir() {
+		return baseSwfDir + relativeSwfPath.substring(0,relativeSwfPath.lastIndexOf(File.separator));
 	}
-	
-	public String getUploadFileExtension(){
-		return FileUtils.getExtension(originalFileName);
-	}
-	
-	public void prepareDiskDirs(){
+
+	public void prepareDiskDirs() {
 		File ud = new File(getUploadDir());
-		if(!ud.exists()){
+		if (!ud.exists()) {
 			ud.mkdirs();
 		}
-		
+
 		File sd = new File(getSwfDir());
-		if(!sd.exists()){
+		if (!sd.exists()) {
 			sd.mkdirs();
 		}
+	}
+	
+	public String getSwfFileName(){
+		return relativeSwfPath.substring(relativeSwfPath.lastIndexOf(File.separator)+1, relativeSwfPath.length());
 	}
 }
