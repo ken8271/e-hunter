@@ -1,8 +1,6 @@
 package com.pccw.ehunter.utility;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -106,42 +104,50 @@ public class FileUtils {
 		in.close();
 	}
 	
-	public static void write2Disk(String directory , String fileName , InputStream in)throws IOException{
-		write2Disk(directory, fileName, in, false);
-	}
-	
 	public static void write2Disk(String directory , String fileName , InputStream in , boolean append) throws IOException{
-		File dir = new File(directory);
+		FileOutputStream out = null;
 		
-		if(!dir.exists()){
-			dir.mkdirs();
+		try {		
+			File dir = new File(directory);
+			
+			if(!dir.exists()){
+				dir.mkdirs();
+			}
+			
+			out = new FileOutputStream(directory + File.separator + fileName , append);
+			
+			byte[] buffer = new byte[BUFFER_SIZE];
+			
+			int numRead = in.read(buffer);
+			while (numRead > 0) {
+				out.write(buffer, 0, numRead);
+				numRead = in.read(buffer);
+			}
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if(out != null) out.close();
+			if(in != null) in.close();
 		}
-		
-		FileOutputStream out = new FileOutputStream(directory + File.separator + fileName , append);
-		
-		byte[] buffer = new byte[BUFFER_SIZE];
-		
-		int numRead = in.read(buffer);
-		while (numRead > 0) {
-			out.write(buffer, 0, numRead);
-			numRead = in.read(buffer);
-		}
-		out.close();
-		in.close();
 	}
 
-	public static void write2Disk(File inFile, String content)
-			throws IOException {
-		DataOutputStream dos = null;
+	public static void write2Disk(File outFile, InputStream in , boolean append) throws IOException {
+		FileOutputStream out = null;
 		try {
-			dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(inFile)));
-			dos.writeBytes(content);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			throw ioe;
+			out = new FileOutputStream(outFile , append);
+			
+			byte[] buffer = new byte[BUFFER_SIZE];
+			
+			int numRead = in.read(buffer);
+			while (numRead > 0) {
+				out.write(buffer, 0, numRead);
+				numRead = in.read(buffer);
+			}
+		} catch (IOException e) {
+			throw e;
 		} finally {
-			if (dos != null)
-				dos.close();
+			if(out != null) out.close();
+			if(in != null) in.close();
 		}
 	}
 	
@@ -153,7 +159,7 @@ public class FileUtils {
 		return StringUtils.EMPTY_STRING;
 	}
 	
-	public static String genUUIDFileName(String extension){
+	public static String replaceFileNameWithUUID(String extension){
 		return UUID.randomUUID().toString() + extension;
 	}
 	

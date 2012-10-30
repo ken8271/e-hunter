@@ -3,6 +3,8 @@ package com.pccw.ehunter.helper;
 import java.io.File;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,8 @@ import com.pccw.ehunter.utility.StringUtils;
 
 @Component("fileConvertor")
 public class BatchUploadFileConvertor {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BatchUploadFileConvertor.class);
 	
 	private String xpdfPath ;
 	
@@ -33,9 +37,6 @@ public class BatchUploadFileConvertor {
 		File source = new File(sourcePath);
 		if(!source.exists()) return StringUtils.EMPTY_STRING;
 		
-		File dest = new File(destPath);
-		if(!dest.exists()) dest.mkdirs();
-		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(pdf2swfPath);
 		buffer.append(" -t " + sourcePath);
@@ -43,6 +44,7 @@ public class BatchUploadFileConvertor {
 		buffer.append(" -s flashversion=9 ");
 		buffer.append(" -s languagedir=" + xpdfPath);
 		
+		logger.debug(">>>>>PDF2SWF Command : " + buffer.toString());
 		return buffer.toString();
 	}
 }
