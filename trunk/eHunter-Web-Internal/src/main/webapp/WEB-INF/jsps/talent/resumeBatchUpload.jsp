@@ -22,9 +22,19 @@
 		         <c:out value="${cvDto.talentID }" escapeXml="true"></c:out>
 		      </td>
 		   </tr>
-		</table>
-		<div class="emptyBlock"></div>
-		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%" >
+		   <tr>
+		       <td class="labelColumn">简历名称：<span class="mandatoryField">*</span></td>
+		       <td>
+		          <form:input path="cvName" cssClass="standardInputText"/>
+		          <common:errorSign id="cvName" path="cvName"></common:errorSign>
+		       </td>
+		       <td class="labelColumn">语言版本：<span class="mandatoryField">*</span></td>
+		       <td>
+		         <form:radiobutton path="language" value="cn" /> 中文&nbsp;/
+		         <form:radiobutton path="language" value="en" /> 英文&nbsp;
+		         <common:errorSign id="language" path="language"></common:errorSign>
+		       </td>
+		   </tr>
 		   <tr>
 		      <td width="20%" class="labelColumn">上传文件：<span class="mandatoryField">*</span></td>
 		      <td>
