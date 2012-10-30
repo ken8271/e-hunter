@@ -1,12 +1,20 @@
 package com.pccw.ehunter.dto;
 
+import java.io.File;
+
+import com.pccw.ehunter.utility.FileUtils;
+
 public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 	private static final long serialVersionUID = 6401596643520265519L;
 
 	private String talentID;
-	private String cvName;
-	private String uploadPath;
-	private String swfPath;
+	private String originalFileName;
+
+	private String baseUploadDir;
+	private String baseSwfDir;
+	private String relativeUploadPath;
+	private String relativeSwfPath;
+	
 	private String size;
 	private boolean encrypted;
 	private boolean converted;
@@ -19,28 +27,44 @@ public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 		this.talentID = talentID;
 	}
 
-	public String getCvName() {
-		return cvName;
+	public String getOriginalFileName() {
+		return originalFileName;
 	}
 
-	public void setCvName(String cvName) {
-		this.cvName = cvName;
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
 	}
 
-	public String getUploadPath() {
-		return uploadPath;
+	public String getBaseUploadDir() {
+		return baseUploadDir;
 	}
 
-	public void setUploadPath(String uploadPath) {
-		this.uploadPath = uploadPath;
+	public void setBaseUploadDir(String baseUploadDir) {
+		this.baseUploadDir = baseUploadDir;
 	}
 
-	public String getSwfPath() {
-		return swfPath;
+	public String getBaseSwfDir() {
+		return baseSwfDir;
 	}
 
-	public void setSwfPath(String swfPath) {
-		this.swfPath = swfPath;
+	public void setBaseSwfDir(String baseSwfDir) {
+		this.baseSwfDir = baseSwfDir;
+	}
+
+	public String getRelativeUploadPath() {
+		return relativeUploadPath;
+	}
+
+	public void setRelativeUploadPath(String relativeUploadPath) {
+		this.relativeUploadPath = relativeUploadPath;
+	}
+
+	public String getRelativeSwfPath() {
+		return relativeSwfPath;
+	}
+
+	public void setRelativeSwfPath(String relativeSwfPath) {
+		this.relativeSwfPath = relativeSwfPath;
 	}
 
 	public String getSize() {
@@ -67,4 +91,35 @@ public class AttachmentCurriculumVitaeDTO extends BaseDTO {
 		this.converted = converted;
 	}
 
+	public String getUploadPath() {
+		return baseUploadDir + relativeUploadPath;
+	}
+
+	public String getSwfPath() {
+		return baseSwfDir + relativeSwfPath;
+	}
+	
+	private String getUploadDir(){
+		return baseUploadDir + relativeUploadPath.substring(0, relativeUploadPath.lastIndexOf(File.separator));
+	}
+	
+	private String getSwfDir(){
+		return baseSwfDir + relativeSwfPath.substring(0 , relativeSwfPath.lastIndexOf(File.separator));
+	}
+	
+	public String getUploadFileExtension(){
+		return FileUtils.getExtension(originalFileName);
+	}
+	
+	public void prepareDiskDirs(){
+		File ud = new File(getUploadDir());
+		if(!ud.exists()){
+			ud.mkdirs();
+		}
+		
+		File sd = new File(getSwfDir());
+		if(!sd.exists()){
+			sd.mkdirs();
+		}
+	}
 }
