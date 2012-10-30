@@ -11,7 +11,7 @@
 	var swfVersionStr = "10.0.0";
 	var xiSwfUrlStr = "playerProductInstall.swf";
 	var flashvars = {
-		SwfFile : '${ctx}/swf/${swfFileName}',
+		SwfFile : '${ctx}/temp/${swfPath}',
 		Scale : 0.6,
 		ZoomTransition : "easeOut",
 		ZoomTime : 0.5,
