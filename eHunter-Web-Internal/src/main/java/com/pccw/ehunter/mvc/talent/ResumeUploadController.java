@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,22 +50,40 @@ public class ResumeUploadController extends BaseController{
 		String talentID = request.getParameter("_id");
 		AttachmentCurriculumVitaeDTO cvDto = new AttachmentCurriculumVitaeDTO();
 		cvDto.setTalentID(talentID);
+		cvDto.setBaseUploadDir(uploadDirectory);
+		cvDto.setBaseSwfDir(swfDirectory);
 		
 		mv.addObject(SessionAttributeConstant.ATTACHMENT_CV_DTO , cvDto);
 		return mv;
 	}
 	
 	@RequestMapping("/talent/submitAttachementUpload.do")
-	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.ATTACHMENT_CV_DTO)AttachmentCurriculumVitaeDTO cvDto){
+	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.ATTACHMENT_CV_DTO)AttachmentCurriculumVitaeDTO cvDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView("talent/uploadSuccess");
 		
-		
 		try {
-			String uploadPath = getUploadDirectory(cvDto.getTalentID());
-			String fileName = FileUtils.genUUIDFileName(FileUtils.getExtension(uploadFile.getOriginalFilename()));
-			FileUtils.write2Disk(uploadPath,fileName , uploadFile.getInputStream());
+			//validation
+			
+			if(errors.hasErrors()){
+				mv = new ModelAndView("talent/resumeBatchUpload");
+				mv.addObject(SessionAttributeConstant.ATTACHMENT_CV_DTO, cvDto);
+				return mv;
+			}
+			
+			//set properties
+			cvDto.setOriginalFileName(uploadFile.getOriginalFilename());
+			cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(cvDto.getUploadFileExtension()));
+			cvDto.setRelativeSwfPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.SWF_FILE_EXT));
+			
+			//prepare disk files
+			cvDto.prepareDiskDirs();
+			
+			//write the original file to disk
+			FileUtils.write2Disk(new File(cvDto.getUploadPath()), uploadFile.getInputStream(),false);
+			
+			//convert upload file to swf
 			if(FileUtils.isPdfFile(uploadFile.getOriginalFilename())){
-				fileConvertor.convertPdf2Swf(uploadPath + File.separator + fileName , getSwfDirectory(cvDto.getTalentID()) + File.separator +  FileUtils.genUUIDFileName(FileUtils.SWF_FILE_EXT));
+				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(),cvDto.getSwfPath());
 			}else if(FileUtils.isWordFile(uploadFile.getOriginalFilename())){
 				
 			}
@@ -72,18 +91,6 @@ public class ResumeUploadController extends BaseController{
 			logger.error(">>>>>Exception Catched(submitAttachementUpload) :" + e.getMessage());
 		}
 		return mv;
-	}
-	
-	private void setPath(AttachmentCurriculumVitaeDTO cvDto){
-		
-	}
-	
-	private String getUploadDirectory(String talentID) throws Exception{
-		return uploadDirectory + File.separator + StringEncryptUtils.encrypt(talentID, StringEncryptUtils.KEY_MD5);
-	}
-	
-	private String getSwfDirectory(String talentID) throws Exception{
-		return swfDirectory + File.separator + StringEncryptUtils.encrypt(talentID, StringEncryptUtils.KEY_MD5);
 	}
 	
 	@RequestMapping("/talent/ViewAttachmentOnline.do")
