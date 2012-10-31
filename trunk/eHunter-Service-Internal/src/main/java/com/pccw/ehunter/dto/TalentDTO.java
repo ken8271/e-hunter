@@ -32,6 +32,7 @@ public class TalentDTO extends BaseDTO {
 	private DegreeDTO degreeDto;
 	private ResumeDTO resumeDto;
 	private List<ResumeDTO> resumeDtos = new ArrayList<ResumeDTO>(0);
+	private List<UploadedCurriculumVitaeDTO> cvDtos = new ArrayList<UploadedCurriculumVitaeDTO>();
 	
 	private EmploymentHistoryDTO employmentHistoryDto;
 	private List<EmploymentHistoryDTO> employmentHistoryDtos = new ArrayList<EmploymentHistoryDTO>();
@@ -235,5 +236,13 @@ public class TalentDTO extends BaseDTO {
 
 	public void setMsn(String msn) {
 		this.msn = msn;
+	}
+
+	public List<UploadedCurriculumVitaeDTO> getCvDtos() {
+		return cvDtos;
+	}
+
+	public void setCvDtos(List<UploadedCurriculumVitaeDTO> cvDtos) {
+		this.cvDtos = cvDtos;
 	}
 }
