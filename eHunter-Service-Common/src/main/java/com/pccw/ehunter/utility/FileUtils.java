@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.UUID;
 
@@ -148,6 +149,28 @@ public class FileUtils {
 		} finally {
 			if(out != null) out.close();
 			if(in != null) in.close();
+		}
+	}
+	
+	public static void readfile(File src , OutputStream out) throws IOException{
+		FileInputStream in = null;
+		try {			
+			byte[] buffer = new byte[BUFFER_SIZE];
+			in = new FileInputStream(src);
+			
+			int length = 0;
+			while((length = in.read(buffer)) > 0){
+				out.write(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if(out != null){
+				out.close();
+			}
+			if(in != null){
+				in.close();
+			}
 		}
 	}
 	
