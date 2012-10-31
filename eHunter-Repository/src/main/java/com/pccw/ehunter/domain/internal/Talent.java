@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,6 +42,8 @@ public class Talent extends BaseEntity {
 	
 	private List<Resume> resumes;
 	private List<EmploymentHistory> employmentHistories;
+	
+	private List<UploadedCurriculumVitae> cvs;
 
 	@Id
 	@Column(name="SYS_REF_TLNT")
@@ -212,6 +215,16 @@ public class Talent extends BaseEntity {
 
 	public void setEmploymentHistories(List<EmploymentHistory> employmentHistories) {
 		this.employmentHistories = employmentHistories;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@JoinColumn(name="SYS_REF_TLNT")
+	public List<UploadedCurriculumVitae> getCvs() {
+		return cvs;
+	}
+
+	public void setCvs(List<UploadedCurriculumVitae> cvs) {
+		this.cvs = cvs;
 	}
 
 	@Column(name="QQ_NBR")
