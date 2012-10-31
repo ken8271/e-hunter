@@ -30,7 +30,7 @@ import com.pccw.ehunter.utility.StringEncryptUtils;
 
 @Controller
 @SessionAttributes({
-	SessionAttributeConstant.ATTACHMENT_CV_DTO
+	SessionAttributeConstant.UPLOADED_CV_DTO
 })
 public class CurriculumVitaeUploadController extends BaseController{
 	
@@ -61,12 +61,12 @@ public class CurriculumVitaeUploadController extends BaseController{
 		cvDto.setBaseUploadDir(uploadDirectory);
 		cvDto.setBaseSwfDir(swfDirectory);
 		
-		mv.addObject(SessionAttributeConstant.ATTACHMENT_CV_DTO , cvDto);
+		mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO , cvDto);
 		return mv;
 	}
 	
 	@RequestMapping("/talent/submitAttachementUpload.do")
-	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.ATTACHMENT_CV_DTO)UploadedCurriculumVitaeDTO cvDto , BindingResult errors){
+	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.UPLOADED_CV_DTO)UploadedCurriculumVitaeDTO cvDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
 		
 		try {
@@ -74,7 +74,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 			
 			if(errors.hasErrors()){
 				mv = new ModelAndView("talent/resumeBatchUpload");
-				mv.addObject(SessionAttributeConstant.ATTACHMENT_CV_DTO, cvDto);
+				mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO, cvDto);
 				return mv;
 			}
 			
