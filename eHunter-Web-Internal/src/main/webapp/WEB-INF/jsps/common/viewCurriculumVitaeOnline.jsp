@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>View Attachment</title>
+<title>${cvDto.talentID }-${cvDto.cvName }</title>
 <script type="text/javascript">
 	var swfVersionStr = "10.0.0";
 	var xiSwfUrlStr = "playerProductInstall.swf";
@@ -39,8 +39,8 @@
 	var attributes = {};
 	attributes.id = "FlexPaperViewer";
 	attributes.name = "FlexPaperViewer";
-	swfobject.embedSWF("${ctx}/swf/FlexPaperViewer.swf", "flashContent","950", "700", swfVersionStr, xiSwfUrlStr, flashvars, params,attributes);
-	swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+	swfobject.embedSWF("${ctx}/swf/FlexPaperViewer.swf", "flashContent","100%", "700", swfVersionStr, xiSwfUrlStr, flashvars, params,attributes);
+	swfobject.createCSS("#flashContent", "display:block;text-align:left;overflow: hidden");
 </script>
 </head>
 <body>
