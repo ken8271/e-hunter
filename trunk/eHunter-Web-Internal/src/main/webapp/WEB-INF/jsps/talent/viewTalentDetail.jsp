@@ -259,8 +259,8 @@ function asgnCandidate2SelectedProject(c){
 		   <tr class="contentTableTitle">
 		      <td width="10%" align="center">序号</td>
 		      <td width="10%">语言版本</td>
-		      <td width="50%">简历名称</td>
-		      <td width="20%" align="center">操作</td>
+		      <td width="55%">简历名称</td>
+		      <td width="15%" align="center">操作</td>
 		   </tr>
 		   <c:if test="${not empty talentDto.cvDtos }">
 		      <c:forEach items="${talentDto.cvDtos }" var="cvDto" varStatus="status">
@@ -272,11 +272,11 @@ function asgnCandidate2SelectedProject(c){
 		            </td>
 		            <td><c:out value="${cvDto.cvName }" escapeXml="true"></c:out></td>
 		            <td align="center"> 
-		              <hdiv-c:url value="/talent/ViewCurriculumVitaeOnline.do?_id=${cvDto.cvID }" var="viewUrl"></hdiv-c:url>
+		              <hdiv-c:url value="/talent/pop/viewCurriculumVitaeOnline.do?_id=${cvDto.cvID }" var="viewUrl"></hdiv-c:url>
 		              <hdiv-c:url value="/talent/downloadCurriculumVitae.do?_id=${cvDto.cvID }" var="cvDownUrl"></hdiv-c:url>
 		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  />&nbsp;
 		              <img src="${imagePath }/icon/download.gif" title="下载" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${cvDownUrl}'" />&nbsp;
-		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${viewUrl}'"/>&nbsp;
+		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="window.open('${viewUrl}');"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>

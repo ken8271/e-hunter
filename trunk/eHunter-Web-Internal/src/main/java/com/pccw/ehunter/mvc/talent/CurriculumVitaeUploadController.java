@@ -27,6 +27,7 @@ import com.pccw.ehunter.service.CurriculumVitaeUploadService;
 import com.pccw.ehunter.utility.FileUtils;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringEncryptUtils;
+import com.pccw.ehunter.utility.StringUtils;
 
 @Controller
 @SessionAttributes({
@@ -109,7 +110,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 		return mv;
 	}
 	
-	@RequestMapping("/talent/ViewCurriculumVitaeOnline.do")
+	@RequestMapping("/talent/pop/viewCurriculumVitaeOnline.do")
 	public ModelAndView ViewCurriculumVitaeOnline(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("common/viewCurriculumVitaeOnline");
 		
@@ -134,6 +135,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 			FileUtils.copyFile(swf, new File(tempPath + File.separator + cvDto.getSwfFileName()));
 			
 			mv.addObject("swfPath", cvDto.getSwfFileName());
+			mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO, cvDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(">>>>>Exception Catched(ViewCurriculumVitaeOnline) : " + e.getMessage());
@@ -154,9 +156,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 			
 			File file = new File(uploadDirectory + cvDto.getRelativeUploadPath());
 			if(cvDto != null && file.exists()){
-				//REMINDER : It should set ContentType first
-				//response.setContentType("application/vnd.ms-excel");
-				response.setHeader("Content-Disposition", "attachment;fileName="+ new String( cvDto.getCvName().getBytes("UTF-8"), "UTF-8" ) + ".pdf");
+				//REMINDER : It should set Header first
+				response.setHeader("Content-Disposition", "attachment;fileName="+ StringUtils.toUtf8String(cvDto.getCvName()) + ".pdf");
 				out = response.getOutputStream();
 				FileUtils.readfile(file, out);
 			}
