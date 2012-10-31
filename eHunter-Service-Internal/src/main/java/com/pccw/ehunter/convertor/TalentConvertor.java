@@ -32,6 +32,7 @@ public class TalentConvertor {
 		
 		dto.setResumeDtos(ResumeConvertor.toDtos(po.getResumes()));
 		dto.setEmploymentHistoryDtos(EmploymentHistoryConvertor.toDtos(po.getEmploymentHistories()));
+		dto.setCvDtos(UploadedCurriculumVitaeConvertor.toDtos(po.getCvs()));
 		
 		return dto;
 	}
