@@ -1,9 +1,11 @@
 package com.pccw.ehunter.mvc.talent;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +25,7 @@ import com.pccw.ehunter.helper.BatchUploadFileConvertor;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CurriculumVitaeUploadService;
 import com.pccw.ehunter.utility.FileUtils;
+import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringEncryptUtils;
 
 @Controller
@@ -64,7 +67,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 	
 	@RequestMapping("/talent/submitAttachementUpload.do")
 	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.ATTACHMENT_CV_DTO)UploadedCurriculumVitaeDTO cvDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView("talent/uploadSuccess");
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
 		
 		try {
 			//validation
@@ -101,6 +104,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 		} catch (Exception e) {
 			logger.error(">>>>>Exception Catched(submitAttachementUpload) :" + e.getMessage());
 		}
+		
+		mv.addObject("_id", cvDto.getTalentID());
 		return mv;
 	}
 	
@@ -135,5 +140,42 @@ public class CurriculumVitaeUploadController extends BaseController{
 		}
 
 		return mv;
+	}
+	
+	@RequestMapping("/talent/downloadCurriculumVitae.do")
+	public void downloadCurriculumVitae(HttpServletRequest request , HttpServletResponse response){
+		OutputStream out = null;
+		UploadedCurriculumVitaeDTO cvDto = null;
+		try {
+			
+			String id = request.getParameter("_id");
+			
+			cvDto = cvUploadService.getUploadedCurriculumVitaeByID(id);
+			
+			File file = new File(uploadDirectory + cvDto.getRelativeUploadPath());
+			if(cvDto != null && file.exists()){
+				//REMINDER : It should set ContentType first
+				//response.setContentType("application/vnd.ms-excel");
+				response.setHeader("Content-Disposition", "attachment;fileName="+ new String( cvDto.getCvName().getBytes("UTF-8"), "UTF-8" ) + ".pdf");
+				out = response.getOutputStream();
+				FileUtils.readfile(file, out);
+			}
+			
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeIOStream(out);
+		}
+	}
+	
+	private void closeIOStream(OutputStream out){
+		try {
+			if(out != null){
+				out.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

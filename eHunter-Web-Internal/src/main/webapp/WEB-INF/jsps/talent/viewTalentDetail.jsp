@@ -262,18 +262,21 @@ function asgnCandidate2SelectedProject(c){
 		      <td width="50%">简历名称</td>
 		      <td width="20%" align="center">操作</td>
 		   </tr>
-		   <c:if test="${not empty talentDto.resumeDtos }">
-		      <c:forEach items="${talentDto.resumeDtos }" var="resumeDto" varStatus="status">
+		   <c:if test="${not empty talentDto.cvDtos }">
+		      <c:forEach items="${talentDto.cvDtos }" var="cvDto" varStatus="status">
 		         <tr class="contentTableRow">
 		            <td>${status.index+1 }</td>
 		            <td>
-		               <c:if test="${resumeDto.language == 'cn'}">中文</c:if>
-		               <c:if test="${resumeDto.language == 'en' }">英文</c:if>
+		               <c:if test="${cvDto.language == 'cn'}">中文</c:if>
+		               <c:if test="${cvDto.language == 'en' }">英文</c:if>
 		            </td>
-		            <td><c:out value="${resumeDto.name }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${cvDto.cvName }" escapeXml="true"></c:out></td>
 		            <td align="center"> 
-		              <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
-		              <input class="standardButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>&nbsp;
+		              <hdiv-c:url value="/talent/ViewCurriculumVitaeOnline.do?_id=${cvDto.cvID }" var="viewUrl"></hdiv-c:url>
+		              <hdiv-c:url value="/talent/downloadCurriculumVitae.do?_id=${cvDto.cvID }" var="cvDownUrl"></hdiv-c:url>
+		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  />&nbsp;
+		              <img src="${imagePath }/icon/download.gif" title="下载" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${cvDownUrl}'" />&nbsp;
+		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${viewUrl}'"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>
