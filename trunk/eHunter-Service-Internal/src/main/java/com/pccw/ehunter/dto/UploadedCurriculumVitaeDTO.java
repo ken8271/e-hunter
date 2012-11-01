@@ -16,6 +16,7 @@ public class UploadedCurriculumVitaeDTO extends BaseDTO {
 
 	private String language;
 	private String size;
+	private String type;
 	private String encrypted;
 	private String converted;
 
@@ -89,6 +90,14 @@ public class UploadedCurriculumVitaeDTO extends BaseDTO {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getEncrypted() {
