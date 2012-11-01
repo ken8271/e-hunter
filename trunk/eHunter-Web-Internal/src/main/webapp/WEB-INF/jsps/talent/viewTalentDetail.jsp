@@ -274,9 +274,9 @@ function asgnCandidate2SelectedProject(c){
 		            <td align="center"> 
 		              <hdiv-c:url value="/talent/pop/viewCurriculumVitaeOnline.do?_id=${cvDto.cvID }" var="viewUrl"></hdiv-c:url>
 		              <hdiv-c:url value="/talent/downloadCurriculumVitae.do?_id=${cvDto.cvID }" var="cvDownUrl"></hdiv-c:url>
-		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  />&nbsp;
 		              <img src="${imagePath }/icon/download.gif" title="下载" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${cvDownUrl}'" />&nbsp;
 		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="window.open('${viewUrl}');"/>&nbsp;
+		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  />&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>

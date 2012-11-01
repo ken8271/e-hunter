@@ -45,6 +45,10 @@
 	         <prop key="convert.toSwf.pdf2swf">${convert.toSwf.pdf2swf}</prop>
 	         <prop key="resume.path.upload">${resume.path.upload}</prop>
 	         <prop key="resume.path.swf">${resume.path.swf}</prop>
+	         <prop key="resume.path.temp">${resume.path.temp}</prop>
+	         <prop key="openoffice.port">${openoffice.port}</prop>
+	         <prop key="openoffice.path">${openoffice.path}</prop>
+	         <prop key="openoffice.start.command">${openoffice.start.command}</prop>
 	      </props>
 	   </constructor-arg>
 	</bean>
