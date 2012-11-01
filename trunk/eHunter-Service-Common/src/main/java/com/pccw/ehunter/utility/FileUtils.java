@@ -186,4 +186,11 @@ public class FileUtils {
 		return UUID.randomUUID().toString() + extension;
 	}
 	
+	public static boolean handleDelete(File file){
+		if(file.exists()){
+			return file.delete();
+		}
+		
+		return false;
+	}
 }
