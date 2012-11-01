@@ -48,4 +48,10 @@ public class CurriculumVitaeUploadServiceImpl implements CurriculumVitaeUploadSe
 		return UploadedCurriculumVitaeConvertor.toDto(dao.findUniqueByProperty("cvID", id));
 	}
 
+	@Override
+	@Transactional
+	public void deleteCurriculumVitae(UploadedCurriculumVitaeDTO dto) {
+		dao.delete(UploadedCurriculumVitaeConvertor.toPo(dto));
+	}
+
 }
