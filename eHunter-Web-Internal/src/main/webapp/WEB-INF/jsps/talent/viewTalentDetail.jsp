@@ -59,7 +59,7 @@ function asgnCandidate2SelectedProject(c){
 </head>
 <body>
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
-    <hdiv-c:url value="/talent/initAttachementUpload.do?_id=${talentDto.talentID }" var="addCvUrl"></hdiv-c:url>
+    <hdiv-c:url value="/talent/initCurriculumVitaeUpload.do?_id=${talentDto.talentID }" var="addCvUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/fillEmploymentHistory.do?module=5" var="editEmploymentHistoryUrl"></hdiv-c:url>
     <c:if test="${module == '4' }">
        <hdiv-c:url value="/talent/completeTalentRegistration.do" var="backUrl"></hdiv-c:url>
@@ -274,9 +274,10 @@ function asgnCandidate2SelectedProject(c){
 		            <td align="center"> 
 		              <hdiv-c:url value="/talent/pop/viewCurriculumVitaeOnline.do?_id=${cvDto.cvID }" var="viewUrl"></hdiv-c:url>
 		              <hdiv-c:url value="/talent/downloadCurriculumVitae.do?_id=${cvDto.cvID }" var="cvDownUrl"></hdiv-c:url>
+		              <hdiv-c:url value="/talent/deleteCurriculumVitae.do?_id=${cvDto.cvID }" var="deleteUrl"></hdiv-c:url>
 		              <img src="${imagePath }/icon/download.gif" title="下载" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${cvDownUrl}'" />&nbsp;
 		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="window.open('${viewUrl}');"/>&nbsp;
-		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  />&nbsp;
+		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${deleteUrl}'"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>

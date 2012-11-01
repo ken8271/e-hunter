@@ -8,10 +8,19 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 </head>
 <body>
-	<form:form commandName="cvDto" enctype="multipart/form-data" action="${ctx }/talent/submitAttachementUpload.do" method="post">
+	<form:form commandName="cvDto" enctype="multipart/form-data" action="${ctx }/talent/submitCurriculumVitaeUpload.do" method="post">
 		<table border="0" width="100%">
 			<tr>
-				<td class="pageTitle">批量导入候选人才资料</td>
+				<td class="pageTitle">简历上传</td>
+			</tr>
+			<tr>
+				<td><common:errorTable path="eduExpDto"></common:errorTable></td>
+			</tr>
+		</table>
+		<div class="emptyBlock"></div>
+		<table border="0" width="100%">
+			<tr>
+				<td><common:errorTable path="cvDto"></common:errorTable></td>
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
@@ -37,8 +46,10 @@
 		   </tr>
 		   <tr>
 		      <td width="20%" class="labelColumn">上传文件：<span class="mandatoryField">*</span></td>
-		      <td>
+		      <td colspan="3">
 		         <input name="uploadFile" type="file" value="" size="30" maxlength="10">
+		         <common:errorSign id="type" path="type"></common:errorSign>
+		         <common:errorSign id="size" path="size"></common:errorSign>
 		      </td>
 		   </tr>
 		</table>
