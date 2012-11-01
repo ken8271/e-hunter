@@ -97,7 +97,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(),cvDto.getSwfPath());
 				cvDto.setConverted(CommonConstant.YES);
 			}else if(FileUtils.isWordFile(uploadFile.getOriginalFilename())){
-				
+				fileConvertor.convertOffice2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
+				cvDto.setConverted(CommonConstant.YES);
 			}
 			
 			cvUploadService.saveUploadedCurriculumVitae(cvDto);
@@ -157,7 +158,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 			File file = new File(uploadDirectory + cvDto.getRelativeUploadPath());
 			if(cvDto != null && file.exists()){
 				//REMINDER : It should set Header first
-				response.setHeader("Content-Disposition", "attachment;fileName="+ StringUtils.toUtf8String(cvDto.getCvName()) + ".pdf");
+				response.setHeader("Content-Disposition", "attachment;fileName="+ StringUtils.toUtf8String(cvDto.getCvName()) + FileUtils.getExtension(cvDto.getRelativeUploadPath()));
 				out = response.getOutputStream();
 				FileUtils.readfile(file, out);
 			}
