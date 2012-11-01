@@ -28,6 +28,7 @@ import com.pccw.ehunter.utility.FileUtils;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringEncryptUtils;
 import com.pccw.ehunter.utility.StringUtils;
+import com.pccw.ehunter.validator.UploadedCurriculumVitaeValidator;
 
 @Controller
 @SessionAttributes({
@@ -46,15 +47,18 @@ public class CurriculumVitaeUploadController extends BaseController{
 	private CurriculumVitaeUploadService cvUploadService;
 	
 	@Autowired
+	private UploadedCurriculumVitaeValidator cvUploadValidator;
+	
+	@Autowired
 	@Qualifier("xmlProcessorConfig")
 	public void setProperties(Properties xmlProcessorConfig){
 		uploadDirectory = xmlProcessorConfig.getProperty("resume.path.upload");
 		swfDirectory = xmlProcessorConfig.getProperty("resume.path.swf");
 	}
 
-	@RequestMapping("/talent/initAttachementUpload.do")
-	public ModelAndView initTalentBatchUpload(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("talent/resumeBatchUpload");
+	@RequestMapping("/talent/initCurriculumVitaeUpload.do")
+	public ModelAndView initCurriculumVitaeUpload(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("talent/curriculumVitaeUpload");
 		
 		String talentID = request.getParameter("_id");
 		UploadedCurriculumVitaeDTO cvDto = new UploadedCurriculumVitaeDTO();
@@ -66,23 +70,37 @@ public class CurriculumVitaeUploadController extends BaseController{
 		return mv;
 	}
 	
-	@RequestMapping("/talent/submitAttachementUpload.do")
-	public ModelAndView submitAttachementUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.UPLOADED_CV_DTO)UploadedCurriculumVitaeDTO cvDto , BindingResult errors){
+	@RequestMapping("/talent/submitCurriculumVitaeUpload.do")
+	public ModelAndView submitCurriculumVitaeUpload(HttpServletRequest request,@RequestParam("uploadFile") MultipartFile uploadFile , @ModelAttribute(SessionAttributeConstant.UPLOADED_CV_DTO)UploadedCurriculumVitaeDTO cvDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
 		
 		try {
 			//validation
+			if(uploadFile == null || StringUtils.isEmpty(uploadFile.getOriginalFilename())){
+				errors.rejectValue("size", "EHT-E-0010", null , "Please select the upload file [EHT-E-0012]");
+			}
 			
 			if(errors.hasErrors()){
-				mv = new ModelAndView("talent/resumeBatchUpload");
+				mv = new ModelAndView("talent/curriculumVitaeUpload");
+				mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO, cvDto);
+				return mv;
+			}
+			
+			String type = FileUtils.getExtension(uploadFile.getOriginalFilename());
+			cvDto.setType(type);
+			cvDto.setSize(Long.toString(uploadFile.getSize()));
+			
+			cvUploadValidator.validate(cvDto, errors);
+			
+			if(errors.hasErrors()){
+				mv = new ModelAndView("talent/curriculumVitaeUpload");
 				mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO, cvDto);
 				return mv;
 			}
 			
 			//set properties
-			cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.getExtension(uploadFile.getOriginalFilename())));
+			cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(type));
 			cvDto.setRelativeSwfPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.SWF_FILE_EXT));
-			cvDto.setSize(Long.toString(uploadFile.getSize()));
 			cvDto.setEncrypted(CommonConstant.NO);
 			cvDto.setConverted(CommonConstant.NO);
 			
@@ -169,6 +187,23 @@ public class CurriculumVitaeUploadController extends BaseController{
 		} finally {
 			closeIOStream(out);
 		}
+	}
+	
+	@RequestMapping("/talent/deleteCurriculumVitae.do")
+	public ModelAndView deleteCurriculumVitae(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
+		String id = request.getParameter("_id");
+		
+		UploadedCurriculumVitaeDTO cvDto = cvUploadService.getUploadedCurriculumVitaeByID(id);
+		
+		if(cvDto != null){
+			FileUtils.handleDelete(new File(uploadDirectory + cvDto.getRelativeUploadPath()));
+			FileUtils.handleDelete(new File(swfDirectory + cvDto.getRelativeSwfPath()));
+			cvUploadService.deleteCurriculumVitae(cvDto);
+		}
+		
+		mv.addObject("_id", cvDto.getTalentID());
+		return mv;
 	}
 	
 	private void closeIOStream(OutputStream out){
