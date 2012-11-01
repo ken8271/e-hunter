@@ -174,9 +174,9 @@ public class FileUtils {
 		}
 	}
 	
-	public static String getExtension(String filename){
-		if(filename.indexOf(StringUtils.DOT) != -1){
-			return filename.substring(filename.indexOf(StringUtils.DOT) , filename.length());
+	public static String getExtension(String nameOrPath){
+		if(nameOrPath.indexOf(StringUtils.DOT) != -1){
+			return nameOrPath.substring(nameOrPath.lastIndexOf(StringUtils.DOT));
 		}
 		
 		return StringUtils.EMPTY_STRING;
