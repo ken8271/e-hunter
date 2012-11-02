@@ -15,8 +15,7 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd"
 	default-autowire="byName">
 
-	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
-		autowire="no">
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no">
 		<property name="triggers">
 			<list>
 				<ref local="curriculumVitaeClearTrigger"/>
@@ -25,6 +24,17 @@
 		<property name="quartzProperties">
 			<props>
 				<prop key="org.quartz.threadPool.class">${org.quartz.threadPool.class}</prop>
+				<prop key="org.quartz.threadPool.threadCount">${org.quartz.threadPool.threadCount}</prop>		
+				<prop key="org.quartz.threadPool.threadPriority">${org.quartz.threadPool.threadPriority}</prop>	
+		 		<prop key="org.quartz.scheduler.instanceName">${org.quartz.scheduler.instanceName}</prop>
+		  	  	<prop key="org.quartz.scheduler.instanceId">${org.quartz.scheduler.instanceId}</prop>
+		  	  	<prop key="org.quartz.jobStore.misfireThreshold">${org.quartz.jobStore.misfireThreshold}</prop>
+		  	  	<prop key="org.quartz.jobStore.class">${org.quartz.jobStore.class}</prop>
+		  	  	<prop key="org.quartz.plugin.triggHistory.class">${org.quartz.plugin.triggHistory.class}</prop>
+		  	  	<prop key="org.quartz.plugin.triggHistory.jobToBeFiredMessage">${org.quartz.plugin.triggHistory.jobToBeFiredMessage}</prop>
+		  	  	<prop key="org.quartz.plugin.triggHistory.jobFailedMessage">${org.quartz.plugin.triggHistory.jobFailedMessage}</prop>
+		  	  	<prop key="org.quartz.plugin.triggHistory.jobSuccessMessage">${org.quartz.plugin.triggHistory.jobSuccessMessage}</prop>
+		  	  	<prop key="org.quartz.plugin.triggHistory.jobWasVetoedMessage">${org.quartz.plugin.triggHistory.jobWasVetoedMessage}</prop>
 			</props>
 		</property>
 	</bean>
@@ -36,7 +46,6 @@
 	
 	<bean id="curriculumVitaeClearTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="curriculumVitaeClearTask" />
-		<!-- Trigger every minute start at every 00s -->
-		<property name="cronExpression" value="0 * * * * ?" />
+		<property name="cronExpression" value="0 0 2 * * ?" />
 	</bean>
 </beans>

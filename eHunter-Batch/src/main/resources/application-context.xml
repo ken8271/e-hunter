@@ -16,8 +16,8 @@
 	
 	<context:annotation-config />
 
-	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />
-	<context:property-placeholder location="/WEB-INF/classes/quartz.properties" />
+	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" ignore-unresolvable="true"/>
+	<context:property-placeholder location="/WEB-INF/classes/quartz.properties" ignore-unresolvable="true"/>
 
 	<!-- Data Source -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -37,8 +37,7 @@
 		<!-- configLocations -->
 		<property name="configLocations">
 			<list>
-				<value>/WEB-INF/classes/hibernate.cfg.xml
-				</value>
+				<value>/WEB-INF/classes/hibernate.cfg.xml</value>
 			</list>
 		</property>
 		<!-- hibernate properties -->
@@ -76,6 +75,15 @@
 
 	<!-- annotation driven transactions: @Transactional -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="xmlProcessorConfig" class="java.util.Properties">
+	   <constructor-arg>
+	      <props>
+	         <prop key="ehunter.webapp.path">${ehunter.webapp.path}</prop>
+	         <prop key="cv.temp.relative.path">${cv.temp.relative.path}</prop>
+	      </props>
+	   </constructor-arg>
+	</bean>
 	
 	<import resource="application-batch.xml" />
 </beans>
