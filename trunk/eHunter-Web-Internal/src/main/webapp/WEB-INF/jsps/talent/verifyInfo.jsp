@@ -205,36 +205,6 @@
 			</c:if>
 		</table>
 		<br />
-		<div>
-			<span class="titleCh10">&nbsp;第四部分：</span><span class="titleCh10">人才简历</span>
-		</div>
-		<table class="verifyTable" style="border-collapse: collapse; margin-right: 5px" border="2" cellSpacing="0" width="100%" cellpadding="5px">
-			<tr>
-				<td align="center" width="15%"><span class="textCh8">序号</span><br /> <br /></td>
-				<td align="center" width="30%"><span class="textCh8">简历版本</span><br /> <br /></td>
-				<td align="center" width="15%"><span class="textCh8">简历名称</span><br /><br /></td>
-				<td align="center" width="25%"><span class="textCh8">完整度</span><br /><br /></td>
-				<td align="center" width="15%"><span class="textCh8">操作</span><br /><br /></td>
-			</tr>
-			<c:forEach items="${talentDto.resumeDtos }" var="resume" varStatus="status">
-			<tr>
-				<td><span class="textCn8"><c:out value="${status.index + 1 }"></c:out></span></td>
-				<td>
-				   <span class="textCn8">
-				      <c:if test="${resume.language == 'cn'}">中文</c:if>
-		              <c:if test="${resume.language == 'en' }">英文</c:if>
-				   </span>
-				</td>
-				<td><span class="textCn8"><c:out value="${resume.name }"></c:out></span></td>
-				<td><span class="textCn8"></span></td>
-				<td align="center">
-				    <hdiv-c:url value="/talent/pop/viewResume.do?_id=${status.index }" var="viewUrl"></hdiv-c:url>
-					<input class="tableButton" type="button" value="预览" onclick="var resumeWindow = window.open('${viewUrl}','resumeWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');"/>
-				</td>
-			</tr>
-			</c:forEach>
-		</table>
-		<br />
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
