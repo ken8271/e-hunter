@@ -7,6 +7,7 @@
 </head>
 <body>
         <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${talentDto.talentID }&module=4" var="viewTalentDetailUrl"></hdiv-c:url>
+        <hdiv-c:url value="/talent/initCurriculumVitaeUpload.do?_id=${talentDto.talentID }" var="addCvUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">人才资料预览</td>
@@ -17,7 +18,9 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="添加到项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td>
+							    <input class="standardButton" type="button" value="简历上传" onclick="location.href='${addCvUrl}'"/>&nbsp;
+							    <input class="standardButton" type="submit" value="添加到项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>
@@ -67,7 +70,9 @@
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="添加到项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
+							<td>
+							    <input class="standardButton" type="button" value="简历上传" onclick="location.href='${addCvUrl}'"/>&nbsp;
+							    <input class="standardButton" type="submit" value="添加到项目" onclick="location.href='${ctx}/project/initAddProject.do'"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
 						</tr>

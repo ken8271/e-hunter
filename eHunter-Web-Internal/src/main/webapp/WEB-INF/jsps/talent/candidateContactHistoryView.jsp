@@ -178,7 +178,7 @@ function submitContactHistory(){
         <c:if test="${module == '6' }">
            <hdiv-c:url value="/talent/candidatesSearch.do" var="backUrl"></hdiv-c:url>
         </c:if>
-        <hdiv-c:url value="/talent/pop/viewTalentDetail.do_id=${talentDto.talentID }" var="viewCandidateUrl"></hdiv-c:url>
+        <hdiv-c:url value="/talent/pop/viewTalentDetail.do?_id=${talentDto.talentID }" var="viewCandidateUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">候选人联系记录</td>

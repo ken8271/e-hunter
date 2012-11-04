@@ -37,7 +37,7 @@
 			<security:authorize ifAnyGranted="ROLE_ADMIN">
 			<h3 class="menuheader expandable">系统管理</h3>
 			<ul class="categoryitems">
-			<li><a href="#">用户管理</a></li>
+			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
 			<li><a href="#">代码维护</a></li>
 			<li><a href="#">数据备份</a></li>
 			<li><a href="#">系统参数管理</a></li>

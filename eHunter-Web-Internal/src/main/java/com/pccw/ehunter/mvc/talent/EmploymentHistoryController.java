@@ -244,7 +244,7 @@ public class EmploymentHistoryController extends BaseController{
 	
 	@RequestMapping("/talent/saveEmploymentHistory.do")
 	public ModelAndView saveEmploymentHistory(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/fillTalentResume.do", true));
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/verify.do", true));
 		mv.addObject(ModuleIndicator.MODULE, ModuleIndicator.TALENT_REGISTRATION);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		return mv;

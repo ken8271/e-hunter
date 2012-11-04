@@ -143,7 +143,7 @@ function popUpSelector(){
 </head>
 <body>
         <hdiv-c:url value="/customer/customersSearch.do?module=3" var="backUrl"></hdiv-c:url>
-        <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${customerDto.systemCustRefNum }" var="viewCustomerDetail"></hdiv-c:url>
+        <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">客户公司联系记录</td>

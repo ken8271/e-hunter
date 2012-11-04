@@ -11,10 +11,26 @@
 		$('#j_username').val("");
 		$('#j_password').val("");
 	}
+	
+	$().ready(function(){
+		$('#loginForm').submit(function(){
+			if($('#j_username').val() == '' || $('#j_password').val() == ''){
+				displayError('<spring:message code="EHT-E-0501" text="User ID or Password is required. [EHT-E-0501]"/>');
+				return false;
+			}
+		});
+	});
+	
+	function displayError(msg){
+		$("#mvcErrorContainer_client").hide();
+		$("#errorMsg").html(msg);
+		$("#mvcErrorContainer_client").show();
+	}	
+
 </script>
 </head>
 <body>
-	<form action="${ctx}/j_spring_security_check" method="post">
+	<form id="loginForm" action="${ctx}/j_spring_security_check" method="post">
 		<div id="pageAll">
 			<div id="pageTop" height="250px">
 				<div class="boxHolder2">
@@ -54,7 +70,18 @@
 							   </c:if>
 						   </ol>
 					    </div>
+					    <div class="emptyBlock"></div>
 				        </c:if>
+				        <c:if test="${empty param.login_error && empty error_code_not_from_security}">
+				        <div class="errorContainer" id='mvcErrorContainer_client' style="display: none">
+						   <h4><img src="${imagePath}/icon/icon_warning.gif" alt="Warning">Error:</h4>
+						   <br/>
+						   <ol>
+						       <li id="errorMsg"></li>
+						   </ol>
+					    </div>
+					    <div class="emptyBlock"></div>
+					    </c:if>
 					    </td>
 					</tr>
 					<tr>
