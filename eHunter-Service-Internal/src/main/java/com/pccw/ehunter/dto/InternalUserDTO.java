@@ -15,6 +15,8 @@ public class InternalUserDTO extends AbstractUserDetails {
 	private static final long serialVersionUID = 1L;
 	
 	private String confirmPassword;
+	
+	private String roleStr;
 
 	private List<InternalRoleDTO> activeRoles;
 
@@ -75,6 +77,14 @@ public class InternalUserDTO extends AbstractUserDetails {
 			return true;
 		}
 		return false;
+	}
+
+	public String getRoleStr() {
+		return roleStr;
+	}
+
+	public void setRoleStr(String roleStr) {
+		this.roleStr = roleStr;
 	}
 
 }

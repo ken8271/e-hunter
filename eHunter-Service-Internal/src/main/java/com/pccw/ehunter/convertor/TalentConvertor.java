@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.domain.internal.EmploymentHistory;
-import com.pccw.ehunter.domain.internal.Resume;
 import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -30,7 +29,7 @@ public class TalentConvertor {
 		dto.setMobilePhoneDto1(MobilePhoneConvertor.toDto(po.getMobilePhone1()));
 		dto.setMobilePhoneDto2(MobilePhoneConvertor.toDto(po.getMobilePhone2()));
 		
-		dto.setResumeDtos(ResumeConvertor.toDtos(po.getResumes()));
+//		dto.setResumeDtos(ResumeConvertor.toDtos(po.getResumes()));
 		dto.setEmploymentHistoryDtos(EmploymentHistoryConvertor.toDtos(po.getEmploymentHistories()));
 		dto.setCvDtos(UploadedCurriculumVitaeConvertor.toDtos(po.getCvs()));
 		
@@ -50,13 +49,13 @@ public class TalentConvertor {
 		po.setMobilePhone1(MobilePhoneConvertor.toString(dto.getMobilePhoneDto1()));
 		po.setMobilePhone2(MobilePhoneConvertor.toString(dto.getMobilePhoneDto2()));
 		
-		List<Resume> resumes = ResumeConvertor.toPos(dto.getResumeDtos());
-		if(!CollectionUtils.isEmpty(resumes)){
-			for(Resume resume : resumes){
-				resume.setTalent(po);
-			}
-			po.setResumes(resumes);
-		}
+//		List<Resume> resumes = ResumeConvertor.toPos(dto.getResumeDtos());
+//		if(!CollectionUtils.isEmpty(resumes)){
+//			for(Resume resume : resumes){
+//				resume.setTalent(po);
+//			}
+//			po.setResumes(resumes);
+//		}
 		
 		List<EmploymentHistory> histories = EmploymentHistoryConvertor.toPos(dto.getEmploymentHistoryDtos());
 		if(!CollectionUtils.isEmpty(histories)){

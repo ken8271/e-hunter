@@ -46,5 +46,9 @@ public class SessionAttributeConstant {
 	
 	public static final String UPLOADED_CV_DTO = "cvDto";
 	
+	public static final String INTERNAL_USER_DTO = "internalUserDto";
+	public static final String INTERNAL_USER_ENQUIRE_DTO = "userEnquireDto";
+	public static final String LIST_OF_INTERNAL_USER = "listOfUser";
+	
 	public static final String BACK_URL = "backUrl";
 }
