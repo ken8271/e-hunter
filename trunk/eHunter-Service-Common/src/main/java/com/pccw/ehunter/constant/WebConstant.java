@@ -22,4 +22,5 @@ public class WebConstant {
 	public static final String LIST_OF_CANDIDATE_STATUS = "listOfCandidateStatus";
 	public static final String LIST_OF_CUSTOMER_GRADE = "listOfCustomerGrade";
 	public static final String LIST_OF_CUSTOMER_STATUS = "listOfCustomerStatus";
+	public static final String LIST_OF_ACTIVE_DIRECTORY_ROLE = "listOfRole";
 }

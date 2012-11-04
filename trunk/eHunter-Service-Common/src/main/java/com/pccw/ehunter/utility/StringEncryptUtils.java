@@ -2,6 +2,8 @@ package com.pccw.ehunter.utility;
 
 import java.security.MessageDigest;
 
+import sun.misc.BASE64Encoder;
+
 public class StringEncryptUtils {
 	
 	public static final String KEY_MD5 = "MD5";
@@ -19,6 +21,12 @@ public class StringEncryptUtils {
         sha.update(target.getBytes());
         return sha.digest();
     }
+	
+	public static String encryptDefault(String target) throws Exception {
+		MessageDigest digest = MessageDigest.getInstance(KEY_MD5);
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(digest.digest(target.getBytes()));
+	}
 	
 	private static String toHex(byte[] buffer) {
         StringBuffer sb = new StringBuffer(buffer.length * 3);
