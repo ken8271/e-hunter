@@ -144,7 +144,7 @@ public class InternalUser extends BaseEntity {
 		this.passwordExpired = passwordExpired;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.EAGER,cascade={CascadeType.REFRESH})
 	@JoinTable(name="T_INT_USR_ROLE_ASGN",
 			   joinColumns={@JoinColumn(name="USR_REC_ID")},
 			   inverseJoinColumns={@JoinColumn(name="SYS_REF_ROLE")})
