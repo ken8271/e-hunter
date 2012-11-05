@@ -1,11 +1,18 @@
 package com.pccw.ehunter.mvc.system;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
@@ -19,6 +26,7 @@ import org.jmesa.view.html.component.HtmlTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -37,7 +45,10 @@ import com.pccw.ehunter.dto.InternalUserPagedCriteria;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.InternalUserManagementService;
 import com.pccw.ehunter.utility.DateUtils;
+import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
+import com.pccw.ehunter.utility.URLUtils;
+import com.pccw.ehunter.validator.InternalUserValidator;
 
 @Controller
 @SessionAttributes({
@@ -48,6 +59,9 @@ public class InternalUserManagementController extends BaseController{
 	
 	@Autowired
 	private InternalUserManagementService internalUserService;
+	
+	@Autowired
+	private InternalUserValidator internalUserValidator;
 	
 	@RequestMapping("/usrMgmt/initUsersSearch.do")
 	public ModelAndView initUsersSearch(HttpServletRequest request){
@@ -232,10 +246,19 @@ public class InternalUserManagementController extends BaseController{
 			
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
+				InternalUserDTO dto = (InternalUserDTO)item;
+				StringBuffer editUrl = new StringBuffer();
+				editUrl.append(request.getContextPath());
+				editUrl.append("/usrMgmt/preEditInternalUser.do?_id=" + dto.getUserRecId());
+				
+				StringBuffer deleteUrl = new StringBuffer();
+				deleteUrl.append(request.getContextPath());
+				deleteUrl.append("/usrMgmt/deleteInternalUser.do?_id=" + dto.getUserRecId());
+				
 				HtmlBuilder imgs = new HtmlBuilder();
-				imgs.img().src(request.getContextPath() + "/images/icon/preview.gif").title("查看").style("vertical-align: middle;cursor: pointer;").end().nbsp()
-				    .img().src(request.getContextPath() + "/images/icon/edit.gif").title("编辑").style("vertical-align: middle;cursor: pointer;").end().nbsp()
-				    .img().src(request.getContextPath() + "/images/icon/delete.gif").title("删除").style("vertical-align: middle;cursor: pointer;").end();
+				imgs.img().src(request.getContextPath() + "/images/icon/preview.gif").title("查看").style("vertical-align: middle;cursor: pointer;").onclick("popUpViewDialog('" + dto.getUserRecId() +"');").end().nbsp()
+				    .img().src(request.getContextPath() + "/images/icon/edit.gif").title("编辑").style("vertical-align: middle;cursor: pointer;").onclick("location.href='" + URLUtils.getHDIVUrl(request, editUrl.toString())+ "'").end().nbsp()
+				    .img().src(request.getContextPath() + "/images/icon/delete.gif").title("删除").style("vertical-align: middle;cursor: pointer;").onclick("location.href='" + URLUtils.getHDIVUrl(request, deleteUrl.toString())+ "'").end();
 				
 				
 				HtmlBuilder html = new HtmlBuilder();
@@ -253,6 +276,57 @@ public class InternalUserManagementController extends BaseController{
 		
 		return table;
 	}
+	
+	@RequestMapping("/usrMgmt/viewInternalUserDetail.do")
+	public void viewInternalUserDetail(HttpServletRequest request , HttpServletResponse response){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		
+		try {
+			response.setContentType("text/xml;charset=UTF-8");
+			
+			String id = request.getParameter("_id");
+			
+			InternalUserDTO dto = internalUserService.getInternalUserByID(id);
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			if(dto != null){
+				Element hst = root.addElement("account");
+				hst.addElement("userRecId").setText(StringUtils.isEmpty(dto.getUserRecId()) ? StringUtils.EMPTY_STRING : dto.getUserRecId());
+				hst.addElement("loginId").setText(StringUtils.isEmpty(dto.getLoginId()) ? StringUtils.EMPTY_STRING : dto.getLoginId() );
+				hst.addElement("staffId").setText(StringUtils.isEmpty(dto.getStaffId()) ? StringUtils.EMPTY_STRING : dto.getStaffId());
+				hst.addElement("name").setText(dto.getCnName() + (StringUtils.isEmpty(dto.getEnName()) ? StringUtils.EMPTY_STRING : "/" +dto.getEnName()));
+				hst.addElement("email").setText(StringUtils.isEmpty(dto.getEmail()) ? StringUtils.EMPTY_STRING : dto.getEmail());
+				hst.addElement("mobile").setText(StringUtils.isEmpty(dto.getMobile()) ? StringUtils.EMPTY_STRING : dto.getMobile());
+				hst.addElement("accountStatus").setText(CommonConstant.getDescriptionOfStatus(dto.getAccountStatus()));
+				if(!CollectionUtils.isEmpty(dto.getActiveRoles())){
+					hst.addElement("role").setText(dto.getActiveRoles().get(0).getRoleName());
+				}else {
+					hst.addElement("role").setText(StringUtils.EMPTY_STRING);
+				}
+			}
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			
+			out = response.getWriter();
+			writer = new XMLWriter(out, format);
+			
+			writer.write(doc);
+			
+			if(writer != null){
+				writer.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(">>>>> Exception Catched(viewInternalUserDetail) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
+	}
 
 	@RequestMapping("/usrMgmt/preCreateInternalUser.do")
 	public ModelAndView preCreateInternalUser(HttpServletRequest request){
@@ -265,19 +339,22 @@ public class InternalUserManagementController extends BaseController{
 	}
 	
 	@RequestMapping("/usrMgmt/saveUserAccount.do")
-	public ModelAndView saveUserAccount(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto){
+	public ModelAndView saveUserAccount(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView("userManagement/accountManagement");
 		
 		List<InternalRoleDTO> roleDtos = new ArrayList<InternalRoleDTO>();
 		if(!StringUtils.isEmpty(internalUserDto.getRoleStr())){
-			String[] roles = StringUtils.tokenize(internalUserDto.getRoleStr(), CommonConstant.COMMA);
-			if(roles != null && roles.length != 0){
-				for(String roleCode : roles){
-					roleDtos.add(getRoleByCode(request, roleCode));
-				}
-			}
+			roleDtos.add(getRoleByCode(request, internalUserDto.getRoleStr()));
 		}
 		internalUserDto.setActiveRoles(roleDtos);
+		
+		internalUserValidator.validateSave(internalUserDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("userManagement/accountCreate");
+			mv.addObject(SessionAttributeConstant.INTERNAL_USER_DTO, internalUserDto);
+			return mv;
+		}
 		
 		internalUserService.saveInternalUser(internalUserDto);
 		return mv;
@@ -287,6 +364,108 @@ public class InternalUserManagementController extends BaseController{
 	public ModelAndView completeInternalUserRegistration(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto){
 		ModelAndView mv = new ModelAndView("userManagement/accountManagement");
 		
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/preEditInternalUser.do")
+	public ModelAndView preEditInternalUser(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("userManagement/accountMaintenance");
+		
+		String id = request.getParameter("_id");
+		InternalUserDTO dto = internalUserService.getInternalUserByID(id);
+		
+		if(dto == null){
+			dto = new InternalUserDTO();
+			dto.setUserRecId(id);
+		}
+		
+		List<InternalRoleDTO> roleDtos = dto.getActiveRoles();
+		if(!CollectionUtils.isEmpty(roleDtos)){
+			dto.setRoleStr(roleDtos.get(0) != null ? roleDtos.get(0).getSysRefRole() : StringUtils.EMPTY_STRING);
+		}
+		
+		mv.addObject(SessionAttributeConstant.INTERNAL_USER_DTO, dto);
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/updateInternalUser.do")
+	public ModelAndView updateInternalUser(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto,BindingResult errors){
+		ModelAndView mv = new ModelAndView("userManagement/accountManagement");
+		
+		List<InternalRoleDTO> roleDtos = new ArrayList<InternalRoleDTO>();
+		if(!StringUtils.isEmpty(internalUserDto.getRoleStr())){
+			roleDtos.add(getRoleByCode(request, internalUserDto.getRoleStr()));
+		}
+		internalUserDto.setActiveRoles(roleDtos);
+		
+		internalUserValidator.ValidateUpate(internalUserDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("userManagement/accountMaintenance");
+			mv.addObject(SessionAttributeConstant.INTERNAL_USER_DTO, internalUserDto);
+			return mv;
+		}
+		
+		internalUserService.updateInternalUser(internalUserDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/completeUpdating.do")
+	public ModelAndView completeUpdating(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto){
+		ModelAndView mv = new ModelAndView("userManagement/accountManagement");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/preResetPassword.do")
+	public ModelAndView preResetPassword(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("userManagement/resetPassword");
+		
+		String id = request.getParameter("_id");
+		InternalUserDTO dto = internalUserService.getInternalUserByID(id);
+		
+		if(dto == null){
+			dto = new InternalUserDTO();
+			dto.setUserRecId(id);
+		}
+		
+		mv.addObject(SessionAttributeConstant.INTERNAL_USER_DTO, dto);
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/resetPassword.do")
+	public ModelAndView resetPassword(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_DTO)InternalUserDTO internalUserDto,BindingResult errors){
+		ModelAndView mv = new ModelAndView("userManagement/accountMaintenance");
+		
+		internalUserValidator.validatePassword(internalUserDto, errors);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("userManagement/resetPassword");
+			mv.addObject(SessionAttributeConstant.INTERNAL_USER_DTO, internalUserDto);
+			return mv;
+		}
+		
+		internalUserService.resetPassword(internalUserDto);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/usrMgmt/deleteInternalUser.do")
+	public ModelAndView deleteInternalUser(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.INTERNAL_USER_ENQUIRE_DTO)InternalUserEnquireDTO userEnquireDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/usrMgmt/searchInternalUsers.do", true));
+		
+		String id = request.getParameter("_id");
+		InternalUserDTO dto = internalUserService.getInternalUserByID(id);
+		
+		if(dto == null){
+			dto = new InternalUserDTO();
+			dto.setUserRecId(id);
+		}
+		
+		internalUserService.deleteInternalUser(dto);
+		
+		mv.addObject(SessionAttributeConstant.INTERNAL_USER_ENQUIRE_DTO, userEnquireDto);
 		return mv;
 	}
 }

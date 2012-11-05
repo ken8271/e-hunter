@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EHT</title>
+<hdiv-c:url value="/usrMgmt/viewInternalUserDetail.do" var="viewDetailUrl"></hdiv-c:url>
 <script type="text/javascript">
 function clearInput() {
 	$('#loginId').val('');
@@ -13,11 +14,42 @@ function clearInput() {
 	$('#role').val('');
 	$('#accountStatus').val('');
 }
+
+function popUpViewDialog(userRecordID){
+	if(userRecordID == null || userRecordID == '') return ;
+	
+	$.ajax({
+		type:'post',
+		url:'${viewDetailUrl}',
+		dataType:'xml',
+		data:{'_id':userRecordID},
+		success:function(xml){	
+			$(xml).find('account').each(function(i , element){
+				document.getElementById('view_userRecId').innerHTML = $(this).find("userRecId").text();
+				document.getElementById('view_loginId').innerHTML = $(this).find("loginId").text();
+				document.getElementById('view_staffId').innerHTML = $(this).find("staffId").text();
+				document.getElementById('view_name').innerHTML = $(this).find("name").text();
+				document.getElementById('view_email').innerHTML = $(this).find("email").text();
+				document.getElementById('view_mobile').innerHTML = $(this).find("mobile").text();
+				document.getElementById('view_accountStatus').innerHTML = $(this).find("accountStatus").text();
+				document.getElementById('view_role').innerHTML = $(this).find("role").text();
+			});	
+		},
+		error:function(){
+			alert('系统错误');
+		}
+	});
+	
+	setPopUpFramePosition('view_light',500,230);
+	setOverlayDimension('view_fade');	
+	popUpFrame('view_light','view_fade');
+}
 </script>
 </head>
 <body>
    <hdiv-c:url value="/usrMgmt/preCreateInternalUser.do" var="createUrl"></hdiv-c:url>
    <form:form id="enquireForm" commandName="userEnquireDto" action="${ctx}/usrMgmt/searchInternalUsers.do" method="post">
+		<jsp:include page="accountDetailView_pop.jsp"></jsp:include>
 		<table border="0" width="100%">
 			<tr>
 				<td class="pageTitle">用户管理 - 用户查询</td>
