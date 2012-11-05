@@ -32,7 +32,7 @@ public class InternalUserValidator extends AbstractValidator{
 		
 		if(!StringUtils.isEmpty(dto.getLoginId())){
 			InternalUserDTO temp = internalUserService.getInternalUserByLoginID(dto.getLoginId());			
-			if(temp != null && !temp.getUserRecId().equals(dto.getUserRecId())){
+			if(temp != null && !StringUtils.isEmpty(temp.getUserRecId()) && !temp.getUserRecId().equals(dto.getUserRecId())){
 				errors.rejectValue("loginId", "EHT-E-0006", new String[]{"登录名"}, "The login id has been regited [EHT-E-0006]");
 			}
 		}
