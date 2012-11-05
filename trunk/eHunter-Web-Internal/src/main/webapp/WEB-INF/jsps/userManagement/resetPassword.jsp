@@ -5,10 +5,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EHT-0-0001</title>
+<script type="text/javascript">
+function clearInput(){
+	$('#password').val('');
+	$('#confirmPassword').val('');
+}
+</script>
 </head>
 <body>
 	<hdiv-c:url value="/usrMgmt/preEditInternalUser.do?_id=${internalUserDto.userRecId}" var="editUrl"></hdiv-c:url>
 	<form:form id="resetPasswordForm" commandName="internalUserDto" action="${ctx}/usrMgmt/resetPassword.do" method="post">
+		<table border="0" width="100%">
+			<tr>
+				<td class="pageTitle">用户管理 - 密码重置</td>
+			</tr>
+			<tr>
+				<td><common:errorTable path="internalUserDto"></common:errorTable></td>
+			</tr>
+		</table>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
@@ -17,7 +31,7 @@
 							<td>
 							   <input class="standardButton" type="submit" value="保存" />&nbsp;
 							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${searchUrl}'" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
 							</td>
 						</tr>
 					</table>
@@ -72,7 +86,7 @@
 							<td>
 							   <input class="standardButton" type="submit" value="保存" />&nbsp;
 							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${searchUrl}'" />&nbsp;
+							   <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
 							</td>
 						</tr>
 					</table>

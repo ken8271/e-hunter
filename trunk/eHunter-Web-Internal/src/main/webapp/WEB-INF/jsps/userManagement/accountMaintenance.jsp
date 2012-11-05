@@ -8,6 +8,7 @@
 </head>
 <body>
 <hdiv-c:url value="/usrMgmt/preResetPassword.do?_id=${internalUserDto.userRecId }" var="resetPasswordUrl"></hdiv-c:url>
+<hdiv-c:url value="/usrMgmt/searchInternalUsers.do" var="searchUrl"></hdiv-c:url>
 <form:form id="accountMaintenanceForm" commandName="internalUserDto" action="${ctx}/usrMgmt/updateInternalUser.do" method="post">
 		<table border="0" width="100%">
 			<tr>

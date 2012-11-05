@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EHT</title>
 <hdiv-c:url value="/usrMgmt/viewInternalUserDetail.do" var="viewDetailUrl"></hdiv-c:url>
+<hdiv-c:url value="/usrMgmt/deleteInternalUser.do" var="deleteUrl"></hdiv-c:url>
 <script type="text/javascript">
 function clearInput() {
 	$('#loginId').val('');
@@ -43,6 +44,12 @@ function popUpViewDialog(userRecordID){
 	setPopUpFramePosition('view_light',500,230);
 	setOverlayDimension('view_fade');	
 	popUpFrame('view_light','view_fade');
+}
+
+function deleteConirmation(url){
+	if(confirm('确认删除该帐号?')){
+		window.location.href=url;
+	}
 }
 </script>
 </head>

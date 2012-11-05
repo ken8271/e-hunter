@@ -5,6 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EHT-0-0001</title>
+<script type="text/javascript">
+function clearInput(){
+	$('#loginId').val('');
+	$('#staffId').val('');
+	$('#cnName').val('');
+	$('#enName').val('');
+	$('#email').val('');
+	$('#mobile').val('');
+	$('#roleStr').val('');
+	$('#password').val('');
+	$('#confirmPassword').val('');
+}
+</script>
 </head>
 <body>
 <hdiv-c:url value="/usrMgmt/searchInternalUsers.do?fromCreate=true" var="searchUrl"></hdiv-c:url>
