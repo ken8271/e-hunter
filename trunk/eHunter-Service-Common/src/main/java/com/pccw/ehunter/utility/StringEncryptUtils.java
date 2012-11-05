@@ -1,10 +1,16 @@
 package com.pccw.ehunter.utility;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sun.misc.BASE64Encoder;
 
 public class StringEncryptUtils {
+	
+	private static final Logger logger = LoggerFactory.getLogger(StringEncryptUtils.class);
 	
 	public static final String KEY_MD5 = "MD5";
 	
@@ -22,10 +28,19 @@ public class StringEncryptUtils {
         return sha.digest();
     }
 	
-	public static String encryptDefault(String target) throws Exception {
-		MessageDigest digest = MessageDigest.getInstance(KEY_MD5);
-		BASE64Encoder encoder = new BASE64Encoder();
-		return encoder.encode(digest.digest(target.getBytes()));
+	public static String encryptDefault(String target){
+		MessageDigest digest = null;
+		BASE64Encoder encoder = null;
+		try {
+			digest = MessageDigest.getInstance(KEY_MD5);
+			encoder = new BASE64Encoder();
+			return encoder.encode(digest.digest(target.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			logger.error(">>>>>Exception Catched(encryptDefault) : " + e.getMessage());
+		}
+		
+		return target;
 	}
 	
 	private static String toHex(byte[] buffer) {

@@ -43,6 +43,15 @@ public abstract class AbstractValidator implements Validator{
 		}
 	}
 	
+	public void validateOnlyAlphabet(Errors errors, String fieldName, String fieldValue , String fieldLabel){
+		if(StringUtils.isEmpty(fieldValue)){
+			return ;
+		}
+		if(!StringUtils.isAllAlphabet(fieldValue)){
+			errors.rejectValue(fieldName,"EHT-E-0004", new String[]{fieldLabel}, fieldLabel+" - Invalid input [EHT-E-0004]"); 
+		}
+	}
+	
 	public void validateOnlyAlphanumeric(Errors errors, String fieldName, String fieldValue , String fieldLabel){
 		if(StringUtils.isEmpty(fieldValue)){
 			return ;
