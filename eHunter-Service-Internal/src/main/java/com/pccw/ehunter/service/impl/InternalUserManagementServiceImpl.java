@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +18,7 @@ import com.pccw.ehunter.convertor.InternalRoleConvertor;
 import com.pccw.ehunter.convertor.InternalUserConvertor;
 import com.pccw.ehunter.dao.InternalUserDAO;
 import com.pccw.ehunter.domain.internal.InternalRole;
+import com.pccw.ehunter.domain.internal.InternalUser;
 import com.pccw.ehunter.dto.InternalRoleDTO;
 import com.pccw.ehunter.dto.InternalUserDTO;
 import com.pccw.ehunter.dto.InternalUserPagedCriteria;
@@ -34,9 +33,9 @@ import com.pccw.ehunter.utility.StringUtils;
 @Transactional
 public class InternalUserManagementServiceImpl implements InternalUserManagementService{
 	
-	private static final Logger logger = LoggerFactory.getLogger(InternalUserManagementServiceImpl.class);
-	
 	private SimpleHibernateTemplate<InternalRole, String> dao;
+	
+	private SimpleHibernateTemplate<InternalUser, String> simpleUserDao;
 	
 	@Autowired
 	private InternalUserDAO internalUserDao;
@@ -47,6 +46,7 @@ public class InternalUserManagementServiceImpl implements InternalUserManagement
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory){
 		dao = new SimpleHibernateTemplate<InternalRole, String>(sessionFactory, InternalRole.class);
+		simpleUserDao = new SimpleHibernateTemplate<InternalUser, String>(sessionFactory, InternalUser.class);
 	}
 	
 	@Override
@@ -90,18 +90,45 @@ public class InternalUserManagementServiceImpl implements InternalUserManagement
 
 	@Override
 	@Transactional
-	public void saveInternalUser(InternalUserDTO internalUserDto) {
-		try {
-			internalUserDto.setUserRecId(idGenerator.generateID(IDNumberKeyConstant.INTERNAL_USER_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 10));
-			internalUserDto.setAccountStatus(CommonConstant.USER_ACCOUNT_ACTIVE);
-			internalUserDto.setPasswordExpired(CommonConstant.NO);
-			BaseDtoUtility.setCommonProperties(internalUserDto, TransactionIndicator.INSERT);
-			
-			internalUserDao.saveInternalUser(InternalUserConvertor.toPo(internalUserDto));
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(">>>>>Exception Catched(saveInternalUser) : " + e.getMessage());
-		}
+	public void saveInternalUser(InternalUserDTO internalUserDto){
+		internalUserDto.setUserRecId(idGenerator.generateID(IDNumberKeyConstant.INTERNAL_USER_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 10));
+		internalUserDto.setAccountStatus(CommonConstant.USER_ACCOUNT_ACTIVE);
+		internalUserDto.setPasswordExpired(CommonConstant.NO);
+		BaseDtoUtility.setCommonProperties(internalUserDto, TransactionIndicator.INSERT);
+		
+		internalUserDao.saveInternalUser(InternalUserConvertor.toPo(internalUserDto));
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public InternalUserDTO getInternalUserByID(String id) {
+		return InternalUserConvertor.toDto(simpleUserDao.findUniqueByProperty("userRecId", id));
+	}
+
+	@Override
+	@Transactional
+	public void updateInternalUser(InternalUserDTO internalUserDTO) {
+		BaseDtoUtility.setCommonProperties(internalUserDTO, TransactionIndicator.UPDATE);
+		internalUserDao.updateInternalUser(InternalUserConvertor.toPo(internalUserDTO));
+	}
+
+	@Override
+	@Transactional
+	public void resetPassword(InternalUserDTO internalUserDTO) {
+		BaseDtoUtility.setCommonProperties(internalUserDTO, TransactionIndicator.UPDATE);
+		internalUserDao.resetPassword(InternalUserConvertor.toPo(internalUserDTO));
+	}
+
+	@Override
+	@Transactional
+	public void deleteInternalUser(InternalUserDTO internalUserDto) {
+		internalUserDao.deleteInternalUser(InternalUserConvertor.toPo(internalUserDto));
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public InternalUserDTO getInternalUserByLoginID(String loginID) {
+		return InternalUserConvertor.toDto(internalUserDao.getInternalUserByLoginId(loginID));
 	}
 	
 }

@@ -80,6 +80,8 @@ public class HibernateInternalUserDAO implements InternalUserDAO{
 	private StringBuffer getSQLFilter(InternalUserPagedCriteria pagedCriteria){
 		StringBuffer filter = new StringBuffer();
 		
+		filter.append(" AND usr.USR_REC_ID = asgn.USR_REC_ID ");
+		
 		if(!StringUtils.isEmpty(pagedCriteria.getLoginId())){
 			filter.append(" AND UPPER(usr.LOGIN_ID) LIKE CONCAT('%',UPPER(:loginId),'%') ");
 		}
@@ -97,7 +99,6 @@ public class HibernateInternalUserDAO implements InternalUserDAO{
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getRole())){
-			filter.append(" AND usr.USR_REC_ID = asgn.USR_REC_ID ");
 			filter.append(" AND asgn.SYS_REF_ROLE = :role ");
 		}
 		
@@ -151,5 +152,44 @@ public class HibernateInternalUserDAO implements InternalUserDAO{
 	@Override
 	public void saveInternalUser(InternalUser internalUser) {
 		hibernateTemplate.save(internalUser);
+	}
+
+	@Override
+	public void updateInternalUser(InternalUser internalUser) {
+		hibernateTemplate.update(internalUser);
+	}
+
+	@Override
+	public void resetPassword(final InternalUser internalUser) {
+		hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" UPDATE T_INT_USR ");
+				buffer.append(" SET PWD = :password , ");
+				buffer.append(" LST_UPD_BY = :updateBy , ");
+				buffer.append(" LST_UPD_DTTM = :updateDate , ");
+				buffer.append(" LST_TX_ACTN = :action ");
+				buffer.append(" WHERE USR_REC_ID = :id ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("password", internalUser.getPassword());
+				query.setString("updateBy", internalUser.getLastUpdateBy());
+				query.setDate("updateDate", internalUser.getLastUpdateDateTime());
+				query.setString("action", internalUser.getLastTransactionIndicator());
+				query.setString("id", internalUser.getUserRecId());
+				
+				query.executeUpdate();
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public void deleteInternalUser(InternalUser internalUser) {
+		hibernateTemplate.delete(internalUser);
 	}
 }

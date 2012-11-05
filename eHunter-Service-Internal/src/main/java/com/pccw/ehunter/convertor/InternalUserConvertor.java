@@ -24,7 +24,7 @@ public class InternalUserConvertor {
 		return dto;
 	}
 	
-	public static InternalUser toPo(InternalUserDTO dto) throws Exception{
+	public static InternalUser toPo(InternalUserDTO dto){
 		InternalUser po = new InternalUser();
 		
 		if(null == dto){

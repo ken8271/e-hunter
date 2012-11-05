@@ -10,4 +10,7 @@ public interface InternalUserDAO {
 	public List<Object> getInternalUsersByCriteria(InternalUserPagedCriteria pagedCriteria);
 	public int getInternalUsersCountByCriteria(InternalUserPagedCriteria pagedCriteria);
 	public void saveInternalUser(InternalUser internalUser);
+	public void updateInternalUser(InternalUser internalUser);
+	public void resetPassword(InternalUser internalUser);
+	public void deleteInternalUser(InternalUser internalUser);
 }
