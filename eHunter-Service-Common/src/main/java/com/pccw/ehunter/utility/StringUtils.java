@@ -69,6 +69,23 @@ public class StringUtils {
 		}
 	}
 
+	public static boolean isAllAlphabet(String s) {
+
+		if (s == null || s.equals(EMPTY_STRING)) {
+			return false;
+		}
+
+		Pattern pattern = Pattern.compile("^[a-zA-Z]*");
+
+		Matcher matcher = pattern.matcher(s);
+
+		if (matcher.matches()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static boolean isAllAlphanumeric(String s) {
 
 		if (s == null || s.equals(EMPTY_STRING)) {

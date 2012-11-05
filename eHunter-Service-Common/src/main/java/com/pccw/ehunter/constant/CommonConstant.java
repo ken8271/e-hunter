@@ -1,5 +1,7 @@
 package com.pccw.ehunter.constant;
 
+import com.pccw.ehunter.utility.StringUtils;
+
 public class CommonConstant {
 	
 	public static final String YES = "Y";
@@ -7,6 +9,9 @@ public class CommonConstant {
 	
 	public static final String USER_ACCOUNT_ACTIVE = "AC";
 	public static final String USER_ACCOUNT_INACTIVE = "IN";
+	
+	public static final String DESC_USER_ACCOUNT_ACTIVE = "正常/活跃";
+	public static final String DESC_USER_ACCOUNT_INACTIVE = "禁止/锁定";
 
 	public static final String ANOYMOUS_INTERNAL_USER = "ANONY";
 	
@@ -29,5 +34,15 @@ public class CommonConstant {
 	public static final String SUFFIX_PDF = ".pdf";
 	
 	public static final String SUFFIX_SWF = ".swf";
+	
+	public static String getDescriptionOfStatus(String status){
+		if(USER_ACCOUNT_ACTIVE.equals(status)){
+			return DESC_USER_ACCOUNT_ACTIVE;
+		}else if(USER_ACCOUNT_INACTIVE.equals(status)){
+			return DESC_USER_ACCOUNT_INACTIVE;
+		}
+		
+		return StringUtils.EMPTY_STRING;
+	}
 	
 }
