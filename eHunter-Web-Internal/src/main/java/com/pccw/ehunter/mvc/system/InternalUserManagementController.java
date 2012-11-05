@@ -46,6 +46,7 @@ import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.InternalUserManagementService;
 import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.RedirectViewExt;
+import com.pccw.ehunter.utility.SecurityUtils;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.utility.URLUtils;
 import com.pccw.ehunter.validator.InternalUserValidator;
@@ -257,9 +258,14 @@ public class InternalUserManagementController extends BaseController{
 				
 				HtmlBuilder imgs = new HtmlBuilder();
 				imgs.img().src(request.getContextPath() + "/images/icon/preview.gif").title("查看").style("vertical-align: middle;cursor: pointer;").onclick("popUpViewDialog('" + dto.getUserRecId() +"');").end().nbsp()
-				    .img().src(request.getContextPath() + "/images/icon/edit.gif").title("编辑").style("vertical-align: middle;cursor: pointer;").onclick("location.href='" + URLUtils.getHDIVUrl(request, editUrl.toString())+ "'").end().nbsp()
-				    .img().src(request.getContextPath() + "/images/icon/delete.gif").title("删除").style("vertical-align: middle;cursor: pointer;").onclick("location.href='" + URLUtils.getHDIVUrl(request, deleteUrl.toString())+ "'").end();
+				    .img().src(request.getContextPath() + "/images/icon/edit.gif").title("编辑").style("vertical-align: middle;cursor: pointer;").onclick("location.href='" + URLUtils.getHDIVUrl(request, editUrl.toString())+ "'").end().nbsp();
 				
+				if(!SecurityUtils.getUserRecId().equals(dto.getUserRecId())){
+					imgs.img().src(request.getContextPath() + "/images/icon/delete.gif").title("删除").style("vertical-align: middle;cursor: pointer;").onclick("deleteConirmation('" + URLUtils.getHDIVUrl(request, deleteUrl.toString()) +"')").end();
+				}
+//				else {
+//					imgs.img().src(request.getContextPath() + "/images/icon/empty.gif").end();
+//				}
 				
 				HtmlBuilder html = new HtmlBuilder();
 				html.append(
