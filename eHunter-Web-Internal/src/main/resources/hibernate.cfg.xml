@@ -29,6 +29,7 @@
 		<mapping class="com.pccw.ehunter.domain.common.CustomerGrade"/>
 		<mapping class="com.pccw.ehunter.domain.common.CustomerStatus"/>
 		<mapping class="com.pccw.ehunter.domain.common.CodeTable"/>
+		<mapping class="com.pccw.ehunter.domain.common.SystemParameter"/>
 		
 		<mapping class="com.pccw.ehunter.domain.internal.InternalRole" />
 		<mapping class="com.pccw.ehunter.domain.internal.InternalUser" />
