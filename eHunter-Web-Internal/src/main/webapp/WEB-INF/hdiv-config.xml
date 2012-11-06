@@ -67,6 +67,7 @@
 				<value>/project/initProjectsSearch.do</value>
 				<value>/customer/initCustomerContactHistorySearch.do</value>
 				<value>/usrMgmt/initUsersSearch.do</value>
+				<value>/system/initCodetablesSearch.do</value>
 			</list>			
 		</property>
 
