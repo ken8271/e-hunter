@@ -20,7 +20,8 @@
 			<li><a href="${ctx}/project/initNewProject.do">新建项目</a></li>
 			<li><a href="${ctx}/project/initProjectsSearch.do">项目查询</a></li>
 			</ul>
-						
+			
+			<!--  			
 			<h3 class="menuheader expandable">邮件管理</h3>
 			<ul class="categoryitems">
 			<li><a href="#">新建邮件</a></li>
@@ -28,6 +29,7 @@
 			<li><a href="#">发件箱</a></li>
 			<li><a href="#">垃圾箱</a></li>
 			</ul>
+			-->
 			
 			<h3 class="menuheader expandable">报表管理</h3>
 			<ul class="categoryitems">
@@ -38,7 +40,8 @@
 			<h3 class="menuheader expandable">系统管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
-			<li><a href="#">代码维护</a></li>
+			<li><a href="${ctx }/system/initCodetablesSearch.do">代码维护</a></li>
+			<li><a href="#">日志管理</a></li>
 			<li><a href="#">数据备份</a></li>
 			<li><a href="#">系统参数管理</a></li>
 			</ul>
