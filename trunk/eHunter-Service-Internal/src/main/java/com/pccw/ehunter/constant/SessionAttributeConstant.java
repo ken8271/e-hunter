@@ -50,5 +50,9 @@ public class SessionAttributeConstant {
 	public static final String INTERNAL_USER_ENQUIRE_DTO = "userEnquireDto";
 	public static final String LIST_OF_INTERNAL_USER = "listOfUser";
 	
+	public static final String CODE_TABLE_DTO = "codetableDto";
+	public static final String CODE_TABLE_PAGED_CRITERIA_DTO = "codetablePagedCriteria";
+	public static final String LIST_OF_CODE_TABLE = "listOfCodetable";
+	
 	public static final String BACK_URL = "backUrl";
 }
