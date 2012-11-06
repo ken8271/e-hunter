@@ -35,6 +35,10 @@ public class CommonConstant {
 	
 	public static final String SUFFIX_SWF = ".swf";
 	
+	public static final String TYPE_OF_NUMBER = "N";
+	public static final String TYPE_OF_STRING = "S";
+	public static final String TYPE_OF_DATE = "D";
+	
 	public static String getDescriptionOfStatus(String status){
 		if(USER_ACCOUNT_ACTIVE.equals(status)){
 			return DESC_USER_ACCOUNT_ACTIVE;
