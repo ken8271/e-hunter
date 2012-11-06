@@ -54,5 +54,9 @@ public class SessionAttributeConstant {
 	public static final String CODE_TABLE_PAGED_CRITERIA_DTO = "codetablePagedCriteria";
 	public static final String LIST_OF_CODE_TABLE = "listOfCodetable";
 	
+	public static final String SYSTEM_PARAMETER_DTO = "systemParameterDto";
+	public static final String SYSTEM_PARAMETER_CRITERIA_DTO = "systemParameterPagedCriteria";
+	public static final String LIST_OF_SYSTEM_PARAMETER = "listOfSystemParameter";
+	
 	public static final String BACK_URL = "backUrl";
 }
