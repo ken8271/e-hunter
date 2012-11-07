@@ -15,4 +15,10 @@ public class ModuleIndicator {
 	public static final String PROJECT_ENQUIRY = "8";
 	
 	public static final String PROJECT_CANDIDATE_REPOSITORY = "9";
+	
+	public static final String SYSTEM = "S";
+	public static final String CUSTOMER = "C";
+	public static final String TALENT = "T";
+	public static final String PROJECT = "P";
+	public static final String REPORT = "R";
 }
