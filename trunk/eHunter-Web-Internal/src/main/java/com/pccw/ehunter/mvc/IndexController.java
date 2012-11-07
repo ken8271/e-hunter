@@ -29,12 +29,12 @@ public class IndexController extends BaseController{
 	public ModelAndView logout(HttpServletRequest request){
 		logger.debug(">>>>> logout");
 		ModelAndView mv = new ModelAndView("login");
+		
 		String key = request.getParameter("key");
 		if("session_t_o".equals(key)){
 			mv.addObject("error_code_not_from_security", "EHT-E-0001");
-		}else {
-			transactionLogService.logTransaction(ModuleIndicator.SYSTEM	, getMessage("tx.log.logout"));
 		}
+		
 		return mv;
 	}
 }
