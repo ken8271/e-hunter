@@ -15,4 +15,6 @@ public class IDNumberKeyConstant {
 	public static final String CUSTOMER_CONTACT_SEQUENCE_KEY = "SEQ_CUST_CONT";
 	
 	public static final String INTERNAL_USER_SEQUENCE_KEY = "SEQ_INT_USR_ID";
+	
+	public static final String TRANSACTION_LOG_SEQUENCE_KEY = "SEQ_TX_LOG";
 }
