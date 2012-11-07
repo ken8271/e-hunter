@@ -43,4 +43,17 @@ public class TransactionLogServiceImpl implements TransactionLogService{
 		simpleDao.save(TransactionLogConvertor.toPo(dto));
 	}
 
+	@Override
+	@Transactional
+	public void logTransaction(String function, String msg, String user) {
+		TransactionLogDTO dto = new TransactionLogDTO();
+		dto.setId(idGenerator.generateID(IDNumberKeyConstant.TRANSACTION_LOG_SEQUENCE_KEY, null, 9));
+		dto.setUserID(user);
+		dto.setTransactionDatetime(new Date());
+		dto.setFunctionIndicator(function);
+		dto.setTransactionMsg(msg);
+		
+		simpleDao.save(TransactionLogConvertor.toPo(dto));
+	}
+
 }
