@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ModuleIndicator;
+import com.pccw.ehunter.utility.SecurityUtils;
 
 @Controller
 public class IndexController extends BaseController{
@@ -19,6 +20,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/index.do")
 	public ModelAndView index(HttpServletRequest request){
 		request.getSession(false).setAttribute("ehunter_in_session", "ehunter_in_session");
+		request.getSession(false).setAttribute(request.getSession(false).getId(), SecurityUtils.getUserRecId());
 		transactionLogService.logTransaction(ModuleIndicator.SYSTEM	, getMessage("tx.log.login"));
 		return new ModelAndView("index");
 	}

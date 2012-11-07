@@ -5,7 +5,7 @@
 	<display-name>eHunter-Web-Internal</display-name>
 
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>1</session-timeout>
 	</session-config>
 
 	<context-param>
@@ -103,7 +103,7 @@
 
 	<!-- Listener -->
 	<listener>
-		<listener-class>org.hdiv.listener.InitListener</listener-class>
+		<listener-class>com.pccw.ehunter.listener.HDIVInitListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
