@@ -5,10 +5,16 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
+
+import com.pccw.ehunter.service.TransactionLogService;
 
 public class BaseController {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	protected TransactionLogService transactionLogService;
 	
 	@Autowired
 	protected ResourceBundleMessageSource messageSource;
@@ -19,5 +25,10 @@ public class BaseController {
 	
 	public String getMessage(String code , Locale locale){
 		return messageSource.getMessage(code, null, locale);
+	}
+	
+	public String getMessage(String code){
+		Locale locale =  LocaleContextHolder.getLocale();
+		return getMessage(code, locale);
 	}
 }

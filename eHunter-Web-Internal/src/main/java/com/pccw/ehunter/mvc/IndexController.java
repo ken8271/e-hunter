@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.ModuleIndicator;
+
 @Controller
 public class IndexController extends BaseController{
 	
@@ -17,6 +19,7 @@ public class IndexController extends BaseController{
 	@RequestMapping(value="/index.do")
 	public ModelAndView index(HttpServletRequest request){
 		request.getSession(false).setAttribute("ehunter_in_session", "ehunter_in_session");
+		transactionLogService.logTransaction(ModuleIndicator.SYSTEM	, getMessage("tx.log.login"));
 		return new ModelAndView("index");
 	}
 	
@@ -27,6 +30,8 @@ public class IndexController extends BaseController{
 		String key = request.getParameter("key");
 		if("session_t_o".equals(key)){
 			mv.addObject("error_code_not_from_security", "EHT-E-0001");
+		}else {
+			transactionLogService.logTransaction(ModuleIndicator.SYSTEM	, getMessage("tx.log.logout"));
 		}
 		return mv;
 	}
