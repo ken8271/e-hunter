@@ -191,6 +191,8 @@ public class CandidateContactController extends BaseCandidateController{
 		
 		candidateContactHistoryService.saveContactHistory(candidateContactHistoryDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.contact.create" , new String[]{candidateContactHistoryDto.getTalentDto().getTalentID()}));
+		
 		return mv;
 	}
 	

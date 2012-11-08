@@ -31,4 +31,9 @@ public class BaseController {
 		Locale locale =  LocaleContextHolder.getLocale();
 		return getMessage(code, locale);
 	}
+	
+	public String getMessage(String code , String[] args){
+		Locale locale =  LocaleContextHolder.getLocale();
+		return getMessage(code, args , locale);
+	}
 }

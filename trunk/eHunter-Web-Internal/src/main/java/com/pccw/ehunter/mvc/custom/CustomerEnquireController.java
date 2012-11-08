@@ -227,6 +227,9 @@ public class CustomerEnquireController extends BaseController{
 		handleProjectsSearch(request , enquireDto , mv);
 		
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, enquireDto);
+		
+		transactionLogService.logTransaction(ModuleIndicator.CUSTOMER, getMessage("tx.log.customer.view" , new String[]{customerDto.getSystemCustRefNum()}));
+		
 		return mv;
 	}
 	
@@ -262,6 +265,9 @@ public class CustomerEnquireController extends BaseController{
 		}
 		
 		mv.addObject(SessionAttributeConstant.CUSTOMER_DTO, customerDto);
+		
+		transactionLogService.logTransaction(ModuleIndicator.CUSTOMER, getMessage("tx.log.customer.view" , new String[]{customerDto.getSystemCustRefNum()}));
+		
 		return mv;
 	}
 

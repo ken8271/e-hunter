@@ -98,6 +98,7 @@ public class CustomerAmendController extends BaseController{
 
 		custRegtService.updateCustomerInfo(customerDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.CUSTOMER, getMessage("tx.log.customer.update" , new String[]{customerDto.getSystemCustRefNum()}));
 		mv.addObject("_id", customerDto.getSystemCustRefNum());
 		return mv;
 	}

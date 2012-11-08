@@ -485,6 +485,7 @@ public class TalentRegistrationController extends BaseController{
 	@RequestMapping("/talent/submitTalent.do")
 	public ModelAndView submitTalent(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		talentRegtService.completeTalentRegistration(talentDto);
+		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.create" , new String[]{talentDto.getTalentID()}));
 		return new ModelAndView(new RedirectViewExt("/talent/completeTalentRegistration.do", true));
 	}
 	

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.AnnualLeaveWelfareDTO;
@@ -120,6 +121,8 @@ public class ProjectAmendController extends BaseController{
 		
 		projectRegtService.updatePositionDescription(projectDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.update" , new String[]{projectDto.getSystemProjectRefNum()}));
+		
 		mv.addObject("_id", projectDto.getSystemProjectRefNum());
 		return mv;
 	}
@@ -143,6 +146,8 @@ public class ProjectAmendController extends BaseController{
 		projectDto.setPostRequireDto(postRequireDto);
 		
 		projectRegtService.updatePositionRequirement(projectDto);
+		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.update" , new String[]{projectDto.getSystemProjectRefNum()}));
 		
 		mv.addObject("_id", projectDto.getSystemProjectRefNum());
 		return mv;

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.CommonConstant;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.CustomerConvertor;
@@ -339,6 +340,7 @@ public class ProjectRegistrationController extends BaseController{
 	public ModelAndView submitProject(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/completeProjectRegistration.do", true));
 		projectRegtService.submitProject(projectDto);
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.create" , new String[]{projectDto.getSystemProjectRefNum()}));
 		return mv;
 	}
 	

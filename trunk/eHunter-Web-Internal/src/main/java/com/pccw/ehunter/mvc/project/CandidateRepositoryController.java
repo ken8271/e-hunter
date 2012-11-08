@@ -238,6 +238,8 @@ public class CandidateRepositoryController extends BaseController{
 			projectRegtService.updateProjectStatus(projectDto);
 		}
 		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.repository.add" , new String[]{projectDto.getSystemProjectRefNum()}));
+		
 		return mv;
 	}
 	

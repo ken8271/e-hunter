@@ -116,6 +116,8 @@ public class CustomerContactHistoryController extends BaseController{
 		
 		customerContactHistoryService.saveContactHistory(customerContactHistoryDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.CUSTOMER, getMessage("tx.log.customer.contact.create" , new String[]{customerContactHistoryDto.getCustomerDto().getSystemCustRefNum()}));
+		
 		return mv;
 	}
 	

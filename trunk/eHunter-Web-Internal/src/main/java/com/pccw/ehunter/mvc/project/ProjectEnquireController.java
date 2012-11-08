@@ -323,6 +323,8 @@ public class ProjectEnquireController extends BaseController{
 			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/projectsSearch.do"));
 		}
 		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.view" , new String[]{projectDto.getSystemProjectRefNum()}));
+		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
 	}
@@ -456,6 +458,8 @@ public class ProjectEnquireController extends BaseController{
 		}else if(ModuleIndicator.PROJECT_ENQUIRY.equals(module)){
 			mv.addObject(SessionAttributeConstant.BACK_URL, URLUtils.getHDIVUrl(request, request.getContextPath() + "/project/projectsSearch.do"));
 		}
+		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.view" , new String[]{projectDto.getSystemProjectRefNum()}));
 		
 		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
 		return mv;
