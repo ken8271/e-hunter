@@ -8,6 +8,7 @@ public class TransactionLogDTO implements Serializable {
 
 	private String id;
 	private String userID;
+	private String userName;
 	private Date transactionDatetime;
 	private String functionIndicator;
 	private String transactionMsg;
@@ -50,6 +51,14 @@ public class TransactionLogDTO implements Serializable {
 
 	public void setTransactionMsg(String transactionMsg) {
 		this.transactionMsg = transactionMsg;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

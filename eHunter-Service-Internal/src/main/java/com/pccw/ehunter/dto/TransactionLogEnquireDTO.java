@@ -10,7 +10,7 @@ public class TransactionLogEnquireDTO implements Serializable{
 	private String module;
 	private String user;
 
-	private JmesaCheckBoxDTO jmesaDto;
+	private JmesaCheckBoxDTO jmesaDto = new JmesaCheckBoxDTO();
 
 	public SimpleDateTimeDTO getFromDto() {
 		return fromDto;

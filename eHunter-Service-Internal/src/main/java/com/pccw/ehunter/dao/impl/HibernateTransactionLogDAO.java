@@ -55,7 +55,8 @@ public class HibernateTransactionLogDAO implements TransactionLogDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT log.TX_LOG_ID , log.USR_REC_ID , usr.CNM , log.TX_DTTM , log.FUNC , log.TX_MSG ");
-				buffer.append(" FROM T_USR_TX_LOG log LEFT JOIN T_INT_USR usr ON log.USR_REC_ID = usr.USR_REC_ID ");
+				buffer.append(" FROM T_USR_TX_LOG log INNER JOIN T_INT_USR usr ON log.USR_REC_ID = usr.USR_REC_ID ");
+				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFilter(pagedCriteria));
 				buffer.append(" ORDER BY log.TX_LOG_ID ");
 				
@@ -97,11 +98,11 @@ public class HibernateTransactionLogDAO implements TransactionLogDAO{
 	
 	private void setParameters(Query query , TransactionLogPagedCriteria pagedCriteria){
 		if(pagedCriteria.getFromDttm()!= null){
-			query.setDate("from", pagedCriteria.getFromDttm());
+			query.setTimestamp("from", pagedCriteria.getFromDttm());
 		}
 		
 		if(pagedCriteria.getToDttm() != null){
-			query.setDate("to", pagedCriteria.getToDttm());
+			query.setTimestamp("to", pagedCriteria.getToDttm());
 		}
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getModule())){
