@@ -61,6 +61,12 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 				
 				Query query = session.createSQLQuery(buffer.toString());
 				setParameters(query , pagedCriteria);
+				
+				if(pagedCriteria.getPageFilter().getRowEnd() > 0){
+					query.setFirstResult(pagedCriteria.getPageFilter().getRowStart());
+					query.setMaxResults(pagedCriteria.getPageFilter().getRowEnd()-pagedCriteria.getPageFilter().getRowStart());
+				}
+				
 				return query.list();
 			}
 		});
@@ -159,6 +165,11 @@ public class HibernateProjectCommonDAO implements ProjectCommonDAO{
 
 				Query query = session.createSQLQuery(buffer.toString());
 				setParameters(query, pagedCriteria);
+				
+				if(pagedCriteria.getPageFilter().getRowEnd() > 0){
+					query.setFirstResult(pagedCriteria.getPageFilter().getRowStart());
+					query.setMaxResults(pagedCriteria.getPageFilter().getRowEnd()-pagedCriteria.getPageFilter().getRowStart());
+				}
 				
 				return query.list();
 			}
