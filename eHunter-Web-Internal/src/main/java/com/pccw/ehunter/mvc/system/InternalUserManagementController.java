@@ -35,6 +35,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.DateFormatConstant;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.InternalUserConvertor;
@@ -324,6 +325,8 @@ public class InternalUserManagementController extends BaseController{
 			if(writer != null){
 				writer.close();
 			}
+			
+			transactionLogService.logTransaction(ModuleIndicator.SYSTEM, getMessage("tx.log.system.user.view" , new String[]{dto.getUserRecId()}));
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(">>>>> Exception Catched(viewInternalUserDetail) : " + e.getMessage());
@@ -363,6 +366,9 @@ public class InternalUserManagementController extends BaseController{
 		}
 		
 		internalUserService.saveInternalUser(internalUserDto);
+		
+		transactionLogService.logTransaction(ModuleIndicator.SYSTEM, getMessage("tx.log.system.user.create" , new String[]{internalUserDto.getUserRecId()}));
+		
 		return mv;
 	}
 	
@@ -414,6 +420,8 @@ public class InternalUserManagementController extends BaseController{
 		
 		internalUserService.updateInternalUser(internalUserDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.SYSTEM, getMessage("tx.log.system.user.amend" , new String[]{internalUserDto.getUserRecId()}));
+		
 		return mv;
 	}
 	
@@ -454,6 +462,8 @@ public class InternalUserManagementController extends BaseController{
 		
 		internalUserService.resetPassword(internalUserDto);
 		
+		transactionLogService.logTransaction(ModuleIndicator.SYSTEM, getMessage("tx.log.system.user.resetpassword" , new String[]{internalUserDto.getUserRecId()}));
+		
 		return mv;
 	}
 	
@@ -470,6 +480,8 @@ public class InternalUserManagementController extends BaseController{
 		}
 		
 		internalUserService.deleteInternalUser(dto);
+		
+		transactionLogService.logTransaction(ModuleIndicator.SYSTEM, getMessage("tx.log.system.user.delete" , new String[]{id}));
 		
 		mv.addObject(SessionAttributeConstant.INTERNAL_USER_ENQUIRE_DTO, userEnquireDto);
 		return mv;

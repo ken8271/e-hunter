@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.CommonConstant;
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.dto.UploadedCurriculumVitaeDTO;
 import com.pccw.ehunter.helper.BatchUploadFileConvertor;
@@ -121,6 +122,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 			
 			cvUploadService.saveUploadedCurriculumVitae(cvDto);
 			
+			transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.cv.upload" , new String[]{cvDto.getTalentID() , cvDto.getCvID()}));
+			
 		} catch (Exception e) {
 			logger.error(">>>>>Exception Catched(submitAttachementUpload) :" + e.getMessage());
 		}
@@ -155,6 +158,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 			
 			mv.addObject("swfPath", cvDto.getSwfFileName());
 			mv.addObject(SessionAttributeConstant.UPLOADED_CV_DTO, cvDto);
+			
+			transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.cv.view" , new String[]{cvDto.getTalentID() , cvDto.getCvID()}));
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(">>>>>Exception Catched(ViewCurriculumVitaeOnline) : " + e.getMessage());
@@ -182,6 +187,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 			}
 			
 			out.flush();
+			
+			transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.cv.download" , new String[]{cvDto.getTalentID() , cvDto.getCvID()}));
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -196,13 +203,17 @@ public class CurriculumVitaeUploadController extends BaseController{
 		
 		UploadedCurriculumVitaeDTO cvDto = cvUploadService.getUploadedCurriculumVitaeByID(id);
 		
+		String talentID = cvDto.getTalentID();
+		
 		if(cvDto != null){
 			FileUtils.handleDelete(new File(uploadDirectory + cvDto.getRelativeUploadPath()));
 			FileUtils.handleDelete(new File(swfDirectory + cvDto.getRelativeSwfPath()));
 			cvUploadService.deleteCurriculumVitae(cvDto);
+			transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.cv.delete" , new String[]{talentID , id}));
 		}
 		
 		mv.addObject("_id", cvDto.getTalentID());
+		
 		return mv;
 	}
 	

@@ -349,6 +349,9 @@ public class CustomerRegistrationController extends BaseController{
 		if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(customerDto.getGroupIndicator()) ){
 			custRegtService.updateSubsidiaryInfo(systemGroupRefNum, customerDto.getSystemCustRefNum());
 		}
+		
+		transactionLogService.logTransaction(ModuleIndicator.CUSTOMER, getMessage("tx.log.customer.create" , new String[]{customerDto.getSystemCustRefNum()}));
+		
 		return new ModelAndView(new RedirectViewExt("/customer/completeCustRegistration.do", true));	
 	}
 	

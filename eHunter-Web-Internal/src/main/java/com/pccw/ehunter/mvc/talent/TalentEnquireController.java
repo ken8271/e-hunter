@@ -137,6 +137,8 @@ public class TalentEnquireController extends BaseCandidateController{
 			}
 		}
 
+		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.view" , new String[]{talentDto.getTalentID()}));
+		
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
@@ -191,6 +193,8 @@ public class TalentEnquireController extends BaseCandidateController{
 			}
 		}
 
+		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.view" , new String[]{talentDto.getTalentID()}));
+		
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.DegreeDTO;
@@ -74,6 +75,7 @@ public class TalentAmendController extends BaseController{
 		}
 		
 		talentRegtService.udpateTalent(talentDto);
+		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.update" , new String[]{talentDto.getTalentID()}));
 		
 		mv.addObject("_id", talentDto.getTalentID());
 		return mv;
