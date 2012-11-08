@@ -41,7 +41,7 @@
 			<ul class="categoryitems">
 			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
 			<li><a href="${ctx }/system/initCodetablesSearch.do">代码维护</a></li>
-			<li><a href="#">日志管理</a></li>
+			<li><a href="${ctx }/system/initTransactionlogSearch.do">日志管理</a></li>
 			<li><a href="${ctx }/system/initSystemParametersSearch.do">系统参数管理</a></li>
 			<li><a href="#">数据备份</a></li>
 			</ul>
