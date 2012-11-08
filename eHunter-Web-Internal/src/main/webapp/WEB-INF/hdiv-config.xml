@@ -69,6 +69,7 @@
 				<value>/usrMgmt/initUsersSearch.do</value>
 				<value>/system/initCodetablesSearch.do</value>
 				<value>/system/initSystemParametersSearch.do</value>
+				<value>/system/initTransactionlogSearch.do</value>
 			</list>			
 		</property>
 
