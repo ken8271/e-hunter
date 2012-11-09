@@ -42,14 +42,14 @@
 			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
 			<li><a href="${ctx }/system/initCodetablesSearch.do">代码维护</a></li>
 			<li><a href="${ctx }/system/initTransactionlogSearch.do">日志管理</a></li>
-			<li><a href="${ctx }/system/initSystemParametersSearch.do">系统参数管理</a></li>
+			<li><a href="${ctx }/system/initSystemParametersSearch.do">参数管理</a></li>
 			<li><a href="#">数据备份</a></li>
 			</ul>
 			</security:authorize>
 			
 			<h3 class="menuheader expandable">其他</h3>
 			<ul class="categoryitems">
-			<li><a href="#">密码修改</a></li>
+			<li><a href="${ctx }/initChangePassword.do">密码修改</a></li>
 			<li><a href="${ctx}/j_spring_security_logout">退出系统</a></li>
 			</ul>
 </div>

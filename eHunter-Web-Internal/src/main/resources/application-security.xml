@@ -27,7 +27,7 @@
 		<security:intercept-url pattern="/customer/*" access="ROLE_USER,ROLE_ADMIN"/>
 	</security:http>
 	
-	<security:authentication-manager>
+	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider user-service-ref="userDetailService">
 		   <security:password-encoder base64="true" hash="md5"></security:password-encoder>
 		</security:authentication-provider>
