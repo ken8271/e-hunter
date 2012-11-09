@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.pccw.ehunter.convertor.SimpleDateConvertor;
+import com.pccw.ehunter.convertor.SimpleDateTimeConvertor;
 import com.pccw.ehunter.dto.SimpleDateDTO;
 import com.pccw.ehunter.dto.SimpleDateTimeDTO;
 import com.pccw.ehunter.utility.DateUtils;
@@ -152,6 +153,30 @@ public abstract class AbstractValidator implements Validator{
 		try {
 			fromDate = SimpleDateConvertor.toDate(fromDateDto);
 			toDate = SimpleDateConvertor.toDate(toDateDto);
+			
+			if (fromDate==null || toDate==null){
+				return;
+			}
+			
+			if(fromDate.after(toDate)){
+				errors.rejectValue(fieldName, "EHT-E-0008", new String[]{messageEnd, messageStart}, "");
+			}
+		}catch (Exception e) {
+		}
+	}
+	
+	public static void compareDateTime(Errors errors, String fieldName, 
+			SimpleDateTimeDTO fromDateDto,SimpleDateTimeDTO toDateDto,
+			String messageStart, String messageEnd){
+		if(fromDateDto == null || toDateDto == null){
+			return ;
+		}
+		
+		Date fromDate = null;
+		Date toDate = null;
+		try {
+			fromDate = SimpleDateTimeConvertor.toDate(fromDateDto);
+			toDate = SimpleDateTimeConvertor.toDate(toDateDto);
 			
 			if (fromDate==null || toDate==null){
 				return;
