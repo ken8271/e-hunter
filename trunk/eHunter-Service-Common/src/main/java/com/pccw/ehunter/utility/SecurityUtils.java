@@ -31,4 +31,13 @@ public class SecurityUtils {
 			return CommonConstant.ANOYMOUS_INTERNAL_USER;
 		}
 	}
+	
+	public static String getUserName(){
+		UserDetails usr = getUser();
+		if(usr != null && usr instanceof AbstractUserDetails){
+			return ((AbstractUserDetails)usr).getUsername();
+		}else {
+			return CommonConstant.ANOYMOUS_INTERNAL_USER;
+		}
+	}
 }
