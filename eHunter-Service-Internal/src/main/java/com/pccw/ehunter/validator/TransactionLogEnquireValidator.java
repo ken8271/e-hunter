@@ -49,13 +49,13 @@ public class TransactionLogEnquireValidator extends AbstractValidator{
 		compareDateTime(errors, "toDto.day", dto.getFromDto(), dto.getToDto(), "起始时间", "结束时间");
 		
 		int daysBetween = DateUtils.getIntervalDays(SimpleDateTimeConvertor.toDate(dto.getFromDto()), SimpleDateTimeConvertor.toDate(dto.getToDto()));
-		int range = getAllowedRange();
-		if(daysBetween >= 0 && daysBetween > getAllowedRange() ){
-			errors.rejectValue("toDto.day","EHT-E-0015", new String[]{String.valueOf(range)},"The enquiry date range must within " + range + " day(s). Please shorten the range and search again."); 
+		int range = getMaxRange();
+		if(daysBetween >= 0 && daysBetween > range){
+			errors.rejectValue("toDto.day","EHT-E-0015", new String[]{String.valueOf(range)},"The enquiry date range must within " + range + " day(s). Please shorten the range and search again. [EHT-E-0015]"); 
 		}
 	}
 
-	private int getAllowedRange(){ 
+	private int getMaxRange(){ 
 		SystemParameterDTO dto = systemParameterService.getSystemParameterByKey(ParameterConstant.KEY_TX_LOG_MAX_RANGE);
 		
 		if(dto != null){

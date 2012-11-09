@@ -62,6 +62,8 @@ public class SessionAttributeConstant {
 	public static final String LIST_OF_TRANSACTION_LOG = "listOfTransactionlog";
 	
 	public static final String LIST_OF_OPERATOR = "listOfOperator";
+	
+	public static final String CHANGE_PASSWORD_DTO = "changePasswordDto";
 		
 	public static final String BACK_URL = "backUrl";
 }
