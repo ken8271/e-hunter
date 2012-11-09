@@ -16,7 +16,7 @@ function resetForm(){
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
-<form:form commandName="enquireDto" action="${ctx}/talent/talentsSearch.do">
+<form:form commandName="talentEnquireDto" action="${ctx}/talent/talentsSearch.do">
         <div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>

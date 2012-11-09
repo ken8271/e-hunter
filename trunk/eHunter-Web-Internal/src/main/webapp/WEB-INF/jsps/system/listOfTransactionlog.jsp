@@ -9,6 +9,38 @@
 function clearInput(){
 	$(':text').val('');
 }
+
+function fillDateTime(){	
+	var fromYY=document.getElementById('fromDto.year').value;
+	var fromMON=document.getElementById('fromDto.month').value;
+	var fromDD=document.getElementById('fromDto.day').value;
+	var fromHH= document.getElementById('fromDto.hour').value;
+	var fromMI=document.getElementById('fromDto.minute').value;
+	
+	var toYY=document.getElementById('toDto.year').value;
+	var toMON=document.getElementById('toDto.month').value;
+	var toDD=document.getElementById('toDto.day').value;
+	var toHH=document.getElementById('toDto.hour').value;
+	var toMI=document.getElementById('toDto.minute').value;
+
+	if(fromYY != null && fromYY.length != 0 && fromMON !=null && fromMON.length != 0 && fromDD !=null && fromDD.length != 0){
+		if(fromHH == null || fromHH.length == 0){
+			if(fromMI == null || fromMI.length == 0){
+				document.getElementById('fromDto.hour').value='00';
+				document.getElementById('fromDto.minute').value='00';
+			}
+		}
+	}
+	
+	if(toYY != null && toYY.length != 0 && toMON !=null && toMON.length != 0 && toDD !=null && toDD.length != 0){
+		if(toHH == null || toHH.length == 0){
+			if(toMI == null || toMI.length == 0){
+				document.getElementById('toDto.hour').value='23';
+				document.getElementById('toDto.minute').value='59';
+			}
+		}
+	}
+}
 </script>
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
@@ -27,7 +59,7 @@ function clearInput(){
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="查询" />&nbsp;
+							<td><input class="standardButton" type="submit" value="查询" onclick="fillDateTime();" />&nbsp;
 								<input class="standardButton" type="button" value="重置" onclick="clearInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
@@ -54,12 +86,17 @@ function clearInput(){
 			    <tr>
 				   <td width="16%" class="labelColumn">操作用户：</td>
 				   <td width="34%">
-				      <form:input path="user" cssClass="standardInputText"  /> 
+				      <form:select path="user" cssClass="standardSelectNoWidth" cssStyle="width:50%">
+				         <form:option value="" label="--- 请选择  ---"></form:option>
+				         <c:forEach items="${listOfOperator }" var="usr">
+				            <form:option value="${usr.userRecId }" label="${usr.cnName }/${usr.enName }"></form:option>
+				         </c:forEach>
+					  </form:select>
 				   </td>
 				   <td width="16%" class="labelColumn">操作模块：</td>
 				   <td width="34%">
 				       <form:select path="module" cssClass="standardSelectNoWidth" cssStyle="width:50%">
-						      <form:option value="" label="--- 请选择  ---" cssStyle="align:center"></form:option>
+						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <form:option value="C" label="--- 客户管理  ---"></form:option>
 						      <form:option value="T" label="--- 人才管理  ---"></form:option>
 						      <form:option value="P" label="--- 项目管理  ---"></form:option>
@@ -76,7 +113,7 @@ function clearInput(){
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-							<td><input class="standardButton" type="submit" value="查询" />&nbsp;
+							<td><input class="standardButton" type="submit" value="查询" onclick="fillDateTime();" />&nbsp;
 							    <input class="standardButton" type="button" value="重置" onclick="clearInput();"/>&nbsp;
 								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
 							</td>
