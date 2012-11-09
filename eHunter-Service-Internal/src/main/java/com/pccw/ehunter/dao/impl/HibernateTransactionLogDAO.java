@@ -54,7 +54,7 @@ public class HibernateTransactionLogDAO implements TransactionLogDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT log.TX_LOG_ID , log.USR_REC_ID , usr.CNM , log.TX_DTTM , log.FUNC , log.TX_MSG ");
+				buffer.append(" SELECT log.TX_LOG_ID , log.USR_REC_ID , usr.CNM , usr.ENM , log.TX_DTTM , log.FUNC , log.TX_MSG ");
 				buffer.append(" FROM T_USR_TX_LOG log INNER JOIN T_INT_USR usr ON log.USR_REC_ID = usr.USR_REC_ID ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(getSQLFilter(pagedCriteria));

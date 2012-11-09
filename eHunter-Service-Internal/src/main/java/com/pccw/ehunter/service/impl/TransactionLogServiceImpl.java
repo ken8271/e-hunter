@@ -85,10 +85,12 @@ public class TransactionLogServiceImpl implements TransactionLogService{
 				dto = new TransactionLogDTO();
 				dto.setId(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
 				dto.setUserID(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
-				dto.setUserName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
-				dto.setTransactionDatetime(os[3]==null ? (new Date()) : ((Date)os[3]));
-				dto.setFunctionIndicator(StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]);
-				dto.setTransactionMsg(StringUtils.isEmpty((String)os[5]) ? "" : (String)os[5]);
+				String cnm = StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2];
+				String enm = StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3];
+				dto.setUserName(cnm + (StringUtils.isEmpty(enm) ? "" : "(" + enm + ")"));
+				dto.setTransactionDatetime(os[4]==null ? (new Date()) : ((Date)os[4]));
+				dto.setFunctionIndicator(StringUtils.isEmpty((String)os[5]) ? "" : (String)os[5]);
+				dto.setTransactionMsg(StringUtils.isEmpty((String)os[6]) ? "" : (String)os[6]);
 				
 				dtos.add(dto);
 			}

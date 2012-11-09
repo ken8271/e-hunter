@@ -5,7 +5,7 @@ public class SessionAttributeConstant {
 	public static final String CUSTOMER_RESPONSE_PERSON = "responsePersonDto";
 	public static final String LIST_OF_GROUPS = "listOfGroups";
 	
-	public static final String CUSTOMER_ENQUIRE_DTO = "enquireDto";
+	public static final String CUSTOMER_ENQUIRE_DTO = "customerEnquireDto";
 	public static final String LIST_OF_CUSTOMERS = "listOfCustomers";
 	
 	public static final String LIST_OF_RPOJECTS = "listOfProject";
@@ -24,7 +24,7 @@ public class SessionAttributeConstant {
 	public static final String TALENT_LANGUAGE_ABLITITY_DTO = "languageDto";
 	public static final String TALENT_CERT_DTO = "certDto";
 	
-	public static final String TALENT_ENQUIRE_DTO = "enquireDto";
+	public static final String TALENT_ENQUIRE_DTO = "talentEnquireDto";
 	public static final String LIST_OF_TALENT = "listOfTalent";
 	public static final String LIST_OF_MATCHED_TALENT = "listOfMatchedTalent";
 	
@@ -61,5 +61,7 @@ public class SessionAttributeConstant {
 	public static final String TRANSACTION_LOG_ENQUIRE_DTO = "txlogEnquireDto";
 	public static final String LIST_OF_TRANSACTION_LOG = "listOfTransactionlog";
 	
+	public static final String LIST_OF_OPERATOR = "listOfOperator";
+		
 	public static final String BACK_URL = "backUrl";
 }
