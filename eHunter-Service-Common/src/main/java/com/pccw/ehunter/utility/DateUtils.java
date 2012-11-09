@@ -362,6 +362,7 @@ public class DateUtils {
 
 	// 计算两个任意时间中间的间隔天数
 	public static int getIntervalDays(Date startday, Date endday) {
+		if(startday == null || endday == null) return -1;
 		if (startday.after(endday)) {
 			Date cal = startday;
 			startday = endday;
