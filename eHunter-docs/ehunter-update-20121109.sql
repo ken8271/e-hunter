@@ -1,0 +1,1 @@
+INSERT INTO T_SYS_PARM values ('TX_LOG_ENQUIRE_DATE_RANGE' , 'N' , '7' , '操作日志查询允许时间跨度' , '2012072401', '2012-07-25', '2012072401', '2012-07-25', 'I')
