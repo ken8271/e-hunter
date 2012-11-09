@@ -2,6 +2,7 @@ package com.pccw.ehunter.dao.impl;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -191,5 +192,33 @@ public class HibernateInternalUserDAO implements InternalUserDAO{
 	@Override
 	public void deleteInternalUser(InternalUser internalUser) {
 		hibernateTemplate.delete(internalUser);
+	}
+
+	@Override
+	public void changePassword(final String userID,final  String newPassword) {
+		hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" UPDATE T_INT_USR ");
+				buffer.append(" SET PWD = :pwd ,  ");
+				buffer.append(" LST_UPD_BY = :userID , ");
+				buffer.append(" LST_UPD_DTTM = :dttm ,  ");
+				buffer.append(" LST_TX_ACTN = :tx ");
+				buffer.append(" WHERE USR_REC_ID = :userID ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("pwd", newPassword);
+				query.setString("userID", userID);
+				query.setDate("dttm", new Date());
+				query.setString("tx", "U");
+				
+				query.executeUpdate();
+				return null;
+			}
+		});
 	}
 }

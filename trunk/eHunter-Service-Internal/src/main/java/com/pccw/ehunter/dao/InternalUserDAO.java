@@ -12,5 +12,6 @@ public interface InternalUserDAO {
 	public void saveInternalUser(InternalUser internalUser);
 	public void updateInternalUser(InternalUser internalUser);
 	public void resetPassword(InternalUser internalUser);
+	public void changePassword(String userID , String newPassword);
 	public void deleteInternalUser(InternalUser internalUser);
 }

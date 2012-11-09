@@ -16,4 +16,5 @@ public interface InternalUserManagementService {
 	public void updateInternalUser(InternalUserDTO internalUserDto);
 	public void resetPassword(InternalUserDTO internalUserDto);
 	public void deleteInternalUser(InternalUserDTO internalUserDto);
+	public void changePassword(String userID , String newPassword);
 }

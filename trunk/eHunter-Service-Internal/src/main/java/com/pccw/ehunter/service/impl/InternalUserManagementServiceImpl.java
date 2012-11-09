@@ -27,6 +27,7 @@ import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.InternalUserManagementService;
 import com.pccw.ehunter.utility.BaseDtoUtility;
 import com.pccw.ehunter.utility.DateUtils;
+import com.pccw.ehunter.utility.StringEncryptUtils;
 import com.pccw.ehunter.utility.StringUtils;
 
 @Service("internalUserService")
@@ -129,6 +130,12 @@ public class InternalUserManagementServiceImpl implements InternalUserManagement
 	@Transactional(readOnly=true)
 	public InternalUserDTO getInternalUserByLoginID(String loginID) {
 		return InternalUserConvertor.toDto(internalUserDao.getInternalUserByLoginId(loginID));
+	}
+
+	@Override
+	@Transactional
+	public void changePassword(String userID, String newPassword) {
+		internalUserDao.changePassword(userID, StringEncryptUtils.encryptDefault(newPassword));
 	}
 	
 }
