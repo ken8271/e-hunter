@@ -48,7 +48,7 @@
 				</tbody>
 		</table>
 		<div class="emptyBlock"></div>
-		<form:form commandName="enquireDto" action="${ctx }/project/handleCandidatePagedSearch.do" method="post">
+		<form:form commandName="talentEnquireDto" action="${ctx }/project/handleCandidatePagedSearch.do" method="post">
 		<div>${listOfCandidateRepository }</div>
 		</form:form>
 		<div class="emptyBlock"></div>

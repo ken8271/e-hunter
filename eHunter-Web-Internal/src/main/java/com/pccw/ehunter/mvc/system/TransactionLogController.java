@@ -12,7 +12,9 @@ import org.jmesa.view.editor.CellEditor;
 import org.jmesa.view.html.component.HtmlColumn;
 import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -21,30 +23,48 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.TransactionLogConvertor;
+import com.pccw.ehunter.dto.InternalUserPagedCriteria;
 import com.pccw.ehunter.dto.TransactionLogDTO;
 import com.pccw.ehunter.dto.TransactionLogEnquireDTO;
 import com.pccw.ehunter.dto.TransactionLogPagedCriteria;
 import com.pccw.ehunter.mvc.BaseController;
+import com.pccw.ehunter.service.InternalUserManagementService;
 import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.StringUtils;
+import com.pccw.ehunter.validator.TransactionLogEnquireValidator;
 
 @Controller
 @SessionAttributes({
-	SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO
+	SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO,
+	SessionAttributeConstant.LIST_OF_OPERATOR
 })
 public class TransactionLogController extends BaseController{
+	
+	@Autowired
+	private InternalUserManagementService internalUserService;
+	
+	@Autowired
+	private TransactionLogEnquireValidator txlogEnqireValidator;
 
 	@RequestMapping("/system/initTransactionlogSearch.do")
 	public ModelAndView initTransactionlogSearch(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("system/listOfTransactionlog");
 		
 		mv.addObject(SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO, new TransactionLogEnquireDTO());
+		mv.addObject(SessionAttributeConstant.LIST_OF_OPERATOR, internalUserService.getInternalUsersByCriteria(new InternalUserPagedCriteria()));
 		return mv;
 	}
 	
 	@RequestMapping("/system/searchTransactionlog.do")
-	public ModelAndView searchTransactionlog(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO)TransactionLogEnquireDTO txlogEnquireDto){
+	public ModelAndView searchTransactionlog(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO)TransactionLogEnquireDTO txlogEnquireDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView("system/listOfTransactionlog");
+		
+		txlogEnqireValidator.validate(txlogEnquireDto, errors);
+		
+		if(errors.hasErrors()){
+			mv.addObject(SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO, txlogEnquireDto);
+			return mv;
+		}
 		
 		handlePagedSearch(request , mv , txlogEnquireDto);
 		

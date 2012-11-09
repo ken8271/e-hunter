@@ -81,7 +81,7 @@ function submitForm(actionFlagStr){
     <hdiv-c:url value="/project/viewCandidateRepository.do" var="backUrl"></hdiv-c:url>
     <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
     <hdiv-c:url value="/project/pop/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }" var="viewProjectUrl"></hdiv-c:url>
-	<form:form commandName="enquireDto" action="${ctx}/project/appendCandidateRepositoryActions.do" method="post">
+	<form:form commandName="talentEnquireDto" action="${ctx}/project/appendCandidateRepositoryActions.do" method="post">
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
 		</div>
