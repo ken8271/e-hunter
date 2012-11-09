@@ -8,6 +8,8 @@
 <script type="text/javascript">
 function clearInput(){
 	$(':text').val('');
+	$('#user').val('');
+	$('#module').val('');
 }
 
 function fillDateTime(){	
@@ -42,7 +44,7 @@ function fillDateTime(){
 	}
 }
 </script>
-<common:jmesaScript actionFlagStr="90"></common:jmesaScript>
+<common:jmesaScript actionFlagStr=""></common:jmesaScript>
 </head>
 <body>
 <form:form commandName="txlogEnquireDto" action="${ctx}/system/searchTransactionlog.do">
@@ -72,20 +74,20 @@ function fillDateTime(){
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 			<tbody>
 				<tr>
-				   <td width="16%" class="labelColumn">操作时间从：<br/>(YYYY-MM-DD HH:MM)</td>
-				   <td width="34%" >
+				   <td width="15%" class="labelColumn">起始时间：<br/>(YYYY-MM-DD HH:MM)</td>
+				   <td width="35%" >
 				      <common:inputDateTime dateYY="fromDto.year" dateMON="fromDto.month" dateDD="fromDto.day" dateHH="fromDto.hour" dateMM="fromDto.minute"></common:inputDateTime>
 				      <common:errorSign id="fromDto.day" path="fromDto.day"></common:errorSign>
 				   </td>
-				   <td width="16%" class="labelColumn">至：<br/>(YYYY-MM-DD HH:MM)</td>
-				   <td width="34%">
+				   <td width="15%" class="labelColumn">结束时间：<br/>(YYYY-MM-DD HH:MM)</td>
+				   <td width="35%">
 				      <common:inputDateTime dateYY="toDto.year" dateMON="toDto.month" dateDD="toDto.day" dateHH="toDto.hour" dateMM="toDto.minute"></common:inputDateTime>
 				      <common:errorSign id="toDto.day" path="toDto.day"></common:errorSign>
 				   </td>
 			    </tr>
 			    <tr>
-				   <td width="16%" class="labelColumn">操作用户：</td>
-				   <td width="34%">
+				   <td width="15%" class="labelColumn">操作用户：</td>
+				   <td width="35%">
 				      <form:select path="user" cssClass="standardSelectNoWidth" cssStyle="width:50%">
 				         <form:option value="" label="--- 请选择  ---"></form:option>
 				         <c:forEach items="${listOfOperator }" var="usr">
@@ -93,8 +95,8 @@ function fillDateTime(){
 				         </c:forEach>
 					  </form:select>
 				   </td>
-				   <td width="16%" class="labelColumn">操作模块：</td>
-				   <td width="34%">
+				   <td width="15%" class="labelColumn">操作模块：</td>
+				   <td width="35%">
 				       <form:select path="module" cssClass="standardSelectNoWidth" cssStyle="width:50%">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <form:option value="C" label="--- 客户管理  ---"></form:option>

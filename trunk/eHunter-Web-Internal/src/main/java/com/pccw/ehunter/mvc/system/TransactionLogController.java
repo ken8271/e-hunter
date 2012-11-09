@@ -12,6 +12,7 @@ import org.jmesa.view.editor.CellEditor;
 import org.jmesa.view.html.component.HtmlColumn;
 import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.convertor.TransactionLogConvertor;
 import com.pccw.ehunter.dto.InternalUserPagedCriteria;
+import com.pccw.ehunter.dto.SimpleDateTimeDTO;
 import com.pccw.ehunter.dto.TransactionLogDTO;
 import com.pccw.ehunter.dto.TransactionLogEnquireDTO;
 import com.pccw.ehunter.dto.TransactionLogPagedCriteria;
@@ -66,10 +68,57 @@ public class TransactionLogController extends BaseController{
 			return mv;
 		}
 		
+		autofillDateTime(txlogEnquireDto);
+		
 		handlePagedSearch(request , mv , txlogEnquireDto);
 		
 		mv.addObject(SessionAttributeConstant.TRANSACTION_LOG_ENQUIRE_DTO, txlogEnquireDto);
 		return mv;
+	}
+	
+	private void autofillDateTime(TransactionLogEnquireDTO dto){
+		SimpleDateTimeDTO fromDto = dto.getFromDto();
+		SimpleDateTimeDTO toDto = dto.getToDto();
+		
+		int status1 = getFilledStatus(fromDto);
+		int status2 = getFilledStatus(toDto);
+		
+		if(status1 == 1 && status2 == -1){
+			//copy fromDto to toDto
+			BeanUtils.copyProperties(fromDto, toDto);
+		}
+		
+		if(status2 == 1 && status1 == -1){
+			//copy toDto to fromDto
+			BeanUtils.copyProperties(toDto, fromDto);
+		}
+	}
+	
+	private int getFilledStatus(SimpleDateTimeDTO dto){
+		//1:full filled ; 0:not full filled ; -1 : nothing filled
+		int emptyCount = 0;
+		int fillCount = 0;
+		
+		if(StringUtils.isEmpty(dto.getYear())) emptyCount++;
+		else fillCount++;
+
+		if(StringUtils.isEmpty(dto.getMonth())) emptyCount++;
+		else fillCount++;
+		
+		if(StringUtils.isEmpty(dto.getDay())) emptyCount++;
+		else fillCount++;
+		
+		if(StringUtils.isEmpty(dto.getHour())) emptyCount++;
+		else fillCount++;
+		
+		if(StringUtils.isEmpty(dto.getMinute())) emptyCount++;
+		else fillCount++;
+		
+		if(emptyCount == 0) return 1;
+		if(fillCount == 0) return -1;
+		if(fillCount != 0 && emptyCount != 0) return 0;
+
+		return 0;
 	}
 
 	private void handlePagedSearch(HttpServletRequest request, ModelAndView mv, final TransactionLogEnquireDTO txlogEnquireDto) {

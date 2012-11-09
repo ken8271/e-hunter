@@ -56,6 +56,7 @@
 				<value>/login.do</value>
 				<value>/index.do</value>
 				<value>/logout.do</value>
+				<value>/initChangePassword.do</value>
 				<value>/customer/initAddCustomer.do</value>
 				<value>/customer/initCustomersSearch.do</value>
 				<value>/talent/initAddTalent.do</value>
