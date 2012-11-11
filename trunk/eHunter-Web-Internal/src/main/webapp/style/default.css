@@ -27,38 +27,6 @@ h1 {
 	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;
 }
 
-a:link {
-	font-size: 12px;
-	background: none transparent scroll repeat 0% 0%;
-	color: #000000;
-	font-family: verdana, helvetica;
-	text-decoration: underline
-}
-
-a:active {
-	font-size: 12px;
-	background: none transparent scroll repeat 0% 0%;
-	color: #666666;
-	font-family: verdana, helvetica;
-	text-decoration: underline
-}
-
-a:visited {
-	font-size: 12px;
-	background: none transparent scroll repeat 0% 0%;
-	color: #000000;
-	font-family: verdana, helvetica;
-	text-decoration: underline
-}
-
-a:hover {
-	font-size: 12px;
-	background: none transparent scroll repeat 0% 0%;
-	color: activecaption;
-	font-family: verdana, helvetica;
-	text-decoration: underline
-}
-
 li {
 	font-size: 12px;
 	font-family: Arial, Tahoma, sans-serif, Helvetica, Verdana, Geneva;

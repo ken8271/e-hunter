@@ -71,6 +71,7 @@
 				<value>/system/initCodetablesSearch.do</value>
 				<value>/system/initSystemParametersSearch.do</value>
 				<value>/system/initTransactionlogSearch.do</value>
+				<value>/system/initDataManagement.do</value>
 			</list>			
 		</property>
 

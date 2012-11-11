@@ -71,14 +71,6 @@
 			</td>
 		</tr>
 		<tr class="contentTableRow1">
-			<td>职位关键词：</td>
-			<td colspan="3">
-			   <c:forEach items="${projectDto.postDescDto.keyWords }" var="keyWord">
-			      <c:out value="${keyWord }" escapeXml="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-			   </c:forEach>
-			</td>
-		</tr>
-		<tr class="contentTableRow1">
 			<td>职责描述：</td>
 			<td colspan="3">
 			   <c:out value="${projectDto.postDescDto.dutyDescription }"escapeXml="true" />
@@ -130,8 +122,7 @@
 				       3. 专业要求：<c:out value="${not empty projectDto.postRequireDto.majorCategoryDto.displayName ? projectDto.postRequireDto.majorCategoryDto.displayName : '不限'}" escapeXml="true" /><br>
 				       4. 总工作年限：<c:if test="${not empty projectDto.postRequireDto.workExperienceStr }"><c:out value="${projectDto.postRequireDto.workExperienceStr }"escapeXml="true" />年以上</c:if><br/>
 				       5. 学历要求：<c:out value="${not empty projectDto.postRequireDto.degreeDto.displayName ? projectDto.postRequireDto.degreeDto.displayName : '不限'}" escapeXml="true" /><br/>
-				       6. 是否统招全日制：<c:out value="${projectDto.postRequireDto.ftEduIndicator == 'Y' ? '是' : '不限' }" escapeXml="true" /><br>
-				       7. 语言要求：
+				       6. 语言要求：
 				       <c:forEach items="${projectDto.postRequireDto.languageStr }" var="languageCode">
 				          <c:if test="${languageCode == 'EN' }">英语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 				          <c:if test="${languageCode == 'JP' }">日语&nbsp;&nbsp;&nbsp;&nbsp;</c:if>

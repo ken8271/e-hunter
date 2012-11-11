@@ -202,7 +202,7 @@ function clearInput(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
-						<td class="labelColumn">年龄要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">年龄要求：</td>
 						<td>
 						<form:select path="ageFromStr" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -219,7 +219,7 @@ function clearInput(){
 						</form:select>
 						<common:errorSign id="ageToStr" path="ageToStr"></common:errorSign>
 						</td>
-						<td class="labelColumn">性别要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">性别要求：</td>
 						<td>
 						<form:select path="gender" cssClass="standardSelectNoWidth">
 						   <form:option value="" label="不限"></form:option>
@@ -229,7 +229,7 @@ function clearInput(){
 						<common:errorSign id="gender" path="gender"></common:errorSign>
 					</tr>
 					<tr>
-						<td class="labelColumn">专业要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">专业要求：</td>
 						<td>
 						   <form:select path="majorCategory" cssClass="standardSelect" >
 						      <form:option value="" label="不限"></form:option>
@@ -239,14 +239,14 @@ function clearInput(){
 						   </form:select>
 						<common:errorSign id="majorCategory" path="majorCategory"></common:errorSign>
 						</td>
-						<td class="labelColumn">总工作年限：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">总工作年限：</td>
 						<td>
 						   <form:input path="workExperienceStr" cssClass="standardInputTextNoWidth" maxlength="2" size="2"/>&nbsp;年以上
 						   <common:errorSign id="workExperienceStr" path="workExperienceStr"></common:errorSign>
 						</td>
 					</tr>
 				    <tr >
-						<td class="labelColumn">学历要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">学历要求：</td>
 						<td>
 						   <form:select path="degree"  cssClass="standardSelect">
 						      <form:option value="" label="不限"></form:option>
@@ -256,15 +256,10 @@ function clearInput(){
 						   </form:select>
 					       <common:errorSign id="degree" path="degree"></common:errorSign>
 						</td>
-						<td class="labelColumn">是否统招全日制：<span class="mandatoryField">*</span></td>
-						<td>
-						<form:radiobutton path="ftEduIndicator" value="Y" /> 是&nbsp;&nbsp;&nbsp;
-						<form:radiobutton path="ftEduIndicator" value="N" /> 不限&nbsp;
-						<common:errorSign id="ftEduIndicator" path="ftEduIndicator"></common:errorSign>
-						</td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">语言要求：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">语言要求：</td>
 						<td colspan="3">
 						   <input id="LAN_EN" type="checkbox" name="language" value='<form:cipher value="EN" parameter="language"/>'/>&nbsp;英语&nbsp;&nbsp;&nbsp;
 						   <input id="LAN_JP" type="checkbox" name="language" value='<form:cipher value="JP" parameter="language"/>'/>&nbsp;日语&nbsp;&nbsp;&nbsp;
@@ -289,7 +284,7 @@ function clearInput(){
 				<tbody>
 				    <common:standardTableRow />
 					<tr>
-						<td class="labelColumn">任职资格：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">任职资格：</td>
 						<td colspan="3">
 						   <form:textarea path="duty" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" onkeyup="javascript:if (this.value.length>1000){this.value = this.value.substring(0, 1000)}" cssClass="standardInputText"/>
 						   <common:errorSign id="duty" path="duty"></common:errorSign>

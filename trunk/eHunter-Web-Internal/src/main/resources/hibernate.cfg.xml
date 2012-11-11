@@ -37,8 +37,6 @@
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerResponsablePerson" />
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerCompany" />
 		<mapping class="com.pccw.ehunter.domain.internal.PositionDescription" />
-		<mapping class="com.pccw.ehunter.domain.internal.PositionKeyWordPK" />
-		<mapping class="com.pccw.ehunter.domain.internal.PositionKeyWord" />
 		<mapping class="com.pccw.ehunter.domain.internal.PositionRequirement" />
 		<mapping class="com.pccw.ehunter.domain.internal.Project" />
 		<mapping class="com.pccw.ehunter.domain.internal.CertPK" />
@@ -66,5 +64,6 @@
 		<mapping class="com.pccw.ehunter.domain.internal.EmploymentHistory" />
 		<mapping class="com.pccw.ehunter.domain.internal.UploadedCurriculumVitae" />
 		<mapping class="com.pccw.ehunter.domain.internal.TransactionLog" />
+		<mapping class="com.pccw.ehunter.domain.internal.DataBackupHistory" />
 	</session-factory>
 </hibernate-configuration>

@@ -37,13 +37,13 @@
 			</ul>
 			
 			<security:authorize ifAnyGranted="ROLE_ADMIN">
-			<h3 class="menuheader expandable">系统管理</h3>
+			<h3 class="menuheader expandable" id="systemMgmt">系统管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
 			<li><a href="${ctx }/system/initCodetablesSearch.do">代码维护</a></li>
 			<li><a href="${ctx }/system/initTransactionlogSearch.do">日志管理</a></li>
 			<li><a href="${ctx }/system/initSystemParametersSearch.do">参数管理</a></li>
-			<li><a href="#">数据备份</a></li>
+			<li><a href="${ctx }/system/initDataManagement.do">数据备份</a></li>
 			</ul>
 			</security:authorize>
 			

@@ -49,6 +49,11 @@
 	         <prop key="openoffice.port">${openoffice.port}</prop>
 	         <prop key="openoffice.path">${openoffice.path}</prop>
 	         <prop key="openoffice.start.command">${openoffice.start.command}</prop>
+	         <prop key="database.mysql.path">${database.mysql.path}</prop>
+	         <prop key="data.backup.path">${data.backup.path}</prop>
+	         <prop key="jdbc.url">${jdbc.url}</prop>
+	         <prop key="jdbc.username">${jdbc.username}</prop>
+	         <prop key="jdbc.password">${jdbc.password}</prop>
 	      </props>
 	   </constructor-arg>
 	</bean>

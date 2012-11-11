@@ -266,12 +266,7 @@ function clearInput(){
 						   </form:select>
 					       <common:errorSign id="degree" path="degree"></common:errorSign>
 						</td>
-						<td class="labelColumn">是否统招全日制：<span class="mandatoryField">*</span></td>
-						<td>
-						<form:radiobutton path="ftEduIndicator" value="Y" /> 是&nbsp;&nbsp;&nbsp;
-						<form:radiobutton path="ftEduIndicator" value="N" /> 不限&nbsp;
-						<common:errorSign id="ftEduIndicator" path="ftEduIndicator"></common:errorSign>
-						</td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
 						<td class="labelColumn">语言要求：<span class="mandatoryField">*</span></td>
