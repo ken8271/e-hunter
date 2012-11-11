@@ -1,14 +1,12 @@
 package com.pccw.ehunter.domain.internal;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -35,7 +33,6 @@ public class PositionDescription extends BaseEntity {
 	private String societyWelfareStr;
 	private String residentialWelfareStr;
 	private String annualLeaveWelfareStr;
-	private List<PositionKeyWord> positionKeyWords;
 	private String dutyDescription;
 
 	@Id
@@ -183,14 +180,5 @@ public class PositionDescription extends BaseEntity {
 
 	public void setDutyDescription(String dutyDescription) {
 		this.dutyDescription = dutyDescription;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.postDesc", cascade = { CascadeType.ALL })
-	public List<PositionKeyWord> getPositionKeyWords() {
-		return positionKeyWords;
-	}
-
-	public void setPositionKeyWords(List<PositionKeyWord> positionKeyWords) {
-		this.positionKeyWords = positionKeyWords;
 	}
 }
