@@ -32,7 +32,6 @@ public class PositionDescriptionDTO extends BaseDTO {
 	private String[] annualLeaveWelfare;
 	private String annualLeaveWelfareStr;
 	private List<AnnualLeaveWelfareDTO> annualLeaveWelfareDtos = new ArrayList<AnnualLeaveWelfareDTO>();
-	private String[] keyWords = new String[5];
 	private String dutyDescription;
 
 	public String getSystemPositionRefNum() {
@@ -253,13 +252,4 @@ public class PositionDescriptionDTO extends BaseDTO {
 	public void setAnnualLeaveWelfareStr(String annualLeaveWelfareStr) {
 		this.annualLeaveWelfareStr = annualLeaveWelfareStr;
 	}
-
-	public String[] getKeyWords() {
-		return keyWords;
-	}
-
-	public void setKeyWords(String[] keyWords) {
-		this.keyWords = keyWords;
-	}
-
 }
