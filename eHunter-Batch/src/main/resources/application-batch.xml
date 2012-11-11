@@ -19,6 +19,7 @@
 		<property name="triggers">
 			<list>
 				<ref local="curriculumVitaeClearTrigger"/>
+				<ref local="dataBackupTrigger"/>
 			</list>
 		</property>
 		<property name="quartzProperties">
@@ -47,5 +48,15 @@
 	<bean id="curriculumVitaeClearTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="curriculumVitaeClearTask" />
 		<property name="cronExpression" value="0 0 2 * * ?" />
+	</bean>
+	
+	<bean name="dataBackupTask" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.pccw.ehunter.batch.DataBackupTask" />		
+		<property name="applicationContextJobDataKey" value="applicationContext" />
+	</bean>
+	
+	<bean id="dataBackupTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dataBackupTask" />
+		<property name="cronExpression" value="0 * * * * ?" />
 	</bean>
 </beans>
