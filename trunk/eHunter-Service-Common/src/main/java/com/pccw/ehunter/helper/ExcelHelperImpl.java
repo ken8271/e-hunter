@@ -12,11 +12,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.pccw.ehunter.utility.StringUtils;
 
-@Component("excel2003Helper")
 public class ExcelHelperImpl implements ExcelHelper{
 	
 	private Logger logger = LoggerFactory.getLogger(ExcelHelperImpl.class);

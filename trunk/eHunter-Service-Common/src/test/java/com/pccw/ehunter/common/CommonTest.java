@@ -8,7 +8,7 @@ public class CommonTest {
 	private final String DB_URL = "localhost";
 	private final String DB_NAME = "eHunter";
 	private final String DB_USER = "root";
-	private final String DB_PASSWORD = "oklook";
+	private final String DB_PASSWORD = "Zshm19851128";
 
 	private final String EX_SQL_DISC = "D:";
 	private final String EX_SQL_DIR = "eHunter";
