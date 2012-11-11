@@ -39,6 +39,22 @@ public class CommonConstant {
 	public static final String TYPE_OF_STRING = "S";
 	public static final String TYPE_OF_DATE = "D";
 	
+	public static final String BACKUP_CHANNEL_OF_WEB = "W";
+	public static final String BACKUP_CHANNEL_OF_BATCH_JOB = "B";
+	
+	public static final String DESC_BACKUP_CHANNEL_OF_WEB = "在线系统";
+	public static final String DESC_BACKUP_CHANNEL_OF_BATCH_JOB = "后台服务";
+	
+	public static String getBackupChannel(String channel){
+		if(BACKUP_CHANNEL_OF_WEB.equals(channel)){
+			return DESC_BACKUP_CHANNEL_OF_WEB + "(" + BACKUP_CHANNEL_OF_WEB + ")";
+		}else if(BACKUP_CHANNEL_OF_BATCH_JOB.equals(channel)){
+			return DESC_BACKUP_CHANNEL_OF_BATCH_JOB + "(" + BACKUP_CHANNEL_OF_BATCH_JOB + ")";
+		}
+		
+		return StringUtils.EMPTY_STRING;
+	}
+	
 	public static String getDescriptionOfStatus(String status){
 		if(USER_ACCOUNT_ACTIVE.equals(status)){
 			return DESC_USER_ACCOUNT_ACTIVE;

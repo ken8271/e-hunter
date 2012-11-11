@@ -21,6 +21,8 @@ public class FileUtils {
 	
 	public static final String SWF_FILE_EXT = ".swf";
 	
+	public static final String SQL_FILE_EXT = ".sql";
+	
 	public static boolean isPdfFile(String fileName){
 		return fileName.endsWith(PDF_FILE_EXT);
 	}
@@ -184,6 +186,10 @@ public class FileUtils {
 	
 	public static String replaceFileNameWithUUID(String extension){
 		return UUID.randomUUID().toString() + extension;
+	}
+	
+	public static String replaceFileNameWithUUID(String fileName , String extension){
+		return UUID.randomUUID().toString() + "_" + fileName + extension;
 	}
 	
 	public static boolean handleDelete(File file){
