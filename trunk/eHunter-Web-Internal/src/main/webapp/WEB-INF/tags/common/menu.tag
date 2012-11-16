@@ -37,7 +37,15 @@
 			</ul>
 			
 			<security:authorize ifAnyGranted="ROLE_ADMIN">
-			<h3 class="menuheader expandable" id="systemMgmt">系统管理</h3>
+			<h3 class="menuheader expandable">网站管理</h3>
+			<ul class="categoryitems">
+			<li><a href="${ctx }/portal/initInformationMgmt.do">资讯管理</a></li>
+			<li><a href="${ctx }/portal/initReleasedPositions.do">职位管理</a></li>
+			</ul>
+			</security:authorize>
+			
+			<security:authorize ifAnyGranted="ROLE_ADMIN">
+			<h3 class="menuheader expandable">系统管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx }/usrMgmt/initUsersSearch.do">用户管理</a></li>
 			<li><a href="${ctx }/system/initCodetablesSearch.do">代码维护</a></li>
