@@ -72,6 +72,7 @@
 				<value>/system/initSystemParametersSearch.do</value>
 				<value>/system/initTransactionlogSearch.do</value>
 				<value>/system/initDataManagement.do</value>
+				<value>/portal/initInformationMgmt.do</value>
 			</list>			
 		</property>
 
