@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 
 import com.pccw.ehunter.constant.TransactionIndicator;
 import com.pccw.ehunter.domain.BaseEntity;
+import com.pccw.ehunter.dto.PagedCriteria;
 
 @SuppressWarnings("unchecked")
 public class SimpleHibernateTemplate<T, PK extends Serializable> extends HibernateDaoSupport{
@@ -157,6 +158,29 @@ public class SimpleHibernateTemplate<T, PK extends Serializable> extends Hiberna
 	
 	public List<T> findByDetachedCriteria (DetachedCriteria detachedCriteria) {
 		return detachedCriteria.getExecutableCriteria(this.getSession()).list( );
+	}
+	
+	/**
+	 * 按照PagedCriteria分页查询对象列表
+	 * */
+	public List<T> findByPagedCriteria(PagedCriteria pagedCriteria){
+		Criteria criteria = null;
+		if( BaseEntity.class.isAssignableFrom(entityClass) ){
+			criteria = createCriteria(Restrictions.ne("lastTransactionIndicator", "D"));			
+		}else{
+			criteria = createCriteria();
+		}
+		
+		if(pagedCriteria.getPageFilter().getRowEnd() > 0){
+			criteria.setFirstResult(pagedCriteria.getPageFilter().getRowStart());
+			criteria.setMaxResults(pagedCriteria.getPageFilter().getRowEnd() - pagedCriteria.getPageFilter().getRowStart());
+		}
+		
+		return criteria.list();
+	}
+	
+	public Long findCountByPagedCriteria(String hql){
+		return (Long) findUnique( hql);
 	}
 	
 	/**
