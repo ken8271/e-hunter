@@ -19,4 +19,7 @@ public class IDNumberKeyConstant {
 	public static final String TRANSACTION_LOG_SEQUENCE_KEY = "SEQ_TX_LOG";
 	
 	public static final String BACKUP_HISTORY_SEQUENCE_KEY = "SEQ_BCUP_HST";
+	
+	public static final String PORTAL_INFORMATION_CENTER_SEQUENCE_KEY = "SEQ_INFO_CENTR";
+	public static final String PORTAL_RELEASED_POSITION_SEQUENCE_KEY = "SEQ_RLESD_POSTN";
 }
