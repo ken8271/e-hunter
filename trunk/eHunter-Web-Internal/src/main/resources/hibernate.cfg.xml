@@ -31,6 +31,9 @@
 		<mapping class="com.pccw.ehunter.domain.common.CodeTable"/>
 		<mapping class="com.pccw.ehunter.domain.common.SystemParameter"/>
 		
+		<mapping class="com.pccw.ehunter.domain.portal.PortalInformationCenter"/>
+		<mapping class="com.pccw.ehunter.domain.portal.PortalReleasedPosition"/>
+		
 		<mapping class="com.pccw.ehunter.domain.internal.InternalRole" />
 		<mapping class="com.pccw.ehunter.domain.internal.InternalUser" />
 		<mapping class="com.pccw.ehunter.domain.internal.CustomerGroup" />

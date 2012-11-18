@@ -40,7 +40,7 @@
 			<h3 class="menuheader expandable">网站管理</h3>
 			<ul class="categoryitems">
 			<li><a href="${ctx }/portal/initInformationMgmt.do">资讯管理</a></li>
-			<li><a href="${ctx }/portal/initReleasedPositions.do">职位管理</a></li>
+			<li><a href="${ctx }/portal/initReleasedPositionMgmt.do">职位管理</a></li>
 			</ul>
 			</security:authorize>
 			

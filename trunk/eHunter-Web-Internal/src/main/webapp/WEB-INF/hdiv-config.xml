@@ -73,6 +73,7 @@
 				<value>/system/initTransactionlogSearch.do</value>
 				<value>/system/initDataManagement.do</value>
 				<value>/portal/initInformationMgmt.do</value>
+				<value>/portal/initReleasedPositionMgmt.do</value>
 			</list>			
 		</property>
 

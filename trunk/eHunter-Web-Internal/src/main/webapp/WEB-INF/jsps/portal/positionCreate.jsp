@@ -22,13 +22,13 @@ $().ready(function(){
 </script>
 </head>
 <body>
-<form:form commandName="informationDto" action="${ctx}/portal/releaseInformation.do" method="post">
+<form:form commandName="portalPositionDto" action="${ctx}/portal/releasePosition.do" method="post">
 	<table border="0" width="100%">
 		<tr>
-			<td class="pageTitle">网站资讯发布</td>
+			<td class="pageTitle">职位发布</td>
 		</tr>
 		<tr>
-			<td><common:errorTable path="informationDto"></common:errorTable></td>
+			<td><common:errorTable path="portalPositionDto"></common:errorTable></td>
 		</tr>
 	</table>
 	<table border="0" width="100%">
