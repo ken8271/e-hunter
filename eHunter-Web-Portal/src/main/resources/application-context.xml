@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName">
+	<description>Spring Application Configuration</description>
+	
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.pccw.ehunter.dao" />
+	<context:component-scan base-package="com.pccw.ehunter.security" />
+	<context:component-scan base-package="com.pccw.ehunter.service" />
+	<context:component-scan base-package="com.pccw.ehunter.validator" />
+	<context:component-scan base-package="com.pccw.ehunter.helper" />
+	
+	<!-- Data Source Properties-->
+	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />
+
+	<!-- System parameter -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:application-local.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="xmlProcessorConfig" class="java.util.Properties">
+	   <constructor-arg>
+	      <props>
+	         <prop key="convert.toSwf.xpdf">${convert.toSwf.xpdf}</prop>
+	         <prop key="convert.toSwf.pdf2swf">${convert.toSwf.pdf2swf}</prop>
+	         <prop key="resume.path.upload">${resume.path.upload}</prop>
+	         <prop key="resume.path.swf">${resume.path.swf}</prop>
+	         <prop key="resume.path.temp">${resume.path.temp}</prop>
+	         <prop key="openoffice.port">${openoffice.port}</prop>
+	         <prop key="openoffice.path">${openoffice.path}</prop>
+	         <prop key="openoffice.start.command">${openoffice.start.command}</prop>
+	         <prop key="database.mysql.path">${database.mysql.path}</prop>
+	         <prop key="data.backup.path">${data.backup.path}</prop>
+	         <prop key="jdbc.url">${jdbc.url}</prop>
+	         <prop key="jdbc.username">${jdbc.username}</prop>
+	         <prop key="jdbc.password">${jdbc.password}</prop>
+	      </props>
+	   </constructor-arg>
+	</bean>
+	
+	<!-- Data Source -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<!-- datasource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- hibernate annotation -->
+		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"></property>
+		<!-- configLocations -->
+		<property name="configLocations">
+			<list>
+				<value>/WEB-INF/classes/hibernate.cfg.xml
+				</value>
+			</list>
+		</property>
+		<!-- hibernate properties -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>  
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+			</props>
+		</property>
+		<!-- Listener -->
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean
+						class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Hibernate Templete -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- TransactionManager -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- annotation driven transactions: @Transactional-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+</beans>
