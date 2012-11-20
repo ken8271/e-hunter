@@ -346,6 +346,13 @@
 				<artifactId>quartz</artifactId>
 				<version>1.5.1</version>
 			</dependency>
+
+			<!-- Urlrewrite -->
+			<dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>4.0.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
