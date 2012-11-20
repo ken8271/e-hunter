@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/decorators">
+	<excludes>
+		<pattern>/commons/*</pattern>
+		<pattern>/index.do</pattern>
+	</excludes>
+	
+	<decorator name="about" page="about.jsp">
+		<pattern>/about/*</pattern>
+	</decorator>
+	
+	<decorator name="career" page="career.jsp">
+		<pattern>/career/*</pattern>
+	</decorator>
+	
+	<decorator name="infocenter" page="infocenter.jsp">
+		<pattern>/infocenter/*</pattern>
+	</decorator>
+	
+	<decorator name="partners" page="partners.jsp">
+		<pattern>/partners/*</pattern>
+	</decorator>
+	
+	<decorator name="solutions" page="solutions.jsp">
+		<pattern>/solutions/*</pattern>
+	</decorator>
+</decorators>
