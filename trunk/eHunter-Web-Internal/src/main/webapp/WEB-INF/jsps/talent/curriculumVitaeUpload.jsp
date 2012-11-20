@@ -8,6 +8,7 @@
 <title>e-Hunter System/[EH-PRJ-0001]</title>
 </head>
 <body>
+ <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${cvDto.talentID }" var="backUrl"></hdiv-c:url>
 	<form:form commandName="cvDto" enctype="multipart/form-data" action="${ctx }/talent/submitCurriculumVitaeUpload.do" method="post">
 		<table border="0" width="100%">
 			<tr>
@@ -60,6 +61,7 @@
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
+							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />&nbsp;
 							<input class="standardButton" type="submit" value="开始上传" />&nbsp;
 							<input class="standardButton" type="button" value="取消上传" />&nbsp;
 							</td>
