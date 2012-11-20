@@ -29,6 +29,7 @@ import com.pccw.ehunter.dto.SimpleDateDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.helper.CodeTableHelper;
 import com.pccw.ehunter.mvc.BaseController;
+import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
 import com.pccw.ehunter.validator.EmploymentHistoryValidator;
@@ -45,6 +46,8 @@ public class EmploymentHistoryController extends BaseController{
 	
 	@Autowired
 	private EmploymentHistoryValidator employmentHistoryValidator;
+	@Autowired
+	private TalentCommonService talentCommonService;
 	
 	@RequestMapping("/talent/fillEmploymentHistory.do")
 	public ModelAndView fillEmploymentHistory(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
@@ -330,4 +333,16 @@ public class EmploymentHistoryController extends BaseController{
 		mv.addObject("clearField", CommonConstant.YES);
 		return mv;
 	}
+@RequestMapping("/talent/viewEmploymentHistoryDetail")
+public ModelAndView viewEmploymentHistoryDetail(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+	
+	ModelAndView mv=new ModelAndView("common/viewEmploymentHistoryDetail_pop");
+	String id=request.getParameter("_id");
+	EmploymentHistoryDTO employe=talentCommonService.getEmployeeHistory(id,talentDto.getTalentID());
+    employe.setIndustryDto(codeTableHelper.getIndustryByCode(employe.getIndustry()));
+	mv.addObject(SessionAttributeConstant.TALENT_EMPLOYMENT_HISTORY_DTO,employe);
+	mv.addObject(SessionAttributeConstant.TALENT_DTO , talentDto);
+	
+	return mv;
+}
 }

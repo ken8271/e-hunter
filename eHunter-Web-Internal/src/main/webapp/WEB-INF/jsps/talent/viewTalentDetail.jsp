@@ -58,6 +58,7 @@ function asgnCandidate2SelectedProject(c){
 </script>
 </head>
 <body>
+   
     <hdiv-c:url value="/talent/preEditTalentInfo.do" var="editUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/initCurriculumVitaeUpload.do?_id=${talentDto.talentID }" var="addCvUrl"></hdiv-c:url>
     <hdiv-c:url value="/talent/fillEmploymentHistory.do?module=5" var="editEmploymentHistoryUrl"></hdiv-c:url>
@@ -242,7 +243,8 @@ function asgnCandidate2SelectedProject(c){
 		               </c:forEach>
 		            </td>
 		            <td align="center">
-		               <common:tips url="${viewProjectUrl }" title="查看项目资料"></common:tips>
+		             <hdiv-c:url value="/talent/viewEmploymentHistoryDetail.do?_id=${historyDto.itemNumber}" var="viewEmploymentHistoryUrl"></hdiv-c:url>
+		               <common:tips url="${viewEmploymentHistoryUrl }" title="查看人才历史职业详细资料"></common:tips>
 		            </td>
 		     </tr>
 	   </c:forEach>
