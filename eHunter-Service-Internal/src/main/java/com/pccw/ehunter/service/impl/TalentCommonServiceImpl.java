@@ -6,20 +6,25 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.constant.CommonConstant;
+import com.pccw.ehunter.convertor.EmploymentHistoryConvertor;
 import com.pccw.ehunter.convertor.SimpleDateConvertor;
 import com.pccw.ehunter.dao.TalentCommonDAO;
+import com.pccw.ehunter.domain.internal.EmploymentHistory;
+import com.pccw.ehunter.domain.internal.Talent;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.helper.CodeTableHelper;
+import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -172,6 +177,22 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 		}
 		
 		return tlnts;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public EmploymentHistoryDTO getEmployeeHistory(String id,String talentId) {
+		// TODO Auto-generated method stub
+		EmploymentHistoryDTO hst=new EmploymentHistoryDTO();
+		Object o=talentCommonDao.getEmploymentHistory(id,talentId);
+		Object[] os = (Object[])o;
+		hst.setBeginTimeDto(SimpleDateConvertor.toSimpleDate((Date)os[0]));
+		hst.setEndTimeDto(SimpleDateConvertor.toSimpleDate((Date)os[1]));
+		hst.setCompanyName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+		hst.setPositions(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+		hst.setIndustry((StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]));
+		initialPositionByCode(hst);
+		return hst;
 	}
 
 }
