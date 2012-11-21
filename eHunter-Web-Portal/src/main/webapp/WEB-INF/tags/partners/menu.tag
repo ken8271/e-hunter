@@ -5,7 +5,7 @@
 	<div class="pal">
 	   <h5><a href="#">合作伙伴</a></h5>
 	   <ul class="sidebar">
-	      <li class="son" rel="3"><a href="">合作客户</a></li>
+	      <li class="son" rel="3"><a href="${ctx }/partners/customers.html">合作客户</a></li>
 	   </ul>
 	</div>
 	<div class="sidebar_bottom"></div>
