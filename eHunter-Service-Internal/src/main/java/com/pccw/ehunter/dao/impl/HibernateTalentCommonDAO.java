@@ -12,14 +12,20 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import com.lowagie.text.pdf.hyphenation.TernaryTree.Iterator;
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.DateFormatConstant;
 import com.pccw.ehunter.constant.DegreeOrderConstant;
 import com.pccw.ehunter.dao.TalentCommonDAO;
+
+import com.pccw.ehunter.domain.internal.EmploymentHistory;
+import com.pccw.ehunter.domain.internal.EmploymentHistoryPK;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.StringUtils;
 
+@SuppressWarnings("unused")
 @Component("talentCommonDao")
 public class HibernateTalentCommonDAO implements TalentCommonDAO{
 	
@@ -344,5 +350,28 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			}
 		});
 		return list;
+	}
+
+	@Override
+	public Object getEmploymentHistory(final String id,final String taledId) {
+		// TODO Auto-generated method stub
+		Object emp=(Object)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				// TODO Auto-generated method stub
+				
+				StringBuffer buffer=new StringBuffer();
+				buffer.append("SELECT BEGN_DTTM,LEV_DTTM, CO_NM,POST_TY,IND_TY ");
+				buffer.append(" FROM   T_TLNT_EMP_HST" );
+				buffer.append(" WHERE  SEQ_NBR=:id AND SYS_REF_TLNT=:taledId ");
+				Query query=session.createSQLQuery(buffer.toString());
+				query.setString("id", id);
+				query.setString("taledId", taledId);
+				return query.uniqueResult();
+			}
+		});
+		return emp;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
@@ -16,4 +17,5 @@ public interface TalentCommonService {
 	public List<ProjectDTO> getParticipatedProjectByTalentID(String talentID);
 	public List<TalentDTO> getTalentsByPhoneNumber(String phone);
 	public List<TalentDTO> getTalentsByEmail(String email);
+	public EmploymentHistoryDTO getEmployeeHistory(String id, String talentId);
 }
