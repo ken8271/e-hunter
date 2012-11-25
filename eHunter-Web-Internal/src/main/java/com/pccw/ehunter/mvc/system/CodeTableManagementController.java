@@ -122,22 +122,18 @@ public class CodeTableManagementController extends BaseController{
 		HtmlColumn name = new HtmlColumn("name");
 		name.setWidth("20%");
 		name.setTitle("名称");
-//		name.setCellEditor(new CellEditor() {
-//			
-//			@Override
-//			public Object getValue(Object item, String property, int rowcount) {
-//				CodeTableDTO dto = (CodeTableDTO)item;
-//				
-//				StringBuffer viewUrl = new StringBuffer();
-//				viewUrl.append(request.getContextPath());
-//				viewUrl.append("/system/listCodes.do?_id=" + dto.getId());
-//				
-//				HtmlBuilder builder = new HtmlBuilder();
-//				builder.ahref(URLUtils.getHDIVUrl(request, viewUrl.toString()), dto.getName());
-//				
-//				return builder.toString();
-//			}
-//		});
+		name.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				CodeTableDTO dto = (CodeTableDTO)item;
+				
+				HtmlBuilder builder = new HtmlBuilder();
+				builder.ahref(URLUtils.getHDIVUrl(request, request.getContextPath() + dto.getViewUrl()), dto.getName());
+				
+				return builder.toString();
+			}
+		});
 		row.addColumn(name);
 		
 		HtmlColumn description = new HtmlColumn("description");

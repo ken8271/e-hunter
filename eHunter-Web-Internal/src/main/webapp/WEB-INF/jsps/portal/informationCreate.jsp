@@ -57,7 +57,7 @@ $().ready(function(){
 	   <tr valign="top">
 	      <td width="15%" class="labelColumn">内容：</td>
 	      <td width="85%">
-	         <form:textarea path="content" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px" cssClass="standardInputText"/>
+	         <textarea id="content" name="content" cols="60" rows="3" class="standardInputText" style="word-wrap:break-word;height:80px">${content }</textarea>
 	         <common:errorSign id="content" path="content"></common:errorSign>
 	      </td>
 	   </tr>
