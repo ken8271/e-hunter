@@ -4,11 +4,13 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
 import org.jmesa.view.component.Table;
 import org.jmesa.view.editor.CellEditor;
+import org.jmesa.view.html.HtmlBuilder;
 import org.jmesa.view.html.component.HtmlColumn;
 import org.jmesa.view.html.component.HtmlRow;
 import org.jmesa.view.html.component.HtmlTable;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.DateFormatConstant;
@@ -33,6 +36,7 @@ import com.pccw.ehunter.service.PortalPositionReleaseService;
 import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.RedirectViewExt;
 import com.pccw.ehunter.utility.StringUtils;
+import com.pccw.ehunter.utility.URLUtils;
 import com.pccw.ehunter.validator.PortalInformationCenterValidator;
 import com.pccw.ehunter.validator.PortalReleasedPositionValidator;
 
@@ -100,7 +104,7 @@ public class WebPortalManagementController extends BaseController{
 		mv.addObject(SessionAttributeConstant.LIST_OF_PORTAL_INFORMATION, model.render());
 	}
 
-	private Table getInformationHtmlTable(HttpServletRequest request) {
+	private Table getInformationHtmlTable(final HttpServletRequest request) {
 		Table table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
@@ -111,6 +115,22 @@ public class WebPortalManagementController extends BaseController{
 		HtmlColumn title = new HtmlColumn("title");
 		title.setWidth("75%");
 		title.setTitle("标题");
+		title.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				PortalInformationCenterDTO dto = (PortalInformationCenterDTO)item;
+				
+				StringBuffer viewUrl = new StringBuffer();
+				viewUrl.append(request.getContextPath());
+				viewUrl.append("/portal/viewInformationDetail.do");
+				viewUrl.append("?_id="+ dto.getSystemRefInfo());
+				
+				HtmlBuilder builder = new HtmlBuilder();
+				builder.ahref(URLUtils.getHDIVUrl(request, viewUrl.toString()), dto.getTitle());
+				return builder.toString();
+			}
+		});
 		row.addColumn(title);
 		
 		HtmlColumn createDttm = new HtmlColumn("createDate");
@@ -131,6 +151,21 @@ public class WebPortalManagementController extends BaseController{
 		row.addColumn(createDttm);
 		
 		return table;
+	}
+	
+	@RequestMapping("/portal/viewInformationDetail.do")
+	public ModelAndView viewInformationDetail(HttpServletRequest request ,@RequestParam("_id")String id){
+		ModelAndView mv = new ModelAndView("portal/viewInformation");
+		
+		PortalInformationCenterDTO dto =  infoCenterService.getInformationByID(id);
+		
+		if(dto == null){
+			dto = new PortalInformationCenterDTO();
+		}
+		
+		mv.addObject(SessionAttributeConstant.PORTAL_INFORMATION_DTO, dto);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/portal/initReleasedPositionMgmt.do")
@@ -246,14 +281,17 @@ public class WebPortalManagementController extends BaseController{
 	}
 	
 	@RequestMapping("/portal/releaseInformation.do")
-	public ModelAndView releaseInformation(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PORTAL_INFORMATION_DTO)PortalInformationCenterDTO informationDto , BindingResult errors){
+	public ModelAndView releaseInformation(HttpServletRequest request ,@RequestParam("content")String content ,  @ModelAttribute(SessionAttributeConstant.PORTAL_INFORMATION_DTO)PortalInformationCenterDTO informationDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/portal/listOfInformationCenter.do", true));
 
+		informationDto.setContent(content);
+		
 		infoCenterValidator.validate(informationDto, errors);
 
 		if(errors.hasErrors()){
 			mv = new ModelAndView("portal/informationCreate");
 			mv.addObject(SessionAttributeConstant.PORTAL_INFORMATION_DTO, new PortalInformationCenterDTO());
+			mv.addObject("content", StringEscapeUtils.escapeHtml(content));
 			return mv;
 		}
 
