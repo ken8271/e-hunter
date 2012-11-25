@@ -72,6 +72,8 @@ public class SessionAttributeConstant {
 	public static final String PORTAL_POSITION_DTO = "portalPositionDto";
 	public static final String LIST_OF_PORTAL_INFORMATION = "listOfInformationCenter";
 	public static final String LIST_OF_RELEASED_POSITION = "listOfReleasedPosition";
+	
+	public static final String TALENT_SOURCE_DTO = "talentSourceDto";
 		
 	public static final String BACK_URL = "backUrl";
 }
