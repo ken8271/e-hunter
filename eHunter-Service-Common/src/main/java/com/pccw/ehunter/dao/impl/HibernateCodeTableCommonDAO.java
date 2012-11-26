@@ -52,7 +52,7 @@ public class HibernateCodeTableCommonDAO implements CodeTableCommonDAO{
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT tbl.CD_TBL_ID , tbl.CD_TBL_NM , tbl.CD_TBL_DESC , tbl.CD_TBL_MAP ");
+				buffer.append(" SELECT tbl.CD_TBL_ID , tbl.CD_TBL_NM , tbl.CD_TBL_DESC , tbl.CD_TBL_MAP , tbl.VIEW_URL  ");
 				buffer.append(" FROM T_CD_TBL_LST tbl ");
 				buffer.append(" WHERE 1 = 1");
 				buffer.append(" AND tbl.ACTV_FLG <> 'N' ");
