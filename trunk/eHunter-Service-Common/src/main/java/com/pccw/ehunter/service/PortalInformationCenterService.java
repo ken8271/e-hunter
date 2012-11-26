@@ -7,6 +7,8 @@ import com.pccw.ehunter.dto.portal.PortalInformationCenterDTO;
 
 public interface PortalInformationCenterService {
 	public void saveInformation(PortalInformationCenterDTO dto);
+	public void updateInformation(PortalInformationCenterDTO dto);
 	public int  getPortalInformationCountByCriteria(PagedCriteria pagedCriteria);
 	public List<PortalInformationCenterDTO> getPortalInformationByCriteria(PagedCriteria pagedCriteria);
+	public PortalInformationCenterDTO getInformationByID(String id);
 }
