@@ -14,7 +14,7 @@ public class TalentSource extends BaseEntity {
 	
 	private String sourceId;
 	private String displayName;
-	private String offcialSite;
+	private String officialSite;
 	private int displaySeqNumber;
 	private String activeIndicator;
 
@@ -38,12 +38,12 @@ public class TalentSource extends BaseEntity {
 	}
 
 	@Column(name="OFCL_SITE")
-	public String getOffcialSite() {
-		return offcialSite;
+	public String getOfficialSite() {
+		return officialSite;
 	}
 
-	public void setOffcialSite(String offcialSite) {
-		this.offcialSite = offcialSite;
+	public void setOfficialSite(String officialSite) {
+		this.officialSite = officialSite;
 	}
 
 	@Column(name="DISP_SEQ_NBR")
