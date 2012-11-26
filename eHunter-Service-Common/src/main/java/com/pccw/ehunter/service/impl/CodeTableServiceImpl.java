@@ -50,6 +50,7 @@ public class CodeTableServiceImpl implements CodeTableService{
 				dto.setName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
 				dto.setDescription(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
 				dto.setReference(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+				dto.setViewUrl(StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]);
 				
 				dtos.add(dto);
 			}

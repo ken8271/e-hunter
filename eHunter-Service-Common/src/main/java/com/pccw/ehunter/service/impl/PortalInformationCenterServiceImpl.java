@@ -54,4 +54,17 @@ public class PortalInformationCenterServiceImpl implements PortalInformationCent
 		return PortalInformationCenterConvertor.toDtos(simpleDao.findByPagedCriteria(pagedCriteria));
 	}
 
+	@Override
+	@Transactional(readOnly=true)
+	public PortalInformationCenterDTO getInformationByID(String id) {
+		return PortalInformationCenterConvertor.toDto(simpleDao.findUniqueByProperty("systemRefInfo", id));
+	}
+
+	@Override
+	@Transactional
+	public void updateInformation(PortalInformationCenterDTO dto) {
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+		simpleDao.update(PortalInformationCenterConvertor.toPo(dto));
+	}
+
 }

@@ -54,4 +54,17 @@ public class PortalPositionReleaseServiceImpl implements PortalPositionReleaseSe
 		return PortalReleasedPositionConvertor.toDtos(simpleDao.findByPagedCriteria(pagedCriteria));
 	}
 
+	@Override
+	@Transactional
+	public void updatePosition(PortalReleasedPositionDTO dto) {
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+		simpleDao.update(PortalReleasedPositionConvertor.toPo(dto));
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public PortalReleasedPositionDTO getPositionInfoByID(String id) {
+		return PortalReleasedPositionConvertor.toDto(simpleDao.findUniqueByProperty("systemRefPosition", id));
+	}
+
 }
