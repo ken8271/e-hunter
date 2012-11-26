@@ -5,7 +5,7 @@ public class TalentSourceDTO extends BaseDTO {
 
 	private String sourceId;
 	private String displayName;
-	private String offcialSite;
+	private String officialSite;
 	private int displaySeqNumber;
 	private String activeIndicator;
 
@@ -25,12 +25,12 @@ public class TalentSourceDTO extends BaseDTO {
 		this.displayName = displayName;
 	}
 
-	public String getOffcialSite() {
-		return offcialSite;
+	public String getOfficialSite() {
+		return officialSite;
 	}
 
-	public void setOffcialSite(String offcialSite) {
-		this.offcialSite = offcialSite;
+	public void setOfficialSite(String officialSite) {
+		this.officialSite = officialSite;
 	}
 
 	public int getDisplaySeqNumber() {
