@@ -7,4 +7,5 @@ import com.pccw.ehunter.dto.TalentSourceDTO;
 public interface TalentSourceService {
 	public List<TalentSourceDTO> getAllTalentSources();
 	public void saveTalentSource(TalentSourceDTO dto);
+	public boolean isTalentSourceExists(String officialSite);
 }
