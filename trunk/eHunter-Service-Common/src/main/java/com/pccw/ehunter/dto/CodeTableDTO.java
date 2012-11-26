@@ -7,6 +7,7 @@ public class CodeTableDTO extends BaseDTO {
 	private String name;
 	private String description;
 	private String reference;
+	private String viewUrl;
 	private String activeIndicator;
 
 	public String getId() {
@@ -47,6 +48,14 @@ public class CodeTableDTO extends BaseDTO {
 
 	public void setActiveIndicator(String activeIndicator) {
 		this.activeIndicator = activeIndicator;
+	}
+
+	public String getViewUrl() {
+		return viewUrl;
+	}
+
+	public void setViewUrl(String viewUrl) {
+		this.viewUrl = viewUrl;
 	}
 
 }
