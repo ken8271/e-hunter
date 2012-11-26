@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.ehunter.constant.IDNumberKeyConstant;
+import com.pccw.ehunter.constant.TransactionIndicator;
 import com.pccw.ehunter.convertor.TalentSourceConvertor;
 import com.pccw.ehunter.domain.common.TalentSource;
 import com.pccw.ehunter.dto.TalentSourceDTO;
+import com.pccw.ehunter.helper.IDGenerator;
 import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.TalentSourceService;
+import com.pccw.ehunter.utility.BaseDtoUtility;
 
 @Service("talentSourceService")
 @Transactional
@@ -22,11 +26,15 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 	private SimpleHibernateTemplate<TalentSource, String> dao;
 	
 	@Autowired
+	private IDGenerator idGenerator;
+	
+	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		dao = new SimpleHibernateTemplate<TalentSource, String>(sessionFactory,TalentSource.class);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<TalentSourceDTO> getAllTalentSources() {
 		List<TalentSource> srcs = dao.findAllUndeleted("displaySeqNumber");
 		
@@ -40,5 +48,13 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 		}
 		
 		return srcDtos;
+	}
+
+	@Override
+	@Transactional
+	public void saveTalentSource(TalentSourceDTO dto) {
+		dto.setSourceId(idGenerator.generateID(IDNumberKeyConstant.TALENT_SOURCE_SEQUENCE_KEY, null, 5));
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
+		dao.save(TalentSourceConvertor.toPo(dto));
 	}
 }
