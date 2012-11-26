@@ -22,4 +22,6 @@ public class IDNumberKeyConstant {
 	
 	public static final String PORTAL_INFORMATION_CENTER_SEQUENCE_KEY = "SEQ_INFO_CENTR";
 	public static final String PORTAL_RELEASED_POSITION_SEQUENCE_KEY = "SEQ_RLESD_POSTN";
+	
+	public static final String TALENT_SOURCE_SEQUENCE_KEY = "SEQ_TLNT_SRC_CD_ID";
 }
