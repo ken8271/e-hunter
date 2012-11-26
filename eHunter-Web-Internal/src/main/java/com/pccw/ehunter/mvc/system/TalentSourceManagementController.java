@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.mvc.BaseController;
@@ -32,7 +34,9 @@ public class TalentSourceManagementController extends BaseController{
 
 	@RequestMapping("/system/codetable/talentSourceManagement.do")
 	public ModelAndView talentSourceManagement(HttpServletRequest request){
-		return new ModelAndView("system/codetable/talentSource/talentSourceManagement");
+		ModelAndView mv = new ModelAndView("system/codetable/talentSource/talentSourceManagement");
+		mv.addObject(SessionAttributeConstant.TALENT_SOURCE_DTO, new TalentSourceDTO());
+		return mv;
 	}
 	
 	@RequestMapping("/system/codetable/loadSourcesOfTalent.do")
@@ -53,7 +57,7 @@ public class TalentSourceManagementController extends BaseController{
 					Element src = root.addElement("source");
 					src.addElement("sourceID").setText(dto.getSourceId());
 					src.addElement("displayName").setText(dto.getDisplayName());
-					src.addElement("officialSite").setText(dto.getOffcialSite());
+					src.addElement("officialSite").setText(dto.getOfficialSite());
 					src.addElement("activeIndicator").setText(dto.getActiveIndicator());
 				}
 			}
@@ -70,6 +74,40 @@ public class TalentSourceManagementController extends BaseController{
 			}
 		} catch (Exception e) {
 			logger.error(">>>>> Exception Catched(loadSourcesOfTalent) : " + e.getMessage());
+		} finally {
+			if(null != out){
+				out.close();
+			}
+		}
+	}
+	
+	@RequestMapping("/system/codetable/checkExistsStatus.do")
+	public void checkExists(HttpServletRequest request , HttpServletResponse response , @RequestParam("officialSite")String officialSite){
+		PrintWriter out = null;
+		XMLWriter writer = null;
+		
+		try {
+			response.setContentType("text/xml;charset=UTF-8");
+			
+			boolean isExists = talentSourceService.isTalentSourceExists(officialSite);
+			
+			Document doc = DocumentHelper.createDocument();
+			Element root = doc.addElement("xml");
+			
+			root.addElement("isExists").setText(isExists ? CommonConstant.YES : CommonConstant.NO);
+			
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			
+			out = response.getWriter();
+			writer = new XMLWriter(out, format);
+			
+			writer.write(doc);
+			
+			if(writer != null){
+				writer.close();
+			}
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched(checkExists) : " + e.getMessage());
 		} finally {
 			if(null != out){
 				out.close();
