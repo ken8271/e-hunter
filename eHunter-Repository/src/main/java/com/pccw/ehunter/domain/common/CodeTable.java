@@ -16,6 +16,7 @@ public class CodeTable extends BaseEntity {
 	private String name;
 	private String description;
 	private String reference;
+	private String viewUrl;
 	private String activeIndicator;
 
 	@Id
@@ -62,6 +63,15 @@ public class CodeTable extends BaseEntity {
 
 	public void setActiveIndicator(String activeIndicator) {
 		this.activeIndicator = activeIndicator;
+	}
+
+	@Column(name="VIEW_URL")
+	public String getViewUrl() {
+		return viewUrl;
+	}
+
+	public void setViewUrl(String viewUrl) {
+		this.viewUrl = viewUrl;
 	}
 
 }
