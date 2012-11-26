@@ -53,8 +53,20 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 	@Override
 	@Transactional
 	public void saveTalentSource(TalentSourceDTO dto) {
-		dto.setSourceId(idGenerator.generateID(IDNumberKeyConstant.TALENT_SOURCE_SEQUENCE_KEY, null, 5));
+		dto.setSourceId(idGenerator.generateID(IDNumberKeyConstant.TALENT_SOURCE_SEQUENCE_KEY, null, 3));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		dao.save(TalentSourceConvertor.toPo(dto));
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public boolean isTalentSourceExists(String officialSite) {
+		List<TalentSource> srcs =  dao.findByProperty("officialSite", officialSite);
+		
+		if(!CollectionUtils.isEmpty(srcs)){
+			return true;
+		}
+		
+		return false;
 	}
 }
