@@ -1,70 +1,44 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
 <%@ include file="/commons/taglibs.jsp"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>EHT-0-0001</title>
-</head>
-<body>
-<form:form commandName="talentSrcDto" action="${ctx}/system/submitNewTalentSource.do" method="post">
-	<table border="0" width="100%">
-		<tr>
-			<td class="pageTitle">人才来源创建</td>
-		</tr>
-		<tr>
-			<td><common:errorTable path="talentSrcDto"></common:errorTable></td>
-		</tr>
-	</table>
-	<table border="0" width="100%">
-		<tr>
-			<td class="functionMenuBar">
-				<table align="right" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td>
-						    <input class="standardButton" type="submit" value="保存" />&nbsp;
-						    <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-						</td>
-					</tr>
-				</table>
+<%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
+
+<div id="create_fade" class="black_overlay"></div>
+<div id="create_light" class="white_content_without_padding">
+<form:form id="newTalentSourceForm" commandName="talentSourceDto" action="${ctx }/system/codetable/submitNewTalentSource.do">
+	<table cellspacing="0" cellpadding="0" width="100%">
+		<tr class="popUpTitle">
+			<td width="70%"><span>&nbsp;&nbsp;人才来源&nbsp;-&nbsp;创建</span>
+			</td>
+			<td width="15%" align="right">
+			   <span style="cursor: pointer; font: bold 14px Arial" onclick="submitNewTalentSource();">[提交]</span>
+			</td>
+			<td width="15%" align="center">
+			   <span style="cursor: pointer; font: bold 14px Arial" onclick="document.getElementById('create_light').style.display = 'none';document.getElementById('create_fade').style.display = 'none';showAllObject();">[取消]</span>
 			</td>
 		</tr>
 	</table>
 	<div class="emptyBlock"></div>
-	<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
-		<tbody>
-			<common:standardTableRow />
-			<tr>
-				<td class="labelColumn">名称(显示名称)：<span class="mandatoryField">*</span></td>
-				<td colspan="3">
-				   <form:input path="displayName" cssClass="standardInputText" />
-				   <common:errorSign id="displayName" path="displayName"></common:errorSign>
-				</td>
-			</tr>
-			<tr>
-				<td class="labelColumn">官方网站：</td>
-				<td colspan="3">
-				   <form:input path="displayName" cssClass="standardInputText" />
-				   <common:errorSign id="displayName" path="displayName"></common:errorSign>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div class="emptyBlock"></div>
-	<table id="bg2" border="0" width="100%">
-		<tr>
-			<td class="functionMenuBar">
-				<table align="right" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td>
-						    <input class="standardButton" type="submit" value="保存" />&nbsp;
-						    <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
+	<table class="standardTableForm" border="0" cellspacing="0" cellpadding="0" width="100%">
+	   <common:standardTableRow />
+	   <tr>
+	      <td class="labelColumn">&nbsp;&nbsp;名称(显示名称)：<span class="mandatoryField">*</span></td>
+		  <td colspan="3">
+		    <form:input id="displayName_create" path="displayName" cssClass="standardInputText" ></form:input>
+		  </td>
+	   </tr>
+	   <tr>
+	      <td class="labelColumn">&nbsp;&nbsp;官方网站：</td>
+		  <td colspan="3">
+		     <form:input id="officialSite_create" path="officialSite" cssClass="standardInputText" ></form:input>
+		  </td>
+	   </tr>
+	   <tr>
+	      <td class="labelColumn">&nbsp;&nbsp;是否启用：<span class="mandatoryField">*</span></td>
+		  <td colspan="3">
+		     <form:radiobutton id="activeIndicator_create_Y" path="activeIndicator" value="Y" /> 是&nbsp;&nbsp;
+			 <form:radiobutton id="activeIndicator_create_N" path="activeIndicator" value="N" /> 否&nbsp;&nbsp;
+		  </td>
+	   </tr>
 	</table>
 </form:form>
-</body>
-</html>
+</div>
