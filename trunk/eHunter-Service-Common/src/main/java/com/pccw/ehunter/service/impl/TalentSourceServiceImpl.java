@@ -69,4 +69,11 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 		
 		return false;
 	}
+
+	@Override
+	@Transactional
+	public void deleteTalentSource(String id) {
+		TalentSource po = dao.findUniqueByProperty("sourceId", id);
+		dao.delete(po);
+	}
 }
