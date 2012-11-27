@@ -37,8 +37,9 @@ public class TalentBaseInfoValidator extends AbstractValidator{
 		validateRequired(errors, "gender", dto.getGender(), "人才性别");
 		
 		validateRequired(errors, "maritalStatus", dto.getMaritalStatus(), "婚姻状况");
-		
-		validateRequired(errors, "birthDateDto.day", dto.getBirthDateDto().getDay(), "出生日期");
+
+		//#issue 2 2012-11-27
+		validateDate(errors, "birthDateDto.day", dto.getBirthDateDto(), "出生日期");
 		
 		validateRequired(errors, "nativePlace", dto.getNativePlace(), "籍贯");
 		validateStringLength(errors, "nativePlace", dto.getNativePlace(), "籍贯", 30);
