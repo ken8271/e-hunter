@@ -123,5 +123,13 @@ public class TalentSourceManagementController extends BaseController{
 		
 		return mv;
 	}
-
+	
+	@RequestMapping("/system/codetable/handleTalentSourceDelete.do")
+	public ModelAndView deleteTalentSource(HttpServletRequest request , @RequestParam("_id")String id){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/system/codetable/talentSourceManagement.do", true));
+		
+		talentSourceService.deleteTalentSource(id);
+		
+		return mv;
+	}
 }
