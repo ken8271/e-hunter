@@ -83,7 +83,7 @@
 					    </td>
 					</tr>
 					<tr>
-						<td class="labelColumn">出生日期：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">出生日期：</td>
 						<td>
 						<common:inputDate dateYY="birthDateDto.year" dateMON="birthDateDto.month" dateDD="birthDateDto.day" ></common:inputDate>
 						<common:errorSign id="birthDateDto.day" path="birthDateDto.day"></common:errorSign>
