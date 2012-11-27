@@ -26,6 +26,7 @@ import com.pccw.ehunter.dto.JobExperienceDTO;
 import com.pccw.ehunter.dto.JobIntentionDTO;
 import com.pccw.ehunter.dto.LanguageAbilityDTO;
 import com.pccw.ehunter.dto.ProfessionalSkillDTO;
+import com.pccw.ehunter.dto.ProjectEnquireDTO;
 import com.pccw.ehunter.dto.SelfEvaluationDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.ResumeDTO;
@@ -42,7 +43,8 @@ import com.pccw.ehunter.validator.TalentBaseInfoValidator;
 @SessionAttributes({SessionAttributeConstant.TALENT_DTO,
 	                SessionAttributeConstant.TALENT_EDUCATION_EXPERIENCE_DTO,
 	                SessionAttributeConstant.TALENT_JOB_EXPERIENCE_DTO,
-	                SessionAttributeConstant.TALENT_RESUME_DTO})
+	                SessionAttributeConstant.TALENT_RESUME_DTO,
+	                SessionAttributeConstant.PROJECT_ENQUIRE_DTO})
 public class TalentRegistrationController extends BaseController{
 	
 	@Autowired
@@ -493,6 +495,7 @@ public class TalentRegistrationController extends BaseController{
 	public ModelAndView completeTalentRegistration(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
 		ModelAndView mv = new ModelAndView("talent/talentConfirmation");
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
 	}
 }
