@@ -136,9 +136,11 @@ function asgnCandidate2SelectedProject(c){
 					<td class="labelColumn">出生日期：
 					</td>
 					<td>
-					   <c:out value="${talentDto.birthDateDto.year }" escapeXml="true"></c:out>/
-					   <c:out value="${talentDto.birthDateDto.month }" escapeXml="true"></c:out>/
-					   <c:out value="${talentDto.birthDateDto.day }" escapeXml="true"></c:out>
+					   <c:if test="${talentDto.birthDateDto != null}">
+					      <c:out value="${talentDto.birthDateDto.year }" escapeXml="true"></c:out>/
+					      <c:out value="${talentDto.birthDateDto.month }" escapeXml="true"></c:out>/
+					      <c:out value="${talentDto.birthDateDto.day }" escapeXml="true"></c:out>
+					   </c:if>
 					</td>
 					<td class="labelColumn">籍贯：</td>
 					<td><c:out value="${talentDto.nativePlace }" escapeXml="true"></c:out></td>

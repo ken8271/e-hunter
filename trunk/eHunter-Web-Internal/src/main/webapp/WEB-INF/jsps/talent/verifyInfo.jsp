@@ -76,9 +76,11 @@
 				<td><span class="textCh8">出生日期</span><br /></td>
 				<td>  
 				<span class="showCh">
-				   <c:out value="${talentDto.birthDateDto.year }"escapeXml="true" />/
-				   <c:out value="${talentDto.birthDateDto.month }" escapeXml="true" />/
-				   <c:out value="${talentDto.birthDateDto.day }" escapeXml="true" />
+				  <c:if test="${talentDto.birthDateDto != null && talentDto.birthDateDto.day != ''}">
+					   <c:out value="${talentDto.birthDateDto.year }" escapeXml="true"></c:out>/
+					   <c:out value="${talentDto.birthDateDto.month }" escapeXml="true"></c:out>/
+					   <c:out value="${talentDto.birthDateDto.day }" escapeXml="true"></c:out>
+				   </c:if>
 				</span>
 				</td>
 				<td><span class="textCh8">籍贯</span></td>
