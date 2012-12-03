@@ -35,7 +35,7 @@ public class PortalInformationCenterServiceImpl implements PortalInformationCent
 	@Override
 	@Transactional
 	public void saveInformation(PortalInformationCenterDTO dto) {
-		dto.setSystemRefInfo(idGenerator.generateID(IDNumberKeyConstant.PORTAL_INFORMATION_CENTER_SEQUENCE_KEY, null, 9));
+		dto.setSystemRefInfo(idGenerator.generateID(IDNumberKeyConstant.PORTAL_INFORMATION_CENTER_SEQUENCE_KEY, null, 9 , false));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		
 		simpleDao.save(PortalInformationCenterConvertor.toPo(dto));
