@@ -378,6 +378,19 @@
 				<artifactId>lucene-highlighter</artifactId>
 				<version>3.6.1</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.pccw</groupId>
+				<artifactId>IKAnalyzer</artifactId>
+				<version>2012.06</version>
+			</dependency>
+
+			<!-- Pdf box -->
+			<dependency>
+				<groupId>pdfbox</groupId>
+				<artifactId>pdfbox</artifactId>
+				<version>0.7.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
