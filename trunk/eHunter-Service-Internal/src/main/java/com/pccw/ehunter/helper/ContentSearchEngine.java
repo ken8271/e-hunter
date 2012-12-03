@@ -12,14 +12,12 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -100,7 +98,7 @@ public class ContentSearchEngine {
 					
 				}else  if(ContentSearchCriteria.TERM_CRITERIA.equals(c.getType())){
 					logger.debug(">>>>> term criteria :" + c.getValue());
-					booleanQuery.add(new TermQuery(new Term(ContentSearchConstant.FIELD_CV_CONTENT, c.getValue())), BooleanClause.Occur.SHOULD);
+					booleanQuery.add(parser.parse(c.getValue()), BooleanClause.Occur.MUST);
 				}
 			}			
 		}
@@ -142,4 +140,5 @@ public class ContentSearchEngine {
 			indexDir.mkdirs();
 		}
 	}
+
 }
