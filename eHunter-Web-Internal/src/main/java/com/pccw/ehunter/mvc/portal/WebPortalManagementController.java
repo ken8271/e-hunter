@@ -233,20 +233,20 @@ public class WebPortalManagementController extends BaseController{
 		workCity.setCellEditor(new CellEditor() {
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
-				PortalReleasedPositionDTO dto = (PortalReleasedPositionDTO)item;
-				
-				ProvinceDTO province = codeTableHelper.getProvinceByCode(request, dto.getWorkProvince());
-				CityDTO city = codeTableHelper.getCityByCode(dto.getWorkCity());
-				
-				StringBuffer buffer = new StringBuffer();
-				if(province != null){
-					buffer.append(province.getDisplayName());
-				}
-				
-				if(city != null){
-					buffer.append(">>" + city.getDisplayName());
-				}
-				return buffer.toString();
+//				PortalReleasedPositionDTO dto = (PortalReleasedPositionDTO)item;
+//				
+//				ProvinceDTO province = codeTableHelper.getProvinceByCode(request, dto.getWorkProvince());
+//				CityDTO city = codeTableHelper.getCityByCode(dto.getWorkCity());
+//				
+//				StringBuffer buffer = new StringBuffer();
+//				if(province != null){
+//					buffer.append(province.getDisplayName());
+//				}
+//				
+//				if(city != null){
+//					buffer.append(">>" + city.getDisplayName());
+//				}
+				return "";
 			}
 		});
 		row.addColumn(workCity);
