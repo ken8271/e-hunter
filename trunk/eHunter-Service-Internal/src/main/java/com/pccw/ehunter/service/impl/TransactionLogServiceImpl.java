@@ -43,7 +43,7 @@ public class TransactionLogServiceImpl implements TransactionLogService{
 	@Transactional
 	public void logTransaction(String function, String msg) {
 		TransactionLogDTO dto = new TransactionLogDTO();
-		dto.setId(idGenerator.generateID(IDNumberKeyConstant.TRANSACTION_LOG_SEQUENCE_KEY, null, 9));
+		dto.setId(idGenerator.generateID(IDNumberKeyConstant.TRANSACTION_LOG_SEQUENCE_KEY, null, 9 , false));
 		dto.setUserID(SecurityUtils.getUserRecId());
 		dto.setTransactionDatetime(new Date());
 		dto.setFunctionIndicator(function);
@@ -56,7 +56,7 @@ public class TransactionLogServiceImpl implements TransactionLogService{
 	@Transactional
 	public void logTransaction(String function, String msg, String user) {
 		TransactionLogDTO dto = new TransactionLogDTO();
-		dto.setId(idGenerator.generateID(IDNumberKeyConstant.TRANSACTION_LOG_SEQUENCE_KEY, null, 9));
+		dto.setId(idGenerator.generateID(IDNumberKeyConstant.TRANSACTION_LOG_SEQUENCE_KEY, null, 9 , false));
 		dto.setUserID(user);
 		dto.setTransactionDatetime(new Date());
 		dto.setFunctionIndicator(function);

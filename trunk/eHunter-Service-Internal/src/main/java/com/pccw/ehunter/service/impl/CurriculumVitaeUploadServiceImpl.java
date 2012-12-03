@@ -36,7 +36,7 @@ public class CurriculumVitaeUploadServiceImpl implements CurriculumVitaeUploadSe
 	@Override
 	@Transactional
 	public void saveUploadedCurriculumVitae(UploadedCurriculumVitaeDTO dto) {
-		dto.setCvID(idGenerator.generateID(IDNumberKeyConstant.UPLOADED_CV_SEQUENCE_KEY, null, 9));
+		dto.setCvID(idGenerator.generateID(IDNumberKeyConstant.UPLOADED_CV_SEQUENCE_KEY, null, 9 , false));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		
 		cvUploadDao.saveUploadedCurriculumVitae(UploadedCurriculumVitaeConvertor.toPo(dto));

@@ -31,7 +31,7 @@ public class ProjectRegistrationServiceImpl implements ProjectRegistrationServic
 	@Transactional
 	public void submitProject(ProjectDTO projectDto) {
 		if(projectDto != null){		
-			String projectID = idGenerator.generateID(IDNumberKeyConstant.PROJECT_SEQUENCE_KEY, "P", 9);
+			String projectID = idGenerator.generateID(IDNumberKeyConstant.PROJECT_SEQUENCE_KEY, "P", 9 , false);
 			projectDto.setSystemProjectRefNum(projectID);
 			projectDto.setStatus(StatusCode.INITIALIZED);
 			BaseDtoUtility.setCommonProperties(projectDto, TransactionIndicator.INSERT);

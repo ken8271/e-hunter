@@ -59,11 +59,11 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 	public void completeCustRegistration(CustomerDTO customerDto) {
 		
 		if(customerDto != null){
-			customerDto.setSystemCustRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_SEQUENCE_KEY, CommonConstant.PREFIX_CUSTOMER_ID , 6));
+			customerDto.setSystemCustRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_SEQUENCE_KEY, CommonConstant.PREFIX_CUSTOMER_ID , 6 , false));
 
 			if(customerDto.getCustGroup() != null ){
 				if(CustomerIndicator.CUSTOMER_GROUP.equals(customerDto.getGroupIndicator())){
-					customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));					
+					customerDto.getCustGroup().setSystemGroupRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_GROUP_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9 , true));					
 				}else if(CustomerIndicator.CUSTOMER_SUBSIDIARY.equals(customerDto.getGroupIndicator())){
 					customerDto.getCustGroup().setSystemGroupRefNum(null);		
 				}
@@ -71,7 +71,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 			
 			if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
 				for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
-					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9 , true));
 				}
 			}
 		}
@@ -108,7 +108,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 		if(!CollectionUtils.isEmpty(customerDto.getMultiResponsePerson())){
 			for(CustomerResponsePersonDTO rpDto : customerDto.getMultiResponsePerson()){
 				if(StringUtils.isEmpty(rpDto.getSystemRespRefNum())){					
-					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9));
+					rpDto.setSystemRespRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_RESP_PERSON_SEQUENCE_KEY , DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()) , 9 , true));
 				}
 			}
 		}

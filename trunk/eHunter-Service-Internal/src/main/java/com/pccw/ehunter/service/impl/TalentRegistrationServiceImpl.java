@@ -66,7 +66,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 	@Transactional
 	public void completeTalentRegistration(TalentDTO dto) {
 		if(dto != null){
-			String talentId = idGenerator.generateID(IDNumberKeyConstant.TALENT_SEQUENCE_KEY, CommonConstant.PREFIX_TALENT_ID, 9);
+			String talentId = idGenerator.generateID(IDNumberKeyConstant.TALENT_SEQUENCE_KEY, CommonConstant.PREFIX_TALENT_ID, 9 , false);
 			dto.setTalentID(talentId);
 			BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 			
@@ -75,7 +75,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 				int index = 1;
 				for(ResumeDTO resumeDto : dto.getResumeDtos()){
 					resumeDto.setItemNumber(index++);
-					resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + talentId, 12));
+					resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + talentId, 12 , true));
 					setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.INSERT);
 				}
 			}
@@ -200,7 +200,7 @@ public class TalentRegistrationServiceImpl implements TalentRegistrationService 
 					resumeDto.setItemNumber(index++);
 					
 					if(StringUtils.isEmpty(resumeDto.getResumeID())){						
-						resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + resumeSubfix, 12));
+						resumeDto.setResumeID(idGenerator.generateID(IDNumberKeyConstant.TALENT_RESUME_SEQUENCE_KEY	, CommonConstant.PREFIX_RESUME_ID + resumeSubfix, 12 , true));
 						setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.INSERT);
 					}else {
 						setCommonPropertiesByIndicator(resumeDto, TransactionIndicator.UPDATE);

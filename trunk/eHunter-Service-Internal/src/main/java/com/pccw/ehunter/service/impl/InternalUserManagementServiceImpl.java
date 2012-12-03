@@ -92,7 +92,7 @@ public class InternalUserManagementServiceImpl implements InternalUserManagement
 	@Override
 	@Transactional
 	public void saveInternalUser(InternalUserDTO internalUserDto){
-		internalUserDto.setUserRecId(idGenerator.generateID(IDNumberKeyConstant.INTERNAL_USER_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 10));
+		internalUserDto.setUserRecId(idGenerator.generateID(IDNumberKeyConstant.INTERNAL_USER_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 10 , true));
 		internalUserDto.setAccountStatus(CommonConstant.USER_ACCOUNT_ACTIVE);
 		internalUserDto.setPasswordExpired(CommonConstant.NO);
 		BaseDtoUtility.setCommonProperties(internalUserDto, TransactionIndicator.INSERT);
