@@ -1,0 +1,16 @@
+﻿自定义JAR包的安装：
+mvn install:install-file -DgroupId={groupId} 
+                         -DartifactId={artifactid}
+                         -Dversion={version} 
+                         -Dfile={file_path}
+                         -Dpackaging=jar 
+                         -DgeneratePom=true
+
+
+e.g.
+mvn install:install-file -DgroupId=com.pccw 
+                         -DartifactId=IKAnalyzer 
+                         -Dversion=2012.06 
+                         -Dfile=E:\IKAnalyzer-2012.06.jar 
+                         -Dpackaging=jar 
+                         -DgeneratePom=true
