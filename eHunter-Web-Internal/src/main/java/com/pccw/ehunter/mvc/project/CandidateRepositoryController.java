@@ -30,6 +30,7 @@ import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.StatusCode;
 import com.pccw.ehunter.convertor.TalentConvertor;
+import com.pccw.ehunter.dto.ContentSearchCriteria;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
 import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
@@ -37,6 +38,7 @@ import com.pccw.ehunter.dto.Selection;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentEnquireDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
+import com.pccw.ehunter.helper.ContentSearchEngine;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CandidateRepositoryService;
 import com.pccw.ehunter.service.ProjectCommonService;
@@ -65,6 +67,9 @@ public class CandidateRepositoryController extends BaseController{
 	
 	@Autowired
 	private ProjectCommonService projectCommonService;
+	
+	@Autowired
+	private ContentSearchEngine contentSearchEngine;
 	
 	@RequestMapping("/project/initProjectCandidateRepository.do")
 	public ModelAndView initProjectCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
@@ -135,6 +140,25 @@ public class CandidateRepositoryController extends BaseController{
 		
 		handlePagedSearch(request , mv , enquireDto);
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
+		
+		//2012-12-02
+		try {
+			List<ContentSearchCriteria> cs = new ArrayList<ContentSearchCriteria>();
+//			cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "java"));
+			cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "设计"));
+			
+			System.out.println(">>>> search start .....");
+			List<String> matches =  contentSearchEngine.handleSearch(cs);
+			
+			if(!CollectionUtils.isEmpty(matches)){
+				for(String talent : matches){
+					System.out.println(">>>>>" + talent);
+				}
+			}
+			System.out.println(">>>> search end .....");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return mv;
 	}
 	
@@ -160,7 +184,7 @@ public class CandidateRepositoryController extends BaseController{
 		}
 		
 		handlePagedSearch(request , mv , enquireDto);
-		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
+		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);	
 		
 		return mv;
 	}

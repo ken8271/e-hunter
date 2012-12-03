@@ -23,6 +23,7 @@ import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.dto.UploadedCurriculumVitaeDTO;
 import com.pccw.ehunter.helper.BatchUploadFileConvertor;
+import com.pccw.ehunter.helper.ContentSearchEngine;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.CurriculumVitaeUploadService;
 import com.pccw.ehunter.utility.FileUtils;
@@ -49,6 +50,9 @@ public class CurriculumVitaeUploadController extends BaseController{
 	
 	@Autowired
 	private UploadedCurriculumVitaeValidator cvUploadValidator;
+	
+	@Autowired
+	private ContentSearchEngine contentSearchEngine;
 	
 	@Autowired
 	@Qualifier("xmlProcessorConfig")
@@ -119,6 +123,9 @@ public class CurriculumVitaeUploadController extends BaseController{
 				fileConvertor.convertOffice2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
 				cvDto.setConverted(CommonConstant.YES);
 			}
+			
+			//create index
+			contentSearchEngine.createIndex(cvDto.getTalentID(), cvDto.getUploadPath());
 			
 			cvUploadService.saveUploadedCurriculumVitae(cvDto);
 			
