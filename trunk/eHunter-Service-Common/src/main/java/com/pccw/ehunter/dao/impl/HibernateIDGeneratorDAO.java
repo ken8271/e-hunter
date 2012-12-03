@@ -24,12 +24,17 @@ public class HibernateIDGeneratorDAO implements IDGeneratorDAO{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public synchronized Long getNextValue(final String key , final LockMode lockmode) {
+	public synchronized Long getNextValue(final String key , final LockMode lockmode ,final boolean needCycle) {
 		Object o = hibernateTemplate.execute(new HibernateCallback() {
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				Sequence seq = (Sequence)session.load(Sequence.class, key ,lockmode);
+				
+				if(needCycle){
+					if(seq.getValue() == 100L) seq.setValue(0L);
+				}
+				
 				seq.setValue(seq.getValue() + 1L);
 				seq.setLastUpdateDateTime(new Date());
 				seq.setLastTransactionIndicator(TransactionIndicator.UPDATE);
@@ -63,13 +68,13 @@ public class HibernateIDGeneratorDAO implements IDGeneratorDAO{
 	}
 
 	@Override
-	public synchronized Long getNextValue(String key) {
-		return this.getNextValue(key, LockMode.UPGRADE);
+	public synchronized Long getNextValue(String key ,  boolean needCycle) {
+		return this.getNextValue(key, LockMode.UPGRADE , needCycle);
 	}
 
 	@Override
-	public Long getNextValueNoWait(String key) {
-		return this.getNextValue(key, LockMode.UPGRADE_NOWAIT);
+	public Long getNextValueNoWait(String key ,  boolean needCycle) {
+		return this.getNextValue(key, LockMode.UPGRADE_NOWAIT , needCycle);
 	}
 
 	@Override
