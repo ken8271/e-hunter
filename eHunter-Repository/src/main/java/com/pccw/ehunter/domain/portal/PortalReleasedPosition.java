@@ -15,7 +15,6 @@ public class PortalReleasedPosition extends BaseEntity {
 	private String systemRefPosition;
 	private String title;
 	private String content;
-	private String workProvince;
 	private String workCity;
 
 	@Id
@@ -44,15 +43,6 @@ public class PortalReleasedPosition extends BaseEntity {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	@Column(name = "WK_PRVC")
-	public String getWorkProvince() {
-		return workProvince;
-	}
-
-	public void setWorkProvince(String workProvince) {
-		this.workProvince = workProvince;
 	}
 
 	@Column(name = "WK_CTY")
