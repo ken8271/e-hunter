@@ -13,14 +13,14 @@ public class IDGeneratorImpl implements IDGenerator{
 	private IDGeneratorService idGeneratorService;
 
 	@Override
-	public String generateID(String key) {
-		return generateID(key, "", StringUtils.isEmpty(key) ? 0 : key.length());
+	public String generateID(String key , boolean cycle) {
+		return generateID(key, "", StringUtils.isEmpty(key) ? 0 : key.length() , false);
 	}
 
 	@Override
-	public String generateID(String key, String prefix, int length) {
+	public String generateID(String key, String prefix, int length , boolean cycle) {
 		int padding = 0;
-		String value = String.valueOf(idGeneratorService.getNextValue(key, false));
+		String value = String.valueOf(idGeneratorService.getNextValue(key, false , cycle));
 
 		padding = length - (StringUtils.isEmpty(prefix) ? 0 : prefix.length()) - (StringUtils.isEmpty(value) ? 0 : value.length());
 		
