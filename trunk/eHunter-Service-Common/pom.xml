@@ -176,5 +176,11 @@
 			<groupId>com.artofsolving</groupId>
 			<artifactId>jodconverter</artifactId>
 		</dependency>
+
+		<!-- PDF Box -->
+		<dependency>
+			<groupId>pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+		</dependency>
 	</dependencies>
 </project>
