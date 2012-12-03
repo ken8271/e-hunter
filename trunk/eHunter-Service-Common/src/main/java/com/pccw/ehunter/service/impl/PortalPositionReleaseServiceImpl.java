@@ -35,7 +35,7 @@ public class PortalPositionReleaseServiceImpl implements PortalPositionReleaseSe
 	@Override
 	@Transactional
 	public void saveReleasedPosition(PortalReleasedPositionDTO dto) {
-		dto.setSystemRefPosition(idGenerator.generateID(IDNumberKeyConstant.PORTAL_RELEASED_POSITION_SEQUENCE_KEY, null, 9));
+		dto.setSystemRefPosition(idGenerator.generateID(IDNumberKeyConstant.PORTAL_RELEASED_POSITION_SEQUENCE_KEY, null, 9 , false));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		
 		simpleDao.save(PortalReleasedPositionConvertor.toPo(dto));
