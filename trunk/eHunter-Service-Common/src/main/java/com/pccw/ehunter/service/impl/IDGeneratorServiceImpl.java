@@ -17,11 +17,11 @@ public class IDGeneratorServiceImpl implements IDGeneratorService{
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=Exception.class)
-	public Long getNextValue(String key, boolean nowait) {
+	public Long getNextValue(String key, boolean nowait , boolean cycle) {
 		if(nowait){
-			return idGeneratorDao.getNextValueNoWait(key);
+			return idGeneratorDao.getNextValueNoWait(key , cycle);
 		}else {			
-			return idGeneratorDao.getNextValue(key);
+			return idGeneratorDao.getNextValue(key , cycle);
 		}
 	}
 
