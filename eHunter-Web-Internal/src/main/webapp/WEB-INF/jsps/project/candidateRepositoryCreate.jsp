@@ -37,6 +37,14 @@ function setExtraCriteria(c){
 		$('#ftEduIndicator_Y').attr('disabled' , true);
 		$('#ftEduIndicator_N').attr('disabled' , true);
 	}else {
+		$('#ageFrom').val('');
+		$('#ageTo').val('');
+		$('#gender').val('');
+		$('#majorCategory').val('');
+		$('#workExperience').val('');
+		$('#degree').val('');
+		$('#ftEduIndicator_N').attr('checked' , true);
+		
 		$('#ageFrom').attr('disabled' , false);
 		$('#ageTo').attr('disabled' , false);
 		$('#gender').attr('disabled' , false);
