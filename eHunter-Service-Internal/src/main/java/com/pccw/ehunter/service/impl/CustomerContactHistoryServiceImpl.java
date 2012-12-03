@@ -39,7 +39,7 @@ public class CustomerContactHistoryServiceImpl implements CustomerContactHistory
 	public void saveContactHistory(CustomerContactHistoryDTO dto) {
 		if(dto == null) return ;
 		
-		dto.setSystemContactRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_CONTACT_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 9));
+		dto.setSystemContactRefNum(idGenerator.generateID(IDNumberKeyConstant.CUSTOMER_CONTACT_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 9 , true));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		
 		customerContactHistoryDao.saveContactHistory(CustomerContactHistoryConvertor.toPo(dto));

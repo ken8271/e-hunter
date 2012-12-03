@@ -71,7 +71,7 @@ public class DataBackupHistoryServiceImpl  implements  DataBackupHistoryService{
 	@Override
 	@Transactional
 	public void saveBackupHistory(DataBackupHistoryDTO dto) {
-		dto.setHistoryID(idGenerator.generateID(IDNumberKeyConstant.BACKUP_HISTORY_SEQUENCE_KEY, null, 9));
+		dto.setHistoryID(idGenerator.generateID(IDNumberKeyConstant.BACKUP_HISTORY_SEQUENCE_KEY, null, 9 , false));
 		
 		simpleDao.save(DataBackupHistoryConvertor.toPo(dto));
 	}

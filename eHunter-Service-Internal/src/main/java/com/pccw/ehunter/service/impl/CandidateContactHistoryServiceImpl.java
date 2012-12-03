@@ -76,7 +76,7 @@ public class CandidateContactHistoryServiceImpl implements CandidateContactHisto
 	public void saveContactHistory(CandidateContactHistoryDTO dto) {
 		if(dto == null) return ;
 		
-		dto.setSystemContactRefNum(idGenerator.generateID(IDNumberKeyConstant.CANDIDATE_CONTACT_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 9));
+		dto.setSystemContactRefNum(idGenerator.generateID(IDNumberKeyConstant.CANDIDATE_CONTACT_SEQUENCE_KEY, DateUtils.formatDateTime(DateFormatConstant.DATE_YYMMDD, new Date()), 9 , true));
 		
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		
