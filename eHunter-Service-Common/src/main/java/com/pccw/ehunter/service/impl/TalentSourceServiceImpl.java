@@ -53,7 +53,7 @@ public class TalentSourceServiceImpl implements TalentSourceService {
 	@Override
 	@Transactional
 	public void saveTalentSource(TalentSourceDTO dto) {
-		dto.setSourceId(idGenerator.generateID(IDNumberKeyConstant.TALENT_SOURCE_SEQUENCE_KEY, null, 3));
+		dto.setSourceId(idGenerator.generateID(IDNumberKeyConstant.TALENT_SOURCE_SEQUENCE_KEY, null, 3 ,false));
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		dao.save(TalentSourceConvertor.toPo(dto));
 	}
