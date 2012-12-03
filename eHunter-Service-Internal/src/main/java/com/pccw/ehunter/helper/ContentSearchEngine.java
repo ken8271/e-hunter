@@ -97,7 +97,6 @@ public class ContentSearchEngine {
 				if(ContentSearchCriteria.RANGE_CRITERIA.equals(c.getType())){
 					
 				}else  if(ContentSearchCriteria.TERM_CRITERIA.equals(c.getType())){
-					logger.debug(">>>>> term criteria :" + c.getValue());
 					booleanQuery.add(parser.parse(c.getValue()), BooleanClause.Occur.MUST);
 				}
 			}			
@@ -120,6 +119,9 @@ public class ContentSearchEngine {
 		QueryParser parser = new QueryParser(Version.LUCENE_36, ContentSearchConstant.FIELD_CV_CONTENT, analyzer);
 		
 		Query query = getQueryCriterias(parser, criterias);
+		
+		logger.debug(">>>>QUERY:" + query.toString());
+		
 	    TopDocs topDocs = searcher.search(query, 100);
 	    
 	    ScoreDoc[] hits = topDocs.scoreDocs;  
