@@ -296,5 +296,16 @@
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-highlighter</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>IKAnalyzer</artifactId>
+		</dependency>
+		
+		<!-- PDF Box -->
+		<dependency>
+			<groupId>pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+		</dependency>
 	</dependencies>
 </project>
