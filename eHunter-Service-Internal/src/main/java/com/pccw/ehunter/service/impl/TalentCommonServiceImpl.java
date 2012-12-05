@@ -192,8 +192,8 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<TalentDTO> getTalentsByIds(List<String> ids) {
-		List<Object> list = talentCommonDao.getTalentsByIds(ids);
+	public List<TalentDTO> getTalentsByIds(List<String> ids , TalentPagedCriteria pagedCriteria) {
+		List<Object> list = talentCommonDao.getTalentsByIds(ids , pagedCriteria);
 		List<TalentDTO> dtos = new ArrayList<TalentDTO>();
 		
 		if(!CollectionUtils.isEmpty(list)){
@@ -221,6 +221,12 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 			}
 		}
 		return dtos;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public int getTalentsCountByIds(List<String> ids,TalentPagedCriteria pagedCriteria) {
+		return talentCommonDao.getTalentsCountByIds(ids, pagedCriteria);
 	}
 
 }

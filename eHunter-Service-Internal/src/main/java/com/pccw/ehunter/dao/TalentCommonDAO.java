@@ -15,5 +15,6 @@ public interface TalentCommonDAO {
 	public List<String> getTalentsByPhoneNumber(String phone);
 	public List<String> getTalentsByEmail(String email);
 	public Object getEmploymentHistory(String id, String talentId);
-	public List<Object> getTalentsByIds(List<String> ids);
+	public List<Object> getTalentsByIds(List<String> ids , TalentPagedCriteria pagedCriteria);
+	public int  getTalentsCountByIds(List<String> ids , TalentPagedCriteria pagedCriteria);
 }

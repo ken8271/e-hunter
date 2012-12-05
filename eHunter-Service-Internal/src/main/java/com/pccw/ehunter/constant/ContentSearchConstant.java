@@ -10,4 +10,7 @@ public class ContentSearchConstant {
 	
 	public static final String FUZZY_SEARCH = "F";
 	public static final String PRECISE_SEARCH = "P";
+	
+	public static final String FULL_MATCH = "F";
+	public static final String  PARTIAL_MATCH = "P";
 }
