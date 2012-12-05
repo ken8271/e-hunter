@@ -74,6 +74,8 @@ public class SessionAttributeConstant {
 	public static final String LIST_OF_RELEASED_POSITION = "listOfReleasedPosition";
 	
 	public static final String TALENT_SOURCE_DTO = "talentSourceDto";
+	
+	public static final String TALENT_FUZZY_SEARCH_RESULT_DTO = "talentFuzzySearchResultDto";
 		
 	public static final String BACK_URL = "backUrl";
 }

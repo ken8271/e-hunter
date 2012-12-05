@@ -20,6 +20,10 @@ public class TalentEnquireDTO implements Serializable {
 	private String degree;
 	private String ftEduIndicator;
 	private String expectIndustries;
+	
+	private String keywords;
+	private String queryMode;//P-represents precise inquiry,F - represents fuzzy query
+	private String matchMode;//P - represents partial matching , F - represents full matching
 
 	private JmesaCheckBoxDTO jmesaDto = new JmesaCheckBoxDTO();
 
@@ -143,4 +147,27 @@ public class TalentEnquireDTO implements Serializable {
 		this.searchIndicator = searchIndicator;
 	}
 
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
+
+	public String getQueryMode() {
+		return queryMode;
+	}
+
+	public void setQueryMode(String queryMode) {
+		this.queryMode = queryMode;
+	}
+
+	public String getMatchMode() {
+		return matchMode;
+	}
+
+	public void setMatchMode(String matchMode) {
+		this.matchMode = matchMode;
+	}
 }
