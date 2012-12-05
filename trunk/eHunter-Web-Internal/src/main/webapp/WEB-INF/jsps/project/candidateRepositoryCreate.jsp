@@ -10,7 +10,14 @@
 <script type="text/javascript" src="${scriptPath }/jquery-ui.js"></script>
 <script type="text/javascript">
 $().ready(function(){
-	$("#tabs").tabs();
+	$( document ).tooltip();
+	if('${talentEnquireDto.queryMode}' == 'F'){
+	   $("#tabs").tabs({ active: 1 });
+	}else {
+	   $("#tabs").tabs({ active: 0 });
+	   $('#full_match').attr('checked',false);
+	   $('#partial_match').attr('checked',false);
+	}
 });
 
 function checkCandidateSelection(){
@@ -42,6 +49,8 @@ function submitForm(actionFlagStr){
 function changeSearchMode(tabBtn){
 	if('precise_inquiry_btn' == tabBtn){
 		$('#keywords').val('');
+		$('#full_match').attr('checked',false);
+		$('#partial_match').attr('checked',false);
 		$('#queryMode').val('P');
 		return ;
 	}
@@ -57,6 +66,7 @@ function changeSearchMode(tabBtn){
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
+    <hdiv-c:url value="/project/viewCandidateRepository.do" var="backUrl"></hdiv-c:url>
 	<form:form commandName="talentEnquireDto" action="${ctx}/project/appendCandidateRepositoryActions.do" method="post">
 		<div style="display: none">
 			<input type="hidden" id="actionFlag" name="actionFlag" />
@@ -91,13 +101,13 @@ function changeSearchMode(tabBtn){
 		       <table border="0" cellspacing="5" cellpadding="0" width="100%">
 				<tr>
 					<td width="20%" rowspan="2">简历关键词：</td>
-					<td width="30%"><form:input path="keywords" cssClass="standardInputText"></form:input></td>
+					<td width="30%"><form:input path="keywords" cssClass="standardInputText" title="多个关键词请用空格分隔"></form:input></td>
 					<td width="50%">&nbsp;</td>
 				</tr>
 				<tr>
 					<td>
-					   <form:radiobutton path="matchMode" value="F" />全部匹配&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					   <form:radiobutton path="matchMode" value="P" />部分匹配
+					   <form:radiobutton id="full_match" path="matchMode" value="F" />全部匹配&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					   <form:radiobutton id="partial_match" path="matchMode" value="P" />部分匹配
 					</td>
 				</tr>
 		      </table>
@@ -123,6 +133,16 @@ function changeSearchMode(tabBtn){
 				</td>
 			</tr>
 		</table>
+		<c:if test="${not empty listOfTalent }">
+		<div class="emptyBlock"></div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				   <b>Point(s) to note:</b><br>  查询结果已滤除已参加该项目的候选人才。
+				</td>
+			</tr>
+		</table>
+		</c:if>
 		<div class="emptyBlock"></div>
 		<div>${listOfTalent}</div>
 		<div class="emptyBlock"></div>

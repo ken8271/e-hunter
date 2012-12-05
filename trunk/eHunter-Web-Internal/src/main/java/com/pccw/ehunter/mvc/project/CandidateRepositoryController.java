@@ -96,6 +96,7 @@ public class CandidateRepositoryController extends BaseController{
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
 		
 		request.getSession(false).removeAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT);
+		request.getSession(false).removeAttribute(SessionAttributeConstant.TALENT_FUZZY_SEARCH_RESULT_DTO);
 		return mv;
 	}
 	
@@ -115,12 +116,38 @@ public class CandidateRepositoryController extends BaseController{
 			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
 		}
 		
+		List<TalentDTO> dtos = null;
 		if(ActionFlag.PAGING.equals(actionFlag)){
 			enquireDto.getJmesaDto().handleSelected();
 		}else if(ActionFlag.SELECT_ALL.equals(actionFlag)){
 			enquireDto.getJmesaDto().handleSelectAll();
 		}else if(ActionFlag.SEARCH.equals(actionFlag)){
 			enquireDto.getJmesaDto().resetJmesa();
+			if(ContentSearchConstant.FUZZY_SEARCH.equals(enquireDto.getQueryMode())){
+				List<ContentSearchCriteria> cs = convert2Criterias(enquireDto.getKeywords());
+				
+				ContentSearchResultDTO result = contentSearchEngine.handleSearch(cs , enquireDto.getMatchMode());
+				request.getSession(false).setAttribute(SessionAttributeConstant.TALENT_FUZZY_SEARCH_RESULT_DTO, result);
+				
+				TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+				
+				pagedCriteria.getPageFilter().setRowStart(0);
+				pagedCriteria.getPageFilter().setRowEnd(0);
+				
+				if(!CollectionUtils.isEmpty(result.getMatches())){				
+					dtos = talentCommonService.getTalentsByIds(result.getMatches() , pagedCriteria);
+				}else {
+					dtos = new ArrayList<TalentDTO>();
+				}				
+			}else {		
+				TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+				
+				pagedCriteria.getPageFilter().setRowStart(0);
+				pagedCriteria.getPageFilter().setRowEnd(0);
+				
+				dtos = talentCommonService.getTalentsByCriteria(pagedCriteria);
+			}
+			iniAllSelectOption(request , enquireDto , dtos);
 		}else if(ActionFlag.SUBMIT.equals(actionFlag)){
 			enquireDto.getJmesaDto().handleSelected();
 			mv = new ModelAndView(new RedirectViewExt("/project/verifyCandidateRepository.do", true));
@@ -132,26 +159,12 @@ public class CandidateRepositoryController extends BaseController{
 		}
 		
 		if(ContentSearchConstant.FUZZY_SEARCH.equals(enquireDto.getQueryMode())){
-			List<ContentSearchCriteria> cs = convert2Criterias(enquireDto.getKeywords());
-			
-			ContentSearchResultDTO result = contentSearchEngine.handleSearch(cs);
-			
-			List<String> ids = result.getMatches();
-			List<TalentDTO> dtos = null;
-			if(!CollectionUtils.isEmpty(ids)){
-				dtos = talentCommonService.getTalentsByIds(ids);
-			}else {
-				dtos = new ArrayList<TalentDTO>();
-			}
-			
-			request.getSession(false).setAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT, dtos);
-			enquireDto.getJmesaDto().initAllSelectOption(ids.toArray(new String[ids.size()]));
-			
+			ContentSearchResultDTO result = (ContentSearchResultDTO)request.getSession(false).getAttribute(SessionAttributeConstant.TALENT_FUZZY_SEARCH_RESULT_DTO);
 			handleFuzzyPagedSearch(request ,  mv , enquireDto , result);
-		}else {			
-			iniAllSelectOption(request , enquireDto);
+		}else {		
 			handlePrecisePagedSearch(request , mv , enquireDto);
 		}
+		
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
 		
 		return mv;
@@ -172,56 +185,51 @@ public class CandidateRepositoryController extends BaseController{
 		return cs;
 	}
 	
-	private void iniAllSelectOption(HttpServletRequest request ,TalentEnquireDTO enquireDto){
-		TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+	private void iniAllSelectOption(HttpServletRequest request ,TalentEnquireDTO enquireDto , List<TalentDTO> matchedDtos){
+		if(CollectionUtils.isEmpty(matchedDtos)) matchedDtos = new ArrayList<TalentDTO>();
 		
-		pagedCriteria.getPageFilter().setRowStart(0);
-		pagedCriteria.getPageFilter().setRowEnd(0);
+		request.getSession(false).setAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT, matchedDtos);
 		
-		List<TalentDTO> dtos = talentCommonService.getTalentsByCriteria(pagedCriteria);
-		
-		request.getSession(false).setAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT, dtos);
-		
-		String[] talentIDs = new String[dtos.size()];
-		if(!CollectionUtils.isEmpty(dtos)){
-			for(int i = 0 ; i < dtos.size() ; i++){
-				talentIDs[i] = dtos.get(i).getTalentID();
-			}
+		String[] talentIDs = new String[matchedDtos.size()];
+		for(int i = 0 ; i < matchedDtos.size() ; i++){
+			talentIDs[i] = matchedDtos.get(i).getTalentID();
 		}
+		
 		enquireDto.getJmesaDto().initAllSelectOption(talentIDs);
 	}
 	
-	private void handleFuzzyPagedSearch(final HttpServletRequest request, ModelAndView mv,TalentEnquireDTO enquireDto , final ContentSearchResultDTO result) throws Exception{
+	private void handleFuzzyPagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto , final ContentSearchResultDTO result) throws Exception{
 		final String tableId = "_jmesa_tlnts";
 		TableModel model = new TableModel(tableId, request);
 		model.autoFilterAndSort(false);
 		model.setStateAttr("restore");
-	
-		model.setItems(new PageItems() {
-			
-			@Override
-			public int getTotalRows(Limit limit) {
-				return result.getTotalCount();
-			}
-			
-			@Override
-			public Collection<?> getItems(Limit limit) {
-				int totalCount = result.getTotalCount();
-				int rowStart = limit.getRowSelect().getRowStart();
-				int rowEnd = limit.getRowSelect().getRowEnd() > totalCount ? totalCount : limit.getRowSelect().getRowEnd();
-				
-				List<String> matches = result.getMatches();
-				
-				List<String> ids = new ArrayList<String>();
-				if(!CollectionUtils.isEmpty(matches)){
-					ids = matches.subList(rowStart, rowEnd);
-					return talentCommonService.getTalentsByIds(ids);
-				}else {
-					return new ArrayList<TalentDTO>();
-				}
-			}
-		});
 		
+		if(!CollectionUtils.isEmpty(result.getMatches())){
+			model.setItems(new PageItems() {
+				
+				@Override
+				public int getTotalRows(Limit limit) {
+					TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+					return talentCommonService.getTalentsCountByIds(result.getMatches(), pagedCriteria);
+				}
+				
+				@Override
+				public Collection<?> getItems(Limit limit) {
+					TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+					
+					int rowStart = limit.getRowSelect().getRowStart();
+					int rowEnd = limit.getRowSelect().getRowEnd();
+					
+					pagedCriteria.getPageFilter().setRowStart(rowStart);
+					pagedCriteria.getPageFilter().setRowEnd(rowEnd);
+					
+					return talentCommonService.getTalentsByIds(result.getMatches() , pagedCriteria);
+				}
+			});
+		} else {
+			model.setItems(new ArrayList<TalentDTO>());			
+		}
+
 		model.setTable(getHtmlTable(request , enquireDto.getJmesaDto(), tableId));
 		
 		mv.addObject(SessionAttributeConstant.LIST_OF_TALENT, model.render());
