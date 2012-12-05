@@ -31,6 +31,7 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.pccw.ehunter.constant.ContentSearchConstant;
 import com.pccw.ehunter.dto.ContentSearchCriteria;
+import com.pccw.ehunter.dto.ContentSearchResultDTO;
 import com.pccw.ehunter.utility.FileUtils;
 import com.pccw.ehunter.utility.PdfUtils;
 
@@ -105,8 +106,10 @@ public class ContentSearchEngine {
 		return booleanQuery;
 	}
 	
-	public List<String> handleSearch(List<ContentSearchCriteria> criterias) throws Exception{
+	public ContentSearchResultDTO handleSearch(List<ContentSearchCriteria> criterias ) throws Exception{
+		ContentSearchResultDTO result = new ContentSearchResultDTO();
 		List<String> matches = new ArrayList<String>();
+		int totalCount = 0;
 		
 		initial();
 		
@@ -122,17 +125,24 @@ public class ContentSearchEngine {
 		
 		logger.debug(">>>>QUERY:" + query.toString());
 		
-	    TopDocs topDocs = searcher.search(query, 100);
+	    TopDocs topDocs = searcher.search(query, ContentSearchConstant.MAX_DOCS);
 	    
+	    totalCount = topDocs.totalHits;
 	    ScoreDoc[] hits = topDocs.scoreDocs;  
 	    if(hits != null && hits.length != 0){
 	    	for (ScoreDoc scoreDoc : hits) {  
 	    		Document hitDoc = searcher.doc(scoreDoc.doc);  
-	    		matches.add(hitDoc.get(ContentSearchConstant.FIELD_TALENT_ID));
+	    		String tlnt = hitDoc.get(ContentSearchConstant.FIELD_TALENT_ID);
+	    		if(!matches.contains(tlnt)){	    			
+	    			matches.add(tlnt);
+	    		}
 	    	}	    	
 	    }
 	    
-	    return matches;
+	    result.setTotalCount(totalCount);
+	    result.setMatches(matches);
+	    
+	    return result;
 	}
 	
 	private  void initial(){
