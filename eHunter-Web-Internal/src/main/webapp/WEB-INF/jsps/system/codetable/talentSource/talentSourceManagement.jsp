@@ -3,14 +3,33 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>e-Hunter System/[EH-TLNT-0101]</title>
+<link rel="stylesheet" href="${ctx }/style/jquery-ui.css" />
+<title>e-Hunter System/[EH-PRJ-0001]</title>
+<script type="text/javascript" src="${scriptPath }/jquery-ui.js"></script>
 <hdiv-c:url value="/system/codetable/loadSourcesOfTalent.do" var="loadUrl"></hdiv-c:url>
 <hdiv-c:url value="/system/codetable/checkExistsStatus.do" var="checkUrl"></hdiv-c:url>
 <hdiv-c:url value="/system/codetable/handleTalentSourceDelete.do" var="deleteUrl"></hdiv-c:url>
 <script type="text/javascript">
 $().ready(function(){
 	loadSouces();
+	
+	$( "#create_form" ).dialog({
+        autoOpen: false,
+        height: 250,
+        width: 350,
+        modal: true,
+        buttons: {
+            "提交": function() {
+            	submitNewTalentSource();
+            },
+            "取消": function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+        }
+    });
+
 });
 
 function clearSources(){
@@ -118,8 +137,6 @@ function submitNewTalentSource(){
 		}
 	}
 	
-	return ;
-	
 	$("#newTalentSourceForm").ajaxSubmit({
 		success:function(){
 			loadSouces();
@@ -138,10 +155,11 @@ function initialize(){
 }
 
 function popUpCreator(){
-	initialize();
-	setPopUpFramePosition('create_light',500,200);
-	setOverlayDimension('create_fade');	
-	popUpFrame('create_light','create_fade');
+	//initialize();
+	//setPopUpFramePosition('create_light',500,200);
+	//setOverlayDimension('create_fade');	
+	//popUpFrame('create_light','create_fade');
+	$( "#create_form" ).dialog( "open" );
 }
 </script>
 </head>
