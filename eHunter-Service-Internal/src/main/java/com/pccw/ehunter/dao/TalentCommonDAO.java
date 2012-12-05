@@ -2,8 +2,6 @@ package com.pccw.ehunter.dao;
 
 import java.util.List;
 
-import com.pccw.ehunter.domain.internal.EmploymentHistory;
-import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 
 public interface TalentCommonDAO {
@@ -17,4 +15,5 @@ public interface TalentCommonDAO {
 	public List<String> getTalentsByPhoneNumber(String phone);
 	public List<String> getTalentsByEmail(String email);
 	public Object getEmploymentHistory(String id, String talentId);
+	public List<Object> getTalentsByIds(List<String> ids);
 }

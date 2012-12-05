@@ -4,27 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.ehunter.constant.CommonConstant;
-import com.pccw.ehunter.convertor.EmploymentHistoryConvertor;
 import com.pccw.ehunter.convertor.SimpleDateConvertor;
 import com.pccw.ehunter.dao.TalentCommonDAO;
-import com.pccw.ehunter.domain.internal.EmploymentHistory;
-import com.pccw.ehunter.domain.internal.Talent;
+import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.helper.CodeTableHelper;
-import com.pccw.ehunter.hibernate.SimpleHibernateTemplate;
 import com.pccw.ehunter.service.TalentCommonService;
 import com.pccw.ehunter.utility.StringUtils;
 
@@ -46,19 +40,22 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<TalentDTO> getTalentsByCriteria(HttpServletRequest request , TalentPagedCriteria pagedCriteria) {
+	public List<TalentDTO> getTalentsByCriteria(TalentPagedCriteria pagedCriteria) {
 		List<Object> list = talentCommonDao.getTalentsByCriteria(pagedCriteria);
 		List<TalentDTO> dtos = new ArrayList<TalentDTO>();
 		
 		if(!CollectionUtils.isEmpty(list)){
 			TalentDTO tlnt = null;
+			DegreeDTO dgre = null;
 			for(Object o : list){
 				tlnt = new TalentDTO();
+				dgre = new DegreeDTO();
 				Object[] os = (Object[])o;
 				tlnt.setTalentID(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
 				tlnt.setCnName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
 				tlnt.setEnName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
-				tlnt.setDegreeDto(codeTableHelper.getDegreeByCode(request, StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]));
+				dgre.setDegreeCode(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+				tlnt.setDegreeDto(dgre);
 				tlnt.setNowLivePlace(StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]);
 				tlnt.setCreateDateTime(os[5]==null ? (new Date()) : ((Date)os[5]));
 				
@@ -117,8 +114,7 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<TalentDTO> getCandidatesByCriteria(HttpServletRequest request,
-			TalentPagedCriteria pagedCriteria) {
+	public List<TalentDTO> getCandidatesByCriteria(TalentPagedCriteria pagedCriteria) {
 		return null;
 	}
 
@@ -182,7 +178,6 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 	@Override
 	@Transactional(readOnly=true)
 	public EmploymentHistoryDTO getEmployeeHistory(String id,String talentId) {
-		// TODO Auto-generated method stub
 		EmploymentHistoryDTO hst=new EmploymentHistoryDTO();
 		Object o=talentCommonDao.getEmploymentHistory(id,talentId);
 		Object[] os = (Object[])o;
@@ -193,6 +188,39 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 		hst.setIndustry((StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]));
 		initialPositionByCode(hst);
 		return hst;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<TalentDTO> getTalentsByIds(List<String> ids) {
+		List<Object> list = talentCommonDao.getTalentsByIds(ids);
+		List<TalentDTO> dtos = new ArrayList<TalentDTO>();
+		
+		if(!CollectionUtils.isEmpty(list)){
+			TalentDTO tlnt = null;
+			DegreeDTO dgre = null;
+			for(Object o : list){
+				tlnt = new TalentDTO();
+				dgre = new DegreeDTO();
+				Object[] os = (Object[])o;
+				tlnt.setTalentID(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
+				tlnt.setCnName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				tlnt.setEnName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+				dgre.setDegreeCode(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+				tlnt.setDegreeDto(dgre);
+				tlnt.setNowLivePlace(StringUtils.isEmpty((String)os[4]) ? "" : (String)os[4]);
+				tlnt.setCreateDateTime(os[5]==null ? (new Date()) : ((Date)os[5]));
+				
+				dtos.add(tlnt);
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(dtos)){
+			for(TalentDTO tlnt : dtos){
+				tlnt.setEmploymentHistoryDtos(getEmploymentHistoriesByTalentID(tlnt.getTalentID()));
+			}
+		}
+		return dtos;
 	}
 
 }
