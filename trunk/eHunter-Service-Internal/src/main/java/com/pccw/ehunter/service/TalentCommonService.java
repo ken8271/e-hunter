@@ -16,5 +16,6 @@ public interface TalentCommonService {
 	public List<TalentDTO> getTalentsByPhoneNumber(String phone);
 	public List<TalentDTO> getTalentsByEmail(String email);
 	public EmploymentHistoryDTO getEmployeeHistory(String id, String talentId);
-	public List<TalentDTO> getTalentsByIds(List<String> ids);
+	public List<TalentDTO> getTalentsByIds(List<String> ids , TalentPagedCriteria pagedCriteria);
+	public int getTalentsCountByIds(List<String> ids , TalentPagedCriteria pagedCriteria);
 }

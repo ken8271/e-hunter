@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.lowagie.text.pdf.hyphenation.TernaryTree.Iterator;
 import com.pccw.ehunter.constant.CommonConstant;
@@ -21,6 +22,7 @@ import com.pccw.ehunter.dao.TalentCommonDAO;
 import com.pccw.ehunter.domain.internal.EmploymentHistory;
 import com.pccw.ehunter.domain.internal.EmploymentHistoryPK;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
+import com.pccw.ehunter.dto.PagedCriteria;
 import com.pccw.ehunter.dto.TalentPagedCriteria;
 import com.pccw.ehunter.utility.DateUtils;
 import com.pccw.ehunter.utility.StringUtils;
@@ -377,7 +379,7 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> getTalentsByIds(final List<String> ids) {
+	public List<Object> getTalentsByIds(final List<String> ids, final TalentPagedCriteria pagedCriteria) {
 		List<Object> list = (List<Object>)hibernateTemplate.execute(new HibernateCallback() {
 			
 			@Override
@@ -386,24 +388,92 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT tlnt.SYS_REF_TLNT , tlnt.CNM , tlnt.ENM ,tlnt.HGST_DGRE , tlnt.NW_LV_PLCE ,tlnt.CR_DTTM ");
 				buffer.append(" FROM T_TLNT_BS_INF tlnt ");
-				buffer.append(" WHERE tlnt.SYS_REF_TLNT IN ( ");
-
-				for(int i=0 ; i<ids.size() ; i++){
-					if(i != ids.size() -1 ){
-						buffer.append(" '" + ids.get(i) + "' , ");
-					}else {
-						buffer.append(" '" + ids.get(i) + "' ");
+				buffer.append(" WHERE 1 = 1 ");
+				
+				if(!CollectionUtils.isEmpty(ids)){
+					buffer.append(" AND tlnt.SYS_REF_TLNT IN ( ");
+					for(int i=0 ; i<ids.size() ; i++){
+						if(i != ids.size() -1 ){
+							buffer.append(" '" + ids.get(i) + "' , ");
+						}else {
+							buffer.append(" '" + ids.get(i) + "' ");
+						}
 					}
+					buffer.append(" ) ");
+				}
+
+				if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+					buffer.append(" AND NOT EXISTS ( ");
+					buffer.append(" SELECT 1 ");
+					buffer.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
+					buffer.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
+					buffer.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
+					buffer.append(" AND prj.SYS_REF_PRJ = :projectId ");
+					buffer.append(" ) ");
 				}
 				
-				buffer.append(" ) ");
 				buffer.append(" ORDER BY tlnt.SYS_REF_TLNT ");
 				
 				Query query = session.createSQLQuery(buffer.toString());
+			
+				if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+					query.setString("projectId", pagedCriteria.getSystemProjectRefNum());
+				}
+				
+				if(pagedCriteria.getPageFilter().getRowEnd() > 0){
+					query.setFirstResult(pagedCriteria.getPageFilter().getRowStart());
+					query.setMaxResults(pagedCriteria.getPageFilter().getRowEnd()-pagedCriteria.getPageFilter().getRowStart());
+				}
 				
 				return query.list();
 			}
 		});
 		return list;
+	}
+
+	@Override
+	public int getTalentsCountByIds(final List<String> ids,final TalentPagedCriteria pagedCriteria) {
+		BigInteger count = (BigInteger)hibernateTemplate.execute(new HibernateCallback() {
+			
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(" SELECT count(*) ");
+				buffer.append(" FROM T_TLNT_BS_INF tlnt ");
+				buffer.append(" WHERE 1 = 1 ");
+				
+				if(!CollectionUtils.isEmpty(ids)){
+					buffer.append(" AND tlnt.SYS_REF_TLNT IN ( ");
+					for(int i=0 ; i<ids.size() ; i++){
+						if(i != ids.size() -1 ){
+							buffer.append(" '" + ids.get(i) + "' , ");
+						}else {
+							buffer.append(" '" + ids.get(i) + "' ");
+						}
+					}
+					buffer.append(" ) ");
+				}
+
+				if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+					buffer.append(" AND NOT EXISTS ( ");
+					buffer.append(" SELECT 1 ");
+					buffer.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
+					buffer.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
+					buffer.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
+					buffer.append(" AND prj.SYS_REF_PRJ = :projectId ");
+					buffer.append(" ) ");
+				}
+				
+				Query query = session.createSQLQuery(buffer.toString());
+			
+				if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+					query.setString("projectId", pagedCriteria.getSystemProjectRefNum());
+				}
+								
+				return query.uniqueResult();
+			}
+		});
+		return count.intValue();
 	}
 }

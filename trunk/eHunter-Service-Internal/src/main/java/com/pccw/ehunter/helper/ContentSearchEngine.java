@@ -90,15 +90,15 @@ public class ContentSearchEngine {
 		}
 	}
 	
-	private Query getQueryCriterias(QueryParser parser , List<ContentSearchCriteria> criterias) throws Exception{
+	private Query getQueryCriterias(QueryParser parser , List<ContentSearchCriteria> criterias , String matchMode) throws Exception{
 		BooleanQuery booleanQuery = new BooleanQuery(); 
 		
 		if(!CollectionUtils.isEmpty(criterias)){
 			for(ContentSearchCriteria c : criterias){
-				if(ContentSearchCriteria.RANGE_CRITERIA.equals(c.getType())){
-					
-				}else  if(ContentSearchCriteria.TERM_CRITERIA.equals(c.getType())){
-					booleanQuery.add(parser.parse(c.getValue()), BooleanClause.Occur.MUST);
+				if(ContentSearchConstant.PARTIAL_MATCH.equals(matchMode)){
+					booleanQuery.add(parser.parse(c.getValue()), BooleanClause.Occur.SHOULD);		
+				}else {
+					booleanQuery.add(parser.parse(c.getValue()), BooleanClause.Occur.MUST);					
 				}
 			}			
 		}
@@ -106,7 +106,7 @@ public class ContentSearchEngine {
 		return booleanQuery;
 	}
 	
-	public ContentSearchResultDTO handleSearch(List<ContentSearchCriteria> criterias ) throws Exception{
+	public ContentSearchResultDTO handleSearch(List<ContentSearchCriteria> criterias , String matchMode) throws Exception{
 		ContentSearchResultDTO result = new ContentSearchResultDTO();
 		List<String> matches = new ArrayList<String>();
 		int totalCount = 0;
@@ -121,9 +121,7 @@ public class ContentSearchEngine {
 		
 		QueryParser parser = new QueryParser(Version.LUCENE_36, ContentSearchConstant.FIELD_CV_CONTENT, analyzer);
 		
-		Query query = getQueryCriterias(parser, criterias);
-		
-		logger.debug(">>>>QUERY:" + query.toString());
+		Query query = getQueryCriterias(parser, criterias , matchMode);
 		
 	    TopDocs topDocs = searcher.search(query, ContentSearchConstant.MAX_DOCS);
 	    
