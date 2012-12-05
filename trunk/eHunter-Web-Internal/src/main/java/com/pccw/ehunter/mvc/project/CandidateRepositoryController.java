@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pccw.ehunter.constant.ActionFlag;
+import com.pccw.ehunter.constant.ContentSearchConstant;
 import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.ParameterConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.StatusCode;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.ContentSearchCriteria;
+import com.pccw.ehunter.dto.ContentSearchResultDTO;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
 import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
@@ -110,7 +112,7 @@ public class CandidateRepositoryController extends BaseController{
 	}
 
 	@RequestMapping("/project/appendCandidateRepositoryActions.do")
-	public ModelAndView appendCandidateRepositoryActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDto){
+	public ModelAndView appendCandidateRepositoryActions(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDto) throws Exception{
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryCreate");
 		
 		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
@@ -138,27 +140,13 @@ public class CandidateRepositoryController extends BaseController{
 			return mv;
 		}
 		
-		handlePagedSearch(request , mv , enquireDto);
+		if(ContentSearchConstant.FUZZY_SEARCH.equals(enquireDto.getQueryMode())){
+			handleFuzzyPagedSearch(request ,  mv , enquireDto);
+		}else {			
+			handlePrecisePagedSearch(request , mv , enquireDto);
+		}
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
 		
-		//2012-12-02
-		try {
-			List<ContentSearchCriteria> cs = new ArrayList<ContentSearchCriteria>();
-//			cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "java"));
-			cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "设计"));
-			
-			System.out.println(">>>> search start .....");
-			List<String> matches =  contentSearchEngine.handleSearch(cs);
-			
-			if(!CollectionUtils.isEmpty(matches)){
-				for(String talent : matches){
-					System.out.println(">>>>>" + talent);
-				}
-			}
-			System.out.println(">>>> search end .....");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return mv;
 	}
 	
@@ -183,7 +171,7 @@ public class CandidateRepositoryController extends BaseController{
 			iniAllSelectOption(request , enquireDto);
 		}
 		
-		handlePagedSearch(request , mv , enquireDto);
+		handlePrecisePagedSearch(request , mv , enquireDto);
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);	
 		
 		return mv;
@@ -288,7 +276,45 @@ public class CandidateRepositoryController extends BaseController{
 		enquireDto.getJmesaDto().initAllSelectOption(talentIDs);
 	}
 	
-	private void handlePagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto) {
+	private void handleFuzzyPagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto) throws Exception{
+		final String tableId = "_jmesa_tlnts";
+		TableModel model = new TableModel(tableId, request);
+		model.autoFilterAndSort(false);
+		model.setStateAttr("restore");
+		
+		List<ContentSearchCriteria> cs = new ArrayList<ContentSearchCriteria>();
+		cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "\"设计与实现\""));
+		
+		ContentSearchResultDTO result = (ContentSearchResultDTO)request.getSession(false).getAttribute(SessionAttributeConstant.TALENT_FUZZY_SEARCH_RESULT_DTO);
+		
+		if(result == null){
+			 result = contentSearchEngine.handleSearch(cs);
+		}
+		
+		final int totalCount = result.getTotalCount();
+		model.setItems(new PageItems() {
+			
+			@Override
+			public int getTotalRows(Limit limit) {
+				return totalCount;
+			}
+			
+			@Override
+			public Collection<?> getItems(Limit limit) {
+				TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+				
+				int rowStart = limit.getRowSelect().getRowStart();
+				int rowEnd = limit.getRowSelect().getRowEnd();
+				
+				pagedCriteria.getPageFilter().setRowStart(rowStart);
+				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
+				
+				return talentCommonService.getTalentsByCriteria(request, pagedCriteria);
+			}
+		});
+	}
+	
+	private void handlePrecisePagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto) {
 		final String tableId = "_jmesa_tlnts";
 		TableModel model = new TableModel(tableId, request);
 		model.autoFilterAndSort(false);
