@@ -9,7 +9,7 @@
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
 <body>
-        <hdiv-c:url value="/project/initProjectCandidateRepository.do?type=1" var="addCandiateUrl"></hdiv-c:url>
+        <hdiv-c:url value="/project/initCandidateAssign.do?type=1" var="addCandiateUrl"></hdiv-c:url>
         <hdiv-c:url value="/project/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }&back=${back }" var="backUrl"></hdiv-c:url>
         <hdiv-c:url value="/project/pop/viewProjectDetail.do?_id=${projectDto.systemProjectRefNum }" var="viewProjectUrl"></hdiv-c:url>
         <hdiv-c:url value="/customer/pop/viewCustomerDetail.do?_id=${projectDto.customerDto.systemCustRefNum }" var="viewCustomerUrl"></hdiv-c:url>
