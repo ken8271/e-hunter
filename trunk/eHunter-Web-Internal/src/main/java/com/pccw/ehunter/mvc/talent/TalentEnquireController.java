@@ -94,7 +94,7 @@ public class TalentEnquireController extends BaseCandidateController{
 				pagedCriteria.getPageFilter().setRowStart(rowStart);
 				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
 				
-				return talentCommonService.getTalentsByCriteria(request, pagedCriteria);
+				return talentCommonService.getTalentsByCriteria(pagedCriteria);
 			}
 		});
 		

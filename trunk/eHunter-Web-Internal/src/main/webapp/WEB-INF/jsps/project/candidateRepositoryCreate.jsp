@@ -42,12 +42,15 @@ function submitForm(actionFlagStr){
 function changeSearchMode(tabBtn){
 	if('precise_inquiry_btn' == tabBtn){
 		$('#keywords').val('');
+		$('#queryMode').val('P');
 		return ;
 	}
 	
 	if('fuzzy_query_btn' == tabBtn){
 		$('#talentID').val('');
 		$('#name').val('');
+		$('#queryMode').val('F');
+		return ;
 	}
 }
 </script>

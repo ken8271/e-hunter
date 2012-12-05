@@ -73,8 +73,8 @@ public class CandidateRepositoryController extends BaseController{
 	@Autowired
 	private ContentSearchEngine contentSearchEngine;
 	
-	@RequestMapping("/project/initProjectCandidateRepository.do")
-	public ModelAndView initProjectCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+	@RequestMapping("/project/initCandidateAssign.do")
+	public ModelAndView initCandidateAssign(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
 		ModelAndView mv = new ModelAndView("project/candidateRepositoryCreate");
 		
 		String systemProjectRefNum = request.getParameter(ParameterConstant.P_ID);
@@ -101,14 +101,6 @@ public class CandidateRepositoryController extends BaseController{
 	
 	private void initializeCandidateEnqireDto(TalentEnquireDTO enquireDto , ProjectDTO projectDto) {
 		enquireDto.setSystemProjectRefNum(projectDto.getSystemProjectRefNum());
-		enquireDto.setAgeFrom(projectDto.getPostRequireDto().getAgeFromStr());
-		enquireDto.setAgeTo(projectDto.getPostRequireDto().getAgeToStr());
-		enquireDto.setGender(projectDto.getPostRequireDto().getGender());
-		enquireDto.setMajorCategory(projectDto.getPostRequireDto().getMajorCategory());
-		enquireDto.setWorkExperience(projectDto.getPostRequireDto().getWorkExperienceStr());
-		enquireDto.setDegree(projectDto.getPostRequireDto().getDegree());
-		//enquireDto.setFtEduIndicator(projectDto.getPostRequireDto().getFtEduIndicator());
-		//enquireDto.setExpectIndustries(projectDto.getPostRequireDto().getExpectIndustries());
 	}
 
 	@RequestMapping("/project/appendCandidateRepositoryActions.do")
@@ -129,7 +121,6 @@ public class CandidateRepositoryController extends BaseController{
 			enquireDto.getJmesaDto().handleSelectAll();
 		}else if(ActionFlag.SEARCH.equals(actionFlag)){
 			enquireDto.getJmesaDto().resetJmesa();
-			iniAllSelectOption(request , enquireDto);
 		}else if(ActionFlag.SUBMIT.equals(actionFlag)){
 			enquireDto.getJmesaDto().handleSelected();
 			mv = new ModelAndView(new RedirectViewExt("/project/verifyCandidateRepository.do", true));
@@ -141,8 +132,24 @@ public class CandidateRepositoryController extends BaseController{
 		}
 		
 		if(ContentSearchConstant.FUZZY_SEARCH.equals(enquireDto.getQueryMode())){
-			handleFuzzyPagedSearch(request ,  mv , enquireDto);
+			List<ContentSearchCriteria> cs = convert2Criterias(enquireDto.getKeywords());
+			
+			ContentSearchResultDTO result = contentSearchEngine.handleSearch(cs);
+			
+			List<String> ids = result.getMatches();
+			List<TalentDTO> dtos = null;
+			if(!CollectionUtils.isEmpty(ids)){
+				dtos = talentCommonService.getTalentsByIds(ids);
+			}else {
+				dtos = new ArrayList<TalentDTO>();
+			}
+			
+			request.getSession(false).setAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT, dtos);
+			enquireDto.getJmesaDto().initAllSelectOption(ids.toArray(new String[ids.size()]));
+			
+			handleFuzzyPagedSearch(request ,  mv , enquireDto , result);
 		}else {			
+			iniAllSelectOption(request , enquireDto);
 			handlePrecisePagedSearch(request , mv , enquireDto);
 		}
 		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);
@@ -150,120 +157,28 @@ public class CandidateRepositoryController extends BaseController{
 		return mv;
 	}
 	
-	@RequestMapping("/project/candidateSearch.do")
-	public ModelAndView candidateSearch(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDto){
-		ModelAndView mv = new ModelAndView("project/candidateRepositoryCreate");
+	private List<ContentSearchCriteria> convert2Criterias(String keyword){
+		List<ContentSearchCriteria> cs = new ArrayList<ContentSearchCriteria>();
+		String[] words = StringUtils.tokenize(keyword, StringUtils.SPACE);
 		
-		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
-		
-		if(StringUtils.isEmpty(actionFlag)){
-			actionFlag = (String)request.getSession(false).getAttribute(ActionFlag.ACTION_FLAG);
-		}else {
-			request.getSession(false).setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
-		}
-		
-		if(ActionFlag.PAGING.equals(actionFlag)){
-			enquireDto.getJmesaDto().handleSelected();
-		}else if(ActionFlag.SELECT_ALL.equals(actionFlag)){
-			enquireDto.getJmesaDto().handleSelectAll();
-		}else {
-			enquireDto.getJmesaDto().resetJmesa();
-			iniAllSelectOption(request , enquireDto);
-		}
-		
-		handlePrecisePagedSearch(request , mv , enquireDto);
-		mv.addObject(SessionAttributeConstant.TALENT_ENQUIRE_DTO, enquireDto);	
-		
-		return mv;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@RequestMapping("/project/verifyCandidateRepository.do")
-	public ModelAndView verifyCandidateRepository(HttpServletRequest request , 
-			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
-			@ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDTO){
-		ModelAndView mv = new ModelAndView("project/candidateRepositoryVerify");
-		
-		List<TalentDTO> talentDtos = (List<TalentDTO>)request.getSession(false).getAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT);
-		
-		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
-		if(!CollectionUtils.isEmpty(talentDtos)){			
-			repoDtos = handleSelected(enquireDTO ,projectDto , talentDtos);
-		}
-		
-		projectDto.setCddtRepoDtos(repoDtos);
-		
-		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
-		return mv;
-	}
-	
-	@RequestMapping("/project/singleCandidateAsgnVerify.do")
-	public ModelAndView singleCandidateAsgnVerify(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
-		ModelAndView mv = new ModelAndView("project/candidateRepositoryVerify");
-		String id = request.getParameter("_id");
-		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
-		
-		List<CandidateDTO> cddtDtos = new ArrayList<CandidateDTO>();
-		CandidateDTO cddt = new CandidateDTO();
-		cddt.setProjectDto(projectDto);
-		cddt.setTalentDto(talentDto);
-		cddtDtos.add(cddt);
-		
-		projectDto.setCddtRepoDtos(cddtDtos);
-		
-		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
-		return mv;
-	}
-	
-	private List<CandidateDTO> handleSelected(TalentEnquireDTO enquireDTO ,ProjectDTO projectDto , List<TalentDTO> talentDtos) {
-		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
-		
-		CandidateDTO repo = null;
-		if(!CollectionUtils.isEmpty(enquireDTO.getJmesaDto().getAllSelections())){
-			for(Selection s : enquireDTO.getJmesaDto().getAllSelections()){
-				if(s.isChecked()){					
-					for(TalentDTO dto : talentDtos){
-						if(s.getKey().equals(dto.getTalentID())){
-							repo = new CandidateDTO();
-							repo.setProjectDto(projectDto);
-							repo.setTalentDto(dto);
-							repoDtos.add(repo);
-							break;
-						}
-					}
+		if(!StringUtils.isEmpty(words)){
+			for(String str : words){
+				if(!StringUtils.isEmpty(str)){
+					cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA, "\"" + str + "\""));
 				}
 			}
 		}
-
-		return repoDtos;
-	}
-
-	@RequestMapping("/project/assignCandidates2Project.do")
-	public ModelAndView assignCandidate2Project(HttpServletRequest request ,@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
-		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/viewCandidateRepository.do", true));
 		
-		cddtRepoService.saveCandidateRepository(projectDto.getCddtRepoDtos());
-		
-		
-		if(StatusCode.INITIALIZED.equals(projectDto.getStatus())){
-			projectDto.setStatus(StatusCode.PROCESSING);
-			projectRegtService.updateProjectStatus(projectDto);
-		}
-		
-		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.repository.add" , new String[]{projectDto.getSystemProjectRefNum()}));
-		
-		return mv;
+		return cs;
 	}
 	
 	private void iniAllSelectOption(HttpServletRequest request ,TalentEnquireDTO enquireDto){
-		TalentPagedCriteria pagedCriteria = null ;
-		
-		pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
+		TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
 		
 		pagedCriteria.getPageFilter().setRowStart(0);
 		pagedCriteria.getPageFilter().setRowEnd(0);
 		
-		List<TalentDTO> dtos = talentCommonService.getTalentsByCriteria(request, pagedCriteria);
+		List<TalentDTO> dtos = talentCommonService.getTalentsByCriteria(pagedCriteria);
 		
 		request.getSession(false).setAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT, dtos);
 		
@@ -276,42 +191,40 @@ public class CandidateRepositoryController extends BaseController{
 		enquireDto.getJmesaDto().initAllSelectOption(talentIDs);
 	}
 	
-	private void handleFuzzyPagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto) throws Exception{
+	private void handleFuzzyPagedSearch(final HttpServletRequest request, ModelAndView mv,TalentEnquireDTO enquireDto , final ContentSearchResultDTO result) throws Exception{
 		final String tableId = "_jmesa_tlnts";
 		TableModel model = new TableModel(tableId, request);
 		model.autoFilterAndSort(false);
 		model.setStateAttr("restore");
-		
-		List<ContentSearchCriteria> cs = new ArrayList<ContentSearchCriteria>();
-		cs.add(new ContentSearchCriteria(ContentSearchCriteria.TERM_CRITERIA , "\"设计与实现\""));
-		
-		ContentSearchResultDTO result = (ContentSearchResultDTO)request.getSession(false).getAttribute(SessionAttributeConstant.TALENT_FUZZY_SEARCH_RESULT_DTO);
-		
-		if(result == null){
-			 result = contentSearchEngine.handleSearch(cs);
-		}
-		
-		final int totalCount = result.getTotalCount();
+	
 		model.setItems(new PageItems() {
 			
 			@Override
 			public int getTotalRows(Limit limit) {
-				return totalCount;
+				return result.getTotalCount();
 			}
 			
 			@Override
 			public Collection<?> getItems(Limit limit) {
-				TalentPagedCriteria pagedCriteria = TalentConvertor.toPagedCriteria(enquireDto);
-				
+				int totalCount = result.getTotalCount();
 				int rowStart = limit.getRowSelect().getRowStart();
-				int rowEnd = limit.getRowSelect().getRowEnd();
+				int rowEnd = limit.getRowSelect().getRowEnd() > totalCount ? totalCount : limit.getRowSelect().getRowEnd();
 				
-				pagedCriteria.getPageFilter().setRowStart(rowStart);
-				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
+				List<String> matches = result.getMatches();
 				
-				return talentCommonService.getTalentsByCriteria(request, pagedCriteria);
+				List<String> ids = new ArrayList<String>();
+				if(!CollectionUtils.isEmpty(matches)){
+					ids = matches.subList(rowStart, rowEnd);
+					return talentCommonService.getTalentsByIds(ids);
+				}else {
+					return new ArrayList<TalentDTO>();
+				}
 			}
 		});
+		
+		model.setTable(getHtmlTable(request , enquireDto.getJmesaDto(), tableId));
+		
+		mv.addObject(SessionAttributeConstant.LIST_OF_TALENT, model.render());
 	}
 	
 	private void handlePrecisePagedSearch(final HttpServletRequest request, ModelAndView mv,final TalentEnquireDTO enquireDto) {
@@ -337,7 +250,7 @@ public class CandidateRepositoryController extends BaseController{
 				pagedCriteria.getPageFilter().setRowStart(rowStart);
 				pagedCriteria.getPageFilter().setRowEnd(rowEnd);
 				
-				return talentCommonService.getTalentsByCriteria(request, pagedCriteria);
+				return talentCommonService.getTalentsByCriteria(pagedCriteria);
 			}
 		});
 		
@@ -476,6 +389,86 @@ public class CandidateRepositoryController extends BaseController{
 		
 		return table;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/project/verifyCandidateRepository.do")
+	public ModelAndView verifyCandidateRepository(HttpServletRequest request , 
+			@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto,
+			@ModelAttribute(SessionAttributeConstant.TALENT_ENQUIRE_DTO)TalentEnquireDTO enquireDTO){
+		ModelAndView mv = new ModelAndView("project/candidateRepositoryVerify");
+		
+		List<TalentDTO> talentDtos = (List<TalentDTO>)request.getSession(false).getAttribute(SessionAttributeConstant.LIST_OF_MATCHED_TALENT);
+		
+		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
+		if(!CollectionUtils.isEmpty(talentDtos)){			
+			repoDtos = handleSelected(enquireDTO ,projectDto , talentDtos);
+		}
+		
+		projectDto.setCddtRepoDtos(repoDtos);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		return mv;
+	}
+	
+	@RequestMapping("/project/singleCandidateAsgnVerify.do")
+	public ModelAndView singleCandidateAsgnVerify(HttpServletRequest request,@ModelAttribute(SessionAttributeConstant.TALENT_DTO)TalentDTO talentDto){
+		ModelAndView mv = new ModelAndView("project/candidateRepositoryVerify");
+		String id = request.getParameter("_id");
+		ProjectDTO projectDto = projectCommonService.getProjectByID(id);
+		
+		List<CandidateDTO> cddtDtos = new ArrayList<CandidateDTO>();
+		CandidateDTO cddt = new CandidateDTO();
+		cddt.setProjectDto(projectDto);
+		cddt.setTalentDto(talentDto);
+		cddtDtos.add(cddt);
+		
+		projectDto.setCddtRepoDtos(cddtDtos);
+		
+		mv.addObject(SessionAttributeConstant.PROJECT_DTO, projectDto);
+		return mv;
+	}
+	
+	private List<CandidateDTO> handleSelected(TalentEnquireDTO enquireDTO ,ProjectDTO projectDto , List<TalentDTO> talentDtos) {
+		List<CandidateDTO> repoDtos = new ArrayList<CandidateDTO>();
+		
+		CandidateDTO repo = null;
+		if(!CollectionUtils.isEmpty(enquireDTO.getJmesaDto().getAllSelections())){
+			for(Selection s : enquireDTO.getJmesaDto().getAllSelections()){
+				if(s.isChecked()){					
+					for(TalentDTO dto : talentDtos){
+						if(s.getKey().equals(dto.getTalentID())){
+							repo = new CandidateDTO();
+							repo.setProjectDto(projectDto);
+							repo.setTalentDto(dto);
+							repoDtos.add(repo);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return repoDtos;
+	}
+
+	@RequestMapping("/project/assignCandidates2Project.do")
+	public ModelAndView assignCandidate2Project(HttpServletRequest request ,@ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/project/viewCandidateRepository.do", true));
+		
+		cddtRepoService.saveCandidateRepository(projectDto.getCddtRepoDtos());
+		
+		
+		if(StatusCode.INITIALIZED.equals(projectDto.getStatus())){
+			projectDto.setStatus(StatusCode.PROCESSING);
+			projectRegtService.updateProjectStatus(projectDto);
+		}
+		
+		transactionLogService.logTransaction(ModuleIndicator.PROJECT, getMessage("tx.log.project.repository.add" , new String[]{projectDto.getSystemProjectRefNum()}));
+		
+		return mv;
+	}
+	
+	
 	
 	@RequestMapping("/project/viewCandidateRepository.do")
 	public ModelAndView viewCandidateRepository(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.PROJECT_DTO)ProjectDTO projectDto){
