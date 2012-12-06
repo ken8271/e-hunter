@@ -486,11 +486,10 @@ A.button:hover {
 
 .contentTableTitile2 {
 	font-family: "Arial", "Verdana", "Helvetica", "sans-serif";
-	color: #666666;
+	color: #222222;
 	font-weight: bold;
 	font-size: 12px;
 	background-color: #EEEEEE;
-	color: #00688B
 }
 
 .contentTableRow { 

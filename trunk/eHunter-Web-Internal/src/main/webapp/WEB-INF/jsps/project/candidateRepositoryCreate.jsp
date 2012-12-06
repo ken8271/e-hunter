@@ -5,9 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${ctx }/style/jquery-ui.css" />
 <title>e-Hunter System/[EH-PRJ-0001]</title>
-<script type="text/javascript" src="${scriptPath }/jquery-ui.js"></script>
 <script type="text/javascript">
 $().ready(function(){
 	$( document ).tooltip();
@@ -62,6 +60,7 @@ function changeSearchMode(tabBtn){
 		return ;
 	}
 }
+
 </script>
 <common:jmesaScript actionFlagStr="90"></common:jmesaScript>
 </head>
