@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
+import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.dto.TalentSourceDTO;
 import com.pccw.ehunter.mvc.BaseController;
 import com.pccw.ehunter.service.TalentSourceService;
@@ -115,11 +117,19 @@ public class TalentSourceManagementController extends BaseController{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/system/codetable/submitNewTalentSource.do")
 	public ModelAndView submitNewTalentSource(HttpServletRequest request , @ModelAttribute(SessionAttributeConstant.TALENT_SOURCE_DTO)TalentSourceDTO talentSourceDto){
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/system/codetable/talentSourceManagement.do", true));
 		
 		talentSourceService.saveTalentSource(talentSourceDto);
+		
+		//refresh the codes in session
+		List<TalentSourceDTO> srcs = (List<TalentSourceDTO>)WebUtils.getSessionAttribute(request, WebConstant.LIST_OF_TALENT_SOURCE);
+		if(!CollectionUtils.isEmpty(srcs)){
+			srcs = talentSourceService.getAllTalentSources();
+			WebUtils.setSessionAttribute(request, WebConstant.LIST_OF_TALENT_SOURCE, srcs);
+		}
 		
 		return mv;
 	}

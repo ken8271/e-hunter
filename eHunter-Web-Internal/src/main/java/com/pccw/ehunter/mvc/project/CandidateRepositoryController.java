@@ -33,8 +33,10 @@ import com.pccw.ehunter.constant.StatusCode;
 import com.pccw.ehunter.convertor.TalentConvertor;
 import com.pccw.ehunter.dto.ContentSearchCriteria;
 import com.pccw.ehunter.dto.ContentSearchResultDTO;
+import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.JmesaCheckBoxDTO;
 import com.pccw.ehunter.dto.CandidateDTO;
+import com.pccw.ehunter.dto.PositionDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.Selection;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -275,7 +277,6 @@ public class CandidateRepositoryController extends BaseController{
 		row.setSortable(false);
 		table.setRow(row);
 		
-
 		HtmlColumn select = new HtmlColumn("select");
 		select.setWidth("5%");
 		select.setStyle("align:center");
@@ -319,33 +320,32 @@ public class CandidateRepositoryController extends BaseController{
 		row.addColumn(select);
 		
 		HtmlColumn talentId = new HtmlColumn("talentID");
-		talentId.setWidth("20%");
+		talentId.setWidth("15%");
 		talentId.setTitle("人才编号");
 		talentId.setCellEditor(new CellEditor() {
 			
 			@Override
 			public Object getValue(Object item, String property, int rowcount) {
 				TalentDTO dto = (TalentDTO)item;
-				StringBuffer url = new StringBuffer();
-				url.append(request.getContextPath());
-				url.append("/talent/viewTalentDetail.do?_id=");
-				url.append(dto.getTalentID());
-				url.append("&type=1");
+								
+				StringBuffer viewUrl = new StringBuffer();
+				viewUrl.append(request.getContextPath());
+				viewUrl.append("/talent/pop/viewTalentDetail.do?_id=");
+				viewUrl.append(dto.getTalentID());
 				
-				StringBuffer buffer = new StringBuffer();
-				
-				buffer.append("<a href=\"");
-				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
-				buffer.append("\">");
-				buffer.append(dto.getTalentID());
-				buffer.append("</a>");
-				return buffer.toString();
+				StringBuffer html = new StringBuffer();
+				html.append(dto.getTalentID() + "&nbsp;");
+				html.append("<img src=\"" + request.getContextPath() + "/images/icon/tips.gif\" ");
+				html.append("title=\"查看候选人资料\" ");
+				html.append("style=\"vertical-align: middle; cursor: pointer;\" ");
+				html.append("onclick=\"var customerInfoWindow = window.open('" + URLUtils.getHDIVUrl(request, viewUrl.toString())+ "','customerInfoWindow', 'directories=no,height=550,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=680,top=100,left=200');\" ");
+				return html.toString();
 			}
 		});
 		row.addColumn(talentId);
 		
 		HtmlColumn name = new HtmlColumn("name");
-		name.setWidth("20%");
+		name.setWidth("15%");
 		name.setTitle("姓名");
 		name.setCellEditor(new CellEditor() {
 			
@@ -365,26 +365,8 @@ public class CandidateRepositoryController extends BaseController{
 		});
 		row.addColumn(name);
 		
-		HtmlColumn degree = new HtmlColumn("degree");
-		degree.setWidth("20%");
-		degree.setTitle("最高学历");
-		degree.setCellEditor(new CellEditor() {
-			
-			@Override
-			public Object getValue(Object item, String property, int rowcount) {
-				TalentDTO dto = (TalentDTO)item;
-				
-				if(dto.getDegreeDto() != null){
-					return dto.getDegreeDto().getDisplayName();
-				}else {
-					return "";
-				}
-			}
-		});
-		row.addColumn(degree);
-		
 		HtmlColumn place = new HtmlColumn("place");
-		place.setWidth("32%");
+		place.setWidth("10%");
 		place.setTitle("现居地");
 		place.setCellEditor(new CellEditor() {
 			
@@ -395,8 +377,71 @@ public class CandidateRepositoryController extends BaseController{
 		});
 		row.addColumn(place);
 		
+		HtmlColumn lastestEmployment = new HtmlColumn("lastestEmployment");
+		lastestEmployment.setWidth("28%");
+		lastestEmployment.setTitle("现任职公司");
+		lastestEmployment.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				TalentDTO dto = (TalentDTO)item;
+				List<EmploymentHistoryDTO> hsts = dto.getEmploymentHistoryDtos();
+				
+				if(!CollectionUtils.isEmpty(hsts)){
+					if(hsts.get(0) != null && hsts.get(0).getEndTimeDto() == null){
+						EmploymentHistoryDTO hst = hsts.get(0);
+						StringBuffer buffer = new StringBuffer();
+						buffer.append(hst.getCompanyName());
+						buffer.append("<br>");
+						
+						if(!CollectionUtils.isEmpty(hst.getPositionDtos())){
+							for(PositionDTO post : hst.getPositionDtos()){
+								buffer.append(post.getDisplayName() + ",");
+							}
+						}
+						return buffer.substring(0, buffer.length()-1);
+					}
+				}
+				return StringUtils.EMPTY_STRING;
+			}
+		});
+		row.addColumn(lastestEmployment);
+		
+		HtmlColumn employmentHistory = new HtmlColumn("employmentHistory");
+		employmentHistory.setWidth("27%");
+		employmentHistory.setTitle("曾任职公司");
+		employmentHistory.setCellEditor(new CellEditor() {
+			
+			@Override
+			public Object getValue(Object item, String property, int rowcount) {
+				TalentDTO dto = (TalentDTO)item;
+				
+				List<EmploymentHistoryDTO> hsts = dto.getEmploymentHistoryDtos();
+				
+				if(!CollectionUtils.isEmpty(hsts)){
+					StringBuffer buffer = new StringBuffer();
+					for(int i=1 ; i<hsts.size() ; i++){
+						EmploymentHistoryDTO hst = hsts.get(i);
+						buffer.append(hst.getCompanyName() + "&nbsp;&nbsp;");
+						
+						if(!CollectionUtils.isEmpty(hst.getPositionDtos())){
+							for(PositionDTO post : hst.getPositionDtos()){
+								buffer.append(post.getDisplayName() + ",");
+							}
+						}
+						buffer.append("<br>");
+					}
+					return buffer.toString();
+				}
+				
+				return StringUtils.EMPTY_STRING;
+			}
+		});
+		row.addColumn(employmentHistory);
+		
 		return table;
 	}
+
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/project/verifyCandidateRepository.do")
