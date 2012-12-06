@@ -105,18 +105,6 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 		}
 		employmentHistoryDto.setPositionDtos(positionDtos);
 	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria) {
-		return 0;
-	}
-
-	@Override
-	@Transactional(readOnly=true)
-	public List<TalentDTO> getCandidatesByCriteria(TalentPagedCriteria pagedCriteria) {
-		return null;
-	}
 
 	@Override
 	@Transactional(readOnly=true)
