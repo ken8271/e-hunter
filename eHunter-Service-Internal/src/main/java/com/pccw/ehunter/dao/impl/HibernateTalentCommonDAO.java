@@ -104,134 +104,26 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
 			filter.append(" AND UPPER(tlnt.TLNT_SRC) = UPPER(:src) ");
 		}
-
-		if(!StringUtils.isEmpty(pagedCriteria.getAgeTo())){
-			filter.append(" AND tlnt.BRTH_DTTM >= :birthDateFrom ");
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getAgeFrom())){
-			filter.append(" AND tlnt.BRTH_DTTM < :birthDateTo ");
-		}
-		
-		StringBuffer subFilter = null;
-		if(!StringUtils.isEmpty(pagedCriteria.getMajorCategory())){
-			subFilter = new StringBuffer();
-			subFilter.append(" SELECT 1 ");
-			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_EDU_EXP tee ");
-			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
-			subFilter.append(" AND tee.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
-			subFilter.append(" AND tee.MAJOR = :majorCategory ");
-			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getDegree())){
-			subFilter = new StringBuffer();
-			subFilter.append(" SELECT 1 ");
-			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_EDU_EXP tee ");
-			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
-			subFilter.append(" AND tee.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
-			if(DegreeOrderConstant.OTHER.equals(pagedCriteria.getDegree())){
-				subFilter.append(" AND tee.DEGREE NOT IN ( ");
-				for(int i=0; i<DegreeOrderConstant.DEGREE_ORDER_LIST.size() ; i++){
-					subFilter.append( "'" + DegreeOrderConstant.DEGREE_ORDER_LIST.get(i) + "'");
-					if(i != DegreeOrderConstant.DEGREE_ORDER_LIST.size()-1){
-						subFilter.append(" , ");
-					}
-				}
-				subFilter.append(" ) ");
-			}else {
-				subFilter.append(" AND tee.DEGREE IN ( ");
-				for(int i=DegreeOrderConstant.DEGREE_ORDER_LIST.indexOf(pagedCriteria.getDegree()); i<DegreeOrderConstant.DEGREE_ORDER_LIST.size() ; i++){
-					subFilter.append("'" + DegreeOrderConstant.DEGREE_ORDER_LIST.get(i) + "'");
-					if(i != DegreeOrderConstant.DEGREE_ORDER_LIST.size()-1){
-						subFilter.append(" , ");
-					}
-				}
-				subFilter.append(" ) ");
-			}
-			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getExpectIndustries())){
-			subFilter = new StringBuffer();
-			String[] industries = pagedCriteria.getExpectIndustries().split(CommonConstant.COMMA);
-			subFilter.append(" SELECT 1 ");
-			subFilter.append(" FROM T_TLNT_RSUM tr , T_TLNT_JOB_EXP tje ");
-			subFilter.append(" WHERE tr.SYS_REF_TLNT = tlnt.SYS_REF_TLNT ");
-			subFilter.append(" AND tje.SYS_REF_RSUM = tr.SYS_REF_RSUM ");
-			subFilter.append(" AND tje.IND_TY IN ( ");
-			for(int i=0 ; i<industries.length ; i++){
-				subFilter.append("'" + industries[i] + "'");
-				if(i != industries.length-1){
-					subFilter.append(" , ");
-				}
-			}
-			subFilter.append(" ) ");
-			filter.append(" AND EXISTS ( " + subFilter.toString() + " ) ");
-		}
-		
-		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
-			filter.append(" AND NOT EXISTS ( ");
-			filter.append(" SELECT 1 ");
-			filter.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
-			filter.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
-			filter.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
-			filter.append(" AND prj.SYS_REF_PRJ = :projectId ");
-			filter.append(" ) ");
-		}
 		
 		return filter;
 	}
 	
 	private void setParameters(Query query , TalentPagedCriteria pagedCriteria){
-		try {	
-			if(!StringUtils.isEmpty(pagedCriteria.getTalentID())){
-				query.setString("talentId", pagedCriteria.getTalentID());
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getName())){
-				query.setString("name", pagedCriteria.getName());
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getGender())){
-				query.setString("gender", pagedCriteria.getGender());
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
-				query.setString("src", pagedCriteria.getTalentSrc());
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getAgeTo())){
-				int beginYear = DateUtils.getCurrentYear()-Integer.parseInt(pagedCriteria.getAgeTo())+1;
-				query.setDate("birthDateFrom", DateUtils.parse(DateFormatConstant.DATE_YYYYMMDD	, String.valueOf(beginYear)+"0101"));
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getAgeFrom())){
-				int endYear = DateUtils.getCurrentYear()-Integer.parseInt(pagedCriteria.getAgeFrom())+2;
-				query.setDate("birthDateTo", DateUtils.parse(DateFormatConstant.DATE_YYYYMMDD	, String.valueOf(endYear)+"0101"));
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getMajorCategory())){
-				query.setString("majorCategory", pagedCriteria.getMajorCategory());
-			}
-			
-			if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
-				query.setString("projectId", pagedCriteria.getSystemProjectRefNum());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(!StringUtils.isEmpty(pagedCriteria.getTalentID())){
+			query.setString("talentId", pagedCriteria.getTalentID());
 		}
-	}
-
-	@Override
-	public int getCandidatesCountByCriteria(TalentPagedCriteria pagedCriteria) {
-		return 0;
-	}
-
-	@Override
-	public List<Object> getCandidatesByCriteria(
-			TalentPagedCriteria pagedCriteria) {
-		return null;
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getName())){
+			query.setString("name", pagedCriteria.getName());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getGender())){
+			query.setString("gender", pagedCriteria.getGender());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
+			query.setString("src", pagedCriteria.getTalentSrc());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -356,21 +248,21 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 
 	@Override
 	public Object getEmploymentHistory(final String id,final String taledId) {
-		// TODO Auto-generated method stub
 		Object emp=(Object)hibernateTemplate.execute(new HibernateCallback() {
 			
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException,
-					SQLException {
-				// TODO Auto-generated method stub
-				
+					SQLException {				
 				StringBuffer buffer=new StringBuffer();
 				buffer.append("SELECT BEGN_DTTM,LEV_DTTM, CO_NM,POST_TY,IND_TY ");
 				buffer.append(" FROM   T_TLNT_EMP_HST" );
 				buffer.append(" WHERE  SEQ_NBR=:id AND SYS_REF_TLNT=:taledId ");
+				
 				Query query=session.createSQLQuery(buffer.toString());
+				
 				query.setString("id", id);
 				query.setString("taledId", taledId);
+				
 				return query.uniqueResult();
 			}
 		});
