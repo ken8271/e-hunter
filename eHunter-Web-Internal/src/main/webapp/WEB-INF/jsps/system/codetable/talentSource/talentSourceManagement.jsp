@@ -3,9 +3,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 <head>
-<link rel="stylesheet" href="${ctx }/style/jquery-ui.css" />
 <title>e-Hunter System/[EH-PRJ-0001]</title>
-<script type="text/javascript" src="${scriptPath }/jquery-ui.js"></script>
 <hdiv-c:url value="/system/codetable/loadSourcesOfTalent.do" var="loadUrl"></hdiv-c:url>
 <hdiv-c:url value="/system/codetable/checkExistsStatus.do" var="checkUrl"></hdiv-c:url>
 <hdiv-c:url value="/system/codetable/handleTalentSourceDelete.do" var="deleteUrl"></hdiv-c:url>
@@ -16,20 +14,36 @@ $().ready(function(){
 	$( "#create_form" ).dialog({
         autoOpen: false,
         height: 250,
-        width: 350,
+        width: 300,
         modal: true,
         buttons: {
             "提交": function() {
             	submitNewTalentSource();
+            	$( this ).dialog( "close" );
             },
             "取消": function() {
                 $( this ).dialog( "close" );
             }
         },
-        close: function() {
-        }
     });
 
+	$( "#confirmDialog" ).dialog({
+		autoOpen: false,
+        resizable: false,
+        height:140,
+        modal: true,
+        buttons: {
+            "确认": function() {
+            	var url = '${deleteUrl}';
+        		url = url + '&_id=' + addZero($('#target').val(),3);
+        		window.location.href=url;
+            	$( this ).dialog( "close" );
+            },
+            "取消": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
 });
 
 function clearSources(){
@@ -47,9 +61,8 @@ function addZero(str,size){
 }
 
 function handleDelete(sourceID){
-	var url = '${deleteUrl}';
-	url = url + '&_id=' + addZero(sourceID,3);
-	window.location.href=url;
+	$('#target').val(sourceID);
+	$( "#confirmDialog" ).dialog( "open" );
 }
 
 function loadSouces(){
@@ -142,23 +155,15 @@ function submitNewTalentSource(){
 			loadSouces();
 		}
 	});
-	
-	document.getElementById('create_light').style.display = 'none';
-	document.getElementById('create_fade').style.display = 'none';
-	showAllObject();
 }
 
 function initialize(){	
 	$("#displayName_create").val('');
 	$("#officialSite_create").val('');
-	$('#activeIndicator_create_Y').attr('checked','checked')
 }
 
 function popUpCreator(){
-	//initialize();
-	//setPopUpFramePosition('create_light',500,200);
-	//setOverlayDimension('create_fade');	
-	//popUpFrame('create_light','create_fade');
+	initialize();
 	$( "#create_form" ).dialog( "open" );
 }
 </script>
@@ -210,5 +215,11 @@ function popUpCreator(){
 			</td>
 		</tr>
 	</table>
+	<div id="confirmDialog" title="Confirmation">
+	   <p>
+	      <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>确认删除该人才来源？
+	      <input id="target" type="hidden" />
+	   </p>
+	</div>
 </body>
 </html>
