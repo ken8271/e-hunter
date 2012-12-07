@@ -333,6 +333,12 @@
 				<version>3.8</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-scratchpad</artifactId>
+				<version>3.8</version>
+			</dependency>
+
 			<!-- OpenOffice JOD -->
 			<dependency>
 				<groupId>com.artofsolving</groupId>
@@ -378,7 +384,7 @@
 				<artifactId>lucene-highlighter</artifactId>
 				<version>3.6.1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.pccw</groupId>
 				<artifactId>IKAnalyzer</artifactId>
