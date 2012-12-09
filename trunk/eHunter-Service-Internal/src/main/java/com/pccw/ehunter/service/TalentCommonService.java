@@ -2,6 +2,7 @@ package com.pccw.ehunter.service;
 
 import java.util.List;
 
+import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.ProjectDTO;
 import com.pccw.ehunter.dto.TalentDTO;
@@ -11,7 +12,8 @@ public interface TalentCommonService {
 	public int getTalentsCountByCriteria(TalentPagedCriteria pagedCriteria);
 	public List<TalentDTO> getTalentsByCriteria(TalentPagedCriteria pagedCriteria);
 	
-	public List<ProjectDTO> getParticipatedProjectByTalentID(String talentID);
+	public List<ProjectDTO> getParticipatedProjectsByTalentID(String talentID);
+	public List<CandidateDTO> getParticipatedProjectsByTalentID2(String talentID);
 	
 	public List<TalentDTO> getTalentsByPhoneNumber(String phone);
 	public List<TalentDTO> getTalentsByEmail(String email);

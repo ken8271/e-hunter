@@ -12,6 +12,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -33,7 +34,6 @@ import com.pccw.ehunter.constant.ContentSearchConstant;
 import com.pccw.ehunter.dto.ContentSearchCriteria;
 import com.pccw.ehunter.dto.ContentSearchResultDTO;
 import com.pccw.ehunter.utility.FileUtils;
-import com.pccw.ehunter.utility.PdfUtils;
 
 @Component("contentSearchEngine")
 public class ContentSearchEngine {
@@ -64,9 +64,9 @@ public class ContentSearchEngine {
 			writer = new IndexWriter(dir, iwc);
 			
 			Document doc = new Document();
-			doc.add(new Field(ContentSearchConstant.FIELD_TALENT_ID, talentid , Field.Store.YES, Field.Index.NO));
+			doc.add(new Field(ContentSearchConstant.FIELD_TALENT_ID, talentid , Field.Store.YES, Field.Index.NOT_ANALYZED));
 			doc.add(new Field(ContentSearchConstant.FIELD_CV_PATH, src.getPath() , Field.Store.YES, Field.Index.NO));
-			doc.add(new Field(ContentSearchConstant.FIELD_CV_CONTENT, getContent(filePath),Field.Store.NO, Field.Index.ANALYZED));
+			doc.add(new Field(ContentSearchConstant.FIELD_CV_CONTENT, FileUtils.getFileContent(filePath),Field.Store.NO, Field.Index.ANALYZED));
 			
 			writer.addDocument(doc);
 		} catch (Exception e) {
@@ -80,13 +80,29 @@ public class ContentSearchEngine {
 		}
 	}
 	
-	private String getContent(String filePath) throws Exception{
-		String type = FileUtils.getExtension(filePath);
-		
-		if(FileUtils.PDF_FILE_EXT.equals(type)){
-			return PdfUtils.parsePdf(filePath);
-		} else {
-			return "";
+	public void removeIndex(String talentid) throws Exception{		
+	    
+	    IndexWriter writer = null;
+	    try {
+	    	initial();
+	    	
+	    	Directory dir = FSDirectory.open(new File(indexPath));
+	    	
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_36, new IKAnalyzer());
+			
+			writer = new IndexWriter(dir, iwc);
+			
+			writer.deleteDocuments(new Term(ContentSearchConstant.FIELD_TALENT_ID , talentid));
+			
+			writer.commit();
+		} catch (Exception e) {
+			logger.error(">>>>>exception catched , error message : " + e.getMessage());
+			throw e;
+		} finally {
+			if(writer != null){
+				writer.close();
+				writer = null;
+			}
 		}
 	}
 	
@@ -143,12 +159,11 @@ public class ContentSearchEngine {
 	    return result;
 	}
 	
-	private  void initial(){
+	private void initial(){
 		File indexDir = new File(indexPath);
 		
 		if(!indexDir.exists()){
 			indexDir.mkdirs();
 		}
 	}
-
 }

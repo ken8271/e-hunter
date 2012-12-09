@@ -28,7 +28,7 @@ public class InternalUserValidator extends AbstractValidator{
 		validateStringLength(errors, "loginId", dto.getLoginId(), "登录名", 20);
 		
 		String loginID = StringUtils.isEmpty(dto.getLoginId()) ? StringUtils.EMPTY_STRING : dto.getLoginId();
-		validateSpecialCharacter(errors, "loginId", loginID.replaceAll("\\.", loginID), "登录名");
+		validateSpecialCharacter(errors, "loginId", loginID.replaceAll("\\.", ""), "登录名");
 		
 		if(!StringUtils.isEmpty(dto.getLoginId())){
 			InternalUserDTO temp = internalUserService.getInternalUserByLoginID(dto.getLoginId());			

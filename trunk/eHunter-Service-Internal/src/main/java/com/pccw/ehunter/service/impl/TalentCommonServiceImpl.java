@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import com.pccw.ehunter.constant.CommonConstant;
 import com.pccw.ehunter.convertor.SimpleDateConvertor;
 import com.pccw.ehunter.dao.TalentCommonDAO;
+import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
@@ -108,7 +109,7 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<ProjectDTO> getParticipatedProjectByTalentID(String talentID) {
+	public List<ProjectDTO> getParticipatedProjectsByTalentID(String talentID) {
 		List<ProjectDTO> dtos = new ArrayList<ProjectDTO>();
 		List<Object> pos = talentCommonDao.getParticipatedProjectByTalentID(talentID);
 		
@@ -119,6 +120,7 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 				Object[] os = (Object[])o;
 				dto.setSystemProjectRefNum(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
 				dto.setProjectName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				dto.setStatus(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
 				
 				dtos.add(dto);
 			}
@@ -215,6 +217,41 @@ public class TalentCommonServiceImpl implements TalentCommonService{
 	@Transactional(readOnly=true)
 	public int getTalentsCountByIds(List<String> ids,TalentPagedCriteria pagedCriteria) {
 		return talentCommonDao.getTalentsCountByIds(ids, pagedCriteria);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<CandidateDTO> getParticipatedProjectsByTalentID2(String talentID) {
+		List<CandidateDTO> dtos = new ArrayList<CandidateDTO>();
+		List<Object> pos = talentCommonDao.getParticipatedProjectByTalentID(talentID);
+		
+		if(!CollectionUtils.isEmpty(pos)){
+			CandidateDTO c = null;
+			ProjectDTO p = null;
+			TalentDTO t = null;
+			for(Object o : pos){
+				p = new ProjectDTO();
+				c = new CandidateDTO();
+				t = new TalentDTO();
+				
+				Object[] os = (Object[])o;
+				
+				t.setTalentID(talentID);
+				
+				p.setSystemProjectRefNum(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
+				p.setProjectName(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				p.setStatus(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+				
+				c.setCandidateStatus(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
+				c.setCreateDateTime(os[4]==null ? (new Date()) : ((Date)os[4]));
+				c.setTalentDto(t);
+				c.setProjectDto(p);
+				
+				dtos.add(c);
+			}
+		}
+		
+		return dtos;
 	}
 
 }
