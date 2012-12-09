@@ -43,15 +43,18 @@ function loadHistories(){
 					count++;
 					var systemContactRefNum = $(this).find("systemContactRefNum").text();
 					var contactCategory = $(this).find("contactCategory").text();
+					var record = $(this).find("record").text();
 					var adviser = $(this).find("adviser").text();
 					var contactDate = $(this).find("contactDate").text();
+					var remark = $(this).find("remark").text();
 					
 					str = str + "<tr height='30px'>" 
 					          + "<td align='center'>" + count + "</td>"
 					          + "<td>" + contactCategory + "</td>"
-					          + "<td>" + adviser + "</td>"
-					          + "<td>" + contactDate + "</td>"
-					          + "<td align='center'><img src='${imagePath}/icon/tips.gif' title='查看联系记录' style='vertical-align: middle; cursor: pointer;' onclick='popUpContactDetail(" + systemContactRefNum +");'/></td>"
+					          + "<td>" + record + "</td>"
+					          + "<td align='center'>" + adviser + "</td>"
+					          + "<td align='center'>" + contactDate + "</td>"
+					          + "<td>" + remark +"</td>"
 					          + "</tr>";
 				});
 				
@@ -147,7 +150,7 @@ function submitContactHistory(){
 		alert('必须填写详细记录');
 		return ;
 	}
-	
+
 	if(validateStringlength(record.value , 4000)){
 		alert('详细记录已超过最大长度4000字节，请修改！');
 		return ;
@@ -225,11 +228,12 @@ function submitContactHistory(){
 		<div class="emptyBlock"></div>
 		<table id="historyTable" width="100%"  border="1" cellspacing="0" cellpadding="1" class="standardTableForm">
 		   <tr>
-		      <td align="center" width="5%" class="labelColumn">序号</td>
-		      <td width="30%" class="labelColumn">联系类型</td>
-		      <td width="10%" class="labelColumn">联系顾问</td>
-		      <td width="20%" class="labelColumn">联系时间</td>
-		      <td align="center" width="5%" class="labelColumn">查看</td>
+		      <td align="center" width="5%" class="contentTableTitile2">序号</td>
+		      <td width="15%" class="contentTableTitile2">联系类型</td>
+		      <td width="45%" class="contentTableTitile2">详细记录</td>
+		      <td align="center" width="10%" class="contentTableTitile2">联系顾问</td>
+		      <td align="center" width="15%" class="contentTableTitile2">联系时间</td>
+		      <td width="15%" class="contentTableTitile2">备注</td>
 		   </tr>
 		</table>
 		<div class="emptyBlock"></div>

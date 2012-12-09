@@ -281,13 +281,34 @@ function asgnCandidate2SelectedProject(c){
 		              <hdiv-c:url value="/talent/deleteCurriculumVitae.do?_id=${cvDto.cvID }" var="deleteUrl"></hdiv-c:url>
 		              <img src="${imagePath }/icon/download.gif" title="下载" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${cvDownUrl}'" />&nbsp;
 		              <img src="${imagePath }/icon/preview.gif" title="查看" style="vertical-align: middle;cursor: pointer;"  onclick="window.open('${viewUrl}');"/>&nbsp;
-		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  onclick="location.href='${deleteUrl}'"/>&nbsp;
+		              <img src="${imagePath }/icon/delete.gif" title="删除" style="vertical-align: middle;cursor: pointer;"  onclick="window.open('${deleteUrl}');"/>&nbsp;
 		            </td>
 		         </tr>
 		      </c:forEach>
 		   </c:if>
 	</table>
 	<div class="emptyBlock"></div>
+	<div class="emptyBlock"></div>
+	<table class="contentTableBody2" cellspacing="1" width="100%">
+		   <tr class="contentTableTitle">
+		      <td width="15%" align="center">项目编号</td>
+		      <td width="25%">项目名称</td>
+		      <td width="20%">项目状态</td>
+		      <td width="20%">候选人状态</td>
+		      <td width="20%" align="center">加入项目时间</td>
+		   </tr>
+		   <c:if test="${not empty listOfProject }">
+		      <c:forEach items="${listOfProject }" var="cddtDto">
+		         <tr class="contentTableRow">
+		            <td align="center"><c:out value="${cddtDto.projectDto.systemProjectRefNum }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${cddtDto.projectDto.projectName }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${cddtDto.projectDto.status }" escapeXml="true"></c:out></td>
+		            <td><c:out value="${cddtDto.candidateStatusDto.displayName }" escapeXml="true"></c:out></td>
+		            <td align="center"><fmt:formatDate type="both" value="${cddtDto.createDateTime }" pattern="yyyy-MM-dd"/></td>
+		         </tr>
+		      </c:forEach>
+		   </c:if>
+	</table>
 	<div><jsp:include page="projectSelector_pop.jsp"></jsp:include></div>
 	<table id="bg2" border="0" width="100%">
 		<tr>

@@ -123,7 +123,7 @@ public class CandidateContactController extends BaseCandidateController{
 		String projectID = request.getParameter("_pid");
 		
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentRegtService.getTalentByID(talentID , false));
-		mv.addObject(SessionAttributeConstant.LIST_OF_PARTICIPATED_PROJECT, talentCommonService.getParticipatedProjectByTalentID(talentID));
+		mv.addObject(SessionAttributeConstant.LIST_OF_PARTICIPATED_PROJECT, talentCommonService.getParticipatedProjectsByTalentID(talentID));
 		mv.addObject("projectID", projectID);
 		
 		mv.addObject(SessionAttributeConstant.CANDIDATE_CONTACT_HISTORY, new CandidateContactHistoryDTO());
@@ -218,8 +218,10 @@ public class CandidateContactController extends BaseCandidateController{
 					Element hst = root.addElement("history");
 					hst.addElement("systemContactRefNum").setText(dto.getSystemContactRefNum());
 					hst.addElement("contactCategory").setText(dto.getContactCategoryDto().getDisplayName());
+					hst.addElement("record").setText(dto.getRecord());
 					hst.addElement("adviser").setText(dto.getAdviserDto().getCnName());
 					hst.addElement("contactDate").setText(DateUtils.formatDateTime(DateFormatConstant.DATE_YYYY_MM_DD, dto.getCreateDateTime()));
+					hst.addElement("remark").setText(dto.getRemark());
 				}
 			}
 			
