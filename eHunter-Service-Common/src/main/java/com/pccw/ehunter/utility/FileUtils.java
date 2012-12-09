@@ -199,4 +199,14 @@ public class FileUtils {
 		
 		return false;
 	}
+	
+	public static String getFileContent(String path) throws Exception{
+		if(isPdfFile(path)){
+			return PdfUtils.parsePdf(path);
+		}else if(isWordFile(path)){
+			return MicrosoftOfficeUtils.parseWord(path);
+		}
+		
+		return StringUtils.EMPTY_STRING;
+	}
 }
