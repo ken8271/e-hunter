@@ -37,6 +37,7 @@ function checkCandidateSelection(){
 }
 
 function submitForm(actionFlagStr){
+	$('#loadingStatus').show();
 	var actionFlag = document.getElementById('actionFlag');
 	if(actionFlag != 'undefined' && actionFlagStr != ""){
 		actionFlag.value = actionFlagStr;
@@ -112,6 +113,8 @@ function changeSearchMode(tabBtn){
 		      </table>
 		   </div>
 		</div>
+		<div class="emptyBlock"></div>
+		<dir id="loadingStatus" style="display:none" class="menutitle"><common:message code="cv.search.loadingstaus" needSuccSign="false" text="正在检索，请稍后..."></common:message> </dir>
 		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>

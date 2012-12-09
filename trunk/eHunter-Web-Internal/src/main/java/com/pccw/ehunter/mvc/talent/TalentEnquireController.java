@@ -23,6 +23,7 @@ import com.pccw.ehunter.constant.ModuleIndicator;
 import com.pccw.ehunter.constant.SessionAttributeConstant;
 import com.pccw.ehunter.constant.WebConstant;
 import com.pccw.ehunter.convertor.TalentConvertor;
+import com.pccw.ehunter.dto.CandidateDTO;
 import com.pccw.ehunter.dto.DegreeDTO;
 import com.pccw.ehunter.dto.EmploymentHistoryDTO;
 import com.pccw.ehunter.dto.PositionDTO;
@@ -136,11 +137,20 @@ public class TalentEnquireController extends BaseCandidateController{
 				talentDto.setEmploymentHistoryDto(dto);
 			}
 		}
+		
+		List<CandidateDTO> cddtDtos = talentCommonService.getParticipatedProjectsByTalentID2(id);
+		if(!CollectionUtils.isEmpty(cddtDtos)){
+			for(CandidateDTO c : cddtDtos){
+				c.setCandidateStatusDto(codeTableHelper.getCandidateStatusByCode(request, c.getCandidateStatus()));
+				c.getProjectDto().setStatusDto(codeTableHelper.getProjectStatusByCode(request, c.getProjectDto().getStatus()));
+			}
+		}
 
 		transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.view" , new String[]{talentDto.getTalentID()}));
 		
 		mv.addObject(ModuleIndicator.MODULE, module);
 		mv.addObject(SessionAttributeConstant.TALENT_DTO, talentDto);
+		mv.addObject(SessionAttributeConstant.LIST_OF_RPOJECTS , cddtDtos);
 		mv.addObject(SessionAttributeConstant.PROJECT_ENQUIRE_DTO, new ProjectEnquireDTO());
 		return mv;
 	}

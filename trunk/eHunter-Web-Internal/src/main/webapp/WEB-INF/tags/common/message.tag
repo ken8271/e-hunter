@@ -11,6 +11,8 @@
 		</span>
 	</c:when>
 	<c:otherwise>
-		<spring:message code="${code}" text="${text}"></spring:message>
+	    <span class="succmsg">
+		   <spring:message code="${code}" text="${text}"></spring:message>
+		</span>
 	</c:otherwise>
 </c:choose>

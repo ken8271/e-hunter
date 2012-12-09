@@ -6,6 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>e-Hunter System/[EH-PRJ-0001]</title>
+<script type="text/javascript">
+function uploadCv(){
+	$('#loadingStatus').show();
+	return false;
+}
+</script>
 </head>
 <body>
  <hdiv-c:url value="/talent/viewTalentDetail.do?_id=${cvDto.talentID }" var="backUrl"></hdiv-c:url>
@@ -55,15 +61,16 @@
 		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
+		<dir id="loadingStatus" style="display:none" class="menutitle"><common:message code="cv.upload.loadingstatus" needSuccSign="false" text="正在上传简历，请勿关闭浏览器..."></common:message> </dir>
+		<div class="emptyBlock"></div>
 		<table id="bg2" border="0" width="100%">
 			<tr>
 				<td class="functionMenuBar">
 					<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
+							<input class="standardButton" type="submit" value="开始上传" onclick="uploadCv();"/>&nbsp;
 							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />&nbsp;
-							<input class="standardButton" type="submit" value="开始上传" />&nbsp;
-							<input class="standardButton" type="button" value="取消上传" />&nbsp;
 							</td>
 						</tr>
 					</table>

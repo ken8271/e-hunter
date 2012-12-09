@@ -204,7 +204,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 	}
 	
 	@RequestMapping("/talent/deleteCurriculumVitae.do")
-	public ModelAndView deleteCurriculumVitae(HttpServletRequest request){
+	public ModelAndView deleteCurriculumVitae(HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView(new RedirectViewExt("/talent/viewTalentDetail.do", true));
 		String id = request.getParameter("_id");
 		
@@ -215,6 +215,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 		if(cvDto != null){
 			FileUtils.handleDelete(new File(uploadDirectory + cvDto.getRelativeUploadPath()));
 			FileUtils.handleDelete(new File(swfDirectory + cvDto.getRelativeSwfPath()));
+			contentSearchEngine.removeIndex(cvDto.getTalentID());
 			cvUploadService.deleteCurriculumVitae(cvDto);
 			transactionLogService.logTransaction(ModuleIndicator.TALENT, getMessage("tx.log.talent.cv.delete" , new String[]{talentID , id}));
 		}
