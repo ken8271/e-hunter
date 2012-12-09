@@ -14,3 +14,6 @@ mvn install:install-file -DgroupId=com.pccw
                          -Dfile=E:\IKAnalyzer-2012.06.jar 
                          -Dpackaging=jar 
                          -DgeneratePom=true
+                         
+                         
+tomcat下报xml解析错误：删除spring2.5
