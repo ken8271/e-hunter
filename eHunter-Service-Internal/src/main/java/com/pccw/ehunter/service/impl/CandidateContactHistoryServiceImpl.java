@@ -57,12 +57,15 @@ public class CandidateContactHistoryServiceImpl implements CandidateContactHisto
 				
 				dto.setSystemContactRefNum(StringUtils.isEmpty((String)os[0]) ? "" : (String)os[0]);
 				dto.setContactCategory(StringUtils.isEmpty((String)os[1]) ? "" : (String)os[1]);
+				dto.setRecord(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
 				
 				InternalUserDTO usr = new InternalUserDTO();
-				usr.setCnName(StringUtils.isEmpty((String)os[2]) ? "" : (String)os[2]);
+				usr.setCnName(StringUtils.isEmpty((String)os[3]) ? "" : (String)os[3]);
 				dto.setAdviserDto(usr);
 				
-				dto.setCreateDateTime(os[3] == null ? (new Date()) : ((Date)os[3]));
+				dto.setCreateDateTime(os[4] == null ? (new Date()) : ((Date)os[4]));
+				
+				dto.setRemark(StringUtils.isEmpty((String)os[5]) ? "" : (String)os[5]);
 				
 				dtos.add(dto);
 			}

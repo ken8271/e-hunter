@@ -29,7 +29,7 @@ public class HibernateCandidateContactHistoryDAO implements CandidateContactHist
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT tch.SYS_REF_CONT_HST , tch.CONT_TY , usr.CNM , tch.CR_DTTM ");
+				buffer.append(" SELECT tch.SYS_REF_CONT_HST , tch.CONT_TY , tch.CONT_REC  , usr.CNM AS uCnm , tch.CR_DTTM  , CONT_RMRK ");
 				buffer.append(" FROM T_TLNT_CONT_HST tch , T_INT_USR usr ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(" AND tch.CONT_ADVSR = usr.USR_REC_ID ");

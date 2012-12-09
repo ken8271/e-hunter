@@ -135,7 +135,7 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			public Object doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(" SELECT DISTINCT prj.SYS_REF_PRJ , prj.PRJ_NM ");
+				buffer.append(" SELECT DISTINCT prj.SYS_REF_PRJ , prj.PRJ_NM , prj.PRJ_ST , ptl.TLNT_ST , ptl.CR_DTTM ");
 				buffer.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
 				buffer.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
 				buffer.append(" AND ptl.SYS_REF_TLNT = :talentID ");
