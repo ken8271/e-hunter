@@ -171,6 +171,11 @@
 			<artifactId>poi</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+		</dependency>
+
 		<!-- OpenOffice JOD -->
 		<dependency>
 			<groupId>com.artofsolving</groupId>
