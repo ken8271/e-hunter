@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/page"
 	prefix="sitemesh-page"%>
 <%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
+<!DOCTYPE HTML>
 <html>
 <head>
 <jsp:include page="../commons/meta.jsp"></jsp:include>
