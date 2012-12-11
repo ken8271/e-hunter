@@ -33,7 +33,7 @@ li {
 }
 
 fieldset {
-	background-color: #FFFFCC;
+	background-color: #FFFFFF;
 	border: 1px solid #CCCFFF;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -42,7 +42,7 @@ fieldset {
 }
 
 legend {
-	background-color: #FFFFCC;
+	background-color: #FFFFFF;
 	color: #666;
 	font-size: 12px;
 	font-weight: bold;
