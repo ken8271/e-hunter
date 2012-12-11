@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/style/flexpaper.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/script/jscalendar/calendar-blue.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/script/greybox/gb_styles.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/style/form.css" />
 <script type="text/javascript">
    var GB_ROOT_DIR = "${ctx}/script/greybox/";
 </script>
