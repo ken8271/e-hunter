@@ -19,6 +19,8 @@
 				return false;
 			}
 		});
+		
+		$( "input[type=submit] , input[type=reset]" ).button();
 	});
 	
 	function displayError(msg){
@@ -47,7 +49,7 @@
 			</div>
 			<div style="padding: 150px; display: block" ></div>
 			<div id="pageMain" align="center">
-				<table border="0" width="380" cellspacing="2" cellpadding="2" align="center">
+				<table border="0" width="380" cellspacing="10" cellpadding="2" align="center">
 					<tr>
 						<td colspan="3">
 							<div align="center">
@@ -85,26 +87,26 @@
 					    </td>
 					</tr>
 					<tr>
-						<td width="35%" class="rightText">登录名(User ID) ：</td>
+						<td width="45%" class="rightText">登录名(User ID) ：</td>
 						<td width="50%" align="left">
-						   <input class="standardInputText" type="text" size="20" maxlength="20" value="${param.j_username}" id="j_username" name="j_username"
+						   <input class="form-text" type="text" size="20" maxlength="20" value="${param.j_username}" id="j_username" name="j_username"
 							value='<c:if test="${not empty param.login_error}">${SPRING_SECURITY_LAST_USERNAME_KEY}</c:if>' />
 						</td>
-						<td width="15%"><span class="mandatoryField">*</span></td>
+						<td width="5%"><span class="mandatoryField">*</span></td>
 					</tr>
 					<tr>
-						<td class="rightText">密码(Password) ：</td>
-						<td align="left">
-						<input class="standardInputText" type="password" autocomplete="off" size="20" maxlength="8" name="j_password" id="j_password" value="${param.j_password}" />
+						<td width="45%" class="rightText">密码(Password) ：</td>
+						<td width="50%" align="left">
+						<input class="form-text" type="password" autocomplete="off" size="20" maxlength="8" name="j_password" id="j_password" value="${param.j_password}" />
 						</td>
-						<td align="left"><span class="mandatoryField">*</span></td>
+						<td width="5%" align="left"><span class="mandatoryField">*</span></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td>
 							<div align="left">
-								<input id="submitButton" type="submit" value=" 登录 " />&nbsp; 
-								<input type="reset" value=" 重置  " onclick="clear();">
+								<input id="submitButton" type="submit" value=" 登录 " style="color:#000000"/>&nbsp; 
+								<input type="reset" value=" 重置  " style="color:#000000" onclick="clear();">
 							</div>
 						</td>
 						<td>&nbsp;</td>

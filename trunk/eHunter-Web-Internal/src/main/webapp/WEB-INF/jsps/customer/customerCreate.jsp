@@ -130,21 +130,15 @@ function clearInput(){
 				<td><common:errorTable path="customerDto"></common:errorTable></td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>							   
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
-							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp;
-							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+							   <input type="submit" value="下一步" />&nbsp;
+							   <input type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
-				</td>
-			</tr>
-		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
 				<tbody>
@@ -152,7 +146,7 @@ function clearInput(){
 					<tr>
 						<td class="labelColumn">客户类型：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select id="custType" cssClass="standardSelect" onchange="changeCustType();" path="groupIndicator">
+						   <form:select id="custType" cssClass="form-select" onchange="changeCustType();" path="groupIndicator">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
 						      <form:option value="GRP" label="集团客户"></form:option>
 						      <form:option value="SUB" label="非集团客户（集团旗下子公司）"></form:option>
@@ -161,7 +155,7 @@ function clearInput(){
 						</td>
 						<td>
 						   &nbsp;
-						   <select id="group" class="standardSelect" onchange="loadGroupInfo();" style="display: none">
+						   <select id="group" class="form-select" onchange="loadGroupInfo();" style="display: none">
 						      <option>--- 请选择 ---</option>
 						      <c:forEach items="${listOfGroups}" var="group">
 						        <c:choose>
@@ -198,12 +192,12 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">集团名称：</td>
 						<td>
-						<form:input id="groupFullName" path="custGroup.fullName" cssClass="standardInputText" ></form:input>
+						<form:input id="groupFullName" path="custGroup.fullName" cssClass="form-text" ></form:input>
 						<common:errorSign id="custGroup.fullName" path="custGroup.fullName"></common:errorSign>
 						</td>
 						<td class="labelColumn">集团简称：</td>
 						<td>
-						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="standardInputText" /> 
+						   <form:input id="groupShortName" path="custGroup.shortName" cssClass="form-text" /> 
 						   <common:errorSign id="custGroup.shortName" path="custGroup.shortName"></common:errorSign>
 					    </td>
 					</tr>
@@ -223,7 +217,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn" >公司名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						<form:input path="fullName" cssClass="standardInputText"></form:input>
+						<form:input path="fullName" cssClass="form-text"></form:input>
 						<common:errorSign id="fullName" path="fullName"></common:errorSign>
 						</td>
 						<td>&nbsp;</td>
@@ -231,7 +225,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">公司简称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
-						<form:input path="shortName" cssClass="standardInputText"></form:input>
+						<form:input path="shortName" cssClass="form-text"></form:input>
 						<common:errorSign id="shortName" path="shortName"></common:errorSign>
 						</td>
 					    <td>&nbsp;</td>
@@ -239,7 +233,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">官方网址：</td>
 						<td>
-						<form:input path="offcialSite" cssClass="standardInputText"></form:input>
+						<form:input path="offcialSite" cssClass="form-text"></form:input>
 						<common:errorSign id="offcialSite" path="offcialSite"></common:errorSign>
 						</td>
 						<td class="labelColumn">公司总机：</td>
@@ -252,7 +246,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">公司性质：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="type" cssClass="standardSelect">
+						   <form:select path="type" cssClass="form-select">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SE" label="国有企业"></form:option>
 						      <form:option value="EF" label="外商独资/外企办事处"></form:option>
@@ -268,7 +262,7 @@ function clearInput(){
 						</td>
 					    <td class="labelColumn">公司规模：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="size" cssClass="standardSelect">
+						   <form:select path="size" cssClass="form-select">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="001" label="1-49人"></form:option>
 						      <form:option value="002" label="50-99人"></form:option>
@@ -285,7 +279,7 @@ function clearInput(){
 					<tr >
 						<td class="labelColumn">客户等级：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="grade" cssClass="standardSelect">
+						   <form:select path="grade" cssClass="form-select">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="IR" label="有需求有意向"></form:option>
 						      <form:option value="NI" label="有需求无意向"></form:option>
@@ -296,7 +290,7 @@ function clearInput(){
 						</td>
 						<td class="labelColumn">客户状态：<span class="mandatoryField">*</span></td>
 						<td>
-						   <form:select path="customerStatus" cssClass="standardSelect">
+						   <form:select path="customerStatus" cssClass="form-select">
 						      <form:option value="" label="--- 请选择 ---"></form:option>
 						      <form:option value="SGN" label="已签约客户"></form:option>
 						      <form:option value="PTL" label="潜力客户"></form:option>
@@ -308,7 +302,7 @@ function clearInput(){
 					<tr>
 					    <td class="labelColumn">客户介绍：<span class="mandatoryField">*</span></td>
 					    <td colspan="3">
-					       <form:textarea path="customerDescription" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px"  cssClass="standardInputText"/>
+					       <form:textarea path="customerDescription" htmlEscape="true" rows="3" cols="60"  cssStyle="word-wrap:break-word;height:80px"  cssClass="form-textarea"/>
 						   <common:errorSign id="customerDescription" path="customerDescription"></common:errorSign>
 					    </td>
 					</tr>
@@ -316,21 +310,15 @@ function clearInput(){
 			</table>
 		</div>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td>
-							   <input class="standardButton" type="submit" value="下一步" />&nbsp;
-							   <input class="standardButton" type="reset" value="重置" onclick="clearInput();" />&nbsp;
-							   <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+							   <input type="submit" value="下一步" />&nbsp;
+							   <input type="button" value="重置" onclick="clearInput();" />&nbsp;
+							   <input type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
 							</td>
 						</tr>
 					</table>
-				</td>
-			</tr>
-		</table>
 		<div class="emptyBlock"></div>
 	</form:form>
 </body>
