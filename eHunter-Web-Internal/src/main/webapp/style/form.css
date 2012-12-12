@@ -10,8 +10,8 @@
 .form-text{
 	margin:0;
 	font:12px/1.5 Helvetica,Arial,sans-serif;
-	height:18px;
-	width:200px;
+	height:15px;
+	width:90%;
 }
 
 .form-select {
@@ -140,7 +140,7 @@
 
 .form-label{
     float: left;
-    text-align: right;
+    text-align: left;
 	font-weight:500;
 	width:100px;
 	font-size:12px;
