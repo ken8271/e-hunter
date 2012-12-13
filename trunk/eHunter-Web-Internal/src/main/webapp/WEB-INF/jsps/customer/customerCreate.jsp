@@ -141,50 +141,47 @@ function clearInput(){
 		</table>
 		<div class="emptyBlock"></div>
 		<table border="0" cellspacing="5" cellpadding="0" width="100%" class="ui-widget-content ui-corner-all">
-				<tbody>
-				    <common:standardTableRow />
-					<tr>
-						<td  class="form-label">客户类型：<span class="mandatoryField">*</span></td>
-						<td>
-						   <form:select id="custType" cssClass="form-select" onchange="changeCustType();" path="groupIndicator">
-						      <form:option value="" label="--- 请选择  ---"></form:option>
-						      <form:option value="GRP" label="集团客户"></form:option>
-						      <form:option value="SUB" label="非集团客户（集团旗下子公司）"></form:option>
-						      <form:option value="IND" label="非集团客户（独立公司）"></form:option>
-						   </form:select><common:errorSign path="groupIndicator"></common:errorSign>
-						</td>
-						<td>
-						   &nbsp;
-						   <select id="group" class="form-select" onchange="loadGroupInfo();" style="display: none">
-						      <option>--- 请选择 ---</option>
-						      <c:forEach items="${listOfGroups}" var="group">
-						        <c:choose>
-						          <c:when test="${group.value == customerDto.custGroup.systemGroupRefNum}">
-						            <option value="${group.value }" selected="selected">${group.label}</option>
-						          </c:when>
-						          <c:otherwise>
-						            <option value="${group.value }" >${group.label}</option>
-						          </c:otherwise>
-						        </c:choose>
-						      </c:forEach>
-						   </select>
-						</td>
-						<td>						   
-						<form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssStyle="display:none" />
-						<common:errorSign path="custGroup.systemGroupRefNum" id="custGroup.systemGroupRefNum">
-						</common:errorSign>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		<div class="emptyBlock"></div>
+		   <common:standardTableRow />
+		   <tr>
+		      <td>客户类型：<span class="mandatoryField">*</span></td>
+		      <td>
+		         <form:select id="custType" cssClass="form-select" onchange="changeCustType();" path="groupIndicator">
+		            <form:option value="" label="--- 请选择  ---"></form:option>
+		            <form:option value="GRP" label="集团客户"></form:option>
+		            <form:option value="SUB" label="非集团客户（集团旗下子公司）"></form:option>
+		            <form:option value="IND" label="非集团客户（独立公司）"></form:option>
+		         </form:select>
+		         <common:errorSign path="groupIndicator"></common:errorSign>
+		      </td>
+		      <td>
+		         <select id="group" class="form-select" onchange="loadGroupInfo();" style="display: none">
+		            <option>--- 请选择 ---</option>
+		            <c:forEach items="${listOfGroups}" var="group">
+		               <c:choose>
+		                  <c:when test="${group.value == customerDto.custGroup.systemGroupRefNum}">
+		                     <option value="${group.value }" selected="selected">${group.label}</option>
+		                  </c:when>
+		                  <c:otherwise>
+		                     <option value="${group.value }" >${group.label}</option>
+		                  </c:otherwise>
+		               </c:choose>
+		            </c:forEach>
+		         </select>
+		      </td>
+		      <td>						   
+		         <form:input id="systemGroupRefNum" path="custGroup.systemGroupRefNum" cssStyle="display:none" />
+		         <common:errorSign path="custGroup.systemGroupRefNum" id="custGroup.systemGroupRefNum"></common:errorSign>
+		      </td>
+		   </tr>
+		</table>
+		<div class="emptyBlock"></div>	
 		<table width="100%">
 			<tr>
 				<td width=44><font face="Arial" size="2"><b>Part I</b></font></td>
 				<td width="703"><font face="Arial" size="2"><b>集团资料</b></font></td>
 			</tr>
 		</table>
-		<div style="height:5px"></div>
+		<div class="emptyBlock"></div>	
 		<table border="0" cellspacing="5" cellpadding="0" width="100%" class="ui-widget-content ui-corner-all">
 		   <tr>
 		      <td  class="form-label">集团名称：</td>
@@ -206,11 +203,10 @@ function clearInput(){
 				<td width="703"><font face="Arial" size="2"><b>客户公司资料</b></font></td>
 			</tr>
 		</table>
-		<div class="contentTableBody">
-			<table border="0" cellspacing="5" cellpadding="0" width="100%" class="ui-widget-content ui-corner-all">
-				<tbody>
-				    <common:standardTableRow />
-					<tr >
+		<div class="emptyBlock"></div>	
+		<table border="0" cellspacing="5" cellpadding="0" width="100%" class="ui-widget-content ui-corner-all">
+		   <common:standardTableRow />
+					<tr>
 						<td class="form-label">公司名称：<span class="mandatoryField">*</span></td>
 						<td colspan="2">
 						<form:input path="fullName" cssClass="form-text"></form:input>
@@ -302,19 +298,17 @@ function clearInput(){
 						   <common:errorSign id="customerDescription" path="customerDescription"></common:errorSign>
 					    </td>
 					</tr>
-				</tbody>
-			</table>
-		</div>
+        </table>
 		<div class="emptyBlock"></div>
 		<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input type="submit" value="下一步" />&nbsp;
-							   <input type="button" value="重置" onclick="clearInput();" />&nbsp;
-							   <input type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
-							</td>
-						</tr>
-					</table>
+		   <tr>
+		      <td>
+		         <input type="submit" value="下一步" />&nbsp;
+		         <input type="button" value="重置" onclick="clearInput();" />&nbsp;
+		         <input type="button" value="结束" onclick="location.href='${ctx}/index.do'" />
+		      </td>
+		   </tr>
+		</table>
 		<div class="emptyBlock"></div>
 	</form:form>
 </body>

@@ -23,7 +23,7 @@
 
 .welcome{
 	border-bottom:1px solid #ccc;
-	font-size:11px;
+	font-size:12px;
 	font-weight:bold;
 	letter-spacing:2px;
 	margin-bottom:20px;
@@ -133,14 +133,19 @@
 					<td>&nbsp;</td>
 					<td>
 						<div align="left">
-							<input id="submitButton" type="submit" value=" 登录 " style="color: #071a54" />&nbsp; 
-							<input type="reset" value=" 重置  " style="color: #071a54" onclick="clear();">
+							<input id="submitButton" type="submit" value="登录 " style="color: #071a54" />&nbsp; 
+							<input type="reset" value=" 重置 " style="color: #071a54" onclick="clear();">
 						</div>
 				    </td>
 					<td>&nbsp;</td>
 				</tr>
 			</table>
 		</div>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" height="190px">
+		   <tr>
+		      <td width="100%" align="center">Copyright©2012&nbsp;深圳市铠博德企业管理咨询有限公司(Caborders Limited)&nbsp;版权所有</td>
+		   </tr>
+	    </table>
 	</form>
 </body>
 </html>
