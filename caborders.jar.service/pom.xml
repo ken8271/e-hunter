@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+	<artifactId>eHunter-Configuration</artifactId>
+	<groupId>com.pccw</groupId>
+	<version>0.0.1</version>
+	<relativePath>../eHunter-Configuration/pom.xml</relativePath>
+  </parent>
+  <groupId>org.polaris</groupId>
+  <artifactId>caborders.jar.service</artifactId>
+  <version>0.0.1</version>
+  
+  <build>
+		<outputDirectory>target/classes</outputDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+  </build>
+</project>
