@@ -17,6 +17,10 @@
 	
 	<context:annotation-config />
 	
+	<context:component-scan base-package="cn.org.polaris.dao"></context:component-scan>
+	<context:component-scan base-package="cn.org.polaris.service"></context:component-scan>
+	<context:component-scan base-package="cn.org.polaris.repo"></context:component-scan>
+	
 	<!-- Data Source Properties-->
 	<context:property-placeholder location="/WEB-INF/classes/application-local.properties" />
 
