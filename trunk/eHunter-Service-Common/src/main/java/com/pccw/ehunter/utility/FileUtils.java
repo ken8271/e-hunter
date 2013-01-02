@@ -23,12 +23,24 @@ public class FileUtils {
 	
 	public static final String SQL_FILE_EXT = ".sql";
 	
+	public static final String HTML_FILE_EXT = ".html";
+	
+	public static final String HTM_FILE_EXT = ".htm";
+	
 	public static boolean isPdfFile(String fileName){
 		return fileName.endsWith(PDF_FILE_EXT);
 	}
 	
 	public static boolean isWordFile(String fileName) {
 		return fileName.endsWith(WORD_FILE_EXT);
+	}
+	
+	public static boolean isHtmlFile(String fileName){
+		return fileName.endsWith(HTML_FILE_EXT) ;
+	}
+	
+	public static boolean isHtmFile(String fileName){
+		return fileName.endsWith(HTM_FILE_EXT);
 	}
 
 	public static void appendFile(File input, File output) throws IOException {
@@ -97,6 +109,23 @@ public class FileUtils {
 			throws IOException {
 		FileInputStream in = new FileInputStream(input);
 		FileOutputStream out = new FileOutputStream(output.getPath(), append);
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int numRead = in.read(buffer);
+		while (numRead > 0) {
+			out.write(buffer, 0, numRead);
+			numRead = in.read(buffer);
+		}
+		out.close();
+		in.close();
+	}
+	
+	public static void copyFile(String srcPath , String destPath) throws IOException {
+		copyFile(srcPath, destPath , false);
+	}
+	
+	public static void copyFile(String srcPath , String destPath , boolean append) throws IOException {
+		FileInputStream in = new FileInputStream(srcPath);
+		FileOutputStream out = new FileOutputStream(destPath, append);
 		byte[] buffer = new byte[BUFFER_SIZE];
 		int numRead = in.read(buffer);
 		while (numRead > 0) {

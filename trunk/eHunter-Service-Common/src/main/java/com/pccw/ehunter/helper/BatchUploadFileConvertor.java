@@ -22,6 +22,8 @@ public class BatchUploadFileConvertor {
 	
 	private String pdf2swfPath ;
 	
+	private String html2PdfPath;
+	
 	private String tempDirectory;
 	
 	private String openOfficePort;
@@ -33,6 +35,8 @@ public class BatchUploadFileConvertor {
 		pdf2swfPath = xmlProcessorConfig.getProperty("convert.toSwf.pdf2swf");
 		tempDirectory = xmlProcessorConfig.getProperty("resume.path.temp");
 		openOfficePort = xmlProcessorConfig.getProperty("openoffice.port");
+		
+		html2PdfPath = xmlProcessorConfig.getProperty("convert.toPdf.path");
 	}
 	
 	public void convertPdf2Swf(String srcPath , String destPath){
@@ -73,5 +77,23 @@ public class BatchUploadFileConvertor {
 		if(file.exists()){
 			file.delete();			
 		}
+	}
+	
+	public void convertHtml2Pdf(String inputPath , String outputPath) throws Exception{
+		String command = getHtml2PdfCommand(inputPath, outputPath);
+		DocumentTranslatorUtility.convertHtml2Pdf(command);
+	}
+	
+	private String getHtml2PdfCommand(String sourcePath , String destPath){
+		File source = new File(sourcePath);
+		if(!source.exists()) return StringUtils.EMPTY_STRING;
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(html2PdfPath);
+		buffer.append(" \"" + sourcePath + "\" ");
+		buffer.append(" \"" + destPath + "\" ");
+		
+		logger.debug(">>>>>HTML2PDF Command : " + buffer.toString());
+		return buffer.toString();
 	}
 }
