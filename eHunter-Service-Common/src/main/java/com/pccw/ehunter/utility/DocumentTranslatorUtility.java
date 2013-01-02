@@ -36,6 +36,25 @@ public class DocumentTranslatorUtility {
 		
 		return 0;
 	}
+	
+	public static int convertHtml2Pdf(String command) throws Exception{
+		Runtime r = null;
+		Process process = null;
+		try {			
+			r = Runtime.getRuntime();
+			process = r.exec(command);
+			
+			new InputStreamProcessThread(process).start();
+			new ErrorStreamProcessThread(process).start();
+
+			process.waitFor();
+			
+			return process.exitValue();
+		} catch (Exception e) {
+			logger.error(">>>>> Exception Catched(convertHtml2Pdf) : " + e.getMessage());
+			throw e;
+		}
+	}
 
 	public static File convertOffice2Pdf(int openOfficePort, String inputPath,String outputPath) {
 		OpenOfficeConnection connection = null;

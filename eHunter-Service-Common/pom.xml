@@ -187,5 +187,11 @@
 			<groupId>pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 		</dependency>
+
+		<!-- Java mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
 	</dependencies>
 </project>
