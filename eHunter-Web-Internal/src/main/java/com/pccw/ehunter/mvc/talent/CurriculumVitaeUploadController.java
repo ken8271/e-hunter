@@ -42,6 +42,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 	
 	private String swfDirectory;
 	
+	private String tempPath;
+	
 	@Autowired
 	private BatchUploadFileConvertor fileConvertor;
 	
@@ -59,6 +61,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 	public void setProperties(Properties xmlProcessorConfig){
 		uploadDirectory = xmlProcessorConfig.getProperty("resume.path.upload");
 		swfDirectory = xmlProcessorConfig.getProperty("resume.path.swf");
+		tempPath = xmlProcessorConfig.getProperty("resume.path.temp");
 	}
 
 	@RequestMapping("/talent/initCurriculumVitaeUpload.do")
@@ -104,7 +107,11 @@ public class CurriculumVitaeUploadController extends BaseController{
 			}
 			
 			//set properties
-			cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(type));
+			if(FileUtils.isHtmlFile(uploadFile.getOriginalFilename()) || FileUtils.isHtmFile(uploadFile.getOriginalFilename())){
+				cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.PDF_FILE_EXT));
+			} else {
+				cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(type));
+			}
 			cvDto.setRelativeSwfPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.SWF_FILE_EXT));
 			cvDto.setEncrypted(CommonConstant.NO);
 			cvDto.setConverted(CommonConstant.NO);
@@ -113,14 +120,29 @@ public class CurriculumVitaeUploadController extends BaseController{
 			cvDto.prepareDiskDirs();
 			
 			//write the original file to disk
-			FileUtils.write2Disk(new File(cvDto.getUploadPath()), uploadFile.getInputStream(),false);
-			
+			if(FileUtils.isHtmlFile(uploadFile.getOriginalFilename())){
+				FileUtils.write2Disk(new File(tempPath + File.separator + uploadFile.getOriginalFilename()),  uploadFile.getInputStream() , false);
+			} else if(FileUtils.isHtmFile(uploadFile.getOriginalFilename())){
+				FileUtils.write2Disk(new File(tempPath + File.separator + uploadFile.getOriginalFilename()),  uploadFile.getInputStream() , false);
+				FileUtils.copyFile(tempPath + File.separator + uploadFile.getOriginalFilename() , tempPath + File.separator + uploadFile.getOriginalFilename().substring(0 , uploadFile.getOriginalFilename().lastIndexOf(StringUtils.DOT)) + FileUtils.HTML_FILE_EXT);
+			}else {
+				FileUtils.write2Disk(new File(cvDto.getUploadPath()), uploadFile.getInputStream(),false);				
+			}
+
 			//convert upload file to swf
 			if(FileUtils.isPdfFile(uploadFile.getOriginalFilename())){
 				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(),cvDto.getSwfPath());
 				cvDto.setConverted(CommonConstant.YES);
 			}else if(FileUtils.isWordFile(uploadFile.getOriginalFilename())){
 				fileConvertor.convertOffice2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
+				cvDto.setConverted(CommonConstant.YES);
+			}else if(FileUtils.isHtmlFile(uploadFile.getOriginalFilename())){
+				fileConvertor.convertHtml2Pdf(tempPath + File.separator + uploadFile.getOriginalFilename() , cvDto.getUploadPath());
+				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
+				cvDto.setConverted(CommonConstant.YES);
+			}else if(FileUtils.isHtmFile(uploadFile.getOriginalFilename())){
+				fileConvertor.convertHtml2Pdf(tempPath + File.separator + uploadFile.getOriginalFilename().substring(0 , uploadFile.getOriginalFilename().lastIndexOf(StringUtils.DOT)) + FileUtils.HTML_FILE_EXT , cvDto.getUploadPath());
+				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
 				cvDto.setConverted(CommonConstant.YES);
 			}
 			

@@ -62,19 +62,13 @@ function loadPositions(){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="submit" value="确定" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="确定" />&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
@@ -139,19 +133,13 @@ function loadPositions(){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="submit" value="确定" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="确定" />&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
+		      </td>
+		   </tr>
 		</table>
 	</form:form>
 </body>

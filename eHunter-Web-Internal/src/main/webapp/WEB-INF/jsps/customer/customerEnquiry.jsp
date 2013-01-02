@@ -29,19 +29,14 @@ function resetForm(){
 				<td class="pageTitle">客户公司查询</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="查询" />&nbsp;
-								<input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
-								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="查询" />&nbsp;
+		         <input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
+		         <input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
@@ -123,19 +118,14 @@ function resetForm(){
 				</tbody>
 		</table>
 		<div class="emptyBlock"></div>		
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="查询" />&nbsp;
-							    <input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
-								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="查询" />&nbsp;
+		         <input class="standardButton" type="button" value="重置" onclick="resetForm();"/>&nbsp;
+		         <input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<div>${listOfCustomers }</div>

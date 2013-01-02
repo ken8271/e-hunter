@@ -26,20 +26,14 @@ function popUpInput(){
 				<td class="pageTitle">客户公司详细资料</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
-								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
-								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
+		         <input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
@@ -191,20 +185,14 @@ function popUpInput(){
 		<form:form commandName="prjEnquireDto" action="${ctx }/customer/projectsSearch.do" method="post">
 		<div>${listOfProject}</div>
 		</form:form>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							    <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
-								<input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
-								<input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="button" value="创建新项目" onclick="popUpInput();"/>&nbsp;
+		         <input class="standardButton" type="button" value="编辑" onclick="location.href='${editCustomerUrl}'"/>&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${ctx}/customer/initCustomersSearch.do'">
+		      </td>
+		   </tr>
 		</table>
 </body>
 </html>

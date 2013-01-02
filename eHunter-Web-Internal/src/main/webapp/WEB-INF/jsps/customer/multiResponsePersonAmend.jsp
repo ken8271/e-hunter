@@ -150,19 +150,13 @@ function clearInput(){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp; 
-							   <input class="standardButton" type="button" value="清除" onclick="clearInput();" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="button" value="添加" onclick="complete('8');" />&nbsp; 
+		         <input class="standardButton" type="button" value="清除" onclick="clearInput();" />&nbsp;
+		      </td>
+		   </tr>
 		</table>
 	    <div class="emptyBlock"></div>
 	    <table class="contentTableBody2" cellspacing="1" width="100%">
@@ -196,19 +190,13 @@ function clearInput(){
 			</c:if>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="button" value="提交" onclick="complete('6');" />&nbsp;
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="button" value="提交" onclick="complete('6');" />&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>&nbsp;
+		      </td>
+		   </tr>
 		</table>
 	</form:form>
 </body>

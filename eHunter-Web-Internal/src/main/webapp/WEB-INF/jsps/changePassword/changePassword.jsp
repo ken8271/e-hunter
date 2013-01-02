@@ -22,20 +22,14 @@ function clearInput(){
 				<td><common:errorTable path="changePasswordDto"></common:errorTable></td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="submit" value="保存" />&nbsp;
-							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="保存" />&nbsp;
+		         <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="standardTableForm" border="1" cellspacing="0" cellpadding="0" width="100%">
@@ -76,20 +70,14 @@ function clearInput(){
 			</tr>
 		</table>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							   <input class="standardButton" type="submit" value="保存" />&nbsp;
-							   <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
-							   <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="保存" />&nbsp;
+		         <input class="standardButton" type="button" value="重置" onclick="clearInput();" />&nbsp; 
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${editUrl}'" />&nbsp;
+		      </td>
+		   </tr>
 		</table>
 	</form:form>
 </body>

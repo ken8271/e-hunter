@@ -47,6 +47,7 @@
 	         <prop key="resume.path.swf">${resume.path.swf}</prop>
 	         <prop key="resume.path.temp">${resume.path.temp}</prop>
 	         <prop key="resume.path.index">${resume.path.index}</prop>
+	         <prop key="convert.toPdf.path">${convert.toPdf.path}</prop>
 	         <prop key="openoffice.port">${openoffice.port}</prop>
 	         <prop key="openoffice.path">${openoffice.path}</prop>
 	         <prop key="openoffice.start.command">${openoffice.start.command}</prop>
