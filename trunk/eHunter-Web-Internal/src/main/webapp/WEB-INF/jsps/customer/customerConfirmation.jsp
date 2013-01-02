@@ -20,18 +20,13 @@ function popUpInput(){
 				<td class="pageTitle">客户公司资料预览</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
-								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
+		         <input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table class="contentTableBody1" cellspacing="0">
@@ -78,18 +73,13 @@ function popUpInput(){
 		</table>
 		<div class="emptyBlock"></div>
 		<div><jsp:include page="newProject_pop.jsp"></jsp:include></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
-								<input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="创建新项目" onclick="popUpInput();"/>&nbsp;
+		         <input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'">
+		      </td>
+		   </tr>
 		</table>
 </body>
 </html>

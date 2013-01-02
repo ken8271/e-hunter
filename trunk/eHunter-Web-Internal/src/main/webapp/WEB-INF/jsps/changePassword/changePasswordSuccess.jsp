@@ -15,16 +15,10 @@
 		</tr>
 	</table>
 	<div class="emptyBlock"></div>
-	<table id="bg2" border="0" width="100%">
-		<tr>
-			<td class="functionMenuBar">
-				<table align="right" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td><input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'" />&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
+	<table align="right" border="0" cellspacing="0" cellpadding="0">
+	   <tr>
+	      <td><input class="standardButton" type="button" value="关闭" onclick="location.href='${ctx}/index.do'" />&nbsp;</td>
+	   </tr>
 	</table>
 </body>
 </html>

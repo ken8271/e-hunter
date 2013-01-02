@@ -63,20 +63,14 @@ function uploadCv(){
 		<div class="emptyBlock"></div>
 		<dir id="loadingStatus" style="display:none" class="menutitle"><common:message code="cv.upload.loadingstatus" needSuccSign="false" text="正在上传简历，请勿关闭浏览器..."></common:message> </dir>
 		<div class="emptyBlock"></div>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>
-							<input class="standardButton" type="submit" value="开始上传" onclick="uploadCv();"/>&nbsp;
-							<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />&nbsp;
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>			
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="开始上传" onclick="uploadCv();"/>&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />&nbsp;
+		      </td>
+		   </tr>
+		</table>		
 	</form:form>
 </body>
 </html>

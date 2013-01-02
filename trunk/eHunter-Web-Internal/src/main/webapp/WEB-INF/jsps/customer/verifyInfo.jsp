@@ -18,18 +18,13 @@
 				</td>
 			</tr>
 		</table>
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="确认" />&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
+		      </td>
+		   </tr>
 		</table>
 		<div class="emptyBlock"></div>
 		<table width="100%">
@@ -154,18 +149,13 @@
 			</c:forEach>
 		</table>
 		<br />
-		<table id="bg2" border="0" width="100%">
-			<tr>
-				<td class="functionMenuBar">
-					<table align="right" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td><input class="standardButton" type="submit" value="确认" />&nbsp;
-								<input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'"/>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+		<table align="right" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+		      <td>
+		         <input class="standardButton" type="submit" value="确认" />&nbsp;
+		         <input class="standardButton" type="button" value="返回" onclick="location.href='${backUrl}'" />
+		      </td>
+		   </tr>
 		</table>
 
 	</form:form>

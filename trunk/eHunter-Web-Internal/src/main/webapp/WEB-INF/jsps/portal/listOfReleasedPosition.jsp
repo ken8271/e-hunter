@@ -20,7 +20,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" tabindex="button" value="发布新职位" onclick="location.href='${releasePositionUrl}'" />&nbsp;
+						    <input class="standardButton" type="button" value="发布新职位" onclick="location.href='${releasePositionUrl}'" />&nbsp;
 						    <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'"/>&nbsp;
 						</td>
 					</tr>
@@ -37,7 +37,7 @@
 				<table align="right" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-						    <input class="standardButton" tabindex="button" value="发布新职位" onclick="location.href='${releasePositionUrl}'" />&nbsp;
+						    <input class="standardButton" type="button" value="发布新职位" onclick="location.href='${releasePositionUrl}'" />&nbsp;
 						    <input class="standardButton" type="button" value="结束" onclick="location.href='${ctx}/index.do'"/>&nbsp;
 						</td>
 					</tr>
