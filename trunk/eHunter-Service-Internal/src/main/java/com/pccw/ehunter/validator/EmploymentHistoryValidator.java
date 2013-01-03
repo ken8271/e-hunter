@@ -55,10 +55,10 @@ public class EmploymentHistoryValidator extends AbstractValidator{
 		validateRequired(errors, "companyName", target.getCompanyName(), "企业名称");
 		validateStringLength(errors, "companyName", target.getCompanyName(), "企业名称"	, 50);
 		
-		validateRequired(errors, "industry", target.getIndustryCategory(), "行业类型");
-		validateRequired(errors, "industry", target.getIndustry(), "行业类型");
+		//validateRequired(errors, "industry", target.getIndustryCategory(), "行业类型");
+		//validateRequired(errors, "industry", target.getIndustry(), "行业类型");
 		
-		validateRequired(errors, "positions", target.getPositions(), "职位类型");
+		//validateRequired(errors, "positions", target.getPositions(), "职位类型");
 	}
 
 }

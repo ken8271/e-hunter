@@ -68,10 +68,10 @@ public class HibernateCandidateRepositoryDAO implements CandidateRepositoryDAO{
 					SQLException {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(" SELECT tlnt.SYS_REF_TLNT , tlnt.CNM , tlnt.ENM , tlnt.HGST_DGRE , dg.DISP_NM , tlnt.NW_LV_PLCE , ptl.TLNT_ST ");
-				buffer.append(" FROM T_TLNT_BS_INF tlnt , T_PRJ_TLNT_LIB ptl , T_DGRE dg ");
+				//#7 2013-01-03
+				buffer.append(" FROM T_TLNT_BS_INF tlnt LEFT JOIN T_DGRE dg ON tlnt.HGST_DGRE = dg.DGRE_CD , T_PRJ_TLNT_LIB ptl  ");
 				buffer.append(" WHERE 1 = 1 ");
 				buffer.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
-				buffer.append(" AND tlnt.HGST_DGRE = dg.DGRE_CD ");
 				buffer.append(" AND ptl.SYS_REF_PRJ = :projectID ");
 				buffer.append(" AND tlnt.LST_TX_ACTN <> 'D' ");
 				buffer.append(" AND ptl.LST_TX_ACTN <> 'D' ");

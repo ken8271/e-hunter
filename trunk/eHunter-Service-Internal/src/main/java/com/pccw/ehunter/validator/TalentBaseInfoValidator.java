@@ -35,19 +35,14 @@ public class TalentBaseInfoValidator extends AbstractValidator{
 		validateStringLength(errors, "enName", dto.getEnName(), "英文名", 30);
 		
 		validateRequired(errors, "gender", dto.getGender(), "人才性别");
-		
-		validateRequired(errors, "maritalStatus", dto.getMaritalStatus(), "婚姻状况");
 
 		//#issue 2 2012-11-27
 		validateDate(errors, "birthDateDto.day", dto.getBirthDateDto(), "出生日期");
 		
-		validateRequired(errors, "nativePlace", dto.getNativePlace(), "籍贯");
 		validateStringLength(errors, "nativePlace", dto.getNativePlace(), "籍贯", 30);
 		
 		validateStringLength(errors, "onceLivePlace", dto.getOnceLivePlace(), "曾居地", 300);
 		validateStringLength(errors, "nowLivePlace", dto.getNowLivePlace(), "现居地", 300);
-		
-		validateRequired(errors, "highestDegree", dto.getHighestDegree(), "最高学历");
 		
 		validateOnlyNumberic(errors, "homeNumberDto.phoneNumber", dto.getHomeNumberDto().getRegionCode(), "家庭电话");
 		validateOnlyNumberic(errors, "homeNumberDto.phoneNumber", dto.getHomeNumberDto().getPhoneNumber(), "家庭电话");
