@@ -31,4 +31,8 @@
 		<property name="basename" value="messages.message"></property>
 		<property name="useCodeAsDefaultMessage" value="true"></property>
 	</bean>	
+	
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="common/500"></property>
+    </bean> 
 </beans>
