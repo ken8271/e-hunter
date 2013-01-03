@@ -250,9 +250,9 @@
 				<version>3.1.2</version>
 			</dependency>
 			<dependency>
-				<groupId>com.itextpdf</groupId>
+				<groupId>com.pccw</groupId>
 				<artifactId>itext-asian</artifactId>
-				<version>5.1.1</version>
+				<version>0.0.1</version>
 			</dependency>
 
 			<!-- Others -->
@@ -403,6 +403,18 @@
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
 				<version>1.4.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.polaris</groupId>
+				<artifactId>cpdetector</artifactId>
+				<version>1.0.10</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.polaris</groupId>
+				<artifactId>chardet</artifactId>
+				<version>1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
