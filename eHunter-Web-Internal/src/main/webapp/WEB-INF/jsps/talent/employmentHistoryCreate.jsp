@@ -257,7 +257,7 @@ function complete(actionFlagStr){
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">行业类别：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">行业类别：</td>
 						<td>
 						   <form:select id="industrySelector" path="industryCategory" cssClass="standardSelect" onchange="loadIndustries();">
 						      <form:option value="" label="--- 请选择  ---"></form:option>
@@ -275,7 +275,7 @@ function complete(actionFlagStr){
 						<td >&nbsp;</td>
 					</tr>
 					<tr >
-						<td class="labelColumn">职位类别：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">职位类别：</td>
 						<td>
 					       <input type="button" class="selectButton" value="选择/修改" onFocus="this.blur()" onclick="popUpPositionSelector();">
 						   <form:hidden path="positions"/>
