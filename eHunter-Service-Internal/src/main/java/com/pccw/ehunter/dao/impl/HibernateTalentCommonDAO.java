@@ -105,6 +105,17 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 			filter.append(" AND UPPER(tlnt.TLNT_SRC) = UPPER(:src) ");
 		}
 		
+		//#7 2013-01-03
+		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+			filter.append(" AND NOT EXISTS ( ");
+			filter.append(" SELECT 1 ");
+			filter.append(" FROM T_PRJ prj , T_PRJ_TLNT_LIB ptl ");
+			filter.append(" WHERE prj.SYS_REF_PRJ = ptl.SYS_REF_PRJ ");
+			filter.append(" AND tlnt.SYS_REF_TLNT = ptl.SYS_REF_TLNT ");
+			filter.append(" AND prj.SYS_REF_PRJ = :projectId ");
+			filter.append(" ) ");
+		}
+		
 		return filter;
 	}
 	
@@ -123,6 +134,11 @@ public class HibernateTalentCommonDAO implements TalentCommonDAO{
 		
 		if(!StringUtils.isEmpty(pagedCriteria.getTalentSrc())){
 			query.setString("src", pagedCriteria.getTalentSrc());
+		}
+		
+		//#7 2013-01-03
+		if(!StringUtils.isEmpty(pagedCriteria.getSystemProjectRefNum())){
+			query.setString("projectId", pagedCriteria.getSystemProjectRefNum());
 		}
 	}
 
