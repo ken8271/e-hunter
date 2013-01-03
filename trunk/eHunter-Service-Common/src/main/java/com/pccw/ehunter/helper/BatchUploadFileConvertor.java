@@ -96,4 +96,24 @@ public class BatchUploadFileConvertor {
 		logger.debug(">>>>>HTML2PDF Command : " + buffer.toString());
 		return buffer.toString();
 	}
+	
+	public void convertTxt2Swf(String txtPath , String swfPath) throws Exception{
+		File temp = new File(tempDirectory);
+		if(!temp.exists()){
+			temp.mkdirs();
+		}
+		
+		String tempPath = tempDirectory + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.PDF_FILE_EXT);
+		
+		DocumentTranslatorUtility.convertTxt2Pdf(txtPath , tempPath);
+		
+		File file = new File(tempPath);
+		if(file.exists()){
+			convertPdf2Swf(tempPath, swfPath);
+		}
+		
+		if(file.exists()){
+			file.delete();			
+		}
+	}
 }
