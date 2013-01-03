@@ -39,7 +39,7 @@ public class BatchUploadFileConvertor {
 		html2PdfPath = xmlProcessorConfig.getProperty("convert.toPdf.path");
 	}
 	
-	public void convertPdf2Swf(String srcPath , String destPath){
+	public void convertPdf2Swf(String srcPath , String destPath) throws Exception{
 		String command = getPdf2swfCommand(srcPath, destPath);
 		DocumentTranslatorUtility.convertPdf2Swf(command);
 	}
@@ -59,7 +59,7 @@ public class BatchUploadFileConvertor {
 		return buffer.toString();
 	}
 	
-	public void convertOffice2Swf(String srcPath , String destPath){
+	public void convertOffice2Swf(String srcPath , String destPath) throws Exception{
 		File temp = new File(tempDirectory);
 		if(!temp.exists()){
 			temp.mkdirs();

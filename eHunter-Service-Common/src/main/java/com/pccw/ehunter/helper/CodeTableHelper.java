@@ -246,7 +246,9 @@ public class CodeTableHelper {
 	}
 	
 	public IndustryDTO getIndustryByCode(String code){
-		return industryCommonService.getIndustryByCode(code);
+		//#7 2013-01-03
+		IndustryDTO dto = industryCommonService.getIndustryByCode(code);
+		return dto == null ? (new IndustryDTO()) : dto;
 	}
 	
 	@SuppressWarnings("unchecked")
