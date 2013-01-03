@@ -17,9 +17,10 @@ public class DocumentTranslatorUtility {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DocumentTranslatorUtility.class);
 	
-	public static int convertPdf2Swf(String command) {
+	public static int convertPdf2Swf(String command) throws Exception{
 		Runtime r = null;
 		Process process = null;
+		
 		try {			
 			r = Runtime.getRuntime();
 			process = r.exec(command);
@@ -32,9 +33,8 @@ public class DocumentTranslatorUtility {
 			return process.exitValue();
 		} catch (Exception e) {
 			logger.error(">>>>> Exception Catched(convertPdf2swf) : " + e.getMessage());
+			throw e;
 		}
-		
-		return 0;
 	}
 	
 	public static int convertHtml2Pdf(String command) throws Exception{
@@ -56,7 +56,7 @@ public class DocumentTranslatorUtility {
 		}
 	}
 
-	public static File convertOffice2Pdf(int openOfficePort, String inputPath,String outputPath) {
+	public static File convertOffice2Pdf(int openOfficePort, String inputPath,String outputPath)  throws Exception{
 		OpenOfficeConnection connection = null;
 		File inputFile = null;
 		File outputFile = null;
@@ -75,7 +75,7 @@ public class DocumentTranslatorUtility {
 			return outputFile;
 		} catch (ConnectException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Convert office to pdf is wrong!", e);
+			throw e;
 		} finally {
 			colseConnect(connection);
 		}
