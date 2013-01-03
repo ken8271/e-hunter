@@ -193,5 +193,20 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.pccw</groupId>
+			<artifactId>itext-asian</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.polaris</groupId>
+		    <artifactId>cpdetector</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.polaris</groupId>
+		    <artifactId>chardet</artifactId>
+		</dependency>
 	</dependencies>
 </project>

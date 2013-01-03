@@ -1,5 +1,8 @@
 package com.pccw.ehunter.utility;
 
+import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
+import info.monitorenter.cpdetector.io.JChardetFacade;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 public class FileUtils {
@@ -27,6 +31,8 @@ public class FileUtils {
 	
 	public static final String HTM_FILE_EXT = ".htm";
 	
+	public static final String TXT_FILE_EXT = ".txt";
+	
 	public static boolean isPdfFile(String fileName){
 		return fileName.endsWith(PDF_FILE_EXT);
 	}
@@ -41,6 +47,10 @@ public class FileUtils {
 	
 	public static boolean isHtmFile(String fileName){
 		return fileName.endsWith(HTM_FILE_EXT);
+	}
+	
+	public static boolean isTxtFile(String fileName){
+		return fileName.endsWith(TXT_FILE_EXT);
 	}
 
 	public static void appendFile(File input, File output) throws IOException {
@@ -237,5 +247,30 @@ public class FileUtils {
 		}
 		
 		return StringUtils.EMPTY_STRING;
+	}
+	
+	public static String getEncoding(String path) throws Exception{
+		String encoding = "UTF-8";
+		Charset charset = null;
+		try {
+			File file = new File(path);
+			
+			if(!file.exists()){
+				throw new IOException("file " + path + "don't exists");
+			}
+			
+			CodepageDetectorProxy detector = CodepageDetectorProxy.getInstance();
+			detector.add(JChardetFacade.getInstance());
+			
+			charset = detector.detectCodepage(file.toURI().toURL());
+			
+			if (charset != null) {
+				encoding = charset.name();
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		return encoding;
 	}
 }
