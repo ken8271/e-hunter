@@ -26,7 +26,7 @@ public class UploadedCurriculumVitaeValidator extends AbstractValidator{
 		
 		validateRequired(errors, "language", dto.getLanguage(), "简历语言版本");
 		
-		if(!FileUtils.WORD_FILE_EXT.equals(dto.getType()) && !FileUtils.PDF_FILE_EXT.equals(dto.getType()) ){
+		if(!FileUtils.WORD_FILE_EXT.equals(dto.getType()) && !FileUtils.PDF_FILE_EXT.equals(dto.getType()) && !FileUtils.TXT_FILE_EXT.equals(dto.getType())){
 			errors.rejectValue("type", "EHT-E-0010", null , "\u53ea\u80fd\u4e0a\u4f20word,pdf\u683c\u5f0f\u7684\u7b80\u5386\u6587\u4ef6\u3002 [EHT-E-0010]");
 		}
 		

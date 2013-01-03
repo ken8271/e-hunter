@@ -112,6 +112,7 @@ public class CurriculumVitaeUploadController extends BaseController{
 			} else {
 				cvDto.setRelativeUploadPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(type));
 			}
+			
 			cvDto.setRelativeSwfPath(File.separator + StringEncryptUtils.encrypt(cvDto.getTalentID(), StringEncryptUtils.KEY_MD5) + File.separator + FileUtils.replaceFileNameWithUUID(FileUtils.SWF_FILE_EXT));
 			cvDto.setEncrypted(CommonConstant.NO);
 			cvDto.setConverted(CommonConstant.NO);
@@ -144,6 +145,8 @@ public class CurriculumVitaeUploadController extends BaseController{
 				fileConvertor.convertHtml2Pdf(tempPath + File.separator + uploadFile.getOriginalFilename().substring(0 , uploadFile.getOriginalFilename().lastIndexOf(StringUtils.DOT)) + FileUtils.HTML_FILE_EXT , cvDto.getUploadPath());
 				fileConvertor.convertPdf2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
 				cvDto.setConverted(CommonConstant.YES);
+			}else if(FileUtils.isTxtFile(uploadFile.getOriginalFilename())){
+				fileConvertor.convertTxt2Swf(cvDto.getUploadPath(), cvDto.getSwfPath());
 			}
 			
 			//create index
