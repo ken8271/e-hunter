@@ -101,7 +101,7 @@ function clearInput(){
 						<form:radiobutton path="gender" value="F" /> 女&nbsp;
 						<common:errorSign id="gender" path="gender"></common:errorSign>
 						</td>
-						<td class="labelColumn">婚姻状况：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">婚姻状况：</td>
 						<td>
 						<form:radiobutton path="maritalStatus" value="01" /> 未婚&nbsp;/
 						<form:radiobutton path="maritalStatus" value="02" /> 已婚&nbsp;/
@@ -115,7 +115,7 @@ function clearInput(){
 						<common:inputDate dateYY="birthDateDto.year" dateMON="birthDateDto.month" dateDD="birthDateDto.day" ></common:inputDate>
 						<common:errorSign id="birthDateDto.day" path="birthDateDto.day"></common:errorSign>
 						</td>
-						<td class="labelColumn">籍贯：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">籍贯：</td>
 						<td>
 						<form:input path="nativePlace" cssClass="standardInputText" /> 
 						<common:errorSign id="nativePlace" path="nativePlace"></common:errorSign>
@@ -134,7 +134,7 @@ function clearInput(){
 						</td>
 					</tr>
 					<tr>
-						<td class="labelColumn">最高学历：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">最高学历：</td>
 						<td>
 						   <form:select path="highestDegree"  cssClass="standardSelect">
 						      <form:option value="" label="--- 请选择  ---"></form:option>

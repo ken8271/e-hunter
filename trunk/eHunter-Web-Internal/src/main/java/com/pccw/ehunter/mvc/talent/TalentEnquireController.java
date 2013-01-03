@@ -156,9 +156,12 @@ public class TalentEnquireController extends BaseCandidateController{
 	}
 	
 	private void initEmploymentHistory(HttpServletRequest request , EmploymentHistoryDTO historyDto){
-		historyDto.setIndustryDto(codeTableHelper.getIndustryByCode(historyDto.getIndustry()));
-		historyDto.setIndustryCategory(historyDto.getIndustryDto().getCategoryCode());
-		historyDto.setIndustryCategoryDto(codeTableHelper.getIndustryCategoryByCode(request, historyDto.getIndustryCategory()));
+		//#7 2013-01-03
+		if(!StringUtils.isEmpty(historyDto.getIndustry())){			
+			historyDto.setIndustryDto(codeTableHelper.getIndustryByCode(historyDto.getIndustry()));
+			historyDto.setIndustryCategory(historyDto.getIndustryDto().getCategoryCode());
+			historyDto.setIndustryCategoryDto(codeTableHelper.getIndustryCategoryByCode(request, historyDto.getIndustryCategory()));
+		}
 		List<PositionDTO> positionDtos = new ArrayList<PositionDTO>();
 		if(!StringUtils.isEmpty(historyDto.getPositions())){
 			String[] positions = StringUtils.tokenize(historyDto.getPositions(), CommonConstant.COMMA);
