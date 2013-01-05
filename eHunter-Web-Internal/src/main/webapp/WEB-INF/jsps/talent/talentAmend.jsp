@@ -164,7 +164,7 @@
 							<form:input path="mobilePhoneDto2.phoneNumber" cssClass="standardInputText" maxlength="11" onblur="isChanged('${talentDto.mobilePhoneDto2.phoneNumber }','mobilePhoneDto2.phoneNumber')"/>
 							<common:errorSign id="mobilePhoneDto2.phoneNumber" path="mobilePhoneDto2.phoneNumber"></common:errorSign><br>
 					    </td>
-						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">邮箱：</td>
 						<td>
 						   <form:input path="email" cssClass="standardInputText" maxlength="50" onblur="isChanged('${talentDto.email }','email')"/> 
 					       <common:errorSign id="email" path="email"></common:errorSign>

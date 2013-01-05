@@ -183,7 +183,7 @@ function clearInput(){
 							<form:input path="mobilePhoneDto2.phoneNumber" cssClass="standardInputText" maxlength="11"/>
 							<common:errorSign id="mobilePhoneDto2.phoneNumber" path="mobilePhoneDto2.phoneNumber"></common:errorSign><br>
 					    </td>
-						<td class="labelColumn">邮箱：<span class="mandatoryField">*</span></td>
+						<td class="labelColumn">邮箱：</td>
 						<td>
 						   <form:input path="email" cssClass="standardInputText" maxlength="50" /> 
 					       <common:errorSign id="email" path="email"></common:errorSign>
