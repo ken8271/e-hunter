@@ -73,7 +73,6 @@ public class TalentBaseInfoValidator extends AbstractValidator{
 		validateOnlyNumberic(errors, "QQ", dto.getQQ(), "QQ");
 		validateStringLength(errors, "msn", dto.getMsn(), "MSN", 50);
 		
-		validateRequired(errors, "email", dto.getEmail(), "邮箱");
 		validateEmail(errors, "email", dto.getEmail(), "邮箱");
 		
 		if(!StringUtils.isEmpty(dto.getEmail())){
