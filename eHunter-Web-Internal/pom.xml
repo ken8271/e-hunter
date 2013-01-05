@@ -13,6 +13,7 @@
 	<packaging>war</packaging>
 
 	<build>
+	    <finalName>ehunter-internal</finalName>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>
