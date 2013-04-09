@@ -85,9 +85,7 @@ jQuery.fn.pagination = function(maxentries, opts){
 				{
 					var lnk = jQuery("<a>"+(appendopts.text)+"</a>")
 						.bind("click", getClickHandler(page_id))
-						.attr('href', opts.link_to.replace(/__id__/,page_id));
-						
-						
+						.attr('href', opts.link_to.replace(/__id__/,page_id+1));
 				}
 				if(appendopts.classes){lnk.addClass(appendopts.classes);}
 				panel.append(lnk);

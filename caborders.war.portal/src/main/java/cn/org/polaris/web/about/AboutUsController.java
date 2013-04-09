@@ -11,4 +11,24 @@ public class AboutUsController {
 	public ModelAndView index(){
 		return new ModelAndView("about/index");
 	}
+	
+	@RequestMapping("/about/introduce.do")
+	public ModelAndView introduce(){
+		return new ModelAndView("about/introduce");
+	}
+	
+	@RequestMapping("/about/culture.do")
+	public ModelAndView culture(){
+		return new ModelAndView("about/culture");
+	}
+	
+	@RequestMapping("/about/joinUs.do")
+	public ModelAndView joinUs(){
+		return new ModelAndView("about/joinUs");
+	}
+	
+	@RequestMapping("/about/contactUs.do")
+	public ModelAndView contactUs(){
+		return new ModelAndView("about/contactUs");
+	}
 }

@@ -11,4 +11,9 @@ public class PartnersController {
 	public ModelAndView index(){
 		return new ModelAndView("partners/index");
 	}
+	
+	@RequestMapping("/partners/customers.do")
+	public ModelAndView customers(){
+		return new ModelAndView("partners/customers");
+	}
 }

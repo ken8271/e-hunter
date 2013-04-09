@@ -1,25 +1,25 @@
 .pagination {
-            font-size: 80%;
-        }
+   font-size:12px;
+}
         
 .pagination a {
     text-decoration: none;
 	border: solid 1px #AAE;
-	color: #15B;
+	color:#2b4763;
 }
 
 .pagination a, .pagination span {
     display: block;
     float: left;
-    padding: 0.3em 0.5em;
-    margin-right: 5px;
+    padding: 4px 8px;
+    margin-right: 1px;
 	margin-bottom: 5px;
 }
 
 .pagination .current {
-    background: #26B;
+    background: #2b4763;
     color: #fff;
-	border: solid 1px #AAE;
+	border: 1px solid #22384e;
 }
 
 .pagination .current.prev, .pagination .current.next{

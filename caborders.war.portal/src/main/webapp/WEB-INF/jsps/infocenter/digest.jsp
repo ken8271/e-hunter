@@ -14,12 +14,12 @@ $(document).ready(function(){
 			    items_per_page:3,
 				num_display_entries:10,
 				num_edge_entries:3,
-				current_page:parseInt('${infoCenterPageInfoDto.currPage}')-1,
+				current_page:parseInt('${currPageOfInfo}')-1,
 				prev_text:'上一页',
 				next_text:'下一页',
-				link_to:'index.html?page=__id__'
+				link_to:'digest.html?page=__id__'
 				}
-	$("#pagination").pagination(parseInt('${infoCenterPageInfoDto.totalCount}'), opts);
+	$("#pagination").pagination(parseInt('${totalCountOfInfo}'), opts);
 });
 </script>
 </head>

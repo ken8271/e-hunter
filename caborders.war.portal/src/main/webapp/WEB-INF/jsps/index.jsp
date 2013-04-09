@@ -62,7 +62,7 @@
 	  <div class="new_office">
 	     <div style="height:40px; width:100%; ">
 		    <div style="float:left">
-			   <h4><a href="/article/index/classic/2.shtml" style="color:#000;">最新职位</a></h4>
+			   <h4><a href="${ctx }/career/positions.html" style="color:#000;">最新职位</a></h4>
 			</div>
 			<div style="float:right; height:40px; line-height:40px;">
 			   <a href="${ctx }/career/index.html">more&gt;&gt;</a>
@@ -70,7 +70,7 @@
 	     </div>
 		 <ul>
 		    <li>
-			   <a href="/page/views/classic/10/item/101/type/office.shtml">某知名文化集团/顶级会所总经理/50-100万</a>
+			   <a href="#">某知名文化集团/顶级会所总经理/50-100万</a>
 			   <p>工作地点：&nbsp; | &nbsp; 2012-09-14</p>
 			</li>
 	     </ul>
@@ -80,10 +80,10 @@
 	  <div class="news">
 	     <!--资讯中心板块开始-->
 	     <div style="height:40px; width:100%; ">
-		    <div style="float:left"><h4><a href="/article/index/classic/2.shtml" style="color:#000;">资讯中心</a></h4></div>
+		    <div style="float:left"><h4><a href="${ctx }/infocenter/index.html" style="color:#000;">资讯中心</a></h4></div>
 			<div style="float:right; height:40px; line-height:40px;"><a href="${ctx }/infocenter/index.html">more&gt;&gt;</a></div></div>
 			<ul>
-			   <li><cite>2012-09-20</cite><a href="/article/views/item/40.shtml">文章标题</a></li>
+			   <li><cite>2012-09-20</cite><a href="#">文章标题</a></li>
 			</ul>
 		 </div>
 		 <!--资讯中心板块结束-->
@@ -103,7 +103,7 @@
 	  <div class="i_flink">
 	     <h4><a href="/flink">友情链接</a></h4>
 		 <ul>
-		    <li><a href="http://www.bdsj.net" target="_blank">博得世纪</a></li>
+		    <li><a href="http://www.yanzheng.org/">---<img src="../../images/sd_180.jpg" width="180" height="80" border="0" align="middle" /></a></li>
 			<li><a href="http://www.yanzheng.org/" target="_blank">和邦领导力</a></li>
 			<li><a href="http://www.kotler.com.cn " target="_blank">科特勒咨询</a></li>
 			<li><a href="http://www.china-sage.com/" target="_blank">中德卓识</a></li>
