@@ -31,4 +31,10 @@ public class InfoCenterServiceImpl implements InfoCenterService{
 		return InformationConvertor.toDtos(infoCenterDao.getInfosByCategory(pagedCriteria));
 	}
 
+	@Override
+	@Transactional(readOnly=true)
+	public InformationDTO getInformationByID(String id) {
+		return InformationConvertor.toDto(infoCenterDao.getInformationByID(id));
+	}
+
 }

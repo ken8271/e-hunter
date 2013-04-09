@@ -13,6 +13,7 @@ public class ReleasedPosition extends BaseEntity {
 	private String systemRefPosition;
 	private String title;
 	private String content;
+	private String workCity;
 
 	@Id
 	@Column(name = "SYS_REF_POSTN")
@@ -40,5 +41,14 @@ public class ReleasedPosition extends BaseEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Column(name = "WK_CTY")
+	public String getWorkCity() {
+		return workCity;
+	}
+
+	public void setWorkCity(String workCity) {
+		this.workCity = workCity;
 	}
 }

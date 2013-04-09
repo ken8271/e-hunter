@@ -1,6 +1,5 @@
 package cn.org.polaris.dao.impl;
 
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,9 +23,9 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 
 	@Override
 	public int getInfosCountByCategory(final InformationPagedCriteria pagedCriteria) {
-		BigInteger count = (BigInteger)hibernateTemplate.execute(new HibernateCallback<BigInteger>() {
+		Long count = (Long)hibernateTemplate.execute(new HibernateCallback<Long>() {
 			@Override
-			public BigInteger doInHibernate(Session session)
+			public Long doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer buffer = new StringBuffer();
 				
@@ -40,9 +39,11 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 				
 				Query query = session.createQuery(buffer.toString());
 				
-				query.setString("category", pagedCriteria.getCategory());
+				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
+					query.setString("category", pagedCriteria.getCategory());
+				}
 				
-				return (BigInteger)query.uniqueResult();
+				return (Long)query.uniqueResult();
 			}
 		});
 		
@@ -67,7 +68,9 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 				
 				Query query = session.createQuery(buffer.toString());
 				
-				query.setString("category", pagedCriteria.getCategory());
+				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
+					query.setString("category", pagedCriteria.getCategory());
+				}
 				
 				if(pagedCriteria.getRowEnd() > 0 ){
 					query.setFirstResult(pagedCriteria.getRowStart());
@@ -79,6 +82,28 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 		});
 		
 		return infos;
+	}
+
+	@Override
+	public Information getInformationByID(final String id) {
+		Information info = (Information)hibernateTemplate.execute(new HibernateCallback<Information>() {
+			@Override
+			public Information doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append(" FROM Information info ");
+				buffer.append(" WHERE info.lastTransactionIndicator != 'D' ");
+				buffer.append(" AND info.systemRefInfo = :id ");
+				
+				Query query = session.createQuery(buffer.toString());
+				
+				query.setString("id", id);
+				
+				return (Information)query.uniqueResult();
+			}
+		});
+		return info;
 	}
 	
 }

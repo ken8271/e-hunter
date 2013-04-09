@@ -8,6 +8,7 @@ public class ReleasedPositionDTO extends BaseDTO {
 	private String systemRefPosition;
 	private String title;
 	private String content;
+	private String workCity;
 
 	public String getSystemRefPosition() {
 		return systemRefPosition;
@@ -31,6 +32,14 @@ public class ReleasedPositionDTO extends BaseDTO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getWorkCity() {
+		return workCity;
+	}
+
+	public void setWorkCity(String workCity) {
+		this.workCity = workCity;
 	}
 
 }
