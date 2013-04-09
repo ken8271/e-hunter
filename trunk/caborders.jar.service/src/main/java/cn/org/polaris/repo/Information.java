@@ -43,6 +43,7 @@ public class Information extends BaseEntity {
 		this.content = content;
 	}
 
+	@Column(name="INFO_TY")
 	public String getCategory() {
 		return category;
 	}

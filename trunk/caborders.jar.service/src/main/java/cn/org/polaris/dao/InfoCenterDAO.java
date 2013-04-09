@@ -8,4 +8,5 @@ import cn.org.polaris.repo.Information;
 public interface InfoCenterDAO {
 	public int getInfosCountByCategory(InformationPagedCriteria pagedCriteria);
 	public List<Information> getInfosByCategory(InformationPagedCriteria pagedCriteria);
+	public Information getInformationByID(String id);
 }

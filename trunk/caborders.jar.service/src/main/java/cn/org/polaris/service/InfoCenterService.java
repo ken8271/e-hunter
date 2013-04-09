@@ -8,4 +8,5 @@ import cn.org.polaris.dto.biz.InformationPagedCriteria;
 public interface InfoCenterService {
 	public int getInfosCountByCriteria(InformationPagedCriteria pagedCriteria);
 	public List<InformationDTO> getInfosByCriteria(InformationPagedCriteria pagedCriteria);
+	public InformationDTO getInformationByID(String id);
 }
