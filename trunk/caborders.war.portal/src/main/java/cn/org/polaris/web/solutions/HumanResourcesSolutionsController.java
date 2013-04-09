@@ -11,4 +11,29 @@ public class HumanResourcesSolutionsController {
 	public ModelAndView index(){
 		return new ModelAndView("solutions/index");
 	}
+	
+	@RequestMapping("/solutions/service.do")
+	public ModelAndView service(){
+		return new ModelAndView("solutions/service");
+	}
+	
+	@RequestMapping("/solutions/outsouring.do")
+	public ModelAndView outsouring(){
+		return new ModelAndView("solutions/outsouring");
+	}
+	
+	@RequestMapping("/solutions/background_research.do")
+	public ModelAndView backgroundResearch(){
+		return new ModelAndView("solutions/backgroundResearch");
+	}
+	
+	@RequestMapping("/solutions/hr_it_platform.do")
+	public ModelAndView itPlatform(){
+		return new ModelAndView("solutions/itPlatform");
+	}
+	
+	@RequestMapping("/solutions/marketing.do")
+	public ModelAndView marketing(){
+		return new ModelAndView("solutions/marketing");
+	}
 }
