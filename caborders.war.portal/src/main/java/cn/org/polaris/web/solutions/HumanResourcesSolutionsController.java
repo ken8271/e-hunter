@@ -36,4 +36,9 @@ public class HumanResourcesSolutionsController {
 	public ModelAndView marketing(){
 		return new ModelAndView("solutions/marketing");
 	}
+	
+	@RequestMapping("/solutions/industries.do")
+	public ModelAndView industries(){
+		return new ModelAndView("solutions/industries");
+	}
 }
