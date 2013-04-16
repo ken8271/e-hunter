@@ -102,3 +102,5 @@
 	.page span			{ display:block;float:left;background:#eee;padding:4px 8px; margin-right:1px; color:#666; font-size:12px; border: 1px solid #ccc; }
 	.page span.current	{ background:#2b4763; color:#fff; border: 1px solid #22384e;}
 	.pagelink-current 	{ font-weight: bold;}
+	
+	.paragraph {text-indent: 2em;}
