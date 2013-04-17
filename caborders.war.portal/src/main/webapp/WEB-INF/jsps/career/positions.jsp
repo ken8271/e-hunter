@@ -26,7 +26,7 @@ $(document).ready(function(){
 <body>
 <div class="office_list">
    <c:forEach items="${listOfPosition }" var="postn">
-      <h4 class="office_title"><a href="/Page/views/classic/10/item/101/type/office.shtml">${postn.title }</a></h4>
+      <h4 class="office_title"><a href="${ctx }/career/id_${postn.systemRefPosition}.html">${postn.title }</a></h4>
       <div class="office_other">工作地点：${postn.workCity }  &nbsp;&nbsp; | &nbsp;&nbsp; <fmt:formatDate type="both" value="${postn.createDateTime }" pattern="yyyy-MM-dd"/></div>
    </c:forEach>
 </div>
