@@ -62,12 +62,14 @@
 			   <a href="${ctx }/career/index.html">more&gt;&gt;</a>
 			</div>
 	     </div>
-		 <ul>
-		    <li>
-			   <a href="#">某知名文化集团/顶级会所总经理/50-100万</a>
-			   <p>工作地点：&nbsp; | &nbsp; 2012-09-14</p>
-			</li>
-	     </ul>
+	     <ul>
+	        <c:forEach items="${listOfPosition }" var="postn">
+	           <li>
+	              <a href="${ctx }/career/id_${postn.systemRefPosition}.html">${postn.title }</a> 
+			      <p>工作地点： ${postn.workCity } &nbsp; | &nbsp; <fmt:formatDate type="both" value="${postn.createDateTime }" pattern="yyyy-MM-dd"/></p> 
+			   </li>				
+		    </c:forEach>
+		 </ul>
 	  </div>
 	  <!--最新职位板块结束-->
 				  
@@ -77,7 +79,12 @@
 		    <div style="float:left"><h4><a href="${ctx }/infocenter/index.html" style="color:#000;">资讯中心</a></h4></div>
 			<div style="float:right; height:40px; line-height:40px;"><a href="${ctx }/infocenter/index.html">more&gt;&gt;</a></div></div>
 			<ul>
-			   <li><cite>2012-09-20</cite><a href="#">文章标题</a></li>
+			   <c:forEach items="${listOfInfo }" var="info">
+			      <li>
+			         <cite><fmt:formatDate type="both" value="${info.createDateTime }" pattern="yyyy-MM-dd"/></cite>
+			         <a href="${ctx }/infocenter/id_${info.systemRefInfo}.html">${info.title }</a>
+			      </li>				
+			   </c:forEach>
 			</ul>
 		 </div>
 		 <!--资讯中心板块结束-->
@@ -92,7 +99,8 @@
 				
 	     <div class="clear"></div>
 	  </div>
-
+	  
+	  <br><br>
       <!--footer-->
 	  <div id="footer" align="center">@2003 - 2012   深圳市铠博德企业管理咨询有限公司   备案号：0000000000</div>
    </div>
