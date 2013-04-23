@@ -20,7 +20,7 @@
 				<version>6.1.9</version>
 				<configuration>
 					<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
-					<contextPath>/</contextPath>
+					<contextPath>/webPlatform</contextPath>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 					<scanTargetPatterns>
 						<scanTargetPattern>
@@ -157,12 +157,6 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-		</dependency>
-
-		<!-- Urlrewrite -->
-		<dependency>
-			<groupId>org.tuckey</groupId>
-			<artifactId>urlrewritefilter</artifactId>
 		</dependency>
   </dependencies>
 </project>
