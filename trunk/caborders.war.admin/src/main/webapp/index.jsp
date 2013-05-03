@@ -148,10 +148,18 @@
 
 		
 
-        var viewport = Ext.create('Ext.Viewport', {
+        Ext.create('Ext.Viewport', {
             id: 'border-example',
             layout: 'border',
             items: [top,footer,menu,main]
+        });
+        
+        Ext.Ajax.request({
+            url: '${ctx}/test.do',
+            success: function(response){
+                var text = response.responseText;
+               alert(text);
+            }
         });
     });
     </script>
