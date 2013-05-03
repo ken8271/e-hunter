@@ -1,17 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-	<groupId>com.pccw</groupId>
-	<artifactId>eHunter-Configuration</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pccw</groupId>
+		<artifactId>eHunter-Configuration</artifactId>
+		<version>0.0.1</version>
+		<relativePath>../eHunter-Configuration/pom.xml</relativePath>
+	</parent>
+	<groupId>org.polaris</groupId>
+	<artifactId>caborders.war.admin</artifactId>
 	<version>0.0.1</version>
-	<relativePath>../eHunter-Configuration/pom.xml</relativePath>
-  </parent>
-  <groupId>org.polaris</groupId>
-  <artifactId>caborders.war.admin</artifactId>
-  <version>0.0.1</version>
-  <packaging>war</packaging>
-  
-  <build>
+	<packaging>war</packaging>
+
+	<build>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>
@@ -38,15 +39,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
-  </build>
-  	
-  <dependencies>
-  	    <dependency>
+	</build>
+
+	<dependencies>
+		<dependency>
 			<groupId>org.polaris</groupId>
 			<artifactId>caborders.jar.service</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-  	
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -152,5 +153,15 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 		</dependency>
-  </dependencies>
+
+		<!-- jackson -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+	</dependencies>
 </project>
