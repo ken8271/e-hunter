@@ -8,6 +8,7 @@ public class InformationDTO extends BaseDTO {
 	private String systemRefInfo;
 	private String title;
 	private String content;
+	private String category;
 
 	public String getSystemRefInfo() {
 		return systemRefInfo;
@@ -31,6 +32,14 @@ public class InformationDTO extends BaseDTO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }
