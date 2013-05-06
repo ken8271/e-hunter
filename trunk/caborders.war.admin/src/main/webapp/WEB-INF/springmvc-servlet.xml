@@ -32,16 +32,4 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0"></property>
 	</bean>
-
-	<!-- View Resovler -->
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsps/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
-
-	<!-- Message Source -->
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" autowire="byName">
-		<property name="basename" value="messages.message"></property>
-		<property name="useCodeAsDefaultMessage" value="true"></property>
-	</bean>
 </beans>
