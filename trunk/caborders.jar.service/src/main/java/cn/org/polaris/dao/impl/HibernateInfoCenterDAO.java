@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import cn.org.polaris.dao.InfoCenterDAO;
 import cn.org.polaris.dto.biz.InformationPagedCriteria;
 import cn.org.polaris.repo.Information;
+import cn.org.polaris.utility.StringUtils;
 
 @Component("infoCenterDao")
 public class HibernateInfoCenterDAO  implements InfoCenterDAO{
@@ -32,16 +33,11 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 				buffer.append(" SELECT count(info.systemRefInfo) ");
 				buffer.append(" FROM Information info ");
 				buffer.append(" WHERE info.lastTransactionIndicator != 'D' ");
-				
-				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
-					buffer.append(" AND info.category = :category ");
-				}
+				buffer.append(getSQLFilter(pagedCriteria));
 				
 				Query query = session.createQuery(buffer.toString());
 				
-				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
-					query.setString("category", pagedCriteria.getCategory());
-				}
+				setParameters(query, pagedCriteria);
 				
 				return (Long)query.uniqueResult();
 			}
@@ -61,16 +57,11 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 				
 				buffer.append(" FROM Information info ");
 				buffer.append(" WHERE info.lastTransactionIndicator != 'D' ");
-				
-				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
-					buffer.append(" AND info.category = :category ");
-				}
+				buffer.append(getSQLFilter(pagedCriteria));
 				
 				Query query = session.createQuery(buffer.toString());
 				
-				if(pagedCriteria.getCategory() != null && pagedCriteria.getCategory().length() != 0){
-					query.setString("category", pagedCriteria.getCategory());
-				}
+				setParameters(query, pagedCriteria);
 				
 				if(pagedCriteria.getRowEnd() > 0 ){
 					query.setFirstResult(pagedCriteria.getRowStart());
@@ -82,6 +73,54 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 		});
 		
 		return infos;
+	}
+	
+	private StringBuffer getSQLFilter(InformationPagedCriteria pagedCriteria){
+		StringBuffer filter = new StringBuffer();
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getId())){
+			filter.append(" AND info.systemRefInfo = :id ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getTitle())){
+			filter.append(" AND UPPER(info.title) LIKE CONCAT('%',UPPER(:title),'%')  ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getCategory())){
+			filter.append(" AND info.category = :category ");
+		}
+		
+		if(pagedCriteria.getFromDate() != null){
+			filter.append(" AND info.createDateTime >= :fromDate ");
+		}
+		
+		if(pagedCriteria.getToDate() != null){
+			filter.append(" AND info.createDateTime < ADDDATE(:toDate , INTERVAL 1 DAY) ");
+		}
+		
+		return filter;
+	}
+	
+	private void setParameters(Query query , InformationPagedCriteria pagedCriteria){
+		if(!StringUtils.isEmpty(pagedCriteria.getId())){
+			query.setString("id", pagedCriteria.getId());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getTitle())){
+			query.setString("title", pagedCriteria.getTitle());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getCategory())){
+			query.setString("category", pagedCriteria.getCategory());
+		}
+		
+		if(pagedCriteria.getFromDate() != null){
+			query.setDate("fromDate", pagedCriteria.getFromDate());
+		}
+		
+		if(pagedCriteria.getToDate() != null){
+			query.setDate("toDate", pagedCriteria.getToDate());
+		}
 	}
 
 	@Override
@@ -104,6 +143,11 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 			}
 		});
 		return info;
+	}
+
+	@Override
+	public void releaseInformation(Information info) {
+		hibernateTemplate.save(info);
 	}
 	
 }

@@ -9,4 +9,6 @@ public interface InfoCenterDAO {
 	public int getInfosCountByCategory(InformationPagedCriteria pagedCriteria);
 	public List<Information> getInfosByCategory(InformationPagedCriteria pagedCriteria);
 	public Information getInformationByID(String id);
+	
+	public void releaseInformation(Information info);
 }
