@@ -51,7 +51,6 @@
 			  bodyStyle:'padding:5px 5px 5px 5px',
 			  labelAlign: 'top',
 			  border:0, 
-			  url:'${ctx}/test.do',
 			  items: [{
 				  xtype:'combobox',
 				  fieldLabel: '资讯类型',
@@ -82,10 +81,9 @@
 				  allowBlank:false, 
 	              blankText:"内容不能为空!"
 			  }],
-			  buttons: [{text:'预览',handler:function(){
-				  
-			  }},
-			            {text: '发布',
+			  buttons: [{text:'预览',
+				         disabled:true
+				        },{text: '发布',
 				         handler:function(){
 				        	 if(Ext.getCmp('info_create').getForm().isValid()){
 				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
@@ -112,34 +110,6 @@
 			            {text: '重置',handler:function(){Ext.getCmp('info_create').getForm().reset();}},
 			            {text:'关闭',handler:function(){Ext.getCmp('info_create').close();}}]
 		});
-
-		var positionPanel = Ext.create('Ext.form.Panel',{ 
-        	title: "form Layout", 
-        	height: 150, 
-        	width: 230, 
-        	plain: true, 
-        	items:  
-        	{ 
-        	xtype: "form", 
-        	labelWidth: 30, 
-        	defaultType: "textfield", 
-        	frame:true, 
-        	items:  
-        	[ { 
-        	fieldLabel:"姓名", 
-        	name:"username", 
-        	allowBlank:false 
-        	}, { 
-        	fieldLabel:"呢称", 
-        	name:"nickname" 
-        	}, { 
-        	fieldLabel: "生日", 
-        	xtype:'datefield', 
-        	name: "birthday", 
-        	} 
-        	] 
-        	} 
-        	});
 
 		var top = Ext.create('Ext.Component', {
                 region: 'north',
@@ -223,7 +193,7 @@
 		                    }  
 		                },  
 		                autoLoad : false  
-		            });  
+		           });  
 				   
 				   var grid = Ext.create('Ext.grid.Panel', {   
 				        store : infoStore,  
@@ -252,7 +222,8 @@
 				                    displayMsg: '显示 {0} - {1} 条，共计 {2} 条',
 				                    emptyMsg: '没有数据'
 				                }],  
-				        });
+				   });
+				   
 				   var cf = Ext.create('Ext.form.Panel', {
 				        frame:true,
 				        border:0,
@@ -295,34 +266,6 @@
 			    				  emptyText:'--- 请选择 ---',
 			    				  columnWidth:0.3,
 			    			  }]
-			                },{
-			                	 xtype:'container',
-			                     layout: 'column',
-			                     anchor:'60%',
-			                     items: [
-			                         {
-			                             xtype:'container',
-			                             layout:'anchor',
-			                             columnWidth:0.45,
-			                             items:[{
-			                            	 xtype     : 'datefield',
-				                             name      : 'fromDate',
-				                             fieldLabel: '发布日期',
-				                             anchor:'100%',
-			                             }]
-			                         },{
-			                        	 xtype:'container',
-			                             layout:'anchor',
-			                             columnWidth:0.45,
-			                             items:[{
-			                            	 xtype     : 'datefield',
-				                             name      : 'toDate',
-				                             fieldLabel: '至',
-				                             labelAlign:'right',
-				                             anchor:'100%'
-			                             }]
-			                         }
-			                     ]
 			                }]
 				        }],
 
@@ -336,9 +279,7 @@
 									  headers: { 'Content-Type': 'application/json' },                        
 									  jsonData: Ext.JSON.encode(cf.getValues()),
 									  success: function(response){
-										  var result = Ext.JSON.decode(response.responseText);
-										  alert(response.responseText);
-										  infoStore.loadData(result);
+										  infoStore.loadRawData(response);
 									  }
 								});  
 				            }
@@ -349,6 +290,7 @@
 
 				   
 				   var gridPanel = Ext.create('Ext.Panel',{
+					   id:'info_search',
 					   title : '资讯查询',
 				       iconCls:'menu-listInfo',
 				       closable:true,
@@ -357,12 +299,21 @@
 
 				   tab = main.add(gridPanel);
 				   main.setActiveTab(tab);  
+				   
+				   infoStore.on("beforeload",function(){
+					    Ext.apply(infoStore.proxy.extraParams, Ext.JSON.encode(cf.getValues()));
+					});
 				   infoStore.load({ params: { start: 0, limit: 15} });  
 			   }
 
 			   if(record.raw.id == 'position_create'){
-			      tab = main.add(positionPanel);
+			      tab = main.add(initPositionCreatePanel());
 			      main.setActiveTab(tab);  
+			   }
+			   
+			   if(record.raw.id == 'position_search'){
+				   tab = main.add(initPositionSearchPanel());
+				   main.setActiveTab(tab);
 			   }
 			}
 		});
@@ -386,6 +337,200 @@
         });
         
     });
+    
+    function initPositionCreatePanel(){
+    	var postPanel = Ext.create('Ext.form.Panel', {
+		      id:'position_create',
+		      title:'职位发布',
+		      iconCls:'menu-addPosition',
+			  closable:true,
+			  frame:false,
+			  region:'center',
+			  bodyStyle:'padding:5px 5px 5px 5px',
+			  labelAlign: 'top',
+			  border:0, 
+			  items: [{
+			      xtype:'textfield',
+				  fieldLabel: '标题',
+				  name: 'title',
+				  anchor:'100%',
+				  allowBlank:false, 
+	              blankText:"标题不能为空!"
+			  },{
+			      xtype:'textfield',
+				  fieldLabel: '工作城市',
+				  name: 'title',
+				  anchor:'100%',
+				  allowBlank:false, 
+	              blankText:"标题不能为空!"
+			  },{
+			      xtype: 'htmleditor',
+				  fieldLabel: '职位描述',
+				  name: 'content',
+				  autoScroll:true,
+				  height:440,
+				  anchor:'100%',
+				  allowBlank:false, 
+	              blankText:"内容不能为空!"
+			  }],
+			  buttons: [{text:'预览',
+				         disabled:true
+				        },{text: '发布',
+				         handler:function(){
+				        	 if(Ext.getCmp('info_create').getForm().isValid()){
+				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
+				                        msg: '正在保存，请稍后！',
+				                        removeMask: true //完成后移除
+				                 });
+				                 mask.show();
+					        	 Ext.Ajax.request({ 
+									  url : '${ctx}/information/release.do', 
+									  method: 'POST', 
+									  headers: { 'Content-Type': 'application/json' },                        
+									  jsonData: Ext.JSON.encode(infoPanel.getValues()), 
+									  success: function (response) { 
+									                      mask.hide();
+									              }, 
+									  failure: function (response) { 
+									                  var jsonResp = Ext.JSON.decode(response.responseText); 
+									                  Ext.Msg.alert("Error",jsonResp.error); 
+									                  mask.hide();
+									  } 
+								});  
+				        	 }
+			            }},
+			            {text: '重置',handler:function(){Ext.getCmp('info_create').getForm().reset();}},
+			            {text:'关闭',handler:function(){Ext.getCmp('info_create').close();}}]
+		});
+    	
+    	return postPanel;
+    }
+    
+    function initPositionSearchPanel(){
+    	Ext.define('Information', {  
+            extend : 'Ext.data.Model',  
+            fields : [{  
+                        name : 'systemRefInfo',  
+                        type : 'string',  
+                    }, {  
+                        name : 'title',  
+                        type : 'string'  
+                    }, {  
+                        name : 'category',  
+                        type : 'string'  
+                    }, {  
+                        name : 'createBy',  
+                        type : 'string'  
+                    }]
+        }); 
+	   
+	   var infoStore = new Ext.data.Store({  
+            model : 'Information',  
+            pageSize : 15,  
+            proxy : {  
+                type : 'ajax',  
+                url : '${ctx}/information/list.do',  
+                reader : {  
+                    type : 'json',  
+                    root : 'list',  
+                    totalProperty : 'totalCount'  
+                }  
+            },  
+            autoLoad : false  
+       });  
+	   
+	   var grid = Ext.create('Ext.grid.Panel', {   
+	        store : infoStore,  
+	        columnLines : true,   
+	        stripeRows:true,
+	        loadMask:true,
+	        columns : [{  
+	                    header : '资讯编号',  
+	                    dataIndex : 'systemRefInfo' 
+	                }, {  
+	                    header : '标题',  
+	                    dataIndex : 'title'
+	                }, {  
+	                    header : '分类',  
+	                    dataIndex : 'category'
+	                }, {  
+	                    header : '创建人',  
+	                    dataIndex : 'createBy',  
+	                }],  
+	        forceFit : true,  
+	        dockedItems : [{  
+	                    xtype : 'pagingtoolbar',  
+	                    store : infoStore, 
+	                    dock : 'bottom',  
+	                    displayInfo : true ,
+	                    displayMsg: '显示 {0} - {1} 条，共计 {2} 条',
+	                    emptyMsg: '没有数据'
+	                }],  
+	   });
+	   
+	   var cf = Ext.create('Ext.form.Panel', {
+	        frame:true,
+	        border:0,
+	        bodyStyle:'padding:5px 5px 0',
+	        items: [{
+	            xtype:'fieldset',
+	            title: '查询条件',
+	            collapsible: false,
+	            layout: 'anchor',
+	            labelAlign:'right',
+	            items :[{
+	            	 xtype:'textfield',
+	            	 fieldLabel: '资讯编号',
+	            	 name: 'id',
+	            	 anchor:'30%'
+                }, {
+                	xtype:'container',
+                    layout:'column',
+                    anchor:'100%',
+                    items: [{
+                       xtype:'container',
+                       layout:'anchor',
+                       columnWidth:0.6,
+                       items:[{
+                             xtype     : 'textfield',
+                             name      : 'title',
+                             fieldLabel: '资讯标题',
+                             anchor:'90%'
+                       }]
+                    }]
+                }]
+	        }],
+
+	        buttons: [{
+	            text: '查询',
+	            handler: function(){
+	            	 Ext.Ajax.request({ 
+						  url : '${ctx}/information/search.do', 
+						  method: 'POST', 
+						  params: { start: 0, limit: 15},
+						  headers: { 'Content-Type': 'application/json' },                        
+						  jsonData: Ext.JSON.encode(cf.getValues()),
+						  success: function(response){
+							  infoStore.loadRawData(response);
+						  }
+					});  
+	            }
+	        },{
+	            text: '关闭'
+	        }]
+	    });
+
+	   
+	   var gridPanel = Ext.create('Ext.Panel',{
+		   id:'position_search',
+		   title : '资讯查询',
+	       iconCls:'menu-listPosition',
+	       closable:true,
+	       items:[cf,grid]
+	   });
+	   infoStore.load({ params: { start: 0, limit: 15} });  
+	   return gridPanel;
+    }
     </script>
 </head>
 <body>
