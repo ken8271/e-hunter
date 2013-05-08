@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.org.polaris.constant.TransactionIndicator;
 import cn.org.polaris.convertor.ReleasedPositionConvertor;
 import cn.org.polaris.dao.CareerManagerDAO;
-import cn.org.polaris.dto.PagedCriteria;
+import cn.org.polaris.dto.biz.PositionPagedCriteria;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 import cn.org.polaris.service.CareerManagerService;
+import cn.org.polaris.utility.BaseDtoUtility;
+import cn.org.polaris.utility.IDGenerator;
 
 @Service("careerManagerService")
 @Transactional
@@ -21,13 +24,13 @@ public class CareerManagerServiceImpl implements CareerManagerService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public int getPositionsCountByCriteria(PagedCriteria pagedCriteria) {
+	public int getPositionsCountByCriteria(PositionPagedCriteria pagedCriteria) {
 		return careerManagerDao.getPositionsCountByCriteria(pagedCriteria);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<ReleasedPositionDTO> getPositionsByCriteria(PagedCriteria pagedCriteria) {
+	public List<ReleasedPositionDTO> getPositionsByCriteria(PositionPagedCriteria pagedCriteria) {
 		return ReleasedPositionConvertor.toDtos(careerManagerDao.getPositionsByCriteria(pagedCriteria));
 	}
 
@@ -35,6 +38,14 @@ public class CareerManagerServiceImpl implements CareerManagerService{
 	@Transactional(readOnly=true)
 	public ReleasedPositionDTO getPositionByID(String id) {
 		return ReleasedPositionConvertor.toDto(careerManagerDao.getPositionByID(id));
+	}
+
+	@Override
+	@Transactional
+	public void releasePosition(ReleasedPositionDTO dto) {
+		dto.setSystemRefPosition(IDGenerator.generateUUID());
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
+		careerManagerDao.releasePosition(ReleasedPositionConvertor.toPo(dto));
 	}
 
 }

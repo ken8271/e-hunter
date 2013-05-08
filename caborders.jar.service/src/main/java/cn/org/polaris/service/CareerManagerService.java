@@ -2,11 +2,13 @@ package cn.org.polaris.service;
 
 import java.util.List;
 
-import cn.org.polaris.dto.PagedCriteria;
+import cn.org.polaris.dto.biz.PositionPagedCriteria;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 
 public interface CareerManagerService {
-	public int getPositionsCountByCriteria(PagedCriteria pagedCriteria);
-	public List<ReleasedPositionDTO> getPositionsByCriteria(PagedCriteria pagedCriteria);
+	public int getPositionsCountByCriteria(PositionPagedCriteria pagedCriteria);
+	public List<ReleasedPositionDTO> getPositionsByCriteria(PositionPagedCriteria pagedCriteria);
 	public ReleasedPositionDTO getPositionByID(String id);
+	
+	public void releasePosition(ReleasedPositionDTO dto);
 }
