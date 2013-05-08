@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.org.polaris.constant.CabordersConstant;
-import cn.org.polaris.dto.PagedCriteria;
 import cn.org.polaris.dto.biz.InformationDTO;
 import cn.org.polaris.dto.biz.InformationPagedCriteria;
+import cn.org.polaris.dto.biz.PositionPagedCriteria;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 import cn.org.polaris.service.CareerManagerService;
 import cn.org.polaris.service.InfoCenterService;
@@ -48,7 +48,7 @@ public class IndexController extends BaseController{
 	}
 	
 	private void handlePositionPagedSearch(HttpServletRequest request , ModelAndView mv){
-		PagedCriteria pagedCriteria = new PagedCriteria();
+		PositionPagedCriteria pagedCriteria = new PositionPagedCriteria();
 		
 		pagedCriteria.setRowStart(0);
 		pagedCriteria.setRowEnd(4);

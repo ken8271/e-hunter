@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.org.polaris.constant.CabordersConstant;
 import cn.org.polaris.convertor.PagedCriteriaConvertor;
 import cn.org.polaris.dto.PageInfoDTO;
-import cn.org.polaris.dto.PagedCriteria;
 import cn.org.polaris.dto.RowSelect;
+import cn.org.polaris.dto.biz.PositionPagedCriteria;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 import cn.org.polaris.service.CareerManagerService;
 import cn.org.polaris.web.BaseController;
@@ -43,7 +43,7 @@ public class CareerManagerController extends BaseController{
 	}
 	
 	private void handlePagedSearch(HttpServletRequest request , ModelAndView mv){
-		PagedCriteria pagedCriteria = new PagedCriteria();
+		PositionPagedCriteria pagedCriteria = new PositionPagedCriteria();
 		
 		RowSelect rowSelect = getRowSelect(request, mv , pagedCriteria);
 		
@@ -53,7 +53,7 @@ public class CareerManagerController extends BaseController{
 		mv.addObject(CabordersConstant.LIST_OF_POSITION , positionDtos);
 	}
 	
-	private RowSelect getRowSelect(HttpServletRequest request , ModelAndView mv , PagedCriteria pagedCriteria){
+	private RowSelect getRowSelect(HttpServletRequest request , ModelAndView mv , PositionPagedCriteria pagedCriteria){
 		String pageStr = request.getParameter("page");
 		
 		int page = 1;
