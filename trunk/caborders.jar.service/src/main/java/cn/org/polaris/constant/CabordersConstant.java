@@ -17,4 +17,7 @@ public class CabordersConstant {
 	
 	public static final String INFO_CENTER_PAGE_INFO = "infoCenterPageInfoDto";
 	public static final String POSITION_PAGE_INFO = "positionPageInfoDto";
+	
+	public static final String LOGICAL_TRUE = "true";
+	public static final String LOGICAL_FALSE = "false";
 }
