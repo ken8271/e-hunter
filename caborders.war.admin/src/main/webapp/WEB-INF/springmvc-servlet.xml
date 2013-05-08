@@ -32,4 +32,10 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0"></property>
 	</bean>
+	
+	<!-- message -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" autowire="byName">
+		<property name="basename" value="messages.message"></property>
+		<property name="useCodeAsDefaultMessage" value="true"></property>
+	</bean>	
 </beans>
