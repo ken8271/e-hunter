@@ -149,5 +149,15 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 	public void releaseInformation(Information info) {
 		hibernateTemplate.save(info);
 	}
+
+	@Override
+	public void updateInformation(Information info) {
+		hibernateTemplate.update(info);
+	}
+
+	@Override
+	public void deleteInformation(Information info) {
+		hibernateTemplate.delete(info);
+	}
 	
 }

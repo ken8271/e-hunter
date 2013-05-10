@@ -11,4 +11,6 @@ public interface InfoCenterDAO {
 	public Information getInformationByID(String id);
 	
 	public void releaseInformation(Information info);
+	public void updateInformation(Information info);
+	public void deleteInformation(Information info);
 }
