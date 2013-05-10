@@ -32,15 +32,15 @@ public class InfoCenterManagementController extends BaseController{
 
 	@RequestMapping(value = "/information/release.do")
 	public @ResponseBody
-	JsonResponseDTO release(@RequestBody InformationDTO dto , HttpServletRequest request) {
+	JsonResponseDTO release(@RequestBody InformationDTO dto) {
 		try {
 			Errors errors = infoValidator.validate(dto);
-			
+						
 			if (errors.hasErrors()) {
 				return new JsonResponseDTO(false , messageHelper.convert2Messages(errors));
 			}
 
-			// infoCenterService.releaseInformation(dto);
+			infoCenterService.releaseInformation(dto);
 
 			return new JsonResponseDTO(true);
 		} catch (Exception e) {

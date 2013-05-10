@@ -36,7 +36,7 @@
                 { id:'position_search',text: "职位查询", iconCls: 'menu-listPosition', leaf: true}
             ] },
             { text:"系统管理", iconCls: 'menu-admin', expanded: true , children:[
-                { id:'logout',text:'登出系统', iconCls: 'menu-logout', leaf: true}]}]
+                { id:'logout',text:'登出系统(未开通)', iconCls: 'menu-logout', leaf: true}]}]
 		  }
 		});
 		
@@ -55,12 +55,14 @@
 		   id : 'main',
 		   region:'center',
 		   margins:'5,5,5,0',
+		   autoScroll:true ,
 		   items: [{ title:'主页',
 			         iconCls:'menu-index',
 				     closable:false,
 				     frame:false,
 				     region:'center',
-				     bodyStyle:'padding:5px 5px 5px 5px'}]
+				     bodyStyle:'padding:5px 5px 5px 5px'
+				    }]
 		});
 
 		var tree = Ext.create('Ext.tree.Panel', {
@@ -153,15 +155,11 @@
 				  displayField: 'label',
 				  valueField: 'value',
 				  emptyText:'--- 请选择 ---',
-				  allowBlank:false, 
-	              blankText:"类型不能为空!"
 			  },{
 			      xtype:'textfield',
 				  fieldLabel: '标题',
 				  name: 'title',
 				  anchor:'100%',
-				  allowBlank:false, 
-	              blankText:"标题不能为空!"
 			  },{
 				  id:'content',
 			      xtype: 'htmleditor',
@@ -194,31 +192,33 @@
 										  if(result.success) {
 											  Ext.getCmp('info_create').getForm().reset();
 							              } else {  
-							            	  alert(result.messages);
-							               var msgArray = [];
-							       		   msgArray.push('<DIV style="OVERFLOW-Y:auto;height:100px;width:250px">');
-							       		   msgArray.push('<table style="border-color:#000;" border=1 width=230><tr>');
-							       		   msgArray.push('<td style="border-color:#000;width:80" align="center">登录名</td>');
-							       		   msgArray.push('<td style="border-color:#000;width:150" align="center">姓名</td>');
-							       		   msgArray.push('</tr>');
-							       		   msgArray.push('</table>');
-							       		   msgArray.push('</DIV>');
-							       		   Ext.MessageBox.alert('提示','以下考生已存在于其他考生组中，请修改！<br>考生信息：<br>'+msgArray.join(''));
+							            	  var msgs = result.messages;
+							            	  var errorContainer = '<div id="errorContainer" class="errorContainer" >'
+							            	                     + '<ul>';
+							                     
+							            	  for(var i=0 ; i<msgs.length ; i++){
+							            		  errorContainer = errorContainer + '<li>' + msgs[i].message+'</li>';
+											  }
+							                  
+							            	  errorContainer = errorContainer + '</ul></div>';
+
+							            	  Ext.Msg.show({
+							            		  title:'错误:',
+							            		  msg: errorContainer,
+							            		  buttons: Ext.Msg.CANCEL,
+							            		  width:350
+							            	  });
 							              } 
 									  }, 
 									  failure: function (response) { 
 										  mask.hide();
-										  var jsonResp = Ext.JSON.decode(response.responseText); 
-										  Ext.Msg.alert("Error",jsonResp.error); 
+										  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
 									  } 
 								});  
 				        	 }
 			            }},
 			            {text: '重置',handler:function(){Ext.getCmp('info_create').getForm().reset();}},
-			            {text:'关闭',handler:function(){
-			            	Ext.getCmp('content').markInvalid('0000');
-			            	//Ext.getCmp('info_create').close();
-			            	}}]
+			            {text:'关闭',handler:function(){Ext.getCmp('info_create').getForm().close();}}]
 		});
     	
     	return infoPanel;
@@ -234,17 +234,20 @@
                         name : 'title',  
                         type : 'string'  
                     }, {  
-                        name : 'category',  
+                        name : 'categoryDesc',  
                         type : 'string'  
                     }, {  
                         name : 'createBy',  
                         type : 'string'  
+                    },{
+                    	name : 'createDateStr',
+                    	type : 'string'
                     }]
         }); 
     	
     	var infoStore = new Ext.data.Store({  
             model : 'Information',  
-            pageSize : 15,  
+            pageSize : 10,  
             proxy : {  
                 type : 'ajax',  
                 url : '${ctx}/information/list.do',  
@@ -265,25 +268,44 @@
             autoLoad : false  
        });  
 	   
-	   var grid = Ext.create('Ext.grid.Panel', {   
+	   var grid = Ext.create('Ext.grid.Panel', {
+		    id : 'info_grid',
 	        store : infoStore,  
 	        columnLines : true,   
 	        stripeRows:true,
 	        loadMask:true,
+	        multiSelect : true,
+	        selType : 'checkboxmodel',
 	        columns : [{  
-	                    header : '资讯编号',  
-	                    dataIndex : 'systemRefInfo' 
+	                    header : '资讯编号', 
+	                    dataIndex : 'systemRefInfo',
 	                }, {  
 	                    header : '标题',  
-	                    dataIndex : 'title'
+	                    dataIndex : 'title',
 	                }, {  
-	                    header : '分类',  
-	                    dataIndex : 'category'
+	                    header : '类型',  
+	                    dataIndex : 'categoryDesc',
 	                }, {  
 	                    header : '创建人',  
 	                    dataIndex : 'createBy',  
-	                }],  
+	                },{
+	                	header : '发布时间',
+	                	dataIndex : 'createDateStr',
+	                }],
 	        forceFit : true,  
+	        tbar:[{
+	        	xtype : 'button',
+	        	text : '添加'
+	        },{
+	        	xtype : 'button',
+	        	text : '删除',
+	        	handler : function(){
+	        		var selected = Ext.getCmp('info_grid').getSelectionModel().getSelection();
+	        		if(selected.length == 0){
+	        			Ext.Msg.alert('提示','您未选择任何数据');
+	        		}
+	        	}
+	        }],
 	        dockedItems : [{  
 	                    xtype : 'pagingtoolbar',  
 	                    store : infoStore, 
@@ -343,7 +365,7 @@
 	        buttons: [{
 	            text: '查询',
 	            handler: function(){
-	            	infoStore.load({ params: { start: 0, limit: 15} });
+	            	infoStore.load({ params: { start: 0, limit: 10} });
 	            }
 	        },{
 	            text: '重置',
@@ -359,10 +381,11 @@
 		   title : '资讯查询',
 	       iconCls:'menu-listInfo',
 	       closable:true,
+	       autoScroll:true ,
 	       items:[cf,grid]
 	   });
 	   
-	   infoStore.load({ params: { start: 0, limit: 15} });  
+	   infoStore.load({ params: { start: 0, limit: 10} });  
 	   
 	   return gridPanel;
     }
@@ -383,8 +406,6 @@
 				  fieldLabel: '标题',
 				  name: 'title',
 				  anchor:'100%',
-				  allowBlank:false, 
-	              blankText:"标题不能为空!"
 			  },{
 			      xtype:'textfield',
 				  fieldLabel: '工作城市',
@@ -397,8 +418,6 @@
 				  autoScroll:true,
 				  height:400,
 				  anchor:'100%',
-				  allowBlank:false, 
-	              blankText:"职位描述不能为空!"
 			  }],
 			  buttons: [{text:'预览',
 				         disabled:true
@@ -417,6 +436,27 @@
 									  jsonData: Ext.JSON.encode(Ext.getCmp('position_create').getValues()), 
 									  success: function (response) { 
 										  mask.hide();
+										  var result = Ext.JSON.decode(response.responseText);    
+										  if(result.success) {
+											  Ext.getCmp('position_create').getForm().reset();
+							              } else {  
+							            	  var msgs = result.messages;
+							            	  var errorContainer = '<div id="errorContainer" class="errorContainer" >'
+							            	                     + '<ul>';
+							                     
+							            	  for(var i=0 ; i<msgs.length ; i++){
+							            		  errorContainer = errorContainer + '<li>' + msgs[i].message+'</li>';
+											  }
+							                  
+							            	  errorContainer = errorContainer + '</ul></div>';
+
+							            	  Ext.Msg.show({
+							            		  title:'错误:',
+							            		  msg: errorContainer,
+							            		  buttons: Ext.Msg.CANCEL,
+							            		  width:350
+							            	  });
+							              } 
 									  }, 
 									  failure: function (response) { 
 										  var jsonResp = Ext.JSON.decode(response.responseText); 
@@ -449,14 +489,14 @@
                         name : 'createBy',  
                         type : 'string'  
                     },{
-                    	name : 'createDttm',
-                    	type : 'date'
+                    	name : 'createDateStr',
+                    	type : 'string'
                     }]
         }); 
 	   
 	   var positionStore = new Ext.data.Store({  
             model : 'Position',  
-            pageSize : 15,  
+            pageSize : 10,  
             proxy : {  
                 type : 'ajax',  
                 url : '${ctx}/career/list.do',  
@@ -482,6 +522,8 @@
 	        columnLines : true,   
 	        stripeRows:true,
 	        loadMask:true,
+	        multiSelect : true,
+	        selType : 'checkboxmodel',
 	        columns : [{  
 	                    header : '职位编号',  
 	                    dataIndex : 'systemRefPosition' 
@@ -496,7 +538,7 @@
 	                    dataIndex : 'createBy',  
 	                }, {  
 	                    header : '发布时间',  
-	                    dataIndex : 'createDttm',  
+	                    dataIndex : 'createDateStr',  
 	                }],  
 	        forceFit : true,  
 	        dockedItems : [{  
@@ -555,7 +597,7 @@
 	        buttons: [{
 	            text: '查询',
 	            handler: function(){
-	            	positionStore.load({ params: { start: 0, limit: 15} });
+	            	positionStore.load({ params: { start: 0, limit: 10} });
 	            }
 	        },{
 	            text: '重置',
@@ -574,7 +616,7 @@
 	       items:[cf,grid]
 	   });
 	   
-	   positionStore.load({ params: { start: 0, limit: 15} });  
+	   positionStore.load({ params: { start: 0, limit: 10} });  
 	   
 	   return gridPanel;
     }
@@ -589,7 +631,7 @@
     <div id="west" class="x-hide-display"></div>
     <div id="center1" class="x-hide-display"></div>
 
-	<div id="footer" class="footer">Copyright &copy; @2003 - 2013   深圳市铠博德企业管理咨询有限公司</div>
+	<div id="footer" class="footer">Copyright &copy; 2003 - 2013   深圳市铠博德企业管理咨询有限公司</div>
 </body>
 </body>
 </html>

@@ -11,23 +11,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.org.polaris.admin.BaseController;
 import cn.org.polaris.dto.JsonResponseDTO;
 import cn.org.polaris.dto.GridStoreDTO;
 import cn.org.polaris.dto.biz.PositionPagedCriteria;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
+import cn.org.polaris.error.Errors;
 import cn.org.polaris.service.CareerManagerService;
 import cn.org.polaris.utility.StringUtils;
+import cn.org.polaris.validator.PositionValidator;
 
 @Controller
-public class CareerManagementController {
+public class CareerManagementController extends BaseController{
 	
 	@Autowired
 	private CareerManagerService careerManagerService;
 	
+	@Autowired
+	private PositionValidator positionValidator;
+	
 	@RequestMapping("/career/release.do")
 	public @ResponseBody JsonResponseDTO release(@RequestBody ReleasedPositionDTO rpDto){
 		try {
+			Errors errors = positionValidator.validate(rpDto);
+			
+			if (errors.hasErrors()) {
+				return new JsonResponseDTO(false , messageHelper.convert2Messages(errors));
+			}
+			
 			careerManagerService.releasePosition(rpDto);
+			
 			return new JsonResponseDTO(true);
 		} catch (Exception e) {
 			return new JsonResponseDTO(false);
