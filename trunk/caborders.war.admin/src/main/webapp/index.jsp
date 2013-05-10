@@ -194,7 +194,16 @@
 										  if(result.success) {
 											  Ext.getCmp('info_create').getForm().reset();
 							              } else {  
-							            	  alert(response.responseText);
+							            	  alert(result.messages);
+							               var msgArray = [];
+							       		   msgArray.push('<DIV style="OVERFLOW-Y:auto;height:100px;width:250px">');
+							       		   msgArray.push('<table style="border-color:#000;" border=1 width=230><tr>');
+							       		   msgArray.push('<td style="border-color:#000;width:80" align="center">登录名</td>');
+							       		   msgArray.push('<td style="border-color:#000;width:150" align="center">姓名</td>');
+							       		   msgArray.push('</tr>');
+							       		   msgArray.push('</table>');
+							       		   msgArray.push('</DIV>');
+							       		   Ext.MessageBox.alert('提示','以下考生已存在于其他考生组中，请修改！<br>考生信息：<br>'+msgArray.join(''));
 							              } 
 									  }, 
 									  failure: function (response) { 
