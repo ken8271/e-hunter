@@ -11,4 +11,6 @@ public interface CareerManagerDAO {
 	public ReleasedPosition getPositionByID(String id);
 	
 	public void releasePosition(ReleasedPosition rp);
+	public void updatePosition(ReleasedPosition rp);
+	public void deletePosition(ReleasedPosition rp);
 }

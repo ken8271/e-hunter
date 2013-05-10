@@ -148,4 +148,14 @@ public class HibernateCareerManagerDAO implements CareerManagerDAO{
 		hibernateTemplate.save(rp);
 	}
 
+	@Override
+	public void updatePosition(ReleasedPosition rp) {
+		hibernateTemplate.update(rp);
+	}
+
+	@Override
+	public void deletePosition(ReleasedPosition rp) {
+		hibernateTemplate.delete(rp);
+	}
+
 }
