@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import cn.org.polaris.constant.DateFormatConstant;
 import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 import cn.org.polaris.repo.ReleasedPosition;
+import cn.org.polaris.utility.DateUtils;
 
 public class ReleasedPositionConvertor {
 	public static ReleasedPositionDTO toDto(ReleasedPosition po){
@@ -15,6 +17,8 @@ public class ReleasedPositionConvertor {
 		
 		ReleasedPositionDTO dto = new ReleasedPositionDTO();
 		BeanUtils.copyProperties(po, dto);
+		
+		dto.setCreateDateStr(DateUtils.formatDateTime(DateFormatConstant.DATE_YYYY_MM_DD, dto.getCreateDateTime()));
 		
 		return dto;
 	}
