@@ -9,8 +9,7 @@ import cn.org.polaris.error.Errors;
 public class InformationValidator extends AbstractValidator{
 
 	@Override
-	public  Errors validate(Object target) {
-		Errors errors = new Errors();
+	public  Errors doInternalValidate(Object target , Errors errors) {
 		InformationDTO dto = (InformationDTO)target;
 		
 		validateRequired(errors , "category" , dto.getCategory() , "资讯类型");

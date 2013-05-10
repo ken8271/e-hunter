@@ -1,10 +1,21 @@
 package cn.org.polaris.validator;
 
 import cn.org.polaris.error.Errors;
+import cn.org.polaris.error.ValidationErrors;
 import cn.org.polaris.utility.StringUtils;
 
 public abstract class AbstractValidator implements CabordersValidator{
 	
+	@Override
+	public  Errors validate(Object target) {
+		Errors errors = initErrors();
+		return doInternalValidate(target , errors);
+	}
+	
+	public Errors initErrors() {
+		return new ValidationErrors();
+	}
+
 	public void validateRequired(Errors errors, String fieldName, String filedValue , String filedLabel){		
 		if(StringUtils.isEmpty(filedValue)){
 			errors.rejectValue("WPS-E-0001", new String[]{filedLabel}, filedLabel +  " is required. [WPS-E-0001]");

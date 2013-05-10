@@ -1,10 +1,21 @@
 package cn.org.polaris.error;
 
-public class BuisnessError {
+public class ErrorBean {
 
 	private String code;
 	private String[] args;
 	private String defaultMsg;
+
+	public ErrorBean() {
+		super();
+	}
+
+	public ErrorBean(String code, String[] args, String defaultMsg) {
+		super();
+		this.code = code;
+		this.args = args;
+		this.defaultMsg = defaultMsg;
+	}
 
 	public String getCode() {
 		return code;
