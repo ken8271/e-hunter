@@ -6,7 +6,7 @@ public class JsonResponseDTO {
 
 	private boolean success;
 
-	private List<String> messages;
+	private List<MessageDTO> messages;
 
 	public JsonResponseDTO() {
 
@@ -16,7 +16,7 @@ public class JsonResponseDTO {
 		this.success = success;
 	}
 	
-	public JsonResponseDTO(boolean success , List<String> messages){
+	public JsonResponseDTO(boolean success , List<MessageDTO> messages){
 		this.success = success;
 		this.messages = messages;
 	}
@@ -29,11 +29,11 @@ public class JsonResponseDTO {
 		this.success = success;
 	}
 
-	public List<String> getMessages() {
+	public List<MessageDTO> getMessages() {
 		return messages;
 	}
 
-	public void setMessages(List<String> messages) {
+	public void setMessages(List<MessageDTO> messages) {
 		this.messages = messages;
 	}
 
