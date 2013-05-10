@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import cn.org.polaris.constant.CabordersConstant;
+import cn.org.polaris.constant.DateFormatConstant;
 import cn.org.polaris.dto.biz.InformationDTO;
 import cn.org.polaris.repo.Information;
+import cn.org.polaris.utility.DateUtils;
 
 public class InformationConvertor {
 
@@ -16,6 +19,9 @@ public class InformationConvertor {
 		
 		InformationDTO dto = new InformationDTO();
 		BeanUtils.copyProperties(po, dto);
+		
+		dto.setCategoryDesc(CabordersConstant.getCategoryDesc(dto.getCategory()));
+		dto.setCreateDateStr(DateUtils.formatDateTime(DateFormatConstant.DATE_YYYY_MM_DD, dto.getCreateDateTime()));
 		
 		return dto;
 	}

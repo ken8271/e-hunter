@@ -1,6 +1,7 @@
 package cn.org.polaris.dto.biz;
 
 import cn.org.polaris.dto.BaseDTO;
+import cn.org.polaris.utility.StringUtils;
 
 public class ReleasedPositionDTO extends BaseDTO {
 	private static final long serialVersionUID = -5296014964714967969L;
@@ -9,6 +10,8 @@ public class ReleasedPositionDTO extends BaseDTO {
 	private String title;
 	private String content;
 	private String workCity;
+	
+	private String createDateStr;
 
 	public String getSystemRefPosition() {
 		return systemRefPosition;
@@ -31,7 +34,18 @@ public class ReleasedPositionDTO extends BaseDTO {
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		if (!StringUtils.isEmpty(content)) {
+			if ("<br>".equals(content)) {
+				this.content = "";
+			} else {
+				byte[] bs = new byte[] { -30, -128, -117 };
+				String regex = new String(bs);
+				// special handle for unknow character
+				this.content = content.replaceAll(regex, "");
+			}
+		} else {
+			this.content = "";
+		}
 	}
 
 	public String getWorkCity() {
@@ -40,6 +54,14 @@ public class ReleasedPositionDTO extends BaseDTO {
 
 	public void setWorkCity(String workCity) {
 		this.workCity = workCity;
+	}
+
+	public String getCreateDateStr() {
+		return createDateStr;
+	}
+
+	public void setCreateDateStr(String createDateStr) {
+		this.createDateStr = createDateStr;
 	}
 
 }
