@@ -14,6 +14,7 @@ import cn.org.polaris.dto.biz.InformationPagedCriteria;
 import cn.org.polaris.service.InfoCenterService;
 import cn.org.polaris.utility.BaseDtoUtility;
 import cn.org.polaris.utility.IDGenerator;
+import cn.org.polaris.utility.StringUtils;
 
 @Service("infoCenterService")
 @Transactional
@@ -46,6 +47,22 @@ public class InfoCenterServiceImpl implements InfoCenterService{
 		dto.setSystemRefInfo(IDGenerator.generateUUID());
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		infoCenterDao.releaseInformation(InformationConvertor.toPo(dto));
+	}
+
+	@Override
+	@Transactional
+	public void updateInformation(InformationDTO info) {
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteInformationsByIds(String[] ids) {
+		if(!StringUtils.isEmpty(ids)){			
+			for(String id : ids){				
+				infoCenterDao.deleteInformationByID(id);
+			}
+		}
 	}
 
 }

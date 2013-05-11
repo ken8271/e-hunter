@@ -17,7 +17,7 @@ public class PositionValidator extends AbstractValidator{
 		
 		validateStringLength(errors , "title" , dto.getTitle() , "标题" , 100);
 		validateStringLength(errors , "workCity" , dto.getWorkCity() , "工作城市" , 50);
-		validateStringLength(errors , "content" , dto.getContent() , "职位描述" , 100);
+		validateStringLength(errors , "content" , dto.getContent() , "职位描述" , 65535);
 		
 		return errors;
 	}

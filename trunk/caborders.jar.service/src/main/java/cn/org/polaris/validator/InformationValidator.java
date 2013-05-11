@@ -17,7 +17,7 @@ public class InformationValidator extends AbstractValidator{
 		validateRequired(errors , "content" , dto.getContent() , "资讯内容");
 		
 		validateStringLength(errors , "title" , dto.getTitle() , "资讯标题" , 100);
-		validateStringLength(errors , "content" , dto.getContent() , "资讯内容" , 100);
+		validateStringLength(errors , "content" , dto.getContent() , "资讯内容" , 65535);
 		
 		return errors;
 	}

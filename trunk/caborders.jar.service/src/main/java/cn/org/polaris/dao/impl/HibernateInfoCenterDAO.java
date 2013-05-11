@@ -155,9 +155,52 @@ public class HibernateInfoCenterDAO  implements InfoCenterDAO{
 		hibernateTemplate.update(info);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void deleteInformation(Information info) {
-		hibernateTemplate.delete(info);
+	public void deleteInformationByID(final String id) {
+		hibernateTemplate.execute(new HibernateCallback(){
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append(" DELETE FROM t_info_centr ");
+				buffer.append(" WHERE sys_ref_info = :id ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("id", id);
+				
+				query.executeUpdate();
+				return null;
+			}
+			
+		});
 	}
-	
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void deleteInformationsByIDs(final String[] ids) {
+		hibernateTemplate.execute(new HibernateCallback(){
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append(" DELETE FROM t_info_centr ");
+				buffer.append(" WHERE sys_ref_info IN (:ids)  ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setParameterList("ids", ids);
+				
+				query.executeUpdate();
+				return null;
+			}
+			
+		});
+	}
+
 }
