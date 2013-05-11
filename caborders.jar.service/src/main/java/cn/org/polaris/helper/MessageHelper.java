@@ -49,4 +49,16 @@ public class MessageHelper {
 		
 		return messages;
 	}
+	
+	public List<MessageDTO> convert2Messages(Exception e){
+		List<MessageDTO> messages = new ArrayList<MessageDTO>();
+		
+		MessageDTO msg = new MessageDTO();
+		
+		msg.setMessage(e.getMessage());
+		
+		messages.add(msg);
+		
+		return messages;
+	}
 }
