@@ -190,24 +190,10 @@
 										  
 										  var result = Ext.JSON.decode(response.responseText);    
 										  if(result.success) {
+											  Ext.Msg.alert('提示','发布成功');
 											  Ext.getCmp('info_create').getForm().reset();
 							              } else {  
-							            	  var msgs = result.messages;
-							            	  var errorContainer = '<div id="errorContainer" class="errorContainer" >'
-							            	                     + '<ul>';
-							                     
-							            	  for(var i=0 ; i<msgs.length ; i++){
-							            		  errorContainer = errorContainer + '<li>' + msgs[i].message+'</li>';
-											  }
-							                  
-							            	  errorContainer = errorContainer + '</ul></div>';
-
-							            	  Ext.Msg.show({
-							            		  title:'错误:',
-							            		  msg: errorContainer,
-							            		  buttons: Ext.Msg.CANCEL,
-							            		  width:350
-							            	  });
+							            	  genErrorContainer(result.messages);
 							              } 
 									  }, 
 									  failure: function (response) { 
@@ -246,6 +232,7 @@
         }); 
     	
     	var infoStore = new Ext.data.Store({  
+    		storeId: 'infoStore',
             model : 'Information',  
             pageSize : 10,  
             proxy : {  
@@ -269,13 +256,11 @@
        });  
 	   
 	   var grid = Ext.create('Ext.grid.Panel', {
-		    id : 'info_grid',
+		    id:'info_result_grid',
 	        store : infoStore,  
 	        columnLines : true,   
 	        stripeRows:true,
 	        loadMask:true,
-	        multiSelect : true,
-	        selType : 'checkboxmodel',
 	        columns : [{  
 	                    header : '资讯编号', 
 	                    dataIndex : 'systemRefInfo',
@@ -291,21 +276,45 @@
 	                },{
 	                	header : '发布时间',
 	                	dataIndex : 'createDateStr',
+	                },{
+	                    xtype: 'actioncolumn',
+	                    align : 'center',
+	                    header: '操作',
+	                    width: 80,
+	                    items: [{
+	                        icon   : '${imagePath}/caborders/edit.gif',  
+	                        tooltip: '编辑',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: function(grid, row, col) {
+	                           
+	                        }
+	                    },{
+	                    	icon   : '${imagePath}/caborders/blank.gif'
+	                    },{
+	                        icon   : '${imagePath}/caborders/delete.gif',  
+	                        tooltip: '删除',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: handleInfoDelete
+	                    },{
+	                    	icon   : '${imagePath}/caborders/blank.gif'
+	                    },{
+	                        icon   : '${imagePath}/caborders/tips.gif',  
+	                        tooltip: '查看',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: function(grid, rowIndex, colIndex) {
+	                        	var main = Ext.getCmp('main');
+	                        	var tab = main.getComponent('info_maintenance_tab');   
+	              			   
+	                        	if(tab){
+	                        		main.setActiveTab(tab);  
+	                        	}else {
+	                        		tab = main.add(initInfoMaintenancePanel());
+	                        		main.setActiveTab(tab);  
+	                        	}
+	                        }
+	                    }]
 	                }],
 	        forceFit : true,  
-	        tbar:[{
-	        	xtype : 'button',
-	        	text : '添加'
-	        },{
-	        	xtype : 'button',
-	        	text : '删除',
-	        	handler : function(){
-	        		var selected = Ext.getCmp('info_grid').getSelectionModel().getSelection();
-	        		if(selected.length == 0){
-	        			Ext.Msg.alert('提示','您未选择任何数据');
-	        		}
-	        	}
-	        }],
 	        dockedItems : [{  
 	                    xtype : 'pagingtoolbar',  
 	                    store : infoStore, 
@@ -363,6 +372,19 @@
 	        }],
 
 	        buttons: [{
+	            text: '添加',
+	            handler: function(){
+	            	var main = Ext.getCmp('main');
+	            	var tab = Ext.getCmp('info_create');   
+					   
+	            	if(tab){
+	            		main.setActiveTab(tab);  
+	            	}else {
+	            		tab = main.add(initInformationCreatePanel());
+	            		main.setActiveTab(tab);
+	            	}
+	            }
+	        },{
 	            text: '查询',
 	            handler: function(){
 	            	infoStore.load({ params: { start: 0, limit: 10} });
@@ -373,8 +395,7 @@
 	            	Ext.getCmp('info_enquiry_form').getForm().reset();
 	            }
 	        }]
-	    });
-
+	   });
 	   
 	   var gridPanel = Ext.create('Ext.Panel',{
 		   id:'info_search',
@@ -388,6 +409,88 @@
 	   infoStore.load({ params: { start: 0, limit: 10} });  
 	   
 	   return gridPanel;
+    }
+    
+    function initInfoMaintenancePanel(){
+    	var infoPanel = Ext.create('Ext.form.Panel', {
+		      id:'info_maintenance_tab',
+		      title:'资讯修改',
+		      iconCls:'menu-addInfo',
+			  closable:true,
+			  frame:false,
+			  region:'center',
+			  bodyStyle:'padding:5px 5px 5px 5px',
+			  labelAlign: 'top',
+			  border:0, 
+			  items: [{
+				  xtype: 'displayfield',
+			      fieldLabel: '资讯编号',
+			      name: 'systemRefInfo',
+			      anchor:'20%'
+			  },{
+				  xtype:'combobox',
+				  fieldLabel: '资讯类型',
+				  name:'category',
+				  editable:false,
+				  autoSelect:true,
+				  store: initCatgoriesStore(),
+				  queryMode: 'local',
+				  displayField: 'label',
+				  valueField: 'value',
+				  emptyText:'--- 请选择 ---',
+			  },{
+			      xtype:'textfield',
+				  fieldLabel: '标题',
+				  name: 'title',
+				  anchor:'100%',
+			  },{
+				  id:'content',
+			      xtype: 'htmleditor',
+				  fieldLabel: '内容',
+				  name: 'content',
+				  autoScroll:true,
+				  height:400,
+				  anchor:'100%',
+				  vtype:'htmlContent'
+			  }],
+			  buttons: [{text:'预览',
+				         disabled:true
+				        },{text: '更新',
+				         handler:function(){
+				        	 if(Ext.getCmp('info_create').getForm().isValid()){
+				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
+				                        msg: '正在保存，请稍后！',
+				                        removeMask: true //完成后移除
+				                 });
+				                 mask.show();
+					        	 Ext.Ajax.request({ 
+									  url : '${ctx}/information/release.do', 
+									  method: 'POST', 
+									  headers: { 'Content-Type': 'application/json' },                        
+									  jsonData: Ext.JSON.encode(Ext.getCmp('info_maintenance_tab').getValues()), 
+									  success: function (response) { 
+										  mask.hide();
+										  
+										  var result = Ext.JSON.decode(response.responseText);    
+										  if(result.success) {
+											  Ext.Msg.alert('提示','发布成功');
+											  //Ext.getCmp('info_create').getForm().reset();
+							              } else {  
+							            	  genErrorContainer(result.messages);
+							              } 
+									  }, 
+									  failure: function (response) { 
+										  mask.hide();
+										  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+									  } 
+								});  
+				        	 }
+			            }},
+			            {text: '重置',handler:function(){Ext.getCmp('info_maintenance_tab').getForm().reset();}},
+			            {text:'关闭',handler:function(){Ext.getCmp('info_maintenance_tab').getForm().close();}}]
+		});
+    	
+    	return infoPanel;
     }
     
     function initPositionCreatePanel(){
@@ -438,24 +541,10 @@
 										  mask.hide();
 										  var result = Ext.JSON.decode(response.responseText);    
 										  if(result.success) {
+											  Ext.Msg.alert('提示','发布成功');
 											  Ext.getCmp('position_create').getForm().reset();
 							              } else {  
-							            	  var msgs = result.messages;
-							            	  var errorContainer = '<div id="errorContainer" class="errorContainer" >'
-							            	                     + '<ul>';
-							                     
-							            	  for(var i=0 ; i<msgs.length ; i++){
-							            		  errorContainer = errorContainer + '<li>' + msgs[i].message+'</li>';
-											  }
-							                  
-							            	  errorContainer = errorContainer + '</ul></div>';
-
-							            	  Ext.Msg.show({
-							            		  title:'错误:',
-							            		  msg: errorContainer,
-							            		  buttons: Ext.Msg.CANCEL,
-							            		  width:350
-							            	  });
+							            	  genErrorContainer(result.messages);
 							              } 
 									  }, 
 									  failure: function (response) { 
@@ -518,6 +607,7 @@
        });  
 	   
 	   var grid = Ext.create('Ext.grid.Panel', {   
+		    id : 'postn_grid',
 	        store : positionStore,  
 	        columnLines : true,   
 	        stripeRows:true,
@@ -606,6 +696,55 @@
 	            }
 	        }]
 	    });
+	   
+	   var btnPanel = Ext.create('Ext.Panel',{
+		   height:30,
+		   buttonAlign:'right',
+		   buttons:[{
+			         text:'删除',
+			         handler:function(){
+			        	 var selected = Ext.getCmp('postn_grid').getSelectionModel().getSelection();
+			        		if(selected.length == 0){
+			        			Ext.Msg.alert('提示','您未选择任何数据');
+			        		}else {
+			        			var ids = [];
+			        			for(var i=0 ; i<selected.length ; i++){
+			        				ids.push(selected[i].get('systemRefPosition'));
+			        			}
+
+			        			Ext.Ajax.request({ 
+									  url : '${ctx}/career/delete.do', 
+									  method: 'POST', 
+									  params : {ids : ids.join(',')}, 
+									  success: function (response) { 
+										  var result = Ext.JSON.decode(response.responseText);    
+										  if(result.success) {
+											  positionStore.load({ params: { start: 0, limit: 10} });
+							              } else {  
+							            	  genErrorContainer(result.messages);
+							              } 
+									  }, 
+									  failure: function (response) { 
+										  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+									  } 
+								});
+			        		}
+			         }
+		            },{
+		            	text:'添加',
+		            	handler:function(){
+		            	   var main = Ext.getCmp('main');
+		            	   var tab = Ext.getCmp('position_create');   
+		 				   
+		 				   if(tab){
+		 					   main.setActiveTab(tab);  
+		 				   }else {
+		 					   tab = main.add(initPositionCreatePanel());
+		 					   main.setActiveTab(tab);
+		 				   }
+		            	}
+		            }]
+	   });
 
 	   
 	   var gridPanel = Ext.create('Ext.Panel',{
@@ -613,12 +752,64 @@
 		   title : '资讯查询',
 	       iconCls:'menu-listPosition',
 	       closable:true,
-	       items:[cf,grid]
+	       items:[cf,grid,btnPanel]
 	   });
 	   
 	   positionStore.load({ params: { start: 0, limit: 10} });  
 	   
 	   return gridPanel;
+    }
+    
+    function handleInfoDelete(grid, rowIndex, colIndex) {
+    	Ext.Msg.confirm("请确认", "是否确认删除该数据？", function(button, text) {  
+            if (button == "yes") {
+            	var store = grid.getStore();
+            	var record = store.getAt(rowIndex);
+
+    			Ext.Ajax.request({ 
+    				  url : '${ctx}/information/delete.do', 
+    				  method: 'POST', 
+    				  params : {id : record.get('systemRefInfo')}, 
+    				  success: function (response) { 
+    					  var result = Ext.JSON.decode(response.responseText);    
+    					  if(result.success) {
+    						  store.load({ params: { start: 0, limit: 10} });
+    		              } else {  
+    		            	  genErrorContainer(result.messages);
+    		              } 
+    				  }, 
+    				  failure: function (response) { 
+    					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+    				  } 
+    			});
+            }
+    	});
+    }
+    
+    function handleView(){
+    	
+    }
+    
+    function handleUpdate(){
+    	
+    }
+    
+    function genErrorContainer(msgs){
+  	  var errorContainer = '<div id="errorContainer" class="errorContainer" >'
+  	                     + '<ul>';
+           
+  	  for(var i=0 ; i<msgs.length ; i++){
+  		  errorContainer = errorContainer + '<li>' + msgs[i].message+'</li>';
+	  }
+        
+  	  errorContainer = errorContainer + '</ul></div>';
+
+  	  Ext.Msg.show({
+  		  title:'错误:',
+  		  msg: errorContainer,
+  		  buttons: Ext.Msg.CANCEL,
+  		  width:350
+  	  });
     }
     </script>
 </head>

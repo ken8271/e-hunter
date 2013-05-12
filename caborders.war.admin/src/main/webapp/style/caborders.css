@@ -56,3 +56,7 @@
 	font-size: 110%;
 	font-color: rgb(4, 64, 140);
 }
+
+.action-img {
+	cursor:pointer;
+}
