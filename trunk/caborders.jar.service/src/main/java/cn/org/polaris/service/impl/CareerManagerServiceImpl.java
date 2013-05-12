@@ -14,6 +14,7 @@ import cn.org.polaris.dto.biz.ReleasedPositionDTO;
 import cn.org.polaris.service.CareerManagerService;
 import cn.org.polaris.utility.BaseDtoUtility;
 import cn.org.polaris.utility.IDGenerator;
+import cn.org.polaris.utility.StringUtils;
 
 @Service("careerManagerService")
 @Transactional
@@ -46,6 +47,16 @@ public class CareerManagerServiceImpl implements CareerManagerService{
 		dto.setSystemRefPosition(IDGenerator.generateUUID());
 		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.INSERT);
 		careerManagerDao.releasePosition(ReleasedPositionConvertor.toPo(dto));
+	}
+
+	@Override
+	@Transactional
+	public void deletePositionByIDs(String[] ids) {
+		if(!StringUtils.isEmpty(ids)){
+			for(String id : ids){
+				careerManagerDao.deletePositionByID(id);
+			}
+		}
 	}
 
 }

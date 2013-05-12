@@ -65,4 +65,10 @@ public class InfoCenterServiceImpl implements InfoCenterService{
 		}
 	}
 
+	@Override
+	@Transactional
+	public void deleteInformationByID(String id) {
+		infoCenterDao.deleteInformationByID(id);
+	}
+
 }

@@ -12,5 +12,5 @@ public interface CareerManagerDAO {
 	
 	public void releasePosition(ReleasedPosition rp);
 	public void updatePosition(ReleasedPosition rp);
-	public void deletePosition(ReleasedPosition rp);
+	public void deletePositionByID(String id);
 }

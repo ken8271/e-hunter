@@ -153,9 +153,28 @@ public class HibernateCareerManagerDAO implements CareerManagerDAO{
 		hibernateTemplate.update(rp);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void deletePosition(ReleasedPosition rp) {
-		hibernateTemplate.delete(rp);
+	public void deletePositionByID(final String id) {
+		hibernateTemplate.execute(new HibernateCallback(){
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer buffer = new StringBuffer();
+				
+				buffer.append(" DELETE FROM t_rlesd_postn ");
+				buffer.append(" WHERE sys_ref_postn = :id ");
+				
+				Query query = session.createSQLQuery(buffer.toString());
+				
+				query.setString("id", id);
+				
+				query.executeUpdate();
+				return null;
+			}
+			
+		});
 	}
 
 }
