@@ -31,8 +31,7 @@ public class InfoCenterManagementController extends BaseController{
 	private InformationValidator infoValidator;
 
 	@RequestMapping(value = "/information/release.do")
-	public @ResponseBody
-	JsonResponseDTO release(@RequestBody InformationDTO dto) {
+	public @ResponseBody JsonResponseDTO release(@RequestBody InformationDTO dto) {
 		try {
 			Errors errors = infoValidator.validate(dto);
 						
@@ -44,7 +43,7 @@ public class InfoCenterManagementController extends BaseController{
 
 			return new JsonResponseDTO(true);
 		} catch (Exception e) {
-			return new JsonResponseDTO(false);
+			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
 		}
 	}
 
@@ -81,5 +80,21 @@ public class InfoCenterManagementController extends BaseController{
 		pagedCriteria.setRowEnd(start + limit);
 
 		return pagedCriteria;
+	}
+	
+	@RequestMapping(value = "/information/delete.do")
+	public @ResponseBody JsonResponseDTO delete(HttpServletRequest request){
+		try{
+			
+			String id = request.getParameter("id");
+			
+			if(!StringUtils.isEmpty(id)){				
+				infoCenterService.deleteInformationByID(id);
+			}
+
+			return new JsonResponseDTO(true);
+		}catch (Exception e){
+			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
+		}
 	}
 }

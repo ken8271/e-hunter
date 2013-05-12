@@ -78,4 +78,20 @@ public class CareerManagementController extends BaseController{
 		
 		return pagedCriteria;
 	}
+	
+	@RequestMapping(value = "/career/delete.do")
+	public @ResponseBody JsonResponseDTO delete(HttpServletRequest request){
+		try{
+			
+			String idStr = request.getParameter("ids");
+			
+			if(!StringUtils.isEmpty(idStr)){				
+				careerManagerService.deletePositionByIDs(idStr.split(","));
+			}
+
+			return new JsonResponseDTO(true);
+		}catch (Exception e){
+			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
+		}
+	}
 }
