@@ -13,4 +13,5 @@ public interface InfoCenterService {
 	public void releaseInformation(InformationDTO info);
 	public void updateInformation(InformationDTO info);
 	public void deleteInformationsByIds(String[] ids);
+	public void deleteInformationByID(String id);
 }
