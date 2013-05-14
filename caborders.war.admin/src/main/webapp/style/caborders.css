@@ -34,6 +34,10 @@
 	background-image: url('../images/caborders/index_menu.png')!important;
 }
 
+.menu-edit {
+	background-image: url('../images/caborders/edit.gif')!important;
+}
+
 .btn-search {
 	background-image: url('../images/caborders/search.png') !important;
 }
@@ -60,3 +64,20 @@
 .action-img {
 	cursor:pointer;
 }
+
+/*****************************************************************/
+.contents				{ float: right;	width : 745px; }
+.contents a				{ color : #000; text-decoration:none; }
+.contents a:hover		{ text-decoration: underline; }
+.contents table			{ margin : 0px 20px 0px 20px;	padding : 15px 0px;	border-bottom : 1px dotted #ddd; }
+.contents table .list 	{ padding-left : 15px; }
+.contents table p{margin : 0;padding : 0;}
+.contents table .title, .contents table .title a{font-size : 16px;color :#2b4763;text-decoration : none;}
+.contents table .title a:hover{	color : #000;text-decoration : underline;}
+.contents table .summary{color : #999;	margin : 10px 0px;}
+.contents table .info{	color : #666;}
+.contents h1{font-size : 22px;font-weight : normal;	margin : 15px 20px;}
+.contents .article_info{margin : -8px 20px 10px 20px;border-bottom : 1px solid #ddd;padding-bottom : 10px;}
+.contents .article_info span{color : #999;position: relative;top: -1px;	padding : 0px 8px;}
+.contents .article{	margin : 0px 20px;font-size : 14px;line-height: 24px;color : #666;}
+

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.org.polaris.admin.BaseController;
+import cn.org.polaris.dto.JsonDataResponseDTO;
+import cn.org.polaris.dto.JsonMessageResponseDTO;
 import cn.org.polaris.dto.JsonResponseDTO;
 import cn.org.polaris.dto.GridStoreDTO;
 import cn.org.polaris.dto.biz.InformationDTO;
@@ -36,20 +38,19 @@ public class InfoCenterManagementController extends BaseController{
 			Errors errors = infoValidator.validate(dto);
 						
 			if (errors.hasErrors()) {
-				return new JsonResponseDTO(false , messageHelper.convert2Messages(errors));
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(errors));
 			}
 
 			infoCenterService.releaseInformation(dto);
 
 			return new JsonResponseDTO(true);
 		} catch (Exception e) {
-			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
 		}
 	}
 
 	@RequestMapping("/information/list.do")
-	public @ResponseBody
-	GridStoreDTO list(HttpServletRequest request) {
+	public @ResponseBody GridStoreDTO list(HttpServletRequest request) {
 		InformationPagedCriteria pagedCriteria = getPagedCriteria(request);
 
 		int totalCount = infoCenterService
@@ -94,7 +95,42 @@ public class InfoCenterManagementController extends BaseController{
 
 			return new JsonResponseDTO(true);
 		}catch (Exception e){
-			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
+		}
+	}
+	
+	@RequestMapping(value = "/information/view.do")
+	public @ResponseBody JsonResponseDTO view(HttpServletRequest request){
+		try {
+			String id = request.getParameter("id");
+			
+			InformationDTO dto = infoCenterService.getInformationByID(id);
+			
+			if(dto != null){
+				return new JsonDataResponseDTO(true , dto);
+			} else {
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages("WPS-E-0100",null));
+			}
+			
+		} catch (Exception e) {
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
+		}
+	}
+	
+	@RequestMapping(value = "/information/update.do")
+	public @ResponseBody JsonResponseDTO update(@RequestBody InformationDTO dto){
+		try {
+			Errors errors = infoValidator.validate(dto);
+						
+			if (errors.hasErrors()) {
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(errors));
+			}
+
+			infoCenterService.updateInformation(dto);
+
+			return new JsonResponseDTO(true);
+		} catch (Exception e) {
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
 		}
 	}
 }
