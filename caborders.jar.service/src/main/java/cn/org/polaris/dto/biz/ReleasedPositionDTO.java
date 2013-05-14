@@ -1,9 +1,10 @@
 package cn.org.polaris.dto.biz;
 
 import cn.org.polaris.dto.BaseDTO;
+import cn.org.polaris.dto.CabordersDTO;
 import cn.org.polaris.utility.StringUtils;
 
-public class ReleasedPositionDTO extends BaseDTO {
+public class ReleasedPositionDTO extends BaseDTO implements CabordersDTO{
 	private static final long serialVersionUID = -5296014964714967969L;
 
 	private String systemRefPosition;

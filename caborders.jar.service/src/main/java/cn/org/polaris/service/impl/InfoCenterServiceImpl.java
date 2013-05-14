@@ -51,8 +51,9 @@ public class InfoCenterServiceImpl implements InfoCenterService{
 
 	@Override
 	@Transactional
-	public void updateInformation(InformationDTO info) {
-		
+	public void updateInformation(InformationDTO dto) {
+		BaseDtoUtility.setCommonProperties(dto, TransactionIndicator.UPDATE);
+		infoCenterDao.updateInformation(InformationConvertor.toPo(dto));
 	}
 
 	@Override

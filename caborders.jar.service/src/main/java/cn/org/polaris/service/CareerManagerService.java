@@ -11,5 +11,6 @@ public interface CareerManagerService {
 	public ReleasedPositionDTO getPositionByID(String id);
 	
 	public void releasePosition(ReleasedPositionDTO dto);
-	public void deletePositionByIDs(String[] ids);
+	public void deletePositionByID(String id);
+	public void updatePosition(ReleasedPositionDTO dto);
 }

@@ -61,4 +61,31 @@ public class MessageHelper {
 		
 		return messages;
 	}
+	
+	public List<MessageDTO> convert2Messages(String msgStr){
+		List<MessageDTO> messages = new ArrayList<MessageDTO>();
+		
+		MessageDTO msg = new MessageDTO();
+		
+		msg.setMessage(msgStr);
+		
+		messages.add(msg);
+		
+		return messages;
+	}
+	
+	public List<MessageDTO> convert2Messages(String code , String[] args){
+		List<MessageDTO> messages = new ArrayList<MessageDTO>();
+		
+		MessageDTO msg = new MessageDTO();
+		
+		String msgStr = getMessage(code , args);
+		
+		msg.setCode(code);
+		msg.setMessage(msgStr);
+		
+		messages.add(msg);
+		
+		return messages;
+	}
 }
