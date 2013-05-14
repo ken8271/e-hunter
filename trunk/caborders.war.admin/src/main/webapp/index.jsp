@@ -588,6 +588,7 @@
 			  labelAlign: 'top',
 			  border:0, 
 			  items: [{
+				  id:'title',
 			      xtype:'textfield',
 				  fieldLabel: '标题',
 				  name: 'title',
@@ -598,6 +599,7 @@
 				  name: 'workCity',
 				  anchor:'100%',
 			  },{
+				  id:'content',
 			      xtype: 'htmleditor',
 				  fieldLabel: '职位描述',
 				  name: 'content',
@@ -605,41 +607,54 @@
 				  height:400,
 				  anchor:'100%',
 			  }],
-			  buttons: [{text:'预览',
-				         disabled:true
-				        },{text: '发布',
-				         handler:function(){
-				        	 if(Ext.getCmp('position_create').getForm().isValid()){
-				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
-				                        msg: '正在保存，请稍后！',
-				                        removeMask: true 
-				                 });
-				                 mask.show();
-					        	 Ext.Ajax.request({ 
-									  url : '${ctx}/career/release.do', 
-									  method: 'POST', 
-									  headers: { 'Content-Type': 'application/json' },                        
-									  jsonData: Ext.JSON.encode(Ext.getCmp('position_create').getValues()), 
-									  success: function (response) { 
-										  mask.hide();
-										  var result = Ext.JSON.decode(response.responseText);    
-										  if(result.success) {
-											  Ext.Msg.alert('提示','发布成功');
-											  Ext.getCmp('position_create').getForm().reset();
-							              } else {  
-							            	  genErrorContainer(result.messages);
-							              } 
-									  }, 
-									  failure: function (response) { 
-										  var jsonResp = Ext.JSON.decode(response.responseText); 
-										  Ext.Msg.alert("Error",jsonResp.error); 
-										  mask.hide();
-									  } 
-								});  
-				        	 }
-			            }},
-			            {text: '重置',handler:function(){Ext.getCmp('position_create').getForm().reset();}},
-			            {text:'关闭',handler:function(){Ext.getCmp('position_create').close();}}]
+			  buttons: [{
+				  text:'预览',
+				  handler:function(){
+					  if(Ext.getCmp('position_create').getForm().isValid()){
+						  var title = Ext.getCmp('position_create').getForm().getFields().get('title').getValue();
+						  var content = Ext.getCmp('position_create').getForm().getFields().get('content').getValue();
+						  popUp4Preview(title,content);
+					  }
+				  }
+			  },{
+				  text: '发布',
+				  handler:function(){
+					  if(Ext.getCmp('position_create').getForm().isValid()){  
+						  var mask = new Ext.LoadMask(Ext.getBody(), {
+							  msg: '正在保存，请稍后！',
+							  removeMask: true 
+						  });
+						  mask.show();
+						  Ext.Ajax.request({ 
+							  url : '${ctx}/career/release.do', 
+							  method: 'POST', 
+							  headers: { 'Content-Type': 'application/json' },                        
+							  jsonData: Ext.JSON.encode(Ext.getCmp('position_create').getValues()), 
+							  success: function (response) { 
+								  mask.hide();
+								  var result = Ext.JSON.decode(response.responseText);    
+								  if(result.success) {
+									  Ext.Msg.alert('提示','发布成功');
+									  Ext.getCmp('position_create').getForm().reset();
+								  } else {  
+									  genErrorContainer(result.messages);
+								  } 
+							  }, 
+							  failure: function (response) { 
+								  var jsonResp = Ext.JSON.decode(response.responseText); 
+								  Ext.Msg.alert("Error",jsonResp.error); 
+								  mask.hide();
+							  } 
+						  });  
+				      }
+				  }
+			  },{
+				  text: '重置',
+				  handler:function(){Ext.getCmp('position_create').getForm().reset();}
+			  },{
+				  text:'关闭',
+				  handler:function(){Ext.getCmp('position_create').close();}
+			  }]
 		});
     	
     	return postPanel;
