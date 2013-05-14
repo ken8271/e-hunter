@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.org.polaris.admin.BaseController;
+import cn.org.polaris.dto.JsonDataResponseDTO;
+import cn.org.polaris.dto.JsonMessageResponseDTO;
 import cn.org.polaris.dto.JsonResponseDTO;
 import cn.org.polaris.dto.GridStoreDTO;
 import cn.org.polaris.dto.biz.PositionPagedCriteria;
@@ -36,7 +38,7 @@ public class CareerManagementController extends BaseController{
 			Errors errors = positionValidator.validate(rpDto);
 			
 			if (errors.hasErrors()) {
-				return new JsonResponseDTO(false , messageHelper.convert2Messages(errors));
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(errors));
 			}
 			
 			careerManagerService.releasePosition(rpDto);
@@ -83,15 +85,50 @@ public class CareerManagementController extends BaseController{
 	public @ResponseBody JsonResponseDTO delete(HttpServletRequest request){
 		try{
 			
-			String idStr = request.getParameter("ids");
+			String id = request.getParameter("id");
 			
-			if(!StringUtils.isEmpty(idStr)){				
-				careerManagerService.deletePositionByIDs(idStr.split(","));
+			if(!StringUtils.isEmpty(id)){				
+				careerManagerService.deletePositionByID(id);
 			}
 
 			return new JsonResponseDTO(true);
 		}catch (Exception e){
-			return new JsonResponseDTO(false , messageHelper.convert2Messages(e));
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
+		}
+	}
+	
+	@RequestMapping(value = "/career/view.do")
+	public @ResponseBody JsonResponseDTO view(HttpServletRequest request){
+		try{
+			
+			String id = request.getParameter("id");
+			
+			ReleasedPositionDTO dto = careerManagerService.getPositionByID(id);
+
+			if(dto != null){
+				return new JsonDataResponseDTO(true , dto);
+			} else {
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages("WPS-E-0100",null));
+			}
+		}catch (Exception e){
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
+		}
+	}
+	
+	@RequestMapping(value = "/career/update.do")
+	public @ResponseBody JsonResponseDTO update(@RequestBody ReleasedPositionDTO dto){
+		try {
+			Errors errors = positionValidator.validate(dto);
+						
+			if (errors.hasErrors()) {
+				return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(errors));
+			}
+
+			careerManagerService.updatePosition(dto);
+
+			return new JsonResponseDTO(true);
+		} catch (Exception e) {
+			return new JsonMessageResponseDTO(false , messageHelper.convert2Messages(e));
 		}
 	}
 }

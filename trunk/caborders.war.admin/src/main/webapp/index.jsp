@@ -14,14 +14,6 @@
         Ext.form.Field.prototype.msgTarget='side';
 
         Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
-        
-        Ext.apply(Ext.form.field.VTypes,{
-        	htmlContent : function(val, field){
-        		alert(1);
-        		return false;
-        	},
-        	htmlContentText : 'out of max lenght',
-        });
 
 		var store = Ext.create('Ext.data.TreeStore', {
 		  root: {
@@ -156,6 +148,7 @@
 				  valueField: 'value',
 				  emptyText:'--- 请选择 ---',
 			  },{
+				  id:'title',
 			      xtype:'textfield',
 				  fieldLabel: '标题',
 				  name: 'title',
@@ -168,10 +161,15 @@
 				  autoScroll:true,
 				  height:400,
 				  anchor:'100%',
-				  vtype:'htmlContent'
 			  }],
 			  buttons: [{text:'预览',
-				         disabled:true
+				         handler:function(){
+				        	 if(Ext.getCmp('info_create').getForm().isValid()){
+				        		 var title = Ext.getCmp('info_create').getForm().getFields().get('title').getValue();
+				        		 var content = Ext.getCmp('info_create').getForm().getFields().get('content').getValue();
+				        		 popUp4Preview(title,content);
+				        	 }
+				         }
 				        },{text: '发布',
 				         handler:function(){
 				        	 if(Ext.getCmp('info_create').getForm().isValid()){
@@ -204,7 +202,7 @@
 				        	 }
 			            }},
 			            {text: '重置',handler:function(){Ext.getCmp('info_create').getForm().reset();}},
-			            {text:'关闭',handler:function(){Ext.getCmp('info_create').getForm().close();}}]
+			            {text:'关闭',handler:function(){Ext.getCmp('info_create').close();}}]
 		});
     	
     	return infoPanel;
@@ -286,7 +284,17 @@
 	                        tooltip: '编辑',
 	                        getClass: function(v, meta, rec){return 'action-img';},
 	                        handler: function(grid, row, col) {
-	                           
+	                        	var main = Ext.getCmp('main');
+	                        	var tab = main.getComponent('info_maintenance_tab');   
+	                        	
+	                        	if(!tab){
+	                        		tab = main.add(initInfoMaintenancePanel());
+	                        	}
+	                        	
+	                        	var record = grid.getStore().getAt(row);
+	                        	loadInfoByID(record.get('systemRefInfo'));
+	                        	
+	                        	main.setActiveTab(tab); 
 	                        }
 	                    },{
 	                    	icon   : '${imagePath}/caborders/blank.gif'
@@ -294,23 +302,71 @@
 	                        icon   : '${imagePath}/caborders/delete.gif',  
 	                        tooltip: '删除',
 	                        getClass: function(v, meta, rec){return 'action-img';},
-	                        handler: handleInfoDelete
+	                        handler: function (grid, row, col) {
+	                        	Ext.Msg.confirm("请确认", "是否确认删除该数据？", function(button, text) {  
+	                                if (button == "yes") {
+	                                	var store = grid.getStore();
+	                                	var record = store.getAt(row);
+
+	                        			Ext.Ajax.request({ 
+	                        				  url : '${ctx}/information/delete.do', 
+	                        				  method: 'POST', 
+	                        				  params : {id : record.get('systemRefInfo')}, 
+	                        				  success: function (response) { 
+	                        					  var result = Ext.JSON.decode(response.responseText);    
+	                        					  if(result.success) {
+	                        						  store.load({ params: { start: 0, limit: 10} });
+	                        		              } else {  
+	                        		            	  genErrorContainer(result.messages);
+	                        		              } 
+	                        				  }, 
+	                        				  failure: function (response) { 
+	                        					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+	                        				  } 
+	                        			});
+	                                }
+	                        	});
+	                        }
 	                    },{
 	                    	icon   : '${imagePath}/caborders/blank.gif'
 	                    },{
 	                        icon   : '${imagePath}/caborders/tips.gif',  
 	                        tooltip: '查看',
 	                        getClass: function(v, meta, rec){return 'action-img';},
-	                        handler: function(grid, rowIndex, colIndex) {
-	                        	var main = Ext.getCmp('main');
-	                        	var tab = main.getComponent('info_maintenance_tab');   
-	              			   
-	                        	if(tab){
-	                        		main.setActiveTab(tab);  
-	                        	}else {
-	                        		tab = main.add(initInfoMaintenancePanel());
-	                        		main.setActiveTab(tab);  
-	                        	}
+	                        handler: function(grid, row, col) {
+	                        	var store = grid.getStore();
+	                        	var record = store.getAt(row);
+
+	                			Ext.Ajax.request({ 
+	                				  url : '${ctx}/information/view.do', 
+	                				  method: 'POST', 
+	                				  params : {id : record.get('systemRefInfo')}, 
+	                				  success: function (response) { 
+	                					  var result = Ext.JSON.decode(response.responseText);    
+	                					  if(result.success) {
+	                						  var displayStr = '<div class="contents">'
+	                						                 + '<h1>' + result.data.title + '</h1>'
+	                						                 + '<div class="article">'
+	                						                 + result.data.content
+	                						                 + '</div>'
+	                						                 + '</div>';
+	                						  Ext.create('Ext.window.Window', {
+	                							  title : '资讯查看[' + result.data.systemRefInfo + ']',
+	                							  height: 500,
+	                							  width: 800,
+	                							  frame : false,
+	                							  modal : true ,
+	                							  autoScroll:true,
+	                							  html : displayStr
+	                						  }).show();
+	                		              } else {  
+	                		            	  genErrorContainer(result.messages);
+	                		              } 
+	                				  }, 
+	                				  failure: function (response) { 
+	                					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+	                				  } 
+	                			});
 	                        }
 	                    }]
 	                }],
@@ -372,7 +428,7 @@
 	        }],
 
 	        buttons: [{
-	            text: '添加',
+	            text: '发布新资讯',
 	            handler: function(){
 	            	var main = Ext.getCmp('main');
 	            	var tab = Ext.getCmp('info_create');   
@@ -415,7 +471,7 @@
     	var infoPanel = Ext.create('Ext.form.Panel', {
 		      id:'info_maintenance_tab',
 		      title:'资讯修改',
-		      iconCls:'menu-addInfo',
+		      iconCls:'menu-edit',
 			  closable:true,
 			  frame:false,
 			  region:'center',
@@ -423,10 +479,12 @@
 			  labelAlign: 'top',
 			  border:0, 
 			  items: [{
-				  xtype: 'displayfield',
+				  id : 'systemRefInfo',
+				  xtype: 'textfield',
 			      fieldLabel: '资讯编号',
 			      name: 'systemRefInfo',
-			      anchor:'20%'
+			      anchor:'30%',
+			      readOnly: true
 			  },{
 				  xtype:'combobox',
 				  fieldLabel: '资讯类型',
@@ -451,46 +509,71 @@
 				  autoScroll:true,
 				  height:400,
 				  anchor:'100%',
-				  vtype:'htmlContent'
 			  }],
-			  buttons: [{text:'预览',
-				         disabled:true
-				        },{text: '更新',
-				         handler:function(){
-				        	 if(Ext.getCmp('info_create').getForm().isValid()){
-				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
-				                        msg: '正在保存，请稍后！',
-				                        removeMask: true //完成后移除
-				                 });
-				                 mask.show();
-					        	 Ext.Ajax.request({ 
-									  url : '${ctx}/information/release.do', 
-									  method: 'POST', 
-									  headers: { 'Content-Type': 'application/json' },                        
-									  jsonData: Ext.JSON.encode(Ext.getCmp('info_maintenance_tab').getValues()), 
-									  success: function (response) { 
-										  mask.hide();
+			  buttons: [{
+				  text:'预览',
+				  disabled:true
+			  },{
+				  text: '更新',
+				  handler:function(){
+					  if(Ext.getCmp('info_maintenance_tab').getForm().isValid()){
+						  var mask = new Ext.LoadMask(Ext.getBody(), {
+							  msg: '正在保存，请稍后！',
+							  removeMask: true
+						  });
+						  mask.show();
+						  Ext.Ajax.request({ 
+							  url : '${ctx}/information/update.do', 
+							  method: 'POST', 
+							  headers: { 'Content-Type': 'application/json' },                        
+							  jsonData: Ext.JSON.encode(Ext.getCmp('info_maintenance_tab').getValues()), 
+							  success: function (response) { 
+								  mask.hide();
 										  
-										  var result = Ext.JSON.decode(response.responseText);    
-										  if(result.success) {
-											  Ext.Msg.alert('提示','发布成功');
-											  //Ext.getCmp('info_create').getForm().reset();
-							              } else {  
-							            	  genErrorContainer(result.messages);
-							              } 
-									  }, 
-									  failure: function (response) { 
-										  mask.hide();
-										  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
-									  } 
-								});  
-				        	 }
-			            }},
-			            {text: '重置',handler:function(){Ext.getCmp('info_maintenance_tab').getForm().reset();}},
-			            {text:'关闭',handler:function(){Ext.getCmp('info_maintenance_tab').getForm().close();}}]
+								  var result = Ext.JSON.decode(response.responseText);    
+								  if(result.success) {
+									  Ext.Msg.alert('提示','更新成功');
+									  var main = Ext.getCmp('main');
+			                          var tab = main.getComponent('info_search');
+			                          main.setActiveTab(tab);
+			                          Ext.getCmp('info_maintenance_tab').close();
+			                          
+			                          tab.getComponent('info_result_grid').getStore().loadPage(1);
+								  } else {  
+									  genErrorContainer(result.messages);
+								  } 
+							  }, 
+							  failure: function (response) { 
+								  mask.hide();
+								  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+							  } 
+						  });  
+					  }
+				  }
+			  },{
+				  text: '重置',
+				  handler:function(){
+					  var id = Ext.getCmp('info_maintenance_tab').getForm().getFields().get('systemRefInfo').getValue();
+					  loadInfoByID(id);
+				  }
+			  },{
+				  text:'关闭',
+				  handler:function(){Ext.getCmp('info_maintenance_tab').close();}
+			  }]
 		});
     	
     	return infoPanel;
+    }
+    
+    function loadInfoByID(id){
+    	Ext.getCmp('info_maintenance_tab').getForm().load({
+			  url : '${ctx}/information/view.do',
+			  params : {id : id},
+			  failure : function(response){
+				  var result = Ext.JSON.decode(response.responseText);
+				  genErrorContainer(result.messages);
+			  }
+	    });
     }
     
     function initPositionCreatePanel(){
@@ -612,8 +695,6 @@
 	        columnLines : true,   
 	        stripeRows:true,
 	        loadMask:true,
-	        multiSelect : true,
-	        selType : 'checkboxmodel',
 	        columns : [{  
 	                    header : '职位编号',  
 	                    dataIndex : 'systemRefPosition' 
@@ -629,6 +710,101 @@
 	                }, {  
 	                    header : '发布时间',  
 	                    dataIndex : 'createDateStr',  
+	                }, {
+	                    xtype: 'actioncolumn',
+	                    align : 'center',
+	                    header: '操作',
+	                    width: 80,
+	                    items: [{
+	                        icon   : '${imagePath}/caborders/edit.gif',  
+	                        tooltip: '编辑',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: function(grid, row, col) {
+	                        	var main = Ext.getCmp('main');
+	                        	var tab = main.getComponent('postn_mainten');   
+	                        	
+	                        	if(!tab){
+	                        		tab = main.add(initPostnMaintenancePanel());
+	                        	}
+	                        	
+	                        	var record = grid.getStore().getAt(row);
+	                        	loadPostnByID(record.get('systemRefPosition'));
+	                        	
+	                        	main.setActiveTab(tab); 
+	                        }
+	                    },{
+	                    	icon   : '${imagePath}/caborders/blank.gif'
+	                    },{
+	                        icon   : '${imagePath}/caborders/delete.gif',  
+	                        tooltip: '删除',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: function (grid, row, col) {
+	                        	Ext.Msg.confirm("请确认", "是否确认删除该数据？", function(button, text) {  
+	                                if (button == "yes") {
+	                                	var store = grid.getStore();
+	                                	var record = store.getAt(row);
+
+	                        			Ext.Ajax.request({ 
+	                        				  url : '${ctx}/career/delete.do', 
+	                        				  method: 'POST', 
+	                        				  params : {id : record.get('systemRefPosition')}, 
+	                        				  success: function (response) { 
+	                        					  var result = Ext.JSON.decode(response.responseText);    
+	                        					  if(result.success) {
+	                        						  store.load({ params: { start: 0, limit: 10} });
+	                        		              } else {  
+	                        		            	  genErrorContainer(result.messages);
+	                        		              } 
+	                        				  }, 
+	                        				  failure: function (response) { 
+	                        					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+	                        				  } 
+	                        			});
+	                                }
+	                        	});
+	                        }
+	                    },{
+	                    	icon   : '${imagePath}/caborders/blank.gif'
+	                    },{
+	                        icon   : '${imagePath}/caborders/tips.gif',  
+	                        tooltip: '查看',
+	                        getClass: function(v, meta, rec){return 'action-img';},
+	                        handler: function(grid, row, col) {
+	                        	var store = grid.getStore();
+	                        	var record = store.getAt(row);
+
+	                			Ext.Ajax.request({ 
+	                				  url : '${ctx}/career/view.do', 
+	                				  method: 'POST', 
+	                				  params : {id : record.get('systemRefPosition')}, 
+	                				  success: function (response) { 
+	                					  var result = Ext.JSON.decode(response.responseText);    
+	                					  if(result.success) {
+	                						  var displayStr = '<div class="contents">'
+	                						                 + '<h1>' + result.data.title + '</h1>'
+	                						                 + '<div class="article">'
+	                						                 + result.data.content
+	                						                 + '</div>'
+	                						                 + '</div>';
+	                						  Ext.create('Ext.window.Window', {
+	                							  title : '职位查看[' + result.data.systemRefPosition + ']',
+	                							  height: 500,
+	                							  width: 800,
+	                							  frame : false,
+	                							  modal : true ,
+	                							  autoScroll:true,
+	                							  html : displayStr
+	                						  }).show();
+	                		              } else {  
+	                		            	  genErrorContainer(result.messages);
+	                		              } 
+	                				  }, 
+	                				  failure: function (response) { 
+	                					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
+	                				  } 
+	                			});
+	                        }
+	                    }]
 	                }],  
 	        forceFit : true,  
 	        dockedItems : [{  
@@ -685,6 +861,19 @@
                 }]
 	        }],
 	        buttons: [{
+	            text: '发布新职位',
+	            handler: function(){
+	            	var main = Ext.getCmp('main');
+	            	var tab = Ext.getCmp('position_create');   
+					   
+	            	if(tab){
+	            		main.setActiveTab(tab);  
+	            	}else {
+	            		tab = main.add(initPositionCreatePanel());
+	            		main.setActiveTab(tab);
+	            	}
+	            }
+	        },{
 	            text: '查询',
 	            handler: function(){
 	            	positionStore.load({ params: { start: 0, limit: 10} });
@@ -695,64 +884,14 @@
 	            	Ext.getCmp('position_enquiry_form').getForm().reset();
 	            }
 	        }]
-	    });
-	   
-	   var btnPanel = Ext.create('Ext.Panel',{
-		   height:30,
-		   buttonAlign:'right',
-		   buttons:[{
-			         text:'删除',
-			         handler:function(){
-			        	 var selected = Ext.getCmp('postn_grid').getSelectionModel().getSelection();
-			        		if(selected.length == 0){
-			        			Ext.Msg.alert('提示','您未选择任何数据');
-			        		}else {
-			        			var ids = [];
-			        			for(var i=0 ; i<selected.length ; i++){
-			        				ids.push(selected[i].get('systemRefPosition'));
-			        			}
-
-			        			Ext.Ajax.request({ 
-									  url : '${ctx}/career/delete.do', 
-									  method: 'POST', 
-									  params : {ids : ids.join(',')}, 
-									  success: function (response) { 
-										  var result = Ext.JSON.decode(response.responseText);    
-										  if(result.success) {
-											  positionStore.load({ params: { start: 0, limit: 10} });
-							              } else {  
-							            	  genErrorContainer(result.messages);
-							              } 
-									  }, 
-									  failure: function (response) { 
-										  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
-									  } 
-								});
-			        		}
-			         }
-		            },{
-		            	text:'添加',
-		            	handler:function(){
-		            	   var main = Ext.getCmp('main');
-		            	   var tab = Ext.getCmp('position_create');   
-		 				   
-		 				   if(tab){
-		 					   main.setActiveTab(tab);  
-		 				   }else {
-		 					   tab = main.add(initPositionCreatePanel());
-		 					   main.setActiveTab(tab);
-		 				   }
-		            	}
-		            }]
 	   });
-
 	   
 	   var gridPanel = Ext.create('Ext.Panel',{
 		   id:'position_search',
-		   title : '资讯查询',
+		   title : '职位查询',
 	       iconCls:'menu-listPosition',
 	       closable:true,
-	       items:[cf,grid,btnPanel]
+	       items:[cf,grid]
 	   });
 	   
 	   positionStore.load({ params: { start: 0, limit: 10} });  
@@ -760,38 +899,102 @@
 	   return gridPanel;
     }
     
-    function handleInfoDelete(grid, rowIndex, colIndex) {
-    	Ext.Msg.confirm("请确认", "是否确认删除该数据？", function(button, text) {  
-            if (button == "yes") {
-            	var store = grid.getStore();
-            	var record = store.getAt(rowIndex);
-
-    			Ext.Ajax.request({ 
-    				  url : '${ctx}/information/delete.do', 
-    				  method: 'POST', 
-    				  params : {id : record.get('systemRefInfo')}, 
-    				  success: function (response) { 
-    					  var result = Ext.JSON.decode(response.responseText);    
-    					  if(result.success) {
-    						  store.load({ params: { start: 0, limit: 10} });
-    		              } else {  
-    		            	  genErrorContainer(result.messages);
-    		              } 
-    				  }, 
-    				  failure: function (response) { 
-    					  Ext.Msg.alert("错误",'服务器错误，请联系管理员！'); 
-    				  } 
-    			});
-            }
-    	});
+    function initPostnMaintenancePanel(){
+    	var postPanel = Ext.create('Ext.form.Panel', {
+		      id:'postn_mainten',
+		      title:'职位修改',
+		      iconCls:'menu-edit',
+			  closable:true,
+			  frame:false,
+			  region:'center',
+			  bodyStyle:'padding:5px 5px 5px 5px',
+			  labelAlign: 'top',
+			  border:0, 
+			  items: [{
+				  id : 'systemRefPosition',
+			      xtype:'textfield',
+				  fieldLabel: '职位编号',
+				  name: 'systemRefPosition',
+				  anchor:'30%',
+				  readOnly : true
+			  },{
+			      xtype:'textfield',
+				  fieldLabel: '标题',
+				  name: 'title',
+				  anchor:'100%',
+			  },{
+			      xtype:'textfield',
+				  fieldLabel: '工作城市',
+				  name: 'workCity',
+				  anchor:'100%',
+			  },{
+			      xtype: 'htmleditor',
+				  fieldLabel: '职位描述',
+				  name: 'content',
+				  autoScroll:true,
+				  height:400,
+				  anchor:'100%',
+			  }],
+			  buttons: [{text:'预览',
+				         disabled:true
+				        },{text: '更新',
+				         handler:function(){
+				        	 if(Ext.getCmp('postn_mainten').getForm().isValid()){
+				        		 var mask = new Ext.LoadMask(Ext.getBody(), {
+				                        msg: '正在保存，请稍后！',
+				                        removeMask: true 
+				                 });
+				                 mask.show();
+					        	 Ext.Ajax.request({ 
+									  url : '${ctx}/career/update.do', 
+									  method: 'POST', 
+									  headers: { 'Content-Type': 'application/json' },                        
+									  jsonData: Ext.JSON.encode(Ext.getCmp('postn_mainten').getValues()), 
+									  success: function (response) { 
+										  mask.hide();
+										  var result = Ext.JSON.decode(response.responseText);    
+										  if(result.success) {
+											  Ext.Msg.alert('提示','更新成功');
+											  var main = Ext.getCmp('main');
+					                          var tab = main.getComponent('position_search');
+					                          main.setActiveTab(tab);
+					                          Ext.getCmp('postn_mainten').close();
+					                          
+					                          tab.getComponent('postn_grid').getStore().loadPage(1);
+							              } else {  
+							            	  genErrorContainer(result.messages);
+							              } 
+									  }, 
+									  failure: function (response) { 
+										  var jsonResp = Ext.JSON.decode(response.responseText); 
+										  Ext.Msg.alert("Error",jsonResp.error); 
+										  mask.hide();
+									  } 
+								});  
+				        	 }
+			            }},
+			            {
+			            	text: '重置',
+			            	handler:function(){
+			            		var id = Ext.getCmp('postn_mainten').getForm().getFields().get('systemRefPosition').getValue();
+			            		loadPostnByID(id);
+			            	}
+			            },
+			            {text:'关闭',handler:function(){Ext.getCmp('postn_mainten').close();}}]
+		});
+  	
+    	return postPanel;
     }
     
-    function handleView(){
-    	
-    }
-    
-    function handleUpdate(){
-    	
+    function loadPostnByID(id){
+    	Ext.getCmp('postn_mainten').getForm().load({
+			  url : '${ctx}/career/view.do',
+			  params : {id : id},
+			  failure : function(response){
+				  var result = Ext.JSON.decode(response.responseText);
+				  genErrorContainer(result.messages);
+			  }
+	    });
     }
     
     function genErrorContainer(msgs){
@@ -810,6 +1013,24 @@
   		  buttons: Ext.Msg.CANCEL,
   		  width:350
   	  });
+    }
+    
+    function popUp4Preview(title , content){
+    	var displayStr = '<div class="contents">'
+            + '<h1>' + title + '</h1>'
+            + '<div class="article">'
+            + content
+            + '</div>'
+            + '</div>';
+        Ext.create('Ext.window.Window', {
+        	title : '预览',
+        	height: 500,
+        	width: 800,
+        	frame : false,
+        	modal : true ,
+        	autoScroll:true,
+        	html : displayStr
+        }).show();
     }
     </script>
 </head>
